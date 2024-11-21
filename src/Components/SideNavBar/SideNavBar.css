@@ -1,0 +1,81 @@
+/* Sidebar Styling */
+.side-nav {
+  width: 250px;
+  background-color: #f4f4f4;
+  padding: 1rem;
+  height: 100vh; /* Full viewport height */
+  position: fixed; /* Fixing it to the left side */
+  top: 60px; /* Ensure it starts below the header (adjust if needed based on header height) */
+  left: 0; /* Align it to the left of the screen */
+  z-index: 999; /* Ensure it is below the header */
+  overflow-y: auto;
+  font-weight: 400;
+  font-size: 1.25rem;
+  color: #130f26;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Nav List Styling */
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  /* padding: 10px 15px; */
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.nav-item:hover {
+  background-color: #ddd;
+}
+
+/* Sub-menu Styling */
+.sub-menu {
+  list-style: none;
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+.sub-item {
+  padding: 5px 15px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.sub-item img {
+  margin-right: 10px;
+  width: 16px;
+  height: 16px;
+}
+
+.sub-item:hover {
+  background-color: #eee;
+}
+
+/* Arrow Icon Styling */
+.arrow-icon {
+  width: 12px;
+  height: 12px;
+  margin-left: 10px;
+}
+
+/* Main Content Styling */
+.main-content {
+  display: flex;
+  flex: 1;
+  margin-top: 60px; /* Ensure content doesn't go under the fixed header */
+  margin-left: 250px; /* Leave space for the sidebar */
+}
+
+/* Content Area Styling */
+.content-area {
+  flex: 1;
+  padding: 2rem;
+  background-color: #f5f5f5;
+}

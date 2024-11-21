@@ -1,1 +1,71 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100vw; /* Full width of the viewport */
+  padding: 1rem 2rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box; /* Ensures padding is included in width */
+  position: fixed; /* Fixes the header at the top of the screen */
+  top: 0; /* Ensures it's aligned at the top */
+  left: 0; /* Ensures it starts from the very left */
+  z-index: 1000; /* Keeps it above other elements */
+}
 
+.header-logo {
+  display: flex;
+  align-items: center;
+}
+
+.header-logo img {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.company-name {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.notification-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column; /* Stack the text vertically */
+  justify-content: center; /* Align text vertically */
+}
+
+.user-name {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.user-company {
+  font-size: 0.9rem;
+  color: gray;
+}
