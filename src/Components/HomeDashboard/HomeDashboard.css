@@ -2,6 +2,9 @@
 .dashboard-container {
     padding: 2rem;
     background-color: #f5f5f5;
+    max-width: 100%; /* Ensure the container doesn't exceed the screen width */
+    /* margin-left: 1rem; */
+    margin-right: 12rem; /* Push the dashboard a bit to the left */
 }
 
 /* Dashboard Title */

@@ -3,6 +3,7 @@ import LoginScreen from "./Components/LoginScreen";
 import Header from "./Components/Header";
 import SideNavBar from "./Components/SideNavBar";
 import HomeDashboard from "./Components/HomeDashboard"; // Import the HomeDashboard component
+import DeviceDashboard from "./Components/DeviceDashboard"; // Import the DeviceDashboard component
 import "./App.css";
 
 function App() {
@@ -23,15 +24,21 @@ function App() {
   const renderContent = () => {
     switch (selectedContent) {
       case "dashboard":
-        return <HomeDashboard />;
-      case "devices":
-        return <h1>Devices Content</h1>; // Placeholder for devices section
-      case "users":
-        return <h1>Users Content</h1>; // Placeholder for users section
-      case "others":
-        return <h1>Others Content</h1>; // Placeholder for other content
+        return <HomeDashboard />; // Render the HomeDashboard for the default dashboard view
+      case "Registered Devices":
+        return <DeviceDashboard />; // Render the DeviceDashboard component for "Registered Devices"
+      case "Add New Device":
+        return <h1>Add New Device</h1>; // Placeholder for adding a new device
+      case "Registered Users":
+        return <h1>Registered Users</h1>; // Placeholder for users section
+      case "Add New User":
+        return <h1>Add New User</h1>; // Placeholder for users section
+      case "Other 1":
+        return <h1>Other 1</h1>; // Placeholder for other content
+      case "Other 2":
+        return <h1>Other 2</h1>; // Placeholder for other content
       default:
-        return <h1>Welcome to the Dashboard</h1>;
+        return <h1>Welcome to the Dashboard</h1>; // Default fallback content
     }
   };
 
