@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LoginScreen from "./Components/LoginScreen";
 import Header from "./Components/Header";
 import SideNavBar from "./Components/SideNavBar";
