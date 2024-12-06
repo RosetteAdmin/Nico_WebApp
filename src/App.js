@@ -1,66 +1,47 @@
 import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
 import LoginScreen from "./Components/LoginScreen";
 import Header from "./Components/Header";
 import SideNavBar from "./Components/SideNavBar";
-import HomeDashboard from "./Components/HomeDashboard"; // Import the HomeDashboard component
-import DeviceDashboard from "./Components/DeviceDashboard"; // Import the DeviceDashboard component
+import HomeDashboard from "./Components/HomeDashboard";
+import DeviceDashboard from "./Components/DeviceDashboard";
+import DeviceDetails from "./Components/DeviceDetails";
 import "./App.css";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to handle login status
-  const [selectedContent, setSelectedContent] = useState("dashboard"); // State to manage selected content (dashboard by default)
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Handle login status
 
-  // Simulate login action for demonstration purposes
-  const handleLogin = () => {
-    setIsLoggedIn(true); // Set logged-in state to true
-  };
-
-  // Handle menu item click to update the displayed content
-  const handleMenuClick = (menuOption) => {
-    setSelectedContent(menuOption); // Update the selected content based on menu option
-  };
-
-  // Render content dynamically based on the selected menu option
-  const renderContent = () => {
-    switch (selectedContent) {
-      case "dashboard":
-        return <HomeDashboard />; // Render the HomeDashboard for the default dashboard view
-      case "Registered Devices":
-        return <DeviceDashboard />; // Render the DeviceDashboard component for "Registered Devices"
-      case "Add New Device":
-        return <h1>Add New Device</h1>; // Placeholder for adding a new device
-      case "Registered Users":
-        return <h1>Registered Users</h1>; // Placeholder for users section
-      case "Add New User":
-        return <h1>Add New User</h1>; // Placeholder for users section
-      case "Other 1":
-        return <h1>Other 1</h1>; // Placeholder for other content
-      case "Other 2":
-        return <h1>Other 2</h1>; // Placeholder for other content
-      default:
-        return <h1>Welcome to the Dashboard</h1>; // Default fallback content
-    }
-  };
+  // Simulate login for demonstration
+  const handleLogin = () => setIsLoggedIn(true);
 
   return (
-    <div className="app-container">
-      {isLoggedIn ? (
-        // Render the Dashboard Layout (Header + SideNavBar)
-        <>
-          <Header />
-          <div className="main-content">
-            <SideNavBar onMenuClick={handleMenuClick} />
-            <div className="content-area">
-              {/* Render dynamic content based on the selected menu */}
-              {renderContent()}
+    <Router>
+      <div className="app-container">
+        {isLoggedIn ? (
+          <>
+            <Header />
+            <div className="main-content">
+              <SideNavBar />
+              <div className="content-area">
+                {/* Define routes to different components */}
+                <Routes>
+                  <Route path="/" element={<HomeDashboard />} />
+                  <Route path="/devices" element={<DeviceDashboard />} />
+                  <Route path="/add-device" element={<h1>Add New Device</h1>} />
+                  <Route path="/users" element={<h1>Registered Users</h1>} />
+                  <Route path="/add-user" element={<h1>Add New User</h1>} />
+                  <Route path="/other1" element={<h1>Other 1</h1>} />
+                  <Route path="/other2" element={<h1>Other 2</h1>} />
+                  <Route path="/device/:id" element={<DeviceDetails />} />
+                </Routes>
+              </div>
             </div>
-          </div>
-        </>
-      ) : (
-        // Render the Login Screen
-        <LoginScreen onLogin={handleLogin} />
-      )}
-    </div>
+          </>
+        ) : (
+          <LoginScreen onLogin={handleLogin} />
+        )}
+      </div>
+    </Router>
   );
 }
 

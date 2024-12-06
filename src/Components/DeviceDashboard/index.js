@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import "./DeviceDashboard.css";
 
 const DeviceDashboard = () => {
@@ -29,16 +30,15 @@ const DeviceDashboard = () => {
     { id: "00024", name: "Rosie Todd", sector: "Manipal, India", status: "Connected", mode: "ON", alerts: "A2" },
   ];
 
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
   const totalRows = devices.length;
   const totalPages = Math.ceil(totalRows / rowsPerPage);
 
-  // Pagination Logic
   const startIndex = (currentPage - 1) * rowsPerPage;
   const displayedDevices = devices.slice(startIndex, startIndex + rowsPerPage);
 
-  // Handlers
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
@@ -47,15 +47,15 @@ const DeviceDashboard = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
+  const handleRowClick = (id) => {
+    navigate(`/device/${id}`);
+  };
+
   return (
     <div className="device-dashboard">
       <h2 className="dashboard-title">Devices</h2>
       <div className="dashboard-controls">
-        <input
-          type="text"
-          placeholder="Search"
-          className="search-bar"
-        />
+        <input type="text" placeholder="Search" className="search-bar" />
         <button className="filter-button">🔧</button>
       </div>
 
@@ -73,7 +73,7 @@ const DeviceDashboard = () => {
         </thead>
         <tbody>
           {displayedDevices.map((device) => (
-            <tr key={device.id}>
+            <tr key={device.id} onClick={() => handleRowClick(device.id)} style={{ cursor: "pointer" }}>
               <td>{device.id}</td>
               <td>{device.name}</td>
               <td>{device.sector}</td>

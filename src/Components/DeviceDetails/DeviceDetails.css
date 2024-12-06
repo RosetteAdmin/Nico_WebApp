@@ -1,0 +1,219 @@
+/* Ensure body and html allow scrolling */
+html, body {
+  height: auto; 
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+  overflow-y: auto; /* Allow vertical scrolling */
+}
+
+/* Main container */
+.device-detail-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 95%;
+  max-width: 1800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: visible; /* Prevent content clipping */
+}
+
+/* Ensure table content scrolls */
+.alert-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: auto;
+}
+
+.alert-history-table th, .alert-history-table td {
+  padding: 8px 12px;
+  text-align: left;
+  border: 1px solid #e0e0e0;
+}
+
+/* Responsive fixes */
+@media (max-width: 768px) {
+  .device-detail-container {
+      width: 100%;
+      padding: 10px;
+  }
+}
+
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+  overflow-x: hidden; /* Prevents horizontal scroll on the body */
+}
+
+.device-detail-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%; /* Set a flexible width */
+  max-width: 1800px; /* Increased maximum width for larger screens */
+  margin: 40px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow-x: auto; /* Allows horizontal scrolling for large content */
+}
+
+h2 {
+  font-size: 2rem;
+  color: #004a7c;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-weight: bold;
+  color: #004a7c;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.view-logs-link {
+  font-size: 0.9rem;
+  color: #007bb5;
+  text-decoration: none;
+}
+
+.view-logs-link:hover {
+  text-decoration: underline;
+}
+
+.device-info-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.device-info-card p {
+  margin: 5px 0;
+  font-size: 1rem;
+}
+
+.device-power-status {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.power-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f4f4f4;
+}
+
+.power-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 34px;
+  height: 20px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 10px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: '';
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+/* Sensor Data Section Styling */
+.sensor-data {
+  display: flex; /* Arrange items horizontally */
+  gap: 20px; /* Add space between sensor items */
+  overflow-x: auto; /* Allow horizontal scrolling if content overflows */
+  padding: 10px 0;
+}
+
+.sensor-item {
+  flex: 0 0 auto; /* Prevent shrinking and ensure fixed width */
+  min-width: 250px; /* Set a minimum width for each sensor block */
+  background-color: #f9f9f9;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.sensor-item h4 {
+  font-size: 1.2rem;
+  color: #004a7c;
+  margin-bottom: 10px;
+}
+
+.sensor-item p {
+  font-size: 0.95rem;
+  margin: 5px 0;
+}
+
+
+input:checked + .toggle-slider {
+  background-color: #4caf50;
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(14px);
+}
+
+/* Adjust responsiveness for smaller screens */
+@media (max-width: 768px) {
+  .device-detail-container {
+      width: 100%; /* Use full width on smaller screens */
+      padding: 10px;
+      overflow-x: auto; /* Ensure horizontal scrolling is allowed */
+  }
+
+  .power-item {
+      flex-direction: column;
+      gap: 8px;
+  }
+}

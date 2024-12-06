@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom"; // Import Link for routing
 import "./SideNavBar.css";
 import Arrow from "./../../Images/SideNavBar/ArrowIcon.svg";
 import LinkIcon from "./../../Images/SideNavBar/LinkIcon.svg";
 import NoteIcon from "./../../Images/SideNavBar/NoteIcon.svg";
 
-const SideNavBar = ({ onMenuClick }) => {
+const SideNavBar = () => {
   const [openMenu, setOpenMenu] = useState(null); // Tracks the open menu
 
   const toggleMenu = (menu) => {
@@ -15,14 +16,10 @@ const SideNavBar = ({ onMenuClick }) => {
     <nav className="side-nav">
       <ul className="nav-list">
         {/* Dashboard */}
-        <li
-          className="nav-item"
-          onClick={() => {
-            toggleMenu(null); // Close all menus
-            onMenuClick("dashboard"); // Pass "dashboard" to parent
-          }}
-        >
-          Dashboard
+        <li className="nav-item">
+          <Link to="/" onClick={() => toggleMenu(null)}> 
+            Dashboard
+          </Link>
         </li>
 
         {/* Devices */}
@@ -38,23 +35,17 @@ const SideNavBar = ({ onMenuClick }) => {
           </div>
           {openMenu === "devices" && (
             <ul className="sub-menu">
-              <li
-                className="sub-item"
-                onClick={() => {
-                  onMenuClick("Registered Devices"); // Pass event to parent
-                }}
-              >
-                <img src={LinkIcon} alt="icon" />
-                Registered Devices
+              <li className="sub-item">
+                <Link to="/devices">
+                  <img src={LinkIcon} alt="icon" />
+                  Registered Devices
+                </Link>
               </li>
-              <li
-                className="sub-item"
-                onClick={() => {
-                  onMenuClick("Add New Device"); // Pass event to parent
-                }}
-              >
-                <img src={NoteIcon} alt="icon" />
-                Add New Device
+              <li className="sub-item">
+                <Link to="/add-device">
+                  <img src={NoteIcon} alt="icon" />
+                  Add New Device
+                </Link>
               </li>
             </ul>
           )}
@@ -73,23 +64,17 @@ const SideNavBar = ({ onMenuClick }) => {
           </div>
           {openMenu === "users" && (
             <ul className="sub-menu">
-              <li
-                className="sub-item"
-                onClick={() => {
-                  onMenuClick("Registered Users"); // Pass event to parent
-                }}
-              >
-                <img src={LinkIcon} alt="icon" />
-                Registered Users
+              <li className="sub-item">
+                <Link to="/users">
+                  <img src={LinkIcon} alt="icon" />
+                  Registered Users
+                </Link>
               </li>
-              <li
-                className="sub-item"
-                onClick={() => {
-                  onMenuClick("Add New User"); // Pass event to parent
-                }}
-              >
-                <img src={NoteIcon} alt="icon" />
-                Add New User
+              <li className="sub-item">
+                <Link to="/add-user">
+                  <img src={NoteIcon} alt="icon" />
+                  Add New User
+                </Link>
               </li>
             </ul>
           )}
@@ -108,23 +93,17 @@ const SideNavBar = ({ onMenuClick }) => {
           </div>
           {openMenu === "others" && (
             <ul className="sub-menu">
-              <li
-                className="sub-item"
-                onClick={() => {
-                  onMenuClick("Other 1"); // Pass event to parent
-                }}
-              >
-                <img src={LinkIcon} alt="icon" />
-                Other 1
+              <li className="sub-item">
+                <Link to="/other1">
+                  <img src={LinkIcon} alt="icon" />
+                  Other 1
+                </Link>
               </li>
-              <li
-                className="sub-item"
-                onClick={() => {
-                  onMenuClick("Other 2"); // Pass event to parent
-                }}
-              >
-                <img src={NoteIcon} alt="icon" />
-                Other 2
+              <li className="sub-item">
+                <Link to="/other2">
+                  <img src={NoteIcon} alt="icon" />
+                  Other 2
+                </Link>
               </li>
             </ul>
           )}
