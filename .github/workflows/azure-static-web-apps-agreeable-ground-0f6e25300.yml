@@ -27,16 +27,7 @@ jobs:
 
       - name: Install Dependencies
         run: npm install --production --force # Installs dependencies with the specified flags
-
-      - name: Install Serve Globally
-        run: npm install -g serve --force # Installs 'serve' globally
-
-      - name: Build Project
-        run: npm run build # Builds the project
-
-      - name: Serve Application
-        run: npx serve -s build  # Serve the built application using npx serve with the -s flag for static serving
-
+        
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
