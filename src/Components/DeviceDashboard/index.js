@@ -56,7 +56,7 @@ const DeviceDashboard = () => {
       <h2 className="dashboard-title">Devices</h2>
       <div className="dashboard-controls">
         <input type="text" placeholder="Search" className="search-bar" />
-        <button className="filter-button">🔧</button>
+        <span><button className="filter-button">🔧</button></span>
       </div>
 
       <table className="device-table">
