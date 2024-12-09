@@ -56,8 +56,13 @@ const DeviceDashboard = () => {
       <h2 className="dashboard-title">Devices</h2>
       <div className="dashboard-controls">
         <input type="text" placeholder="Search" className="search-bar" />
-        <span><button className="filter-button">🔧</button></span>
-      </div>
+        <button className="filter-button">
+        <span role="img" aria-label="settings">
+        🔧
+        </span>
+        </button>
+</div>
+
 
       <table className="device-table">
         <thead>
