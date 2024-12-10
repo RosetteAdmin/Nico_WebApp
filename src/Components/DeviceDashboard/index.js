@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch, faSliders ,faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import "./DeviceDashboard.css";
 
 const DeviceDashboard = () => {
@@ -31,13 +33,22 @@ const DeviceDashboard = () => {
   ];
 
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState(""); // Search query state
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
-  const totalRows = devices.length;
-  const totalPages = Math.ceil(totalRows / rowsPerPage);
 
+  // Filter devices based on the search query
+  const filteredDevices = devices.filter((device) =>
+    Object.values(device)
+      .join(" ")
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
+  );
+
+  const totalRows = filteredDevices.length;
+  const totalPages = Math.ceil(totalRows / rowsPerPage);
   const startIndex = (currentPage - 1) * rowsPerPage;
-  const displayedDevices = devices.slice(startIndex, startIndex + rowsPerPage);
+  const displayedDevices = filteredDevices.slice(startIndex, startIndex + rowsPerPage);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
@@ -53,19 +64,37 @@ const DeviceDashboard = () => {
 
   return (
     <div className="device-dashboard">
-      <h2 className="dashboard-title">Devices</h2>
-      <div className="dashboard-controls">
-        <input type="text" placeholder="Search" className="search-bar" />
-        <button className="filter-button">
-        <span role="img" aria-label="settings">
-        🔧
-        </span>
-        </button>
-</div>
-
+      <div style={{
+        display: "flex",
+        justifyContent: "space-between", /* Space between title and controls */
+        alignItems: "center", /* Vertically align items */
+      }}>
+        <h2 className="dashboard-title" style={{ margin: 0 }}>Devices</h2>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <div className="search-bar-container">
+            <input
+              type="text"
+              placeholder="Search by ID, Name, Sector, or Status"
+              className="search-bar"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setCurrentPage(1); // Reset to first page on new search
+              }}
+            />
+            <span className="search-icon">
+              <FontAwesomeIcon icon={faSearch} />
+            </span>
+          </div>
+          <button className="filter-button">
+            <FontAwesomeIcon icon={faSliders} />
+          </button>
+        </div>
+      </div>
 
       <table className="device-table">
         <thead>
+
           <tr>
             <th>Device ID</th>
             <th>Device Name</th>
@@ -77,19 +106,29 @@ const DeviceDashboard = () => {
           </tr>
         </thead>
         <tbody>
-          {displayedDevices.map((device) => (
-            <tr key={device.id} onClick={() => handleRowClick(device.id)} style={{ cursor: "pointer" }}>
-              <td>{device.id}</td>
-              <td>{device.name}</td>
-              <td>{device.sector}</td>
-              <td>{device.status}</td>
-              <td>{device.mode}</td>
-              <td>{device.alerts}</td>
-              <td>
-                <button className="more-button">↗</button>
+          {displayedDevices.length > 0 ? (
+            displayedDevices.map((device) => (
+              <tr key={device.id} onClick={() => handleRowClick(device.id)} style={{ cursor: "pointer" }}>
+                <td>{device.id}</td>
+                <td>{device.name}</td>
+                <td>{device.sector}</td>
+                <td>{device.status}</td>
+                <td>{device.mode}</td>
+                <td>{device.alerts}</td>
+                <td>
+                  <button  className="filter-button">
+                    <FontAwesomeIcon style={{color:"grey"}} icon={faArrowUpRightFromSquare} />
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="7" style={{ textAlign: "center" }}>
+                No devices found
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
 

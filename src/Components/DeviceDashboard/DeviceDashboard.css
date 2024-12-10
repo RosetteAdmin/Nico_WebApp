@@ -34,27 +34,51 @@ body {
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 1rem;
-  text-align: center;
+  text-align: start;
+  color:black;
 }
 
 /* Dashboard Controls */
 .dashboard-controls {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
-  gap: 1rem; /* Adds spacing for wrapping controls */
+  gap: 1rem;
+}
+
+.search-bar-container {
+  position: relative;
+  flex: 1;
+  min-width: 100px;
+  right: 50px;
 }
 
 .search-bar {
-  flex: 1;
-  min-width: 200px; /* Prevents shrinking too much */
-  padding: 0.5rem;
-  margin-right: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
+  width: 100%;
+  padding: 0.5rem 2.5rem 0.5rem 1rem; /* Reserve space for the icon on the right */
+  border: 1px solid black;
+  border-radius: 20px; /* Rounded corners */
+  outline: none;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  right: -20%; /* Align the icon inside the search bar */
+  transform: translateY(-50%);
+  color: rgb(0, 0, 0); /* Optional: Style the icon */
+  pointer-events: none; /* Makes the icon unclickable */
+}
+
+
+.filter-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.filter-button:hover {
+  color: #007bff; /* Optional: Add hover effect for the button */
 }
 
 .filter-button {
