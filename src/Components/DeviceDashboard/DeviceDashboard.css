@@ -1,79 +1,164 @@
+/* General Styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+}
+
 .device-dashboard {
-    padding: 2rem;
-    background-color: #f5f5f5;
-    margin-right: 10rem;
+  padding: 2rem;
+  background-color: #f5f5f5;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 1024px) {
+  .device-dashboard {
+    padding: 1.5rem; /* Adjust padding for medium screens */
   }
-  
-  .dashboard-title {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .device-dashboard {
+    padding: 1rem; /* Adjust padding for smaller screens */
   }
-  
-  .dashboard-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 480px) {
+  .device-dashboard {
+    padding: 0.5rem; /* Compact padding for very small screens */
   }
-  
-  .search-bar {
-    flex: 1;
-    padding: 0.5rem;
-    margin-right: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .filter-button {
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-  }
-  
-  .device-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1rem;
-  }
-  
+}
+
+/* Dashboard Title */
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Dashboard Controls */
+.dashboard-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  gap: 1rem; /* Adds spacing for wrapping controls */
+}
+
+.search-bar {
+  flex: 1;
+  min-width: 200px; /* Prevents shrinking too much */
+  padding: 0.5rem;
+  margin-right: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.filter-button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* Device Table */
+.device-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  table-layout: auto;
+}
+
+.device-table-wrapper {
+  overflow-x: auto;
+}
+
+.device-table th,
+.device-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  word-wrap: break-word;
+}
+
+.device-table th {
+  background-color: #f9f9f9;
+}
+
+@media (max-width: 1024px) {
   .device-table th,
   .device-table td {
-    padding: 0.75rem;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .device-table th {
-    background-color: #f9f9f9;
-  }
-  
-  .more-button {
-    background: none;
-    border: none;
-    color: #007bff;
     font-size: 1rem;
-    cursor: pointer;
+    padding: 0.6rem;
   }
-  
-  .table-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+}
+
+@media (max-width: 768px) {
+  .device-table-wrapper {
+    display: block;
   }
-  
-  .pagination-controls button {
-    background: none;
-    border: 1px solid #ccc;
+
+  .device-table {
+    display: block; /* Allows horizontal scrolling */
+    width: 100%; /* Keeps the table responsive */
+  }
+
+  .device-table th,
+  .device-table td {
+    font-size: 0.875rem;
     padding: 0.5rem;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-left: 0.5rem;
   }
-  
-  .pagination-controls button:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
+}
+
+@media (max-width: 480px) {
+  .device-table th,
+  .device-table td {
+    font-size: 0.75rem;
+    padding: 0.4rem;
   }
-  
+}
+
+/* More Button */
+.more-button {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Table Footer */
+.table-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem; /* Adds spacing between items */
+}
+
+/* Pagination Controls */
+.pagination-controls {
+  display: flex;
+  gap: 0.5rem; /* Adds spacing between buttons */
+}
+
+.pagination-controls button {
+  background: none;
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Utility Classes */
+.hidden {
+  display: none;
+}

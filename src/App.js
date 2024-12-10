@@ -32,6 +32,7 @@ function App() {
                   <Route path="/add-user" element={<h1>Add New User</h1>} />
                   <Route path="/other1" element={<h1>Other 1</h1>} />
                   <Route path="/other2" element={<h1>Other 2</h1>} />
+               
                   <Route path="/device/:id" element={<DeviceDetails />} />
                 </Routes>
               </div>

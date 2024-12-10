@@ -34,7 +34,7 @@ const DeviceDetails = () => {
       <div className="device-info-card device-power-status">
         <div>
           <h3 className="section-title">
-            Device Power Status: 
+            Device Power Status:
             <a href="/logs" className="view-logs-link">View Previous Power Logs</a>
           </h3>
           <div className="power-item">

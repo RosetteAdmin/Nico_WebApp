@@ -10,7 +10,31 @@ const HomeDashboard = () => {
     {
       title: "Total Devices",
       value: "4,689",
-      icon: <img src={Box} alt="Total Devices Icon" />, // Placeholder for the icon (can be replaced with an SVG/image)
+      icon: <img src={Box} alt="Total Devices Icon" />,
+      trend: "8.5% Up from last month",
+    },
+    {
+      title: "Total Active Devices",
+      value: "4,120",
+      icon: <img src={LinkIcon} alt="Total Active Devices Icon" />,
+      trend: "2.5% Up from last month",
+    },
+    {
+      title: "Total Subscriptions",
+      value: "525",
+      icon: <img src={Star} alt="Total Subscriptions Icon" />,
+      trend: "2.5% Up from last month",
+    },
+    {
+      title: "Other Attributes",
+      value: "525",
+      icon: <img src={LinkIcon} alt="Other Attributes Icon" />,
+      trend: "2.5% Up from last month",
+    },
+    {
+      title: "Total Devices",
+      value: "4,689",
+      icon: <img src={Box} alt="Total Devices Icon" />,
       trend: "8.5% Up from last month",
     },
     {
@@ -44,7 +68,8 @@ const HomeDashboard = () => {
               <h3 className="card-title">{card.title}</h3>
               <p className="card-value">{card.value}</p>
               <p className="card-trend">
-                <img src={UpArrow} alt="Up Arrow" className="up-arrow-icon" /> {card.trend}
+                <img src={UpArrow} alt="Up Arrow" className="up-arrow-icon" />{" "}
+                {card.trend}
               </p>
             </div>
           </div>

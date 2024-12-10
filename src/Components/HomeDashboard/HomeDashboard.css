@@ -1,83 +1,117 @@
-/* Main Dashboard Container */
-.dashboard-container {
-    padding: 2rem;
-    background-color: #f5f5f5;
-    max-width: 100%; /* Ensure the container doesn't exceed the screen width */
-    /* margin-left: 1rem; */
-    margin-right: 12rem; /* Push the dashboard a bit to the left */
-}
-
-/* Dashboard Title */
-.dashboard-title {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 1.5rem;
-    color: #333;
-}
-
 /* Cards Wrapper */
 .dashboard-cards {
-    display: flex; /* Change to flexbox for horizontal alignment */
-    flex-wrap: nowrap; /* Prevent wrapping to the next row */
-    gap: 1.5rem; /* Maintain spacing between cards */
-    overflow-x: auto; /* Enable horizontal scrolling if content overflows */
+  display: flex;
+  flex-wrap: wrap; /* Allows wrapping if necessary */
+  gap: 1.5rem; /* Space between cards */
+  justify-content: space-evenly; /* Ensure cards are spaced evenly */
+  margin-right: 1%;
+  overflow-y: auto; /* Enable vertical scrolling */
+  max-height: 80vh; /* Limit the height of the container */
+}
+
+/* Hide scrollbar */
+.dashboard-cards::-webkit-scrollbar {
+  display: none; /* Hide the scrollbar */
+}
+
+.dashboard-cards {
+  -ms-overflow-style: none;  /* For Internet Explorer 10+ */
+  scrollbar-width: none;  /* For Firefox */
+}
+
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: left; /* Aligns the text to the left */
 }
 
 /* Individual Card Styling */
 .dashboard-card {
-    flex: 0 0 auto; /* Prevent shrinking and set fixed size */
-    background-color: white;
-    border-radius: 10px;
-    padding: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    transition: transform 0.2s ease;
-    min-width: 250px; /* Set a minimum width for cards */
+  background-color: white;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.2s ease;
+  flex: 1 1 calc(25% - 2rem); /* Dynamically adjust width */
+  min-width: 180px; /* Ensure a readable minimum width */
+  max-width: 250px; /* Limit maximum size */
 }
 
+/* Card Hover Effect */
 .dashboard-card:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
-/* Card Icon */
-.card-icon {
-    font-size: 2rem;
-    color: #007bff;
-    display: flex;
+/* Adjustments for Large Tablets */
+@media (max-width: 1024px) {
+  .dashboard-cards {
+    gap: 1rem; /* Reduce spacing */
+  }
+
+  .dashboard-card {
+    flex: 1 1 calc(33.33% - 1rem); /* Fit 3 cards per row */
+    padding: 0.9rem; /* Slightly reduce padding */
+    min-width: 160px; /* Reduce minimum width */
+  }
+}
+
+@media (max-width: 1250px) {
+  .dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 0.5fr); /* 2 columns */
+    gap: 0.8rem; /* Space between cards */
+    justify-items: center; /* Center cards horizontally */
+    margin-right: 10%;
+  }
+
+  .dashboard-card {
+    padding: 0.8rem; /* Decrease padding */
+    min-width: 140px; /* Ensure readability */
+    max-width: 250px; /* Limit maximum width */
+    margin-right: 0; /* Remove margin-right */
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-cards {
+    gap: 0.8rem; /* Reduce gaps further */
+    justify-content: space-between; /* Space between cards */
     align-items: center;
+  }
+
+  .dashboard-card {
+    flex: 1 1 calc(50% - 0.8rem); /* Exactly 2 cards per row with adjusted gap */
+    padding: 0.8rem; /* Decrease padding */
+    min-width: 140px; /* Smaller minimum width */
+    max-width: 250px; /* Adjust max width */
+    margin-right: 0; /* Remove margin-right for proper alignment */
+  }
+}
+
+/* Adjustments for Mobile Screens */
+@media (max-width: 480px) {
+  .dashboard-cards {
+    flex-direction: column; /* Stack cards vertically */
+    gap: 0.5rem;
+    margin-right: 50%;
     justify-content: center;
-}
+    align-items: center; /* Center the stacked cards */
+    max-height: 80vh; /* Limit the height for scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
 
-/* Card Content */
-.card-content {
-    text-align: left;
-}
-
-.card-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin: 0;
-    color: #333;
-}
-
-.card-value {
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin: 0.5rem 0;
-    color: #007bff;
-}
-
-.card-trend {
-    font-size: 0.9rem;
-    color: #28a745;
-    display: flex; /* Align the icon and text horizontally */
-    align-items: center;
-}
-
-.up-arrow-icon {
-    width: 12px;
-    height: 12px;
-    margin-right: 5px;
+  .dashboard-card {
+    flex: 1 1 90%; /* Take up most of the parent width */
+    padding: 0.7rem; /* Decrease padding */
+    min-width: 120px; /* Further reduce minimum width */
+    max-width: 200px; /* Adjust max width */
+    justify-content: center;
+    margin-right: 50%;
+    margin-left: 5%;
+    align-items: center; /* Center the stacked cards */
+  }
 }
