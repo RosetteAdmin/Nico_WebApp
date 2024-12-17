@@ -54,10 +54,12 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
+  background-color: white !important;
 }
 
 .main-content {
   display: flex;
+
   flex: 1;
   margin-top: 60px; /* Adjusted margin to ensure header does not overlap content */
 }
@@ -108,7 +110,7 @@ body {
 /* SideNavBar Styling */
 .sidenav-container {
   width: 250px;
-  background-color: #f8f9fa;
+  background-color: #ffffff;
   border-right: 1px solid #ddd;
   padding: 1rem;
   position: fixed; /* Fix sidebar to the left */

@@ -30,7 +30,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
   
   .logo img {
@@ -167,3 +167,32 @@ body {
     object-fit: cover; /* Ensures the image covers the bottom area */
   }
   
+
+  @media (max-width: 1250px) {
+    .login-page {
+        max-width: 100%;
+        padding: 0.5rem;
+    }
+
+    .logo img {
+        width: 22rem; /* Further reduce logo size */
+    }
+
+    h2 {
+        font-size: 1rem;
+    }
+
+    p {
+        font-size: 0.7rem;
+    }
+
+    .login-form input {
+        padding: 0.4rem;
+        font-size: 0.7rem;
+    }
+
+    .login-button {
+        padding: 0.4rem;
+        font-size: 0.7rem;
+    }
+}

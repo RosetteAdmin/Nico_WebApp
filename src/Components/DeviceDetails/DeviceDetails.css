@@ -3,7 +3,7 @@ html, body {
   height: auto; 
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   color: #333;
   overflow-x: hidden; /* Prevent horizontal scrolling */
   overflow: hidden; /* Allow vertical scrolling */
@@ -159,7 +159,7 @@ h2 {
   padding: 12px;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  background-color: #f4f4f4;
+  background-color: #ffffff;
   flex-wrap: wrap; /* Allow wrapping for smaller screens */
 }
 
@@ -190,7 +190,7 @@ h2 {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: #ffffff;
   transition: 0.4s;
   border-radius: 10px;
 }
@@ -218,7 +218,7 @@ h2 {
 .sensor-item {
   flex: 0 0 auto;
   min-width: 200px;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   padding: 10px;
   border: 1px solid #e0e0e0;
   border-radius: 8px;

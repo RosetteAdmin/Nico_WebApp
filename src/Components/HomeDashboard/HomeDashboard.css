@@ -14,6 +14,15 @@
   display: none; /* Hide the scrollbar */
 }
 
+.dashboard-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.dashboard-scroll-container {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
 .dashboard-cards {
   -ms-overflow-style: none;  /* For Internet Explorer 10+ */
   scrollbar-width: none;  /* For Firefox */
@@ -115,3 +124,4 @@
     align-items: center; /* Center the stacked cards */
   }
 }
+
