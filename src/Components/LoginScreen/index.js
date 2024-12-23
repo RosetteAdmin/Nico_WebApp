@@ -9,16 +9,52 @@ function LoginScreen({ onLogin }) {
   const [email, setEmail] = useState(""); // State for email input
   const [password, setPassword] = useState(""); // State for password input
   const [passwordVisible, setPasswordVisible] = useState(false); // State to toggle password visibility
+  const [loading, setLoading] = useState(false); // State to track loading
+  const [error, setError] = useState(""); // State to track error messages
 
   const togglePasswordVisibility = () => {
     setPasswordVisible((prev) => !prev); // Toggle password visibility state
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent page reload on form submission
     if (email && password) {
-      console.log("Logged in with email:", email); // Debug log
-      onLogin(); // Call the `onLogin` function passed via props
+      setLoading(true); // Show loading spinner
+      setError(""); // Reset error state before making the request
+
+      const headersList = {
+        "Accept": "*/*",
+        "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+        "Content-Type": "application/json"
+      };
+
+      const bodyContent = JSON.stringify({
+        username: "jane", // Replace with the actual username field
+        password: password,
+        email: email
+      });
+
+      try {
+        const response = await fetch("https://demonico.azurewebsites.net/auth/login", {
+          method: "POST",
+          body: bodyContent,
+          headers: headersList
+        });
+
+        const data = await response.json(); // Assuming the server responds with JSON
+
+        if (response.ok) {
+          console.log("Logged in successfully:", data);
+          onLogin(); // Call the `onLogin` function passed via props
+        } else {
+          setError(data.message || "Login failed. Please check your credentials.");
+        }
+      } catch (error) {
+        setError("An error occurred. Please try again later.");
+        console.error("Error during login:", error);
+      } finally {
+        setLoading(false); // Hide loading spinner
+      }
     } else {
       alert("Please enter both email and password!"); // Alert for incomplete input
     }
@@ -34,6 +70,9 @@ function LoginScreen({ onLogin }) {
       {/* Title and Info */}
       <h2>Login Now</h2>
       <p>*Login to Admin Dashboard is only for Company Authorized Associates</p>
+
+      {/* Error Message */}
+      {error && <div className="error-message">{error}</div>}
 
       {/* Login Form */}
       <form className="login-form" onSubmit={handleSubmit}>
@@ -83,8 +122,8 @@ function LoginScreen({ onLogin }) {
         </div>
 
         {/* Login Button */}
-        <button type="submit" className="login-button">
-          Login
+        <button type="submit" className="login-button" disabled={loading}>
+          {loading ? "Logging In..." : "Login"}
         </button>
       </form>
 
