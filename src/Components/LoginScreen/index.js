@@ -29,7 +29,7 @@ function LoginScreen({ onLogin }) {
       };
 
       const bodyContent = JSON.stringify({
-        username: "jane", // Replace with the actual username field
+        //username: "jane", // Replace with the actual username field
         password: password,
         email: email
       });
