@@ -1,0 +1,193 @@
+/* General Layout */
+.edit-profile {
+  padding: 40px;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+}
+
+/* Header Section */
+.edit-profile-header {
+  display: flex;
+  justify-content: space-between; /* Align heading and save button */
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.edit-profile-heading {
+  font-size: 28px;
+  color: #333;
+  font-weight: 600;
+}
+
+/* Profile Avatar Section */
+.profile-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.profile-avatar img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #ccc;
+}
+
+.profile-avatar p {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #555;
+  font-weight: bold;
+}
+
+/* Profile Form */
+.profile-form {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 20px;
+  align-items: center; /* Align items within the grid */
+}
+
+.form-group {
+  display: contents;
+}
+
+label {
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+}
+
+input {
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+  background-color: #f8f8f8;
+  transition: border 0.2s ease-in-out;
+}
+
+input:focus {
+  border: 1px solid #007bff;
+  outline: none;
+}
+
+input[disabled] {
+  background-color: #f2f2f2;
+  cursor: not-allowed;
+  color: #999;
+}
+
+/* Buttons Section */
+.save-button {
+  background-color: #ffffff;
+  color: #000000;
+  padding: 8px 16px;
+  border: 2px solid grey; /* Add a border with a primary color */
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.save-button:hover {
+  background-color: #f8f9fa; /* Light grey background on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Slightly deeper shadow on hover */
+  border-color: #004a7c; /* Darker border on hover */
+}
+
+.logout-button-container {
+  grid-column: 1 / -1; /* Span across both columns */
+  display: flex;
+  justify-content: center; /* Center the button horizontally */
+  margin-top: 20px; /* Add spacing above the button */
+}
+
+.logout-button {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.2s ease-in-out;
+  margin: 0 auto; /* Center the button horizontally */
+}
+
+.logout-button:hover {
+  background-color: #f5c6cb;
+}
+
+/* Flexbox Layout for Centering Logout Button */
+.form-actions {
+  display: flex;
+  justify-content: center; /* Center button horizontally */
+  margin-top: 20px; /* Optional for spacing */
+  width: 100%;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .profile-form {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .save-button,
+  .logout-button {
+    width: 100%;
+  }
+}
+
+/* Profile Avatar Section */
+.profile-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.avatar-upload-label {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  border: 2px solid black; /* Optional border for emphasis */
+  transition: border 0.3s ease-in-out;
+}
+
+.avatar-upload-label:hover {
+  border: 2px solid black; /* Highlight border on hover */
+}
+
+.avatar-upload-label img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-upload {
+  display: none; /* Hide the input element */
+}
+
+.profile-avatar p {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #555;
+  font-weight: bold;
+}
