@@ -4,8 +4,9 @@ import NICOCompany from "./../../Images/LoginScreen/NICOCompany.svg";
 import BottomDesign from "./../../Images/LoginScreen/bottomdesign.svg";
 import CloseEye from "./../../Images/LoginScreen/CloseEye.svg"; // Eye icon for hidden password
 import OpenEye from "./../../Images/LoginScreen/OpenEye.svg";  // Eye icon for visible password
+import { useNavigate } from "react-router-dom";
 
-function LoginScreen({ onLogin }) {
+const LoginScreen = ({ handleLogin }) => {
   const [email, setEmail] = useState(""); // State for email input
   const [password, setPassword] = useState(""); // State for password input
   const [passwordVisible, setPasswordVisible] = useState(false); // State to toggle password visibility
@@ -15,37 +16,46 @@ function LoginScreen({ onLogin }) {
   const togglePasswordVisibility = () => {
     setPasswordVisible((prev) => !prev); // Toggle password visibility state
   };
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent page reload on form submission
+ 
     if (email && password) {
       setLoading(true); // Show loading spinner
       setError(""); // Reset error state before making the request
-
+  
       const headersList = {
         "Accept": "*/*",
         "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       };
-
+  
       const bodyContent = JSON.stringify({
-        //username: "jane", // Replace with the actual username field
+        // username: "jane", // Replace with the actual username field if needed
         password: password,
-        email: email
+        email: email,
       });
-
+  
       try {
         const response = await fetch("https://demonico.azurewebsites.net/auth/login", {
           method: "POST",
           body: bodyContent,
-          headers: headersList
+          headers: headersList,
         });
-
+  
         const data = await response.json(); // Assuming the server responds with JSON
-
+  
         if (response.ok) {
           console.log("Logged in successfully:", data);
-          onLogin(); // Call the `onLogin` function passed via props
+  
+          // Store token or user data in local storage
+          if (data) {
+            console.log("Data",data)
+            localStorage.setItem("authToken", data.token); // Store the token
+            localStorage.setItem("user", JSON.stringify(data.user)); // Optionally store user data
+          }
+          handleLogin();
+          navigate("/dashboard");
         } else {
           setError(data.message || "Login failed. Please check your credentials.");
         }
@@ -59,6 +69,7 @@ function LoginScreen({ onLogin }) {
       alert("Please enter both email and password!"); // Alert for incomplete input
     }
   };
+  
 
   return (
     <div className="login-page">

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import LoginScreen from "./Components/LoginScreen";
 import Header from "./Components/Header";
 import SideNavBar from "./Components/SideNavBar";
@@ -10,15 +10,20 @@ import EditProfile from "./Components/EditProfile";
 import "./App.css";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // Initialize isLoggedIn directly based on localStorage
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    return !!user; // Return true if a user is found, otherwise false
+  });
 
-  const handleLogin = () => setIsLoggedIn(true);
+  const handleLogin = () => {
+    setIsLoggedIn(true); 
+  };
 
   const handleLogout = () => {
-    // Clear session and redirect to login
-    localStorage.removeItem("userToken");
-    localStorage.removeItem("userData");
-    setIsLoggedIn(false);
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
+    setIsLoggedIn(false); // Update state to logged out
   };
 
   return (
@@ -27,7 +32,7 @@ function App() {
         {isLoggedIn ? (
           <>
             {/* Dashboard Layout */}
-            <Header onLogout={handleLogout} />
+            <Header  />
             <div className="main-content">
               <SideNavBar />
               <div className="content-area">
@@ -35,7 +40,7 @@ function App() {
                   <Route path="/dashboard" element={<HomeDashboard />} />
                   <Route path="/devices" element={<DeviceDashboard />} />
                   <Route path="/device/:id" element={<DeviceDetails />} />
-                  <Route path="/edit-profile" element={<EditProfile />} />
+                  <Route path="/edit-profile" element={<EditProfile onLogout={handleLogout} />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </Routes>
               </div>
@@ -44,7 +49,7 @@ function App() {
         ) : (
           // Login Screen
           <Routes>
-            <Route path="/login" element={<LoginScreen onLogin={handleLogin} />} />
+            <Route path="/login" element={<LoginScreen handleLogin={handleLogin} />} />
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
         )}

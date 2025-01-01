@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 import "./EditProfile.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
-const EditProfile = () => {
+const EditProfile = ({onLogout}) => {
   const [avatar, setAvatar] = useState("https://via.placeholder.com/80"); // Default placeholder
-
 
   const handleAvatarChange = (event) => {
     const file = event.target.files[0];
@@ -15,6 +13,7 @@ const EditProfile = () => {
       setAvatar(imageUrl);
     }
   };
+
 
 
   return (
@@ -90,6 +89,7 @@ const EditProfile = () => {
             <button
               type="button"
               className="logout-button"
+              onClick={onLogout} // Attach the logout handler
             >
               Log Out
             </button>
