@@ -34,7 +34,7 @@ const DeviceDetails = () => {
 
   useEffect(() => {
     const fetchData = () => {
-      fetch(`http://localhost:3000/api/devices/${id}`)
+      fetch(`https://demonico.azurewebsites.net/api/devices/${id}`)
         .then(response => response.json())
         .then(data => {
           setDeviceData({
@@ -79,7 +79,7 @@ const DeviceDetails = () => {
     setNbGeneratorPower(newPowerStatus);
 
     // Make an API call to update the power status
-    fetch(`http://localhost:3000/api/devices/${id}/toggle`, {
+    fetch(`https://demonico.azurewebsites.net/api/devices/${id}/toggle`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'

@@ -8,7 +8,7 @@ const DeviceDashboard = () => {
   const [devices, setDevices] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/devices')
+    fetch('https://demonico.azurewebsites.net/api/devices')
       .then(response => response.json())
       .then(data => setDevices(data.value))
       .catch(error => console.error('Error fetching devices:', error));
