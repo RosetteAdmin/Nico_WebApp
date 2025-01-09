@@ -6,6 +6,7 @@ import SideNavBar from "./Components/SideNavBar";
 import HomeDashboard from "./Components/HomeDashboard";
 import DeviceDashboard from "./Components/DeviceDashboard";
 import DeviceDetails from "./Components/DeviceDetails";
+import AddNewDevice from "./Components/AddNewDevice";
 import EditProfile from "./Components/EditProfile";
 import "./App.css";
 
@@ -40,6 +41,7 @@ function App() {
                   <Route path="/dashboard" element={<HomeDashboard />} />
                   <Route path="/devices" element={<DeviceDashboard />} />
                   <Route path="/device/:id" element={<DeviceDetails />} />
+                  <Route path="/add-device" element={<AddNewDevice />} />
                   <Route path="/edit-profile" element={<EditProfile onLogout={handleLogout} />} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </Routes>
