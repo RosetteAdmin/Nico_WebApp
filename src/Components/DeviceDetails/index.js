@@ -29,6 +29,7 @@ const DeviceDetails = () => {
   });
 
   const [nbGeneratorPower, setNbGeneratorPower] = useState(true); // State for NB generator power status
+  const [loading, setLoading] = useState(false); // State for loading screen
   const ozoneGeneratorPower = false; // State for Ozone generator power status
   const oxygenGeneratorPower = false; // State for Oxygen generator power status
 
@@ -77,9 +78,10 @@ const DeviceDetails = () => {
   const handlePowerToggle = () => {
     const newPowerStatus = !nbGeneratorPower;
     setNbGeneratorPower(newPowerStatus);
+    setLoading(true); // Show loading screen
 
     // Make an API call to update the power status
-    fetch(`https://demonico.azurewebsites.net/api/devices/${id}/toggle`, {
+    fetch(`http://localhost:3000/api/devices/${id}/toggle`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -88,12 +90,22 @@ const DeviceDetails = () => {
       .then(response => response.json())
       .then(data => {
         alert(`Power status updated: ${nbGeneratorPower ? 'Powered Off' : 'Powered On'}`);
+        setLoading(false); // Hide loading screen
       })
-      .catch(error => alert('Error updating power status:', error));
+      .catch(error => {
+        alert('Error updating power status:', error);
+        setLoading(false); // Hide loading screen
+      });
   };
 
   return (
     <div className="device-detail-container">
+      {loading && (
+      <div className="loading-backdrop">
+        <div className="loading-spinner"></div>
+        <div className="loading-text">Waiting for device...</div>
+      </div>
+      )}
       <h2>Devices</h2>
 
       {/* Basic Info Section */}
