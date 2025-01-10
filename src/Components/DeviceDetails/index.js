@@ -29,14 +29,14 @@ const DeviceDetails = () => {
   });
 
   const [nbGeneratorPower, setNbGeneratorPower] = useState(true); // State for NB generator power status
-  const [loading, setLoading] = useState(false); // State for loading screen
+  const [loading, setLoading] = useState(true); // State for loading screen
   const ozoneGeneratorPower = false; // State for Ozone generator power status
   const oxygenGeneratorPower = false; // State for Oxygen generator power status
 
   useEffect(() => {
     const fetchData = () => {
-      fetch(`https://demonico.azurewebsites.net/api/devices/${id}`)
-        .then(response => response.json())
+      fetch(`${process.env.REACT_APP_EP}/api/devices/${id}`)
+        .then(response => response.json()).then(setLoading(false))
         .then(data => {
           setDeviceData({
             nbGenerator: {
@@ -77,17 +77,16 @@ const DeviceDetails = () => {
 
   const handlePowerToggle = () => {
     const newPowerStatus = !nbGeneratorPower;
-    setNbGeneratorPower(newPowerStatus);
     setLoading(true); // Show loading screen
 
     // Make an API call to update the power status
-    fetch(`http://localhost:3000/api/devices/${id}/toggle`, {
+    fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/toggle`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
-      .then(response => response.json())
+      .then(response => response.json()).then(setNbGeneratorPower(newPowerStatus))
       .then(data => {
         alert(`Power status updated: ${nbGeneratorPower ? 'Powered Off' : 'Powered On'}`);
         setLoading(false); // Hide loading screen

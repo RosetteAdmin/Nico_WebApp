@@ -6,10 +6,11 @@ import "./DeviceDashboard.css";
 
 const DeviceDashboard = () => {
   const [devices, setDevices] = useState([]);
+  const [loading, setLoading] = useState(true); // State for loading screen
 
   useEffect(() => {
-    fetch('https://demonico.azurewebsites.net/api/devices')
-      .then(response => response.json())
+    fetch(`${process.env.REACT_APP_EP}/api/devices`)
+      .then(response => response.json()).then(setLoading(false))
       .then(data => setDevices(data.value))
       .catch(error => console.error('Error fetching devices:', error));
   }, []);
@@ -72,6 +73,12 @@ const DeviceDashboard = () => {
 
   return (
     <div className="device-dashboard">
+      {loading && (
+      <div className="loading-backdrop">
+        <div className="loading-spinner"></div>
+        <div className="loading-text">Waiting for server...</div>
+      </div>
+      )}
       <div style={{
         display: "flex",
         justifyContent: "space-between", /* Space between title and controls */
