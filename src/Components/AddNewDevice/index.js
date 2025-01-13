@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './AddNewDevice.css'
 
 const AddNewDevice = () => {
     // State variables to store input values
