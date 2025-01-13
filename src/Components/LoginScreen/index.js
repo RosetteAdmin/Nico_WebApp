@@ -42,7 +42,7 @@ const LoginScreen = ({ handleLogin }) => {
           body: bodyContent,
           headers: headersList,
         });
-  
+
         const data = await response.json(); // Assuming the server responds with JSON
   
         if (response.ok) {

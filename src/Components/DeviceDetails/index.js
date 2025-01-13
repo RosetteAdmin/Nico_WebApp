@@ -28,8 +28,8 @@ const DeviceDetails = () => {
     }
   });
 
-  const [nbGeneratorPower, setNbGeneratorPower] = useState(true); // State for NB generator power status
-  const [loading, setLoading] = useState(true); // State for loading screen
+  const [nbGeneratorPower, setNbGeneratorPower] = useState(false); // State for NB generator power status
+  const [loading, setLoading] = useState(false); // State for loading screen
   const ozoneGeneratorPower = false; // State for Ozone generator power status
   const oxygenGeneratorPower = false; // State for Oxygen generator power status
 
