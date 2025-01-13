@@ -1,12 +1,110 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./DeviceDetails.css";
 
 const DeviceDetails = () => {
   const { id } = useParams(); // Get the device ID from the URL
+  const [deviceData, setDeviceData] = useState({
+    nbGenerator: {
+      flowRate: '',
+      pressure: '',
+      waterTemperature: '',
+      systemTemperature: '',
+      totalWaterOutlet: ''
+    },
+    ozoneGenerator: {
+      flowRate: '',
+      pressure: '',
+      waterTemperature: '',
+      systemTemperature: '',
+      totalWaterOutlet: ''
+    },
+    oxygenGenerator: {
+      flowRate: '',
+      pressure: '',
+      waterTemperature: '',
+      systemTemperature: '',
+      totalWaterOutlet: ''
+    }
+  });
+
+  const [nbGeneratorPower, setNbGeneratorPower] = useState(false); // State for NB generator power status
+  const [loading, setLoading] = useState(false); // State for loading screen
+  const ozoneGeneratorPower = false; // State for Ozone generator power status
+  const oxygenGeneratorPower = false; // State for Oxygen generator power status
+
+  useEffect(() => {
+    const fetchData = () => {
+      fetch(`${process.env.REACT_APP_EP}/api/devices/${id}`)
+        .then(response => response.json()).then(setLoading(false))
+        .then(data => {
+          setDeviceData({
+            nbGenerator: {
+              flowRate: data.nbGenerator.flowRate,
+              pressure: data.nbGenerator.pressure,
+              waterTemperature: data.nbGenerator.waterTemperature,
+              systemTemperature: data.nbGenerator.systemTemperature,
+              totalWaterOutlet: data.nbGenerator.totalWaterOutlet,
+              timestamp: data.nbGenerator.timestamp
+            },
+            ozoneGenerator: {
+              flowRate: data.ozoneGenerator.flowRate,
+              pressure: data.ozoneGenerator.pressure,
+              waterTemperature: data.ozoneGenerator.waterTemperature,
+              systemTemperature: data.ozoneGenerator.systemTemperature,
+              totalWaterOutlet: data.ozoneGenerator.totalWaterOutlet,
+              timestamp: data.ozoneGenerator.timestamp
+            },
+            oxygenGenerator: {
+              flowRate: data.oxygenGenerator.flowRate,
+              pressure: data.oxygenGenerator.pressure,
+              waterTemperature: data.oxygenGenerator.waterTemperature,
+              systemTemperature: data.oxygenGenerator.systemTemperature,
+              totalWaterOutlet: data.oxygenGenerator.totalWaterOutlet,
+              timestamp: data.oxygenGenerator.timestamp
+            }
+          });
+        })
+        .catch(error => console.error('Error fetching device data:', error));
+    };
+
+    if (nbGeneratorPower) {
+      fetchData(); // Fetch data immediately on mount
+      const intervalId = setInterval(fetchData, 5000); // Fetch data every 5 seconds
+      return () => clearInterval(intervalId); // Cleanup interval on unmount
+    }
+  }, [id, nbGeneratorPower]);
+
+  const handlePowerToggle = () => {
+    const newPowerStatus = !nbGeneratorPower;
+    setLoading(true); // Show loading screen
+
+    // Make an API call to update the power status
+    fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/toggle`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json()).then(setNbGeneratorPower(newPowerStatus))
+      .then(data => {
+        alert(`Power status updated: ${nbGeneratorPower ? 'Powered Off' : 'Powered On'}`);
+        setLoading(false); // Hide loading screen
+      })
+      .catch(error => {
+        alert('Error updating power status:', error);
+        setLoading(false); // Hide loading screen
+      });
+  };
 
   return (
     <div className="device-detail-container">
+      {loading && (
+      <div className="loading-backdrop">
+        <div className="loading-spinner"></div>
+        <div className="loading-text">Waiting for device...</div>
+      </div>
+      )}
       <h2>Devices</h2>
 
       {/* Basic Info Section */}
@@ -40,9 +138,12 @@ const DeviceDetails = () => {
           <div className="power-item">
             <span>NB Generator</span>
             <div className="power-toggle">
-              <span>On from: 12:48:39 PM 25 Oct 2024 (32 hours ago)</span>
-              <label className="toggle-switch">
-                <input type="checkbox" defaultChecked />
+            <span>
+              {nbGeneratorPower 
+                ? `On from: ${new Date(deviceData.nbGenerator.timestamp).toLocaleString()}` 
+                : 'Powered Off'}
+            </span>              <label className="toggle-switch">
+              <input type="checkbox" checked={nbGeneratorPower} onChange={handlePowerToggle} />
                 <span className="toggle-slider"></span>
               </label>
             </div>
@@ -51,8 +152,12 @@ const DeviceDetails = () => {
           <div className="power-item">
             <span>Ozone Generator</span>
             <div className="power-toggle">
-              <span>Off from: 06:56:34 PM 25 Oct 2024 (8 hours ago)</span>
-              <label className="toggle-switch">
+            <span>
+              {ozoneGeneratorPower 
+                ? `On from: ${new Date(deviceData.ozoneGenerator.timestamp).toLocaleString()}` 
+                : 'Powered Off'}
+            </span>              
+            <label className="toggle-switch">
                 <input type="checkbox" />
                 <span className="toggle-slider"></span>
               </label>
@@ -60,11 +165,15 @@ const DeviceDetails = () => {
           </div>
 
           <div className="power-item">
-            <span>NB Generator</span>
+            <span>Oxygen Generator</span>
             <div className="power-toggle">
-              <span>On from: 12:48:39 PM 25 Oct 2024 (32 hours ago)</span>
-              <label className="toggle-switch">
-                <input type="checkbox" defaultChecked />
+            <span>
+              {oxygenGeneratorPower 
+                ? `On from: ${new Date(deviceData.oxygenGenerator.timestamp).toLocaleString()}` 
+                : 'Powered Off'}
+            </span>              
+            <label className="toggle-switch">
+                <input type="checkbox" />
                 <span className="toggle-slider"></span>
               </label>
             </div>
@@ -79,27 +188,27 @@ const DeviceDetails = () => {
           <div className="sensor-data">
             <div className="sensor-item">
               <h4>NB Generator</h4>
-              <p><strong>Water Flow Rate:</strong> 25 L/min</p>
-              <p><strong>Water Pressure:</strong> 30 bar</p>
-              <p><strong>System Temperature:</strong> 34°C</p>
-              <p><strong>Water Temperature:</strong> 28°C</p>
-              <p><strong>Total Water Outlet:</strong> 4000 L</p>
+              <p><strong>Water Flow Rate:</strong> {deviceData.nbGenerator.flowRate || 'N/A'}</p>
+              <p><strong>Water Pressure:</strong> {deviceData.nbGenerator.pressure || 'N/A'}</p>
+              <p><strong>Water Temperature:</strong> {deviceData.nbGenerator.waterTemperature || 'N/A'}</p>
+              <p><strong>System Temperature:</strong> {deviceData.nbGenerator.systemTemperature || 'N/A'}</p>
+              <p><strong>Total Water Outlet:</strong> {deviceData.nbGenerator.totalWaterOutlet || 'N/A'}</p>
             </div>
             <div className="sensor-item">
               <h4>Oxygen Generator</h4>
-              <p><strong>Water Flow Rate:</strong> 25 L/min</p>
-              <p><strong>Water Pressure:</strong> 30 bar</p>
-              <p><strong>System Temperature:</strong> 34°C</p>
-              <p><strong>Water Temperature:</strong> 28°C</p>
-              <p><strong>Total Water Outlet:</strong> 4000 L</p>
+              <p><strong>Water Flow Rate:</strong> {deviceData.ozoneGenerator.flowRate || 'N/A'}</p>
+              <p><strong>Water Pressure:</strong> {deviceData.ozoneGenerator.pressure || 'N/A'}</p>
+              <p><strong>Water Temperature:</strong> {deviceData.ozoneGenerator.waterTemperature || 'N/A'}</p>
+              <p><strong>System Temperature:</strong> {deviceData.ozoneGenerator.systemTemperature || 'N/A'}</p>
+              <p><strong>Total Water Outlet:</strong> {deviceData.ozoneGenerator.totalWaterOutlet || 'N/A'}</p>
             </div>
             <div className="sensor-item">
               <h4>Ozone Generator</h4>
-              <p><strong>Water Flow Rate:</strong> 25 L/min</p>
-              <p><strong>Water Pressure:</strong> 30 bar</p>
-              <p><strong>System Temperature:</strong> 34°C</p>
-              <p><strong>Water Temperature:</strong> 28°C</p>
-              <p><strong>Total Water Outlet:</strong> 4000 L</p>
+              <p><strong>Flow Rate:</strong> {deviceData.oxygenGenerator.flowRate || 'N/A'}</p>
+              <p><strong>Pressure:</strong> {deviceData.oxygenGenerator.pressure || 'N/A'}</p>
+              <p><strong>Water Temperature:</strong> {deviceData.oxygenGenerator.waterTemperature || 'N/A'}</p>
+              <p><strong>System Temperature:</strong> {deviceData.oxygenGenerator.systemTemperature || 'N/A'}</p>
+              <p><strong>Total Water Outlet:</strong> {deviceData.oxygenGenerator.totalWaterOutlet || 'N/A'}</p>
             </div>
           </div>
         </div>

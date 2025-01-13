@@ -37,12 +37,12 @@ const LoginScreen = ({ handleLogin }) => {
       });
   
       try {
-        const response = await fetch("https://demonico.azurewebsites.net/auth/login", {
+        const response = await fetch(`${process.env.REACT_APP_EP}/auth/login`, {
           method: "POST",
           body: bodyContent,
           headers: headersList,
         });
-  
+
         const data = await response.json(); // Assuming the server responds with JSON
   
         if (response.ok) {

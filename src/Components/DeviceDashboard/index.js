@@ -1,36 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faSliders ,faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import "./DeviceDashboard.css";
 
 const DeviceDashboard = () => {
-  const devices = [
-    { id: "00001", name: "Christine Brooks", sector: "Karnataka, India", status: "Not Connected", mode: "-", alerts: "A1" },
-    { id: "00002", name: "Rosie Pearson", sector: "Karnataka, India", status: "Connected", mode: "ON", alerts: "A2" },
-    { id: "00003", name: "Darrell Caldwell", sector: "Pune, India", status: "Not Connected", mode: "ON", alerts: "A2" },
-    { id: "00004", name: "Gilbert Johnston", sector: "New Delhi, India", status: "Connected", mode: "Off", alerts: "A2" },
-    { id: "00005", name: "Alan Cain", sector: "Kerala, India", status: "Connected", mode: "Off", alerts: "A2" },
-    { id: "00006", name: "Alfred Murray", sector: "Haryana, India", status: "Connected", mode: "Off", alerts: "A2" },
-    { id: "00007", name: "Maggie Sullivan", sector: "Patna, India", status: "Connected", mode: "ON", alerts: "A2" },
-    { id: "00008", name: "Rosie Todd", sector: "Manipal, India", status: "Connected", mode: "ON", alerts: "A2" },
-    { id: "00009", name: "Christine Brooks", sector: "Karnataka, India", status: "Not Connected", mode: "-", alerts: "A1" },
-    { id: "00010", name: "Rosie Pearson", sector: "Karnataka, India", status: "Connected", mode: "ON", alerts: "A2" },
-    { id: "00011", name: "Darrell Caldwell", sector: "Pune, India", status: "Not Connected", mode: "ON", alerts: "A2" },
-    { id: "00012", name: "Gilbert Johnston", sector: "New Delhi, India", status: "Connected", mode: "Off", alerts: "A2" },
-    { id: "00013", name: "Alan Cain", sector: "Kerala, India", status: "Connected", mode: "Off", alerts: "A2" },
-    { id: "00014", name: "Alfred Murray", sector: "Haryana, India", status: "Connected", mode: "Off", alerts: "A2" },
-    { id: "00015", name: "Maggie Sullivan", sector: "Patna, India", status: "Connected", mode: "ON", alerts: "A2" },
-    { id: "00016", name: "Rosie Todd", sector: "Manipal, India", status: "Connected", mode: "ON", alerts: "A2" },
-    { id: "00017", name: "Christine Brooks", sector: "Karnataka, India", status: "Not Connected", mode: "-", alerts: "A1" },
-    { id: "00018", name: "Rosie Pearson", sector: "Karnataka, India", status: "Connected", mode: "ON", alerts: "A2" },
-    { id: "00019", name: "Darrell Caldwell", sector: "Pune, India", status: "Not Connected", mode: "ON", alerts: "A2" },
-    { id: "00020", name: "Gilbert Johnston", sector: "New Delhi, India", status: "Connected", mode: "Off", alerts: "A2" },
-    { id: "00021", name: "Alan Cain", sector: "Kerala, India", status: "Connected", mode: "Off", alerts: "A2" },
-    { id: "00022", name: "Alfred Murray", sector: "Haryana, India", status: "Connected", mode: "Off", alerts: "A2" },
-    { id: "00023", name: "Maggie Sullivan", sector: "Patna, India", status: "Connected", mode: "ON", alerts: "A2" },
-    { id: "00024", name: "Rosie Todd", sector: "Manipal, India", status: "Connected", mode: "ON", alerts: "A2" },
-  ];
+  const [devices, setDevices] = useState([]);
+  const [loading, setLoading] = useState(true); // State for loading screen
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_EP}/api/devices`)
+      .then(response => response.json()).then(setLoading(false))
+      .then(data => setDevices(data.value))
+      .catch(error => console.error('Error fetching devices:', error));
+  }, []);
+  // const devices = [
+  //   { id: "00001", name: "Christine Brooks", sector: "Karnataka, India", status: "Not Connected", mode: "-", alerts: "A1" },
+  //   { id: "00002", name: "Rosie Pearson", sector: "Karnataka, India", status: "Connected", mode: "ON", alerts: "A2" },
+  //   { id: "00003", name: "Darrell Caldwell", sector: "Pune, India", status: "Not Connected", mode: "ON", alerts: "A2" },
+  //   { id: "00004", name: "Gilbert Johnston", sector: "New Delhi, India", status: "Connected", mode: "Off", alerts: "A2" },
+  //   { id: "00005", name: "Alan Cain", sector: "Kerala, India", status: "Connected", mode: "Off", alerts: "A2" },
+  //   { id: "00006", name: "Alfred Murray", sector: "Haryana, India", status: "Connected", mode: "Off", alerts: "A2" },
+  //   { id: "00007", name: "Maggie Sullivan", sector: "Patna, India", status: "Connected", mode: "ON", alerts: "A2" },
+  //   { id: "00008", name: "Rosie Todd", sector: "Manipal, India", status: "Connected", mode: "ON", alerts: "A2" },
+  //   { id: "00009", name: "Christine Brooks", sector: "Karnataka, India", status: "Not Connected", mode: "-", alerts: "A1" },
+  //   { id: "00010", name: "Rosie Pearson", sector: "Karnataka, India", status: "Connected", mode: "ON", alerts: "A2" },
+  //   { id: "00011", name: "Darrell Caldwell", sector: "Pune, India", status: "Not Connected", mode: "ON", alerts: "A2" },
+  //   { id: "00012", name: "Gilbert Johnston", sector: "New Delhi, India", status: "Connected", mode: "Off", alerts: "A2" },
+  //   { id: "00013", name: "Alan Cain", sector: "Kerala, India", status: "Connected", mode: "Off", alerts: "A2" },
+  //   { id: "00014", name: "Alfred Murray", sector: "Haryana, India", status: "Connected", mode: "Off", alerts: "A2" },
+  //   { id: "00015", name: "Maggie Sullivan", sector: "Patna, India", status: "Connected", mode: "ON", alerts: "A2" },
+  //   { id: "00016", name: "Rosie Todd", sector: "Manipal, India", status: "Connected", mode: "ON", alerts: "A2" },
+  //   { id: "00017", name: "Christine Brooks", sector: "Karnataka, India", status: "Not Connected", mode: "-", alerts: "A1" },
+  //   { id: "00018", name: "Rosie Pearson", sector: "Karnataka, India", status: "Connected", mode: "ON", alerts: "A2" },
+  //   { id: "00019", name: "Darrell Caldwell", sector: "Pune, India", status: "Not Connected", mode: "ON", alerts: "A2" },
+  //   { id: "00020", name: "Gilbert Johnston", sector: "New Delhi, India", status: "Connected", mode: "Off", alerts: "A2" },
+  //   { id: "00021", name: "Alan Cain", sector: "Kerala, India", status: "Connected", mode: "Off", alerts: "A2" },
+  //   { id: "00022", name: "Alfred Murray", sector: "Haryana, India", status: "Connected", mode: "Off", alerts: "A2" },
+  //   { id: "00023", name: "Maggie Sullivan", sector: "Patna, India", status: "Connected", mode: "ON", alerts: "A2" },
+  //   { id: "00024", name: "Rosie Todd", sector: "Manipal, India", status: "Connected", mode: "ON", alerts: "A2" },
+  // ];
 
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState(""); // Search query state
@@ -64,6 +73,12 @@ const DeviceDashboard = () => {
 
   return (
     <div className="device-dashboard">
+      {loading && (
+      <div className="loading-backdrop">
+        <div className="loading-spinner"></div>
+        <div className="loading-text">Waiting for server...</div>
+      </div>
+      )}
       <div style={{
         display: "flex",
         justifyContent: "space-between", /* Space between title and controls */
@@ -110,7 +125,7 @@ const DeviceDashboard = () => {
             displayedDevices.map((device) => (
               <tr key={device.id} onClick={() => handleRowClick(device.id)} style={{ cursor: "pointer" }}>
                 <td>{device.id}</td>
-                <td>{device.name}</td>
+                <td>{device.displayName}</td>
                 <td>{device.sector}</td>
                 <td>{device.status}</td>
                 <td>{device.mode}</td>
