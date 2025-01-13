@@ -7,7 +7,7 @@ const AddNewDevice = () => {
     const [sector, setSector] = useState('');
     const [status, setStatus] = useState('active');
     const [mode, setMode] = useState('auto');
-    const [alerts, setAlerts] = useState(false);
+    const [alerts, setAlerts] = useState('auto');
 
     // Handle form submission
     const handleSubmit = (e) => {
@@ -28,7 +28,7 @@ const AddNewDevice = () => {
         setSector('');
         setStatus('active');
         setMode('auto');
-        setAlerts(false);
+        setAlerts('auto');
     };
     return(
         <div className="add-device">
@@ -65,28 +65,42 @@ const AddNewDevice = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="status">Status:</label>
+                    <label htmlFor="status">Device Type:</label>
                     <select
                         id="status"
                         value={status}
                         onChange={(e) => setStatus(e.target.value)}
                     >
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
+                        <option value="NS03">NS03</option>
+                        <option value="NS04">NS04</option>
+                        <option value="NS05">NS05</option>
                     </select>
                 </div>
                 <div>
-                    <label htmlFor="mode">Mode:</label>
+                    <label htmlFor="mode">Subscription Type:</label>
                     <select
                         id="mode"
                         value={mode}
                         onChange={(e) => setMode(e.target.value)}
                     >
-                        <option value="auto">Auto</option>
-                        <option value="manual">Manual</option>
+                        <option value="premium">Premium</option>
+                        <option value="freemium">Freemium</option>
+                        <option value="trialVariant">Trail Variant</option>
                     </select>
                 </div>
                 <div>
+                    <label htmlFor="alerts">Monitory Type:</label>
+                    <select
+                        id="alerts"
+                        value={alerts}
+                        onChange={(e) => setMode(e.target.value)}
+                    >
+                        <option value="deviceOwner">Device Owner</option>
+                        <option value="thirdPartyVendors">Third Party Vendors</option>
+                        <option value="sourceCompany">Source Company</option>
+                    </select>
+                </div>
+                {/* <div>
                     <label htmlFor="alerts">Alerts:</label>
                     <input
                         type="checkbox"
@@ -94,7 +108,7 @@ const AddNewDevice = () => {
                         checked={alerts}
                         onChange={(e) => setAlerts(e.target.checked)}
                     />
-                </div>
+                </div> */}
                 <button type="submit">Add Device</button>
             </form>
         </div>
