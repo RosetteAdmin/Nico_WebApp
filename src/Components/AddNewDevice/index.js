@@ -42,10 +42,10 @@ const AddNewDevice = () => {
 
     return (
         <div className="add-device">
-            <h1>Add New Device</h1>
-            <form onSubmit={handleSubmit}>
+            <h1 className='andHeader'>Add New Device</h1>
+            <form className='andForm' onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="deviceName">Device Name:</label>
+                    <label classname='andLabel' htmlFor="deviceName">Device Name:</label>
                     <input
                         type="text"
                         id="deviceName"
@@ -55,7 +55,7 @@ const AddNewDevice = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="deviceId">Device ID:</label>
+                    <label classname='andLabel' htmlFor="deviceId">Device ID:</label>
                     <input
                         type="text"
                         id="deviceId"
@@ -65,7 +65,7 @@ const AddNewDevice = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="deviceOwner">Device Owner:</label>
+                    <label classname='andLabel' htmlFor="deviceOwner">Device Owner:</label>
                     <input
                         type="text"
                         id="deviceOwner"
@@ -75,7 +75,7 @@ const AddNewDevice = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="emailId">Email ID:</label>
+                    <label classname='andLabel' htmlFor="emailId">Email ID:</label>
                     <input
                         type="email"
                         id="emailId"
@@ -86,7 +86,7 @@ const AddNewDevice = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="phoneNumber">Phone Number:</label>
+                    <label classname='andLabel' htmlFor="phoneNumber">Phone Number:</label>
                     <input
                         type="tel"
                         id="phoneNumber"
@@ -96,7 +96,7 @@ const AddNewDevice = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="sector">Sector:</label>
+                    <label classname='andLabel' htmlFor="sector">Location:</label>
                     <input
                         type="text"
                         id="sector"
@@ -106,7 +106,7 @@ const AddNewDevice = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="status">Device Type:</label>
+                    <label classname='andLabel' htmlFor="status">Device Type:</label>
                     <select
                         id="status"
                         value={status}
@@ -118,7 +118,7 @@ const AddNewDevice = () => {
                     </select>
                 </div>
                 <div>
-                    <label htmlFor="mode">Subscription Type:</label>
+                    <label classname='andLabel' htmlFor="mode">Subscription Type:</label>
                     <select
                         id="mode"
                         value={mode}
@@ -130,7 +130,7 @@ const AddNewDevice = () => {
                     </select>
                 </div>
                 <div>
-                    <label htmlFor="alerts">Monitory Type:</label>
+                    <label classname='andLabel' htmlFor="alerts">Monitory Type:</label>
                     <select
                         id="alerts"
                         value={alerts}
@@ -141,7 +141,7 @@ const AddNewDevice = () => {
                         <option value="sourceCompany">Source Company</option>
                     </select>
                 </div>
-                <button type="submit">Add Device</button>
+                <button classname='andBtn' type="submit">Add Device</button>
             </form>
         </div>
     );
