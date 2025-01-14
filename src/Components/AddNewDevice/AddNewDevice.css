@@ -1,23 +1,45 @@
 .add-device{
     font-family: Arial, sans-serif;
-    background-color: rgb(196, 220, 255);
+    background-color: rgb(255, 255, 255);
     padding: 20px 70px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
     width: 600px;
     margin: auto;
     border-color: green;
 }
 
+.headerDiv{
+    display: flex;
+    justify-content: space-between; /* Distribute space between items */
+    align-items: center; /* Align items vertically in the center */
+    margin-bottom: 20px; /* Add spacing below the header-container */
+}
+
 .andHeader{
-    text-align: center;
+    text-align:left;
     margin-bottom: 20px;
+}
+.formDiv{
+    font-family: Arial, sans-serif;
+    background-color: rgb(255, 255, 255);
+    padding: 20px 70px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 600px;
+    margin: auto;
+    border-width: 5px;
+    border-color: green;
+}
+
+.insideHeader{
+    text-decoration: underline;
 }
 
 .andForm{
-    display: grid;
+    display: grid;  
     grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
-    gap: 50px; /* Space between items */
+    gap: 20px 100px; /* Space between items */
 }
 
 .andForm div{
@@ -28,6 +50,7 @@
 .andLabel{
     font-weight: bold;
     margin-bottom: 5px;
+    padding: auto 20px;
 }
 
 input, select {
@@ -39,21 +62,21 @@ input, select {
 }
 
 button{
-    grid-column: 2 / 3; /* Place the button in the middle column */
-    justify-self: center; 
+    grid-column: 3 / 3; /* Place the button in the middle column */
+    justify-self:right; 
     margin: 20px auto 0;
     display: block;
-    padding: 10px 20px;
+    padding: 10px 40px;
     font-size: 16px;
-    color: #a12626;
-    background-color: #ffffff; /* Default blue color */
+    color: #ffffff;
+    background-color: #2963b3; /* Default blue color */
     border:none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: rgb(207, 97, 97);
+    background-color: rgb(29, 173, 31);
     color: black;
 }
