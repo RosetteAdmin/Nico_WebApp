@@ -109,6 +109,13 @@ const SideNavBar = () => {
           )}
           <hr />
         </li>
+
+        <li className="nav-item profile-section">
+          <Link to="/change-profile" className="profile-link">
+            {/* <img  alt="profile icon" className="profile-icon" /> */}
+            <span>Profile</span>
+          </Link>
+        </li>
       </ul>
     </nav>
   );
