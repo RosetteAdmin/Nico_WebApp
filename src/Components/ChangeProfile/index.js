@@ -1,12 +1,23 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./ChangeProfile.css";
 
 const Profile = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    sessionStorage.clear();
+    navigate("/login");
+  };
+
   return (
     <div className="profile-container">
       <div className="profile-header">
         <h2>Profile Information</h2>
-        <button className="logout-button">Logout</button>
+        <button className="logout-button" onClick={handleLogout}>
+          Logout
+        </button>
       </div>
       <form className="profile-form">
         <div className="form-group">
@@ -33,7 +44,9 @@ const Profile = () => {
           <label>Password</label>
           <input type="password" value="********" readOnly />
         </div>
-        <button className="save-button">Save</button>
+        <button className="save-button" type="button">
+          Save
+        </button>
       </form>
     </div>
   );
