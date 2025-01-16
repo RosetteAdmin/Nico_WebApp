@@ -15,11 +15,12 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  padding-top: 20px;
 }
 
 .profile-header h2 {
-  font-size: 1.5rem;
   margin: 0;
+  font-size: 1.5rem;
 }
 
 .logout-button {
@@ -30,6 +31,7 @@
   padding: 8px 12px;
   font-size: 0.9rem;
   cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .logout-button:hover {
@@ -59,17 +61,24 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
 }
 
 .form-group input[readonly] {
-  background-color: #e9ecef; /* Light gray for non-editable fields */
+  background-color: #e9ecef;
   color: #6c757d;
   cursor: not-allowed;
 }
 
 /* Save Button */
 .save-button {
-  grid-column: span 2; /* Spans across both columns */
+  grid-column: span 2;
   background: #007bff;
   color: white;
   border: none;
@@ -78,8 +87,25 @@
   font-size: 1rem;
   cursor: pointer;
   text-align: center;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .save-button:hover {
   background: #0056b3;
+}
+
+.save-button:focus {
+  outline: none;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .profile-form {
+    grid-template-columns: 1fr;
+  }
+
+  .save-button {
+    width: 100%;
+  }
 }
