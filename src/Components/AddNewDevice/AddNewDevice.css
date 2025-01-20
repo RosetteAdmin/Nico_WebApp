@@ -65,7 +65,7 @@ button{
     /* grid-column: 3 / 3; Place the button in the middle column */
     justify-self:right; 
     /* margin: 20px auto 0; */
-    margin-left: 80px;
+    margin-left: 120px;
     display: block;
     padding: 10px 40px;
     font-size: 16px;
