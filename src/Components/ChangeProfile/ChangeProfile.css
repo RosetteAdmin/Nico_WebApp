@@ -24,6 +24,8 @@
 }
 
 .logout-button {
+  margin-right: 100px;
+  align-items: right;
   background: #d32f2f;
   color: white;
   border: none;
@@ -42,7 +44,7 @@
 .profile-form {
   display: grid;
   grid-template-columns: 1fr 1fr; /* Two columns */
-  gap: 20px; /* Spacing between fields */
+  gap: 20px 80px; /* Spacing between fields */
 }
 
 .form-group {
