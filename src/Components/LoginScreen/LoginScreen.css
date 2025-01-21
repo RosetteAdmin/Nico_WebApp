@@ -1,198 +1,248 @@
 /* General Styling */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #f5f5f5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-  }
-  
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.confirm-icon {
+  display: flex; /* Enables flexbox */
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  width: 100%; /* Ensure it takes up the full width of the container */
+  margin: 1rem 0; /* Optional: Add margin for spacing */
+}
+
+
+/* Login Page Container */
+.login-page {
+  width: 100%;
+  max-width: 500px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-top: 20%;
+  z-index: 20;
+  padding: 2rem;
+ 
+}
+
+/* Logo Styling */
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.logo img {
+  width: 40rem;
+}
+
+/* Headings and Text Styling */
+h2 {
+  text-align: center;
+  margin: 1rem 0;
+  color: #333;
+}
+
+p {
+  font-size: 0.9rem;
+  color: gray;
+  margin-bottom: 1rem;
+}
+
+/* Confirmation View Styling */
+.confirmation-view {
+  width: 435px;
+  height: 369px;
+  background-color: #f8f8f8;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+}
+
+.confirmation-view h2 {
+  margin: 10px 0;
+  font-size: 24px;
+}
+
+.confirmation-view p {
+  margin: 5px 0;
+  text-align: center;
+}
+
+/* Buttons Styling */
+.continue-button,
+.login-again-button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #0c5890;
+  color: white;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  width: 435px;
+  text-align: center;
+}
+
+.continue-button:hover,
+.login-again-button:hover {
+  background-color: #0056b3;
+}
+
+/* Form Styling */
+.login-form {
+  width: 100%;
+}
+
+.login-form label {
+  display: block;
+  text-align: left;
+  font-size: 0.9rem;
+  margin: 0.5rem 0 0.2rem;
+  color: #333;
+}
+
+.login-form input {
+  width: 95%;
+  padding: 0.7rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
+/* Password Input Styling */
+.password-input {
+  position: relative;
+}
+
+.password-input input {
+  width: 90%;
+  padding: 0.7rem 2rem 0.7rem 0.7rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
+/* Eye Icon Button Styling */
+.password-input .toggle-password {
+  position: absolute;
+  right: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Remember Me and Options Styling */
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.options .remember-me {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #333;
+  white-space: nowrap;
+}
+
+.options .remember-me input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+.options a {
+  color: #000080;
+  text-decoration: none;
+}
+
+.options a:hover {
+  text-decoration: underline;
+}
+
+/* Login Button Styling */
+.login-button {
+  background: #0c5890;
+  color: white;
+  border: none;
+  padding: 0.7rem;
+  width: 100%;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 4rem;
+}
+
+.login-button:hover {
+  background: #0056b3;
+}
+
+/* Bottom Design Styling */
+.bottom-design {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  z-index: -10;
+}
+
+.bottom-design img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 1250px) {
   .login-page {
-    width: 100%;
-    max-width: 500px; /* Add max-width for a bit wider layout */
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    margin-top: 20%;
-    z-index: 20;
-    padding: 2rem; /* Add padding for space on the sides */
+      max-width: 100%;
+      padding: 0.5rem;
   }
-  
-  /* Logo Styling */
-  .logo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 0.5rem;
-  }
-  
+
   .logo img {
-    width: 40rem; /* Set logo size to 40rem */
+      width: 22rem;
   }
-  
-  .logo h1 {
-    font-size: 1.5rem;
-    text-align: center;
-    margin: 0;
-    font-weight: bold;
-    color: #000080; /* Dark Blue */
-  }
-  
-  /* Headings and Text Styling */
+
   h2 {
-    text-align: center;
-    margin: 1rem 0;
-    color: #333;
+      font-size: 1rem;
   }
-  
+
   p {
-    font-size: 0.9rem;
-    color: gray;
-    margin-bottom: 1rem; /* Add some space between the description and form */
+      font-size: 0.7rem;
   }
-  
-  /* Form Styling */
-  .login-form {
-    width: 100%; /* Ensure the form takes up the full width */
-  }
-  
-  .login-form label {
-    display: block;
-    text-align: left;
-    font-size: 0.9rem;
-    margin: 0.5rem 0 0.2rem;
-    color: #333;
-  }
-  
+
   .login-form input {
-    width: 95%;
-    padding: 0.7rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 0.9rem;
+      padding: 0.4rem;
+      font-size: 0.7rem;
   }
-  
-  /* Password Input Styling */
-  .password-input {
-    position: relative;
-  }
-  
-  .password-input input {
-    width: 80%; /* Ensure same size as email input */
-    padding: 0.7rem 2rem 0.7rem 0.7rem; /* Adjust padding for the icon */
-    margin-bottom: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 0.9rem;
-  }
-  
-  /* Eye Icon Button Styling */
-  .password-input .toggle-password {
-    position: absolute;
-    right: 0.7rem; /* Position the eye icon inside the input box */
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-  }
-  
-  /* Remember Me and Options Styling */
-  .options {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.9rem;
-    width: 100%; /* Ensures it stretches across the form */
-  }
-  
-  .options .remember-me {
-    display: flex;
-    align-items: center; /* Ensures checkbox and label are aligned horizontally */
-    font-size: 0.9rem;
-    color: #333;
-    white-space: nowrap; /* Prevents text from wrapping to the next line */
-  }
-  
-  .options .remember-me input[type="checkbox"] {
-    margin-top: 1.25rem;
-    margin-right: 0.5rem; /* Adds space between checkbox and label */
-  }
-  
-  .options a {
-    color: #000080;
-    text-decoration: none;
-  }
-  
-  .options a:hover {
-    text-decoration: underline;
-  }
-  
+
   .login-button {
-    background: #0C5890;
-    color: white;
-    border: none;
-    padding: 0.7rem;
-    width: 100%;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
+      padding: 0.4rem;
+      font-size: 0.7rem;
   }
-  
-  .login-button:hover {
-    background: #0056b3;
-  }
-  
-  /* Bottom Design Styling */
-  .bottom-design {
-    position: fixed; /* Fixed to the bottom */
-    bottom: 0;
-    width: 100%;
-    left: 0;
-    z-index: -10; /* Keeps it behind the login content */
-  }
-  
-  .bottom-design img {
-    width: 100%;
-    height: auto;
-    object-fit: cover; /* Ensures the image covers the bottom area */
-  }
-  
-
-  @media (max-width: 1250px) {
-    .login-page {
-        max-width: 100%;
-        padding: 0.5rem;
-    }
-
-    .logo img {
-        width: 22rem; /* Further reduce logo size */
-    }
-
-    h2 {
-        font-size: 1rem;
-    }
-
-    p {
-        font-size: 0.7rem;
-    }
-
-    .login-form input {
-        padding: 0.4rem;
-        font-size: 0.7rem;
-    }
-
-    .login-button {
-        padding: 0.4rem;
-        font-size: 0.7rem;
-    }
 }

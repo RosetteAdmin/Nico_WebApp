@@ -55,7 +55,7 @@ const SideNavBar = () => {
         <li className="nav-item">
           <hr />
           <div onClick={() => toggleMenu("users")}>
-            Users
+            Customers
             <img
               src={Arrow}
               className={`arrow-icon ${openMenu === "users" ? "rotate" : ""}`}
