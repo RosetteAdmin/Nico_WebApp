@@ -10,10 +10,16 @@ const DeviceDashboard = () => {
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_EP}/api/devices`)
-      .then(response => response.json()).then(setLoading(false))
-      .then(data => setDevices(data.value))
-      .catch(error => console.error('Error fetching devices:', error));
-  }, []);
+      .then(response => response.json())
+      .then(data => {
+        setDevices(data.value);
+        setLoading(false); // Set loading to false after devices are set
+      })      
+      .catch(error => {
+        console.error('Error fetching devices:', error);
+        setLoading(false); // Set loading to false in case of error
+      });  
+    }, []);
   // const devices = [
   //   { id: "00001", name: "Christine Brooks", sector: "Karnataka, India", status: "Not Connected", mode: "-", alerts: "A1" },
   //   { id: "00002", name: "Rosie Pearson", sector: "Karnataka, India", status: "Connected", mode: "ON", alerts: "A2" },
@@ -72,13 +78,14 @@ const DeviceDashboard = () => {
   };
 
   return (
-    <div className="device-dashboard">
-      {loading && (
+    <>
+    {loading && (
       <div className="loading-backdrop">
         <div className="loading-spinner"></div>
         <div className="loading-text">Waiting for server...</div>
       </div>
       )}
+    <div className="device-dashboard">
       <div style={{
         display: "flex",
         justifyContent: "space-between", /* Space between title and controls */
@@ -161,6 +168,7 @@ const DeviceDashboard = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

@@ -33,6 +33,25 @@ const DeviceDetails = () => {
   const ozoneGeneratorPower = false; // State for Ozone generator power status
   const oxygenGeneratorPower = false; // State for Oxygen generator power status
 
+  // Fetch the initial state of nbGeneratorPower
+  useEffect(() => {
+    const fetchInitialState = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_EP}/api/devices/get/${id}-nb`);
+        const data = await response.json();
+        if (data.status === 'success') {
+          setNbGeneratorPower(data.data);
+        } else {
+          console.error('Failed to fetch initial state:', data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching initial state:', error);
+      }
+    };
+
+    fetchInitialState();
+  }, [id]);
+
   useEffect(() => {
     const fetchData = () => {
       fetch(`${process.env.REACT_APP_EP}/api/devices/${id}`)
@@ -94,6 +113,18 @@ const DeviceDetails = () => {
       .catch(error => {
         alert('Error updating power status:', error);
         setLoading(false); // Hide loading screen
+      });
+    
+      // Make a second API call to set the power status
+    fetch(`${process.env.REACT_APP_EP}/api/devices/set/${id}-nb`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .catch(error => {
+        console.error('Error setting power status:', error);
       });
   };
 
