@@ -44,8 +44,11 @@ const AddNewDevice = () => {
                 <button className="andBtn" form="addDeviceForm" type="submit">Create Now</button>
             </div>
             <div className="formDiv">
-                <h4 className='insideHeader'>Add Device Basic Information</h4>
+                
                 <form id="addDeviceForm" className="andForm" onSubmit={handleSubmit}>
+                    <h4 className='insideHeader'>Add Device Basic Information</h4>
+                    <span></span>
+                    <span></span>
                     <div>
                         <label className="andLabel" htmlFor="deviceName">Device Name:</label>
                         <input

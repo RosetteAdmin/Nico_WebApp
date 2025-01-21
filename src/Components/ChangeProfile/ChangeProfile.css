@@ -79,12 +79,12 @@
   border: 1px solid #ccc;
   border-radius: 0.8rem;
   font-size: 1rem;
-  color: #007bff;
+  color: #14191f;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-group input::placeholder{
-  color: rgb(113, 156, 152);
+  color: rgb(75, 138, 132);
 }
 
 .form-group input:focus {
