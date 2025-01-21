@@ -4,6 +4,12 @@ import "./SideNavBar.css";
 import Arrow from "./../../Images/SideNavBar/ArrowIcon.svg";
 import LinkIcon from "./../../Images/SideNavBar/LinkIcon.svg";
 import NoteIcon from "./../../Images/SideNavBar/NoteIcon.svg";
+import AccessManagementIcon from "./../../Images/SideNavBar/Access_Management.svg";
+import CustomerIcon from "./../../Images/SideNavBar/Customers.svg";
+import DashBoardIcon from "./../../Images/SideNavBar/DashBoard.svg";
+import DevicesIcon from "./../../Images/SideNavBar/Devices.svg";
+import ProfileIcon from "./../../Images/SideNavBar/Profile.svg";
+import ServicesRequestIcon from "./../../Images/SideNavBar/ServicesRequest.svg";
 
 const SideNavBar = () => {
   const [openMenu, setOpenMenu] = useState(null); // Tracks the open menu
@@ -17,7 +23,12 @@ const SideNavBar = () => {
       <ul className="nav-list">
         {/* Dashboard */}
         <li className="nav-item">
-          <Link to="/" onClick={() => toggleMenu(null)}> 
+          <Link to="/" onClick={() => toggleMenu(null)} className="main-link">
+            <img
+              src={DashBoardIcon}
+              alt="dashboard icon"
+              style={{ marginRight: "10px" }}
+            />
             Dashboard
           </Link>
         </li>
@@ -25,7 +36,12 @@ const SideNavBar = () => {
         {/* Devices */}
         <li className="nav-item">
           <hr />
-          <div onClick={() => toggleMenu("devices")}>
+          <div onClick={() => toggleMenu("devices")} className="main-link">
+            <img
+              src={DevicesIcon}
+              alt="devices icon"
+              style={{ marginRight: "10px" }}
+            />
             Devices
             <img
               src={Arrow}
@@ -36,14 +52,22 @@ const SideNavBar = () => {
           {openMenu === "devices" && (
             <ul className="sub-menu">
               <li className="sub-item">
-                <Link to="/devices">
-                  <img src={LinkIcon} alt="icon" />
+                <Link to="/devices" className="sub-link">
+                  <img
+                    src={LinkIcon}
+                    alt="registered devices icon"
+                    style={{ marginRight: "10px" }}
+                  />
                   Registered Devices
                 </Link>
               </li>
               <li className="sub-item">
-                <Link to="/add-device">
-                  <img src={NoteIcon} alt="icon" />
+                <Link to="/add-device" className="sub-link">
+                  <img
+                    src={NoteIcon}
+                    alt="add device icon"
+                    style={{ marginRight: "10px" }}
+                  />
                   Add New Device
                 </Link>
               </li>
@@ -51,63 +75,52 @@ const SideNavBar = () => {
           )}
         </li>
 
-        {/* Users */}
+        {/* Customers */}
         <li className="nav-item">
           <hr />
-          <div onClick={() => toggleMenu("users")}>
-            Users
+          <Link to="/" onClick={() => toggleMenu(null)} className="main-link">
             <img
-              src={Arrow}
-              className={`arrow-icon ${openMenu === "users" ? "rotate" : ""}`}
-              alt="arrow icon"
+              src={CustomerIcon}
+              alt="icon"
+              style={{ marginRight: "10px" }}
             />
-          </div>
-          {openMenu === "users" && (
-            <ul className="sub-menu">
-              <li className="sub-item">
-                <Link to="/users">
-                  <img src={LinkIcon} alt="icon" />
-                  Registered Users
-                </Link>
-              </li>
-              <li className="sub-item">
-                <Link to="/add-user">
-                  <img src={NoteIcon} alt="icon" />
-                  Add New User
-                </Link>
-              </li>
-            </ul>
-          )}
+            Customers
+          </Link>
         </li>
 
-        {/* Others */}
+        {/* Access Managements */}
         <li className="nav-item">
           <hr />
-          <div onClick={() => toggleMenu("others")}>
-            Others
+          <Link to="/" onClick={() => toggleMenu(null)} className="main-link">
             <img
-              src={Arrow}
-              className={`arrow-icon ${openMenu === "others" ? "rotate" : ""}`}
-              alt="arrow icon"
+              src={AccessManagementIcon}
+              alt="icon"
+              style={{ marginRight: "10px" }}
             />
-          </div>
-          {openMenu === "others" && (
-            <ul className="sub-menu">
-              <li className="sub-item">
-                <Link to="/other1">
-                  <img src={LinkIcon} alt="icon" />
-                  Other 1
-                </Link>
-              </li>
-              <li className="sub-item">
-                <Link to="/other2">
-                  <img src={NoteIcon} alt="icon" />
-                  Other 2
-                </Link>
-              </li>
-            </ul>
-          )}
+            Access Managements
+          </Link>
+        </li>
+
+        {/* Services Requests */}
+        <li className="nav-item">
           <hr />
+          <Link to="/" onClick={() => toggleMenu(null)} className="main-link">
+            <img
+              src={ServicesRequestIcon}
+              alt="icon"
+              style={{ marginRight: "10px" }}
+            />
+            Services Requests
+          </Link>
+        </li>
+
+        {/* Profile */}
+        <li className="nav-item">
+          <hr />
+          <Link to="/" onClick={() => toggleMenu(null)} className="main-link">
+            <img src={ProfileIcon} alt="icon" style={{ marginRight: "10px" }} />
+              Profile
+          </Link>
         </li>
       </ul>
     </nav>
@@ -115,3 +128,7 @@ const SideNavBar = () => {
 };
 
 export default SideNavBar;
+
+/*
+#0C5890
+*/

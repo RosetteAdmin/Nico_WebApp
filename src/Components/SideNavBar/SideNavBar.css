@@ -11,7 +11,7 @@
   overflow-y: auto;
   font-weight: 400;
   font-size: 1.25rem;
-  color: #130f26;
+  color: #A3AED0; /* Updated color for text */
   font-family: Arial, Helvetica, sans-serif;
   transition: margin-left 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
@@ -23,16 +23,15 @@
   list-style: none;
   padding: 0;
   font-weight: bolder;
-  color: black;
+  color: #A3AED0; /* Updated color for nav list */
 }
 
 .nav-item {
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  color: #A3AED0; /* Updated color for nav items */
 }
-
-
 
 /* Sub-menu Styling */
 .sub-menu {
@@ -47,6 +46,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  color: #A3AED0; /* Updated color for sub-items */
 }
 
 .sub-item img {
@@ -55,15 +55,15 @@
   height: 16px;
 }
 
-.sub-item:hover {
+/* .sub-item:hover {
   background-color: #eee;
-}
+} */
 
 /* Arrow Icon Styling */
 .arrow-icon {
-  width: 12px;
-  height: 12px;
- float: right;
+  width: 15px;
+  height: 15px;
+  float: right;
 }
 
 /* Main Content Styling */
@@ -77,12 +77,19 @@
   transition: margin-left 0.3s ease;
 }
 
-/* Content Area Styling */
-/* .content-area {
-  flex: 1;
-  padding: 2rem;
-  background-color: #f5f5f5;
-} */
+/* Remove default link styling */
+.nav-list .nav-item a,
+.sub-menu .sub-item a {
+  text-decoration: none; /* Remove underline */
+  color: #A3AED0; /* Updated color for links */
+}
+
+/* Prevent the link from turning blue when clicked (active state) */
+.nav-list .nav-item a:focus,
+.nav-list .nav-item a:active {
+  outline: none; /* Remove outline on focus */
+  color: #A3AED0; /* Ensure the color stays the same */
+}
 
 /* Media Queries for Responsiveness */
 
@@ -107,26 +114,3 @@
     margin-left: 200px; /* Adjust content area to accommodate sidebar */
   }
 }
-
-/* Remove default link styling */
-.nav-list .nav-item a {
-  text-decoration: none;  /* Remove underline */
-  color: inherit;  /* Inherit the text color from parent */
-
-}
-
-/* Prevent the link from turning blue when clicked (active state) */
-.nav-list .nav-item a:focus,
-.nav-list .nav-item a:active {
-  outline: none;  /* Remove outline on focus */
-  color: inherit;  /* Ensure the color stays the same */
-}
-
-
-
-/* Style for sub-menu links */
-.sub-menu .sub-item a {
-  text-decoration: none;
-  color: inherit;  /* Inherit color */
-}
-
