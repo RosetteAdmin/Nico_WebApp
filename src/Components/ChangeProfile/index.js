@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ChangeProfile.css";
 
@@ -8,7 +8,20 @@ const Profile = () => {
     name: "",
     phone: "",
     location: "",
+    email: "",
+    password: "",
   });
+
+  useEffect(() => {
+    // Fetch data from localStorage
+    const savedEmail = localStorage.getItem("email") || "";
+    const savedPassword = localStorage.getItem("password") || "";
+    setFormData((prevData) => ({
+      ...prevData,
+      email: savedEmail,
+      password: savedPassword,
+    }));
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -27,6 +40,7 @@ const Profile = () => {
     localStorage.clear();
     sessionStorage.clear();
     navigate("/login");
+    window.location.reload();
   };
 
   return (
@@ -52,7 +66,15 @@ const Profile = () => {
           </div>
           <div className="form-group">
             <label htmlFor="email">Email</label>
-            <input id="email" type="email" value="ca1@niconanobubble.com" readOnly />
+            <input
+              id="email"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              placeholder="Your Email"
+              readOnly
+            />
           </div>
           <div className="form-group">
             <label htmlFor="phone">Phone Number</label>
@@ -62,9 +84,10 @@ const Profile = () => {
               name="phone"
               value={formData.phone}
               onChange={handleInputChange}
-              placeholder="365451354415"
+              placeholder="Your Phone Number"
             />
           </div>
+          
           <div className="form-group">
             <label htmlFor="role">Logged In as</label>
             <input id="role" type="text" value="Company Associate" readOnly />
@@ -77,12 +100,20 @@ const Profile = () => {
               name="location"
               value={formData.location}
               onChange={handleInputChange}
-              placeholder="Manipal, Karnataka"
+              placeholder="Your Location"
             />
           </div>
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input id="password" type="password" value="********" readOnly />
+            <input
+              id="password"
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              placeholder="Your Password"
+              readOnly
+            />
           </div>
           <button className="save-button" type="button" onClick={handleSave}>
             Save

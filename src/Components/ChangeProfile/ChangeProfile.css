@@ -1,5 +1,5 @@
 /* Profile Page Container */
-.profile-container {
+/* .profile-container {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
@@ -7,41 +7,57 @@
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+} */
 
 /* Header */
+/* Header */
 .profile-header {
+  margin-top: 1rem;
+  margin-left: 2rem;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-start; /* Align items to the left */
+  align-items: left;
   margin-bottom: 20px;
   padding-top: 20px;
+  gap: 10px; /* Optional: Adds spacing between elements if needed */
 }
 
 .profile-header h2 {
   margin: 0;
   font-size: 1.5rem;
+  text-align: left; /* Ensures text alignment is left */
+  flex-shrink: 0; /* Prevents the header from shrinking */
 }
 
 .logout-button {
-  margin-right: 100px;
-  align-items: right;
+  margin-left: 45rem; /* Push the button to the far right */
   background: #d32f2f;
   color: white;
   border: none;
-  border-radius: 4px;
-  padding: 8px 12px;
+  border-radius: 1rem;
+  padding:15px 45px;
   font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+
 .logout-button:hover {
   background: #b71c1c;
 }
 
+.logout-button:focus {
+  outline: none;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
 /* Form Styling */
 .profile-form {
+  padding-top: 0;
+  margin: 2rem;
+  border-radius: 2rem;
+  box-shadow: 2px 2px 0.45em rgba(0, 0, 0, 0.1);
+  padding: 4.5rem;
   display: grid;
   grid-template-columns: 1fr 1fr; /* Two columns */
   gap: 20px 80px; /* Spacing between fields */
@@ -53,7 +69,7 @@
 }
 
 .form-group label {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   font-weight: bold;
   color: #333;
 }
@@ -61,9 +77,14 @@
 .form-group input {
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 0.8rem;
   font-size: 1rem;
+  color: #007bff;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input::placeholder{
+  color: rgb(113, 156, 152);
 }
 
 .form-group input:focus {
@@ -81,14 +102,16 @@
 /* Save Button */
 .save-button {
   grid-column: span 2;
+  margin-right:3rem;
   background: #007bff;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 1rem;
   padding: 10px 15px;
   font-size: 1rem;
   cursor: pointer;
   text-align: center;
+  padding: 15px 45px;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -102,12 +125,39 @@
 }
 
 /* Responsive Design */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .profile-form {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* Single-column layout */
+    gap: 20px; /* Reduce spacing for smaller screens */
+  }
+
+  .logout-button {
+    margin: 10px 0 0 auto; /* Adjust for better alignment */
   }
 
   .save-button {
-    width: 100%;
+    width: 100%; /* Full width save button */
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-header h2 {
+    font-size: 1.2rem; /* Smaller font size for narrow screens */
+    text-align: center; /* Center header text */
+  }
+
+  .logout-button {
+    width: 100%; /* Full width logout button */
+    margin-top: 10px; /* Add spacing above button */
+  }
+
+  .form-group input {
+    font-size: 0.9rem; /* Slightly smaller input text */
+    padding: 8px; /* Reduce padding for compact view */
+  }
+
+  .save-button {
+    font-size: 0.9rem; /* Adjust button font size */
+    padding: 8px 10px; /* Compact button styling */
   }
 }

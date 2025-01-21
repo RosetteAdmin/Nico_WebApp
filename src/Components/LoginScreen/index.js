@@ -18,11 +18,10 @@ const LoginScreen = ({ handleLogin }) => {
   };
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent page reload on form submission
- 
+    e.preventDefault();
     if (email && password) {
-      setLoading(true); // Show loading spinner
-      setError(""); // Reset error state before making the request
+      setLoading(true);
+      setError("");
   
       const headersList = {
         "Accept": "*/*",
@@ -31,9 +30,8 @@ const LoginScreen = ({ handleLogin }) => {
       };
   
       const bodyContent = JSON.stringify({
-        // username: "jane", // Replace with the actual username field if needed
-        password: password,
         email: email,
+        password: password,
       });
   
       try {
@@ -42,33 +40,31 @@ const LoginScreen = ({ handleLogin }) => {
           body: bodyContent,
           headers: headersList,
         });
-
-        const data = await response.json(); // Assuming the server responds with JSON
+  
+        const data = await response.json();
   
         if (response.ok) {
-          console.log("Logged in successfully:", data);
+          // Save email, password, and other data in localStorage
+          localStorage.setItem("authToken", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user));
+          localStorage.setItem("email", email); // Save email
+          localStorage.setItem("password", password); // Save password
   
-          // Store token or user data in local storage
-          if (data) {
-            console.log("Data",data)
-            localStorage.setItem("authToken", data.token); // Store the token
-            localStorage.setItem("user", JSON.stringify(data.user)); // Optionally store user data
-          }
           handleLogin();
-          navigate("/dashboard");
+          navigate("/profile"); // Redirect to profile page
         } else {
           setError(data.message || "Login failed. Please check your credentials.");
         }
       } catch (error) {
         setError("An error occurred. Please try again later.");
-        console.error("Error during login:", error);
       } finally {
-        setLoading(false); // Hide loading spinner
+        setLoading(false);
       }
     } else {
-      alert("Please enter both email and password!"); // Alert for incomplete input
+      alert("Please enter both email and password!");
     }
   };
+  
   
 
   return (
