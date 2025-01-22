@@ -1,8 +1,8 @@
 /* Sidebar Styling */
 .side-nav {
   width: 250px;
-  background-color: white !important;
-  padding: 1rem;
+  background-color: #f8f8f8;
+  padding: 20px;
   height: 100vh; /* Full viewport height */
   position: absolute; /* Fixing it to the left side */
   top: 60px; /* Ensure it starts below the header */
@@ -11,7 +11,7 @@
   overflow-y: auto;
   font-weight: 400;
   font-size: 1.25rem;
-  color: #130f26;
+  color: #A3AED0; /* Updated color for text */
   font-family: Arial, Helvetica, sans-serif;
   transition: margin-left 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
@@ -19,34 +19,80 @@
 
 /* Nav List Styling */
 .nav-list {
-  margin-top: 10px;
   list-style: none;
   padding: 0;
   font-weight: bolder;
-  color: black;
+  color: #A3AED0; /* Updated color for nav list */
+  margin-top: 10px;
 }
 
 .nav-item {
+  margin-bottom: 10px;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  color: #A3AED0; /* Updated color for nav items */
 }
 
+.nav-item .main-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
 
+.nav-text {
+  margin-left: 10px;
+  
+}
+
+.nav-text.active {
+  color: #0c5890;
+  font-weight: bold;
+}
+
+.nav-item.active .main-link {
+  background-color: #0c5890;
+  color: white;
+}
+
+.nav-item .main-link img {
+  margin-right: 10px;
+}
 
 /* Sub-menu Styling */
 .sub-menu {
   list-style: none;
   padding-left: 20px;
-  margin: 10px 0;
+  margin: 0;
+  padding: 0;
 }
 
 .sub-item {
+  margin-bottom: 10px;
   padding: 5px 15px;
   font-size: 0.9rem;
   cursor: pointer;
   display: flex;
   align-items: center;
+  color: #A3AED0; /* Updated color for sub-items */
+}
+
+.sub-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.sub-link:hover {
+  background-color: #e0e0e0;
 }
 
 .sub-item img {
@@ -55,15 +101,24 @@
   height: 16px;
 }
 
-.sub-item:hover {
+/* .sub-item:hover {
   background-color: #eee;
-}
+} */
 
 /* Arrow Icon Styling */
 .arrow-icon {
-  width: 12px;
-  height: 12px;
- float: right;
+  width: 15px;
+  height: 15px;
+  float: right;
+}
+
+.sub-text{
+  margin-left:10px;
+  font-weight: bold;
+}
+.sub-text.active {
+  color: #0c5890;
+  font-weight: bold;
 }
 
 /* Main Content Styling */
@@ -77,12 +132,32 @@
   transition: margin-left 0.3s ease;
 }
 
-/* Content Area Styling */
-/* .content-area {
-  flex: 1;
-  padding: 2rem;
-  background-color: #f5f5f5;
-} */
+/* Remove default link styling */
+.nav-list .nav-item a,
+.sub-menu .sub-item a {
+  text-decoration: none; /* Remove underline */
+  color: #A3AED0; /* Updated color for links */
+}
+
+/* Prevent the link from turning blue when clicked (active state) */
+.nav-list .nav-item a:focus,
+.nav-list .nav-item a:active {
+  outline: none; /* Remove outline on focus */
+  color: #A3AED0; /* Ensure the color stays the same */
+}
+
+.active-img {
+  
+  transform: scale(1.1);
+  transition: all 0.3s ease;
+  fill: #0c5890;
+   
+}
+
+
+img:not(.arrow-icon) {
+  transition: all 0.3s ease;
+}
 
 /* Media Queries for Responsiveness */
 
@@ -106,27 +181,5 @@
   .main-content {
     margin-left: 200px; /* Adjust content area to accommodate sidebar */
   }
-}
-
-/* Remove default link styling */
-.nav-list .nav-item a {
-  text-decoration: none;  /* Remove underline */
-  color: inherit;  /* Inherit the text color from parent */
 
 }
-
-/* Prevent the link from turning blue when clicked (active state) */
-.nav-list .nav-item a:focus,
-.nav-list .nav-item a:active {
-  outline: none;  /* Remove outline on focus */
-  color: inherit;  /* Ensure the color stays the same */
-}
-
-
-
-/* Style for sub-menu links */
-.sub-menu .sub-item a {
-  text-decoration: none;
-  color: inherit;  /* Inherit color */
-}
-
