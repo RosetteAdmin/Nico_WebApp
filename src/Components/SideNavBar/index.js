@@ -56,8 +56,8 @@ const menuItems = [
     url: "/service-requests",
   },
   {
-    key: "profiles",
-    title: "Profiles",
+    key: "profile",
+    title: "Profile",
     icon: ProfileIcon,
     url: "/profile",
   },
