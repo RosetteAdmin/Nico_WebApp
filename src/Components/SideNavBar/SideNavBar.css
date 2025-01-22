@@ -1,4 +1,4 @@
-/* Sidebar Styling */
+/* Base Styles */
 .side-nav {
   width: 250px;
   background-color: white !important;
@@ -17,8 +17,8 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
-/* Nav List Styling */
-.nav-list {
+ /* Nav List Styling */
+ .nav-list {
   margin-top: 10px;
   list-style: none;
   padding: 0;
@@ -32,40 +32,6 @@
   transition: background-color 0.2s ease;
 }
 
-
-
-/* Sub-menu Styling */
-.sub-menu {
-  list-style: none;
-  padding-left: 20px;
-  margin: 10px 0;
-}
-
-.sub-item {
-  padding: 5px 15px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
-.sub-item img {
-  margin-right: 10px;
-  width: 16px;
-  height: 16px;
-}
-
-.sub-item:hover {
-  background-color: #eee;
-}
-
-/* Arrow Icon Styling */
-.arrow-icon {
-  width: 12px;
-  height: 12px;
- float: right;
-}
-
 /* Main Content Styling */
 .main-content {
   display: flex;
@@ -77,56 +43,121 @@
   transition: margin-left 0.3s ease;
 }
 
-/* Content Area Styling */
-/* .content-area {
-  flex: 1;
-  padding: 2rem;
-  background-color: #f5f5f5;
-} */
 
-/* Media Queries for Responsiveness */
-
-/* For medium-sized screens (tablets) */
-@media (max-width: 1024px) {
-  .side-nav {
-    width: 200px; /* Reduced width for smaller screens */
-  }
-
-  .main-content {
-    margin-left: 200px; /* Adjust content area to accommodate smaller sidebar */
-  }
-}
-
-/* For smaller screens (mobile devices) */
-@media (max-width: 768px) {
-  .side-nav {
-    width: 200px; /* Sidebar remains visible but narrower */
-  }
-
-  .main-content {
-    margin-left: 200px; /* Adjust content area to accommodate sidebar */
-  }
-}
-
-/* Remove default link styling */
-.nav-list .nav-item a {
-  text-decoration: none;  /* Remove underline */
-  color: inherit;  /* Inherit the text color from parent */
-
-}
-
-/* Prevent the link from turning blue when clicked (active state) */
-.nav-list .nav-item a:focus,
-.nav-list .nav-item a:active {
-  outline: none;  /* Remove outline on focus */
-  color: inherit;  /* Ensure the color stays the same */
-}
-
-
-
-/* Style for sub-menu links */
-.sub-menu .sub-item a {
+.main-link {
+  display: flex;
+  align-items: center;
   text-decoration: none;
-  color: inherit;  /* Inherit color */
+  padding: 20px 15px;
+  transition: background-color 0.3s;
+  border-radius: 5px;
 }
 
+.main-link:hover {
+  background-color: #b8b8b8;
+  color: black;
+}
+
+.arrow-icon {
+  transition: transform 0.3s;
+}
+
+.arrow-icon.rotate {
+  transform: rotate(90deg);
+}
+
+/* Text Styles */
+.nav-text {
+  font-size: 16px;
+  font-weight: 500;
+  color: gray;
+  transition: color 0.3s;
+}
+
+.nav-text.active {
+  color: #0c5890;
+  font-weight: 550;
+}
+
+.nav-text.unbold {
+  font-weight: 400;
+}
+
+/* SVG Icon Styles */
+.main-link .nav-icon {
+  width: 20px;
+  height: 20px;
+  filter: grayscale(100%);
+  transition: filter 0.3s, color 0.3s;
+}
+
+.main-link img.active-img {
+  filter: grayscale(1) invert(1);
+  stroke:rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Submenu Styles */
+.sub-menu {
+  list-style: none;
+  margin: 10 0;
+  padding: 10px 0 10px 30px;
+  background-color: #fafafa;
+  border-left: 3px solid #ddd;
+  border-radius: 5px;
+}
+
+.sub-item {
+  padding: 5px 15px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.sub-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 8px 10px;
+  transition: background-color 0.3s;
+  border-radius: 5px;
+}
+
+.sub-link:hover {
+  background-color: #e8e8e8;
+}
+
+.sub-text {
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(92, 91, 91);
+  transition: color 0.3s;
+}
+
+.sub-text.active {
+  color: black;
+}
+
+.sub-link img {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  filter: grayscale(100%);
+  transition: filter 0.3s;
+}
+
+.sub-linkv img.active-img {
+  filter: grayscale(0%);
+}
+
+
+.nav-sub-icon {
+  width: 20px;
+  height: 20px;
+  filter: grayscale(100%) !important;
+}
+
+/* Image */
+.sub-menu .sub-item img{
+  filter: grayscale(1) invert(0.7);
+ }

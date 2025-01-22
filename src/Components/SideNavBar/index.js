@@ -1,114 +1,181 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // Import Link for routing
-import "./SideNavBar.css";
+import { Link } from "react-router-dom";
+import DashBoardIcon from "./../../Images/SideNavBar/DashBoard.svg";
+import DevicesIcon from "./../../Images/SideNavBar/Devices.svg";
+import CustomerIcon from "./../../Images/SideNavBar/Customers.svg";
+import AccessManagementIcon from "./../../Images/SideNavBar/Access_Management.svg";
+import ServicesRequestIcon from "./../../Images/SideNavBar/ServicesRequest.svg";
+import ProfileIcon from "./../../Images/SideNavBar/Profile.svg";
 import Arrow from "./../../Images/SideNavBar/ArrowIcon.svg";
 import LinkIcon from "./../../Images/SideNavBar/LinkIcon.svg";
 import NoteIcon from "./../../Images/SideNavBar/NoteIcon.svg";
+import "./SideNavBar.css";
+
+const menuItems = [
+  {
+    key: "dashboard",
+    title: "Dashboard",
+    icon: DashBoardIcon,
+    url: "/",
+  },
+  {
+    key: "devices",
+    title: "Devices",
+    icon: DevicesIcon,
+    subMenu: [
+      {
+        key: "registered-devices",
+        title: "Registered Devices",
+        icon: LinkIcon,
+        url: "/devices",
+      },
+      {
+        key: "add-device",
+        title: "Add New Device",
+        icon: NoteIcon,
+        url: "/add-device",
+      },
+    ],
+  },
+  {
+    key: "customers",
+    title: "Customers",
+    icon: CustomerIcon,
+    url: "/customers",
+  },
+  {
+    key: "access-management",
+    title: "Access Management",
+    icon: AccessManagementIcon,
+    url: "/access-management",
+  },
+  {
+    key: "service-requests",
+    title: "Service Requests",
+    icon: ServicesRequestIcon,
+    url: "/service-requests",
+  },
+  {
+    key: "profiles",
+    title: "Profiles",
+    icon: ProfileIcon,
+    url: "/profile",
+  },
+];
 
 const SideNavBar = () => {
-  const [openMenu, setOpenMenu] = useState(null); // Tracks the open menu
+  const [selectedComponent, setSelectedComponent] = useState("dashboard");
+  const [selectedSubComponent, setSelectedSubComponent] = useState(null);
+  const [openMenu, setOpenMenu] = useState(null);
 
-  const toggleMenu = (menu) => {
-    setOpenMenu((prevMenu) => (prevMenu === menu ? null : menu)); // Toggle menu state
+  const handleComponentClick = (key) => {
+    setOpenMenu(false);
+    setSelectedSubComponent(null);
+    setSelectedComponent(key);
+  };
+
+  const handleSubComponentClick = (key) => {
+    setSelectedSubComponent(key);
+  };
+
+  const toggleMenu = (key) => {
+    setOpenMenu((prevMenu) => (prevMenu === key ? null : key));
   };
 
   return (
     <nav className="side-nav">
       <ul className="nav-list">
-        {/* Dashboard */}
-        <li className="nav-item">
-          <Link to="/" onClick={() => toggleMenu(null)}> 
-            Dashboard
-          </Link>
-        </li>
-
-        {/* Devices */}
-        <li className="nav-item">
-          <hr />
-          <div onClick={() => toggleMenu("devices")}>
-            Devices
-            <img
-              src={Arrow}
-              className={`arrow-icon ${openMenu === "devices" ? "rotate" : ""}`}
-              alt="arrow icon"
-            />
-          </div>
-          {openMenu === "devices" && (
-            <ul className="sub-menu">
-              <li className="sub-item">
-                <Link to="/devices">
-                  <img src={LinkIcon} alt="icon" />
-                  Registered Devices
-                </Link>
-              </li>
-              <li className="sub-item">
-                <Link to="/add-device">
-                  <img src={NoteIcon} alt="icon" />
-                  Add New Device
-                </Link>
-              </li>
-            </ul>
-          )}
-        </li>
-
-        {/* Users */}
-        <li className="nav-item">
-          <hr />
-          <div onClick={() => toggleMenu("users")}>
-            Users
-            <img
-              src={Arrow}
-              className={`arrow-icon ${openMenu === "users" ? "rotate" : ""}`}
-              alt="arrow icon"
-            />
-          </div>
-          {openMenu === "users" && (
-            <ul className="sub-menu">
-              <li className="sub-item">
-                <Link to="/users">
-                  <img src={LinkIcon} alt="icon" />
-                  Registered Users
-                </Link>
-              </li>
-              <li className="sub-item">
-                <Link to="/add-user">
-                  <img src={NoteIcon} alt="icon" />
-                  Add New User
-                </Link>
-              </li>
-            </ul>
-          )}
-        </li>
-
-        {/* Others */}
-        <li className="nav-item">
-          <hr />
-          <div onClick={() => toggleMenu("others")}>
-            Others
-            <img
-              src={Arrow}
-              className={`arrow-icon ${openMenu === "others" ? "rotate" : ""}`}
-              alt="arrow icon"
-            />
-          </div>
-          {openMenu === "others" && (
-            <ul className="sub-menu">
-              <li className="sub-item">
-                <Link to="/other1">
-                  <img src={LinkIcon} alt="icon" />
-                  Other 1
-                </Link>
-              </li>
-              <li className="sub-item">
-                <Link to="/other2">
-                  <img src={NoteIcon} alt="icon" />
-                  Other 2
-                </Link>
-              </li>
-            </ul>
-          )}
-          <hr />
-        </li>
+        {menuItems.map((item) => (
+          <li key={item.key} className="nav-item">
+            {!item.subMenu ? (
+              <Link
+                to={item.url}
+                onClick={() => handleComponentClick(item.key)}
+                className="main-link"
+              >
+                <img
+                  src={item.icon}
+                  alt={`${item.title} icon`}
+                  className= {selectedComponent === item.key ? "nav-icon active-img" : "nav-icon"}
+                  style={{ marginRight: "10px" }}
+                />
+                <span
+                  className={`nav-text ${
+                    selectedComponent === item.key ? "active" : ""
+                  }`}
+                >
+                  {item.title}
+                </span>
+              </Link>
+            ) : (
+              <>
+                <div
+                  onClick={() => {
+                    handleComponentClick(item.key);
+                    toggleMenu(item.key);
+                  }}
+                  className="main-link"
+                >
+                  <img
+                    src={item.icon}
+                    alt={`${item.title} icon`}
+                    className={
+                      selectedComponent === item.key ? "nav-icon active-img" : "nav-icon"
+                    }
+                    style={{ marginRight: "10px" }}
+                  />
+                  <span
+                    className={`nav-text ${
+                      selectedComponent === item.key ? "active" : "unbold"
+                    }`}
+                  >
+                    {item.title}
+                  </span>
+                  <img
+                    src={Arrow}
+                    className={`arrow-icon ${
+                      openMenu === item.key ? "rotate" : ""
+                    }`}
+                    alt="arrow icon"
+                    style={{ marginLeft: "auto" }}
+                    onClick={() => toggleMenu(item.key)}
+                  />
+                </div>
+                {openMenu === item.key && (
+                  <ul className="sub-menu">
+                    {item.subMenu.map((subItem) => (
+                      <li key={subItem.key} className="sub-item">
+                        <Link
+                          to={subItem.url}
+                          onClick={() => handleSubComponentClick(subItem.key)}
+                          className="sub-link"
+                        >
+                          <img
+                            src={subItem.icon}
+                            alt={`${subItem.title} icon`}
+                            className={
+                              selectedSubComponent === subItem.key
+                                ? "nav-sub-icon"
+                                : "active-img"
+                            }
+                            style={{ marginRight: "10px" }}
+                          />
+                          <span
+                            className={`nav-text ${
+                              selectedSubComponent === subItem.key ? "active" : "nav-text"
+                            }`}
+                          >
+                            {subItem.title}
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </>
+            )}
+          </li>
+        ))}
       </ul>
     </nav>
   );

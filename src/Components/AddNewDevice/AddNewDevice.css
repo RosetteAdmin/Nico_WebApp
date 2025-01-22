@@ -1,36 +1,83 @@
-.add-device{
+/* /* .add-device{
     font-family: Arial, sans-serif;
-    background-color: rgb(196, 220, 255);
+    background-color: rgb(255, 255, 255);
     padding: 20px 70px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 600px;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    /* width: 600px;
     margin: auto;
-    border-color: green;
+    border-color: green; 
+} */
+/* Add device button */
+.add-device .add-device-headerDiv .add-device-button{
+    transform:translatex(-84px) translatey(3px);
+   }
+   
+   /* Heading */
+   .add-device .add-device-headerDiv h1{
+    transform:translatex(31px) translatey(0px);
+   }
+   
+/* General Styles - Mobile First */
+.add-device-headerDiv {
+    display: flex;
+    justify-content: space-between; /* Distribute space between items */
+    align-items: center; /* Align items vertically in the center */
+    margin-top: 30px;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
 }
 
-.andHeader{
-    text-align: center;
+.add-device-andHeader {
+    margin-right: 20rem;
+    margin-left: 2rem;
+    text-align: left;
     margin-bottom: 20px;
 }
 
-.andForm{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
-    gap: 50px; /* Space between items */
+/* .formDiv {
+    font-family: Arial, sans-serif;
+    background-color: rgb(255, 255, 255);
+    padding:1rem 10rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%; 
+    max-width: 600px; 
+    margin: auto;
+    border-width: 5px;
+    border-color: green;
+} */
+
+.add-device-insideHeader {
+    text-decoration: underline;
 }
 
-.andForm div{
+.add-device-andForm {
+    padding-left: 2rem;
+    padding-right: 2.5rem;
+    padding-bottom: 5rem;
+    width: 65rem;
+    align-items: center;
+    padding-top: 0;
+    margin: 2rem;
+    border-radius: 2rem;
+    box-shadow: 2px 2px 0.45em rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* Two columns */
+    gap:auto 80px; /* Spacing between fields */
+}
+
+.add-device-andForm div {
     display: flex;
     flex-direction: column;
 }
 
-.andLabel{
+.add-device-andLabel {
     font-weight: bold;
     margin-bottom: 5px;
 }
 
-input, select {
+.add-device-input, .add-device-select {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
@@ -38,22 +85,49 @@ input, select {
     font-size: 14px;
 }
 
-button{
-    grid-column: 2 / 3; /* Place the button in the middle column */
-    justify-self: center; 
-    margin: 20px auto 0;
+.add-device-button {
+    justify-self: right;/* Center-align button on smaller screens */
     display: block;
-    padding: 10px 20px;
+    padding: 10px 40px;
     font-size: 16px;
-    color: #a12626;
-    background-color: #ffffff; /* Default blue color */
-    border:none;
-    border-radius: 8px;
+    color: #ffffff;
+    background-color: #2963b3; /* Default blue color */
+    border: none;
+    border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-button:hover {
-    background-color: rgb(207, 97, 97);
+.add-device-button:hover {
+    background-color: rgb(29, 173, 31);
     color: black;
+}
+
+/* Medium Screens (Tablets) */
+@media (min-width: 600px) {
+    .add-device-andForm {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for medium screens */
+        gap: 20px 40px; /* Adjust spacing */
+    }
+
+    .add-device-button {
+        margin-left: auto;
+        margin-right: 0; /* Align button to the right */
+    }
+}
+
+/* Large Screens (Desktops) */
+@media (min-width: 1024px) {
+    .add-device-andForm {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns for large screens */
+        gap: 20px 100px; /* Restore original spacing */
+    }
+
+    .add-device-formDiv {
+        width: 600px; /* Fixed width for larger screens */
+    }
+
+    .add-device-button {
+        margin-left: 120px; /* Restore original alignment */
+    }
 }
