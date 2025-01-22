@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import "./ChangeProfile.css";
 
 const ChangeProfile = ({onLogout}) => {
-  const navigate = useNavigate();
   const userrole = JSON.parse(localStorage.getItem("user")).role;
   const [formData, setFormData] = useState({
     name: "",
