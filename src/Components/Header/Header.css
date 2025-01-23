@@ -2,15 +2,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100vw; /* Full width of the viewport */
+  width: 101vw;
   padding: 1rem 2rem;
   background-color: #ffffff;
   border-bottom: 1px solid #ddd;
-  box-sizing: border-box; /* Ensures padding is included in width */
-  position: fixed; /* Fixes the header at the top of the screen */
-  top: 0; /* Ensures it's aligned at the top */
-  left: 0; /* Ensures it starts from the very left */
-  z-index: 1000; /* Keeps it above other elements */
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 
 .header-logo {
@@ -23,49 +23,74 @@
   margin-right: 10px;
 }
 
-.company-name {
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: #333;
-}
-
 .header-right {
   display: flex;
   align-items: center;
+  gap: 1rem;
+  margin-top:-3px;
+  margin-right: 20px;
+  padding-bottom:13px;
+  padding-top:8px;
+  box-shadow:16px 8px 27px -29px #333333;
+  padding-right:20px;
+  border-top-left-radius:30px;
+  border-top-right-radius:30px;
+  border-bottom-left-radius:30px;
+  border-bottom-right-radius:30px;
+  padding-left:27px;
 }
 
-.notification-icon {
-  width: 24px;
-  height: 24px;
-  margin-right: 20px;
+.search-container {
+  display: flex;
+  align-items: center;
+  background-color: #F4F7FE;
+  border-radius: 49px;
+  padding: 0.5rem 1rem;
+  margin-left:0px;
+  height: 30px;
+  width:360px;
+  box-shadow:0px 2px 0px -50px rgba(0,0,0,0.1);
+  position: relative; /* Keep for absolute positioning of search icon */
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 1rem;
+  font-family: 'Inter', 'Arial', 'Helvetica', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  background-color: transparent;
+  color: #8A9EBF;
+  border-radius: 49px;
+  padding: 0.5rem 2rem 0.5rem 2.5rem; /* Adjusted extra padding on the right */
+}
+
+.search-input:focus {
+  outline: none;
+  border: none;
+}
+
+
+.search-icon {
+  padding-left: 12px;
+  position: absolute;
+  left: 12px; /* Increased space between the icon and the left edge */
+  width: 17px;
+  height: 17px;
   cursor: pointer;
 }
 
-.user-info {
-  display: flex;
-  align-items: center;
+.info-icon,
+.notification-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
 }
 
-.user-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
 
-.user-details {
-  display: flex;
-  flex-direction: column; /* Stack the text vertically */
-  justify-content: center; /* Align text vertically */
-}
 
-.user-name {
-  font-size: 1rem;
-  font-weight: bold;
-  color: #333;
-}
 
-.user-company {
-  font-size: 0.9rem;
-  color: gray;
-}
+
+

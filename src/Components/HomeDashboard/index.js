@@ -120,7 +120,7 @@ const HomeDashboard = () => {
 
 
   return (
-    <div style={{ height: "50vh", width: "75vw", marginLeft: getCardStyles().marginLeft, position: "relative", top: 20 }}>
+    <div style={{ height: "50vh", width: "75vw", marginLeft: getCardStyles().marginLeft, position: "relative", top: 40 }}>
       <div style={{ display: "flex" }}>
         <h1 style={{ fontSize: "2.5rem", fontWeight: "bold", textAlign: "left" }}>
           Dashboard

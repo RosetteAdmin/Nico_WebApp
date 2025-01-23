@@ -9,6 +9,10 @@
     border-color: green; 
 } */
 /* Add device button */
+.add-device {
+    transform:translatex(0px) translatey(18px);
+}
+
 .add-device .add-device-headerDiv .add-device-button{
     transform:translatex(-84px) translatey(3px);
    }

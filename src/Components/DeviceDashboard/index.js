@@ -104,7 +104,7 @@ const DeviceDashboard = () => {
                 setCurrentPage(1); // Reset to first page on new search
               }}
             />
-            <span className="search-icon">
+            <span className="dev-search-icon">
               <FontAwesomeIcon icon={faSearch} />
             </span>
           </div>

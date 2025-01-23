@@ -9,6 +9,7 @@ body {
   padding: 2rem;
   background-color: #ffffff;
   transition: all 0.3s ease;
+  margin-top: 25px;
 }
 
 @media (max-width: 1024px) {
@@ -60,7 +61,7 @@ body {
   outline: none;
 }
 
-.search-icon {
+.dev-search-icon {
   position: absolute;
   top: 50%;
   right: -20%; /* Align the icon inside the search bar */

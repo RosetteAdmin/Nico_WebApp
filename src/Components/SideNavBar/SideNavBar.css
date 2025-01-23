@@ -1,5 +1,6 @@
 /* Base Styles */
 .side-nav {
+  margin-top: 15px;
   width: 250px;
   background-color: white !important;
   padding: 1rem;
