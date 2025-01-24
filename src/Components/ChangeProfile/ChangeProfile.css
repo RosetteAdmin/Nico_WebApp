@@ -1,36 +1,36 @@
 /* Page-Specific Styling */
 
- .change-profile-header{
-  margin-top: 2rem;
-  margin-left: 2rem;
+.change-profile-header {
+  margin: 2rem 2rem 20px 2rem;
   display: flex;
-  justify-content: flex-start; /* Align items to the left */
-  align-items: left;
-  margin-bottom: 20px;
-  padding-top: 20px;
-  gap: 10px; /* Optional: Adds spacing between elements if needed */
- }
-
- .change-profile-header h2 {
-  margin: 0;
-  font-size: 1.5rem;
-  text-align: left; /* Ensures text alignment is left */
-  flex-shrink: 0; /* Prevents the header from shrinking */
+  flex-wrap: wrap; /* Ensures elements wrap on smaller screens */
+  justify-content: space-between; /* Space between items */
+  align-items: center; /* Aligns items vertically */
+  gap: 10px;
 }
 
-.change-profile-logout-button{
-  margin-left: 45rem; /* Push the button to the far right */
+.change-profile-header h2 {
+  margin: 0;
+  font-size: 2rem;
+  flex-grow: 1;
+  text-align: left;
+  color: #14191f;
+}
+
+.change-profile-logout-button {
+  margin-right: 70px;
+  margin-top: 10px;
   background: #d32f2f;
   color: white;
   border: none;
   border-radius: 1rem;
-  padding:15px 60px;
+  padding: 15px 60px;
   font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.change-profile-logout-button:hover{
+.change-profile-logout-button:hover {
   background-color: #b71c1c;
 }
 
@@ -39,29 +39,28 @@
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
 }
 
-.change-profile-form{
-  padding-top: 0;
+.change-profile-form {
   margin: 2rem;
   border-radius: 2rem;
   box-shadow: 2px 2px 0.45em rgba(0, 0, 0, 0.1);
   padding: 4.5rem;
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Two columns */
-  gap: 20px 80px; /* Spacing between fields */
+  grid-template-columns: 1fr 1fr; 
+  gap: 20px 80px;
 }
 
-.change-profile-form-group{
+.change-profile-form-group {
   display: flex;
   flex-direction: column;
 }
 
-.change-profile-form-group label{
+.change-profile-form-group label {
   margin-bottom: 10px;
   font-weight: bold;
   color: #333;
 }
 
-.change-profile-form-group input{
+.change-profile-form-group input {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 0.8rem;
@@ -70,7 +69,7 @@
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.change-profile-form-group input::placeholder{
+.change-profile-form-group input::placeholder {
   color: rgb(75, 138, 132);
 }
 
@@ -80,26 +79,21 @@
   outline: none;
 }
 
-
 .change-profile-form-group input[readonly] {
   background-color: #f8f9fa;
   color: #6c757d;
   cursor: not-allowed;
 }
 
-/* Save Button */
 .change-profile-save-button {
-  margin-left: 290px;
   grid-column: 2;
-  margin-right:3rem;
+  justify-self: end; /* Center-align within the grid */
   background: #007bff;
   color: white;
   border: none;
   border-radius: 1rem;
   font-size: 1rem;
   cursor: pointer;
-  text-align: center;
-  align-items: right;
   padding: 15px 45px;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -114,51 +108,72 @@
 }
 
 /* Responsive Design */
+
+/* Medium screens (tablets and small laptops) */
 @media (max-width: 768px) {
-  .change-profile-form {
-    grid-template-columns: 1fr;
-  }
-
-  .change-profile-save-button {
-    grid-column: 1 / -1;
-    width: 100%;
-  }
-
-  .change-profile-header h2 {
-    font-size: 2rem;
-  }
-
-  .change-profile-logout-button {
-    padding: 10px 20px;
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .change-profile-container {
-    padding: 30px 20px;
+  .change-profile-header {
+    flex-direction: column; /* Stack header elements */
+    align-items: flex-start;
+    gap: 1rem;
   }
 
   .change-profile-header h2 {
     font-size: 1.8rem;
   }
 
-  .form-group input {
+  .change-profile-logout-button {
+    align-self: flex-end;
+    padding: 10px 30px;
+    font-size: 0.9rem;
+  }
+
+  .change-profile-form {
+    grid-template-columns: 1fr; /* Single column layout */
+    gap: 20px; /* Reduce spacing */
+    padding: 3rem;
+  }
+
+  .change-profile-save-button {
+    width: 100%; /* Full-width button */
+  }
+}
+
+/* Small screens (phones) */
+@media (max-width: 480px) {
+  .change-profile-container {
+    padding: 20px;
+  }
+
+  .change-profile-header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .change-profile-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .change-profile-form {
+    grid-template-columns: 1fr; /* Ensure vertical layout */
+    gap: 15px;
+    padding: 2rem;
+  }
+
+  .change-profile-form-group input {
     font-size: 0.9rem;
     padding: 12px;
   }
 
   .change-profile-save-button {
-    padding: 12px;
     font-size: 1rem;
+    padding: 12px;
+    width: 100%; /* Full width for easier tapping */
   }
 }
 
-@media (min-width:769px){
-
-  /* Change profile save button */
-  .change-profile-main .change-profile-form .change-profile-save-button{
-   width:209px;
+/* Large screens (default) */
+@media (min-width: 769px) {
+  .change-profile-main .change-profile-form .change-profile-save-button {
+    width: 209px;
   }
-  
- }
+}
