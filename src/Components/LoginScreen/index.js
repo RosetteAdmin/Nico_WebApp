@@ -36,32 +36,38 @@ const LoginScreen = ({ handleLogin }) => {
         "Content-Type": "application/json",
       };
 
-      const bodyContent = JSON.stringify({
-        password: password,
-        email: email,
-      });
+      // const bodyContent = JSON.stringify({
+      //   password: password,
+      //   email: email,
+      // });
 
       try {
-        const response = await fetch(`${process.env.REACT_APP_EP}/auth/login`, {
-          method: "POST",
-          body: bodyContent,
+        // const response = await fetch(`${process.env.REACT_APP_EP}/auth/login`, {
+        //   method: "POST",
+        //   body: bodyContent,
+        //   headers: headersList,
+        // });
+        const response = await fetch(`${process.env.REACT_APP_EP}/data/getuser/${email}`, {
+          method: "GET",
           headers: headersList,
         });
 
-        const data = await response.json(); // Assuming the server responds with JSON
-        console.log("Data:", data); // Log the data object
 
-        if (response.ok) {
+        const data = await response.json(); // Assuming the server responds with JSON
+        console.log("Data:", data.data); // Log the data object
+
+        if (response.ok  && email === data.data[0].email && password === data.data[0].password) {
           console.log("Logged in successfully:", data);
 
           // Extract the role property
-          const userRole = data.user.role;
+          console.log(data.data[0]);
+          const userRole = data.data[0].role;
           console.log("User Role:", userRole);
 
           // Store token or user data in local storage
           if (data) {
             localStorage.setItem("authToken", data.token); // Store the token
-            localStorage.setItem("user", JSON.stringify(data.user)); // Optionally store user data
+            localStorage.setItem("user", JSON.stringify(data.data[0])); // Optionally store user data
           }
           //handleLogin();
           setRole(userRole); // Set the role state

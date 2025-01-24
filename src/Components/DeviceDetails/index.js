@@ -87,7 +87,7 @@ const DeviceDetails = () => {
         .catch(error => console.error('Error fetching device data:', error));
     };
 
-    if (nbGeneratorPower) {
+    if (nbGeneratorPower || true) {
       fetchData(); // Fetch data immediately on mount
       const intervalId = setInterval(fetchData, 5000); // Fetch data every 5 seconds
       return () => clearInterval(intervalId); // Cleanup interval on unmount
