@@ -47,7 +47,7 @@ const ChangeProfile = ({onLogout}) => {
       </div>
       <div className="change-profile-container">
         <form className="change-profile-form" onSubmit={(e) => e.preventDefault()}>
-          <div className="form-group">
+          <div className="change-profile-form-group">
             <label htmlFor="name">Name</label>
             <input
               id="name"
@@ -58,7 +58,7 @@ const ChangeProfile = ({onLogout}) => {
               placeholder="Your Name"
             />
           </div>
-          <div className="form-group">
+          <div className="change-profile-form-group">
             <label htmlFor="email">Email</label>
             <input
               id="email"
@@ -70,7 +70,7 @@ const ChangeProfile = ({onLogout}) => {
               readOnly
             />
           </div>
-          <div className="form-group">
+          <div className="change-profile-form-group">
             <label htmlFor="phone">Phone Number</label>
             <input
               id="phone"
@@ -81,11 +81,11 @@ const ChangeProfile = ({onLogout}) => {
               placeholder="Your Phone Number"
             />
           </div>
-          <div className="form-group">
+          <div className="change-profile-form-group">
             <label htmlFor="role">Logged In as</label>
             <input id="role" type="text" value={userrole} readOnly />
           </div>
-          <div className="form-group">
+          <div className="change-profile-form-group">
             <label htmlFor="location">Location</label>
             <input
               id="location"
@@ -96,7 +96,7 @@ const ChangeProfile = ({onLogout}) => {
               placeholder="Your Location"
             />
           </div>
-          <div className="form-group">
+          <div className="change-profile-form-group">
             <label htmlFor="password">Password</label>
             <input
               id="password"
