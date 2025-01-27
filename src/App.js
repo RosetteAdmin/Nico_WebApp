@@ -8,6 +8,7 @@ import DeviceDashboard from "./Components/DeviceDashboard";
 import DeviceDetails from "./Components/DeviceDetails";
 import AddNewDevice from "./Components/AddNewDevice";
 import ChangeProfile from "./Components/ChangeProfile";
+import AccessManagement from "./Components/AccessManagement";
 import "./App.css";
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
                   <Route path="/devices" element={<DeviceDashboard />} />
                   <Route path="/device/:id" element={<DeviceDetails />} />
                   <Route path="/add-device" element={<AddNewDevice />} />
+                  <Route path="/access-management" element={<AccessManagement />} />
                   <Route path="/profile" element={<ChangeProfile onLogout={handleLogout}/>} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </Routes>
