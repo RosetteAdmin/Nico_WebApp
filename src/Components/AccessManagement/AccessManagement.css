@@ -1,0 +1,113 @@
+.access-management {
+  width: 100%;
+  margin: 0 auto;
+  text-align: left;
+  position: relative;
+  margin-top: 10px;
+  padding: 25px;
+  max-width: 1200px;
+}
+
+.access-management .access-title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.access-management .access-cards-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+.access-management .access-card {
+  background-color: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  padding: 16px;
+  width: 262px;
+  height: 161px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.access-management .access-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.access-management .access-card .card-value {
+  color: #000; /* All card numbers and titles use this color */
+}
+
+.access-management .card-header {
+  margin-bottom: 5px; /* Reduced space between title and card head */
+}
+
+.access-management .card-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000; /* Same color as the value */
+  margin-bottom: 5px;
+}
+
+.access-management .card-value {
+  font-size: 40px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.access-management .card-trend {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  font-size: 14px;
+  color: #28a745;
+  margin-top: 2px; /* Reduced space between trend and value */
+}
+
+.access-management .trend-icon {
+  width: 12px;
+  height: 12px;
+  margin-right: 5px;
+}
+
+.access-management .trend-text {
+  font-size: 14px;
+  color: #333;
+}
+
+.access-management .access-card:nth-child(2),
+.access-management .access-card:nth-child(3) {
+  cursor: pointer; /* Pointer cursor for clickable cards */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .access-management .access-cards-container {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .access-management .access-card {
+    flex: 1 1 calc(50% - 15px);
+  }
+}
+
+@media (max-width: 480px) {
+  .access-management .access-cards-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .access-management .access-card {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
