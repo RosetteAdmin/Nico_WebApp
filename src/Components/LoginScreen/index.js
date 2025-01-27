@@ -54,21 +54,20 @@ const LoginScreen = ({ handleLogin }) => {
 
 
         const data = await response.json(); // Assuming the server responds with JSON
-        console.log("Data:", data.data); // Log the data object
+        console.log("Data:", data.user); // Log the data object
 
         // if (response.ok  && email === data.data[0].email && password === data.data[0].password) {
-        if (response.ok  && email === data.data[0].email && password === data.data[0].password) {
+        if (response.ok  && email === data.user.email && password === data.user.password) {
           console.log("Logged in successfully:", data);
 
           // Extract the role property
-          console.log(data.data[0]);
-          const userRole = data.data[0].role;
+          const userRole = data.user.role;
           console.log("User Role:", userRole);
 
           // Store token or user data in local storage
           if (data) {
             localStorage.setItem("authToken", data.token); // Store the token
-            localStorage.setItem("user", JSON.stringify(data.data[0])); // Optionally store user data
+            localStorage.setItem("user", JSON.stringify(data.user)); // Optionally store user data
           }
           //handleLogin();
           setRole(userRole); // Set the role state
