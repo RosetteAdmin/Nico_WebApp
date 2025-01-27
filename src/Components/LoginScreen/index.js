@@ -36,26 +36,27 @@ const LoginScreen = ({ handleLogin }) => {
         "Content-Type": "application/json",
       };
 
-      // const bodyContent = JSON.stringify({
-      //   password: password,
-      //   email: email,
-      // });
+      const bodyContent = JSON.stringify({
+        password: password,
+        email: email,
+      });
 
       try {
-        // const response = await fetch(`${process.env.REACT_APP_EP}/auth/login`, {
-        //   method: "POST",
-        //   body: bodyContent,
-        //   headers: headersList,
-        // });
-        const response = await fetch(`${process.env.REACT_APP_EP}/data/getuser/${email}`, {
-          method: "GET",
+        const response = await fetch(`${process.env.REACT_APP_EP}/auth/login`, {
+          method: "POST",
+          body: bodyContent,
           headers: headersList,
         });
+        // const response = await fetch(`${process.env.REACT_APP_EP}/data/getuser/${email}`, {
+        //   method: "GET",
+        //   headers: headersList,
+        // });
 
 
         const data = await response.json(); // Assuming the server responds with JSON
         console.log("Data:", data.data); // Log the data object
 
+        // if (response.ok  && email === data.data[0].email && password === data.data[0].password) {
         if (response.ok  && email === data.data[0].email && password === data.data[0].password) {
           console.log("Logged in successfully:", data);
 
