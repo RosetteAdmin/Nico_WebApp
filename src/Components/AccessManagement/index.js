@@ -8,8 +8,8 @@ const AccessManagement = () => {
 
   const cardsData = [
     { title: "Admin Access", value: "1", trend: "Admin Access Only" },
-    { title: "Company Associates Access", value: "27", trend: "2.5% Up from last month", link: "/dashboard" },
-    { title: "Vendor / Service Access", value: "525", trend: "2.5% Up from last month", link: "/dashboard" },
+    { title: "Company Associates Access", value: "27", trend: "2.5% Up from last month", link: "/caccess" },
+    { title: "Vendor / Service Access", value: "525", trend: "2.5% Up from last month", link: "/vaccess" },
     { title: "Other Access Permissions", value: "70", trend: "2.5% Up from last month" },
   ];
 

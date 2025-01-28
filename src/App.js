@@ -9,6 +9,8 @@ import DeviceDetails from "./Components/DeviceDetails";
 import AddNewDevice from "./Components/AddNewDevice";
 import ChangeProfile from "./Components/ChangeProfile";
 import AccessManagement from "./Components/AccessManagement";
+import RegisteredCompany from "./Components/RegisteredCompany";
+import VendorsCompany from "./Components/VendorsCompany";
 import "./App.css";
 
 function App() {
@@ -44,6 +46,8 @@ function App() {
                   <Route path="/device/:id" element={<DeviceDetails />} />
                   <Route path="/add-device" element={<AddNewDevice />} />
                   <Route path="/access-management" element={<AccessManagement />} />
+                  <Route path="/caccess" element={<RegisteredCompany />} />
+                  <Route path="/vaccess" element={<VendorsCompany />} />
                   <Route path="/profile" element={<ChangeProfile onLogout={handleLogout}/>} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                 </Routes>

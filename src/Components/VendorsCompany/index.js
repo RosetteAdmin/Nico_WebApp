@@ -14,7 +14,7 @@ const vendorsData = [
   { id: "00008", name: "Rosie Todd", sector: "Manipal, India", access: false },
 ];
 
-function VendorApp() {
+const VendorsCompany = () => {
   const [vendors, setVendors] = useState(vendorsData);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -86,4 +86,5 @@ function VendorApp() {
   );
 }
 
-ReactDOM.render(<VendorApp />, document.getElementById("root"));
+// ReactDOM.render(<VendorsCompany />, document.getElementById("root"));
+export default VendorsCompany;

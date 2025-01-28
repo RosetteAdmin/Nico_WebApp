@@ -14,7 +14,7 @@ const associatesData = [
   { id: "00008", name: "Rosie Todd", sector: "Manipal, India", access: false },
 ];
 
-function App() {
+const RegisteredCompany = () => {
   const [associates, setAssociates] = useState(associatesData);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -86,4 +86,5 @@ function App() {
   );
 }
 
-ReactDOM.render(<App />, document.getElementById("root"));
+export default RegisteredCompany;
+// ReactDOM.render(<RegisteredCompany />, document.getElementById("root"));
