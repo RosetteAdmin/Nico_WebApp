@@ -1,6 +1,5 @@
-// index.js
 import React, { useState } from "react";
-import ReactDOM from "react-dom";
+import { useNavigate } from "react-router-dom";
 import "./VendorsCompanyS.css";
 
 const vendorsData = [
@@ -17,8 +16,10 @@ const vendorsData = [
 const VendorsCompany = () => {
   const [vendors, setVendors] = useState(vendorsData);
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
-  const toggleAccess = (id) => {
+  const toggleAccess = (id, event) => {
+    event.stopPropagation(); // Prevents row click event from firing
     setVendors((prev) =>
       prev.map((vendor) =>
         vendor.id === id ? { ...vendor, access: !vendor.access } : vendor
@@ -29,6 +30,10 @@ const VendorsCompany = () => {
   const filteredVendors = vendors.filter((vendor) =>
     vendor.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const handleRowClick = (id) => {
+    navigate(`/userinfovendor/${id}`);
+  };
 
   return (
     <div className="div-ven-com-container">
@@ -55,22 +60,27 @@ const VendorsCompany = () => {
         </thead>
         <tbody className="tbody-ven-com">
           {filteredVendors.map((vendor) => (
-            <tr key={vendor.id} className="tr-ven-com-item">
+            <tr 
+              key={vendor.id} 
+              className="tr-ven-com-item"
+              onClick={() => handleRowClick(vendor.id)}
+              style={{ cursor: "pointer" }} // Makes the row clickable
+            >
               <td className="td-ven-com">{vendor.id}</td>
               <td className="td-ven-com">{vendor.name}</td>
               <td className="td-ven-com">{vendor.sector}</td>
-              <td className="td-ven-com">
+              <td className="td-ven-com" onClick={(e) => e.stopPropagation()}>
                 <label className="label-ven-com-switch">
                   <input
                     type="checkbox"
                     className="input-ven-com-toggle"
                     checked={vendor.access}
-                    onChange={() => toggleAccess(vendor.id)}
+                    onChange={(e) => toggleAccess(vendor.id, e)}
                   />
                   <span className="span-ven-com-slider"></span>
                 </label>
               </td>
-              <td className="td-ven-com">
+              <td className="td-ven-com" onClick={(e) => e.stopPropagation()}>
                 <button className="button-ven-com-more">🔗</button>
               </td>
             </tr>
@@ -84,7 +94,6 @@ const VendorsCompany = () => {
       </div>
     </div>
   );
-}
+};
 
-// ReactDOM.render(<VendorsCompany />, document.getElementById("root"));
 export default VendorsCompany;
