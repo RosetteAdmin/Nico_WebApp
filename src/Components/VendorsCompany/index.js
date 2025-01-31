@@ -1,7 +1,8 @@
 // index.js
 import React, { useState } from "react";
-import ReactDOM from "react-dom";
 import "./VendorsCompanyS.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch, faSliders ,faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 
 const vendorsData = [
   { id: "00001", name: "Christine Brooks", sector: "Karnataka, India", access: true },
@@ -32,16 +33,23 @@ const VendorsCompany = () => {
 
   return (
     <div className="div-ven-com-container">
-      <h1 className="h1-ven-com-header">Registered Vendor Details</h1>
       <div className="div-ven-com-search-bar">
-        <input
-          type="text"
-          className="input-ven-com-search"
-          placeholder="Search"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button className="button-ven-com-filter">Filter</button>
+        <h1 className="h1-ven-com-header">Registered Vendor Details</h1>
+        <div className="search-bar-container">
+          <input
+            type="text"
+            className="input-ven-com-search"
+            placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <span className="vendor-search-icon">
+            <FontAwesomeIcon icon={faSearch} />
+          </span>
+        </div>
+        <button className="filter-button">
+          <FontAwesomeIcon icon={faSliders} />
+        </button>
       </div>
       <table className="table-ven-com-list">
         <thead className="thead-ven-com">
@@ -86,5 +94,4 @@ const VendorsCompany = () => {
   );
 }
 
-// ReactDOM.render(<VendorsCompany />, document.getElementById("root"));
 export default VendorsCompany;
