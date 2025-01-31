@@ -67,7 +67,8 @@ body {
 .content-area {
   flex: 1;
   margin-right: 300px;
-  margin-left: 100px;   /* Make space for sidebar */
+  margin-left: 100px;
+  min-height:629px;   /* Make space for sidebar */
 }
 
 /* Header Styling */

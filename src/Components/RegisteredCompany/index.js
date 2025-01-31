@@ -1,5 +1,6 @@
 // index.js
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./RegisteredCompanyS.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faSliders } from "@fortawesome/free-solid-svg-icons";
@@ -18,8 +19,10 @@ const associatesData = [
 const RegisteredCompany = () => {
   const [associates, setAssociates] = useState(associatesData);
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
-  const toggleAccess = (id) => {
+  const toggleAccess = (id, event) => {
+    event.stopPropagation(); // Prevents row click event from firing when toggling access
     setAssociates((prev) =>
       prev.map((associate) =>
         associate.id === id ? { ...associate, access: !associate.access } : associate
@@ -30,6 +33,10 @@ const RegisteredCompany = () => {
   const filteredAssociates = associates.filter((associate) =>
     associate.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const handleRowClick = (id) => {
+    navigate(`/userinfo/${id}`);
+  };
 
   return (
     <div className="div-reg-com-container">
@@ -51,6 +58,7 @@ const RegisteredCompany = () => {
           <FontAwesomeIcon icon={faSliders} />
         </button>
       </div>
+     
       <table className="table-reg-com-list">
         <thead className="thead-reg-com">
           <tr className="tr-reg-com-header">
@@ -63,22 +71,27 @@ const RegisteredCompany = () => {
         </thead>
         <tbody className="tbody-reg-com">
           {filteredAssociates.map((associate) => (
-            <tr key={associate.id} className="tr-reg-com-item">
+            <tr 
+              key={associate.id} 
+              className="tr-reg-com-item"
+              onClick={() => handleRowClick(associate.id)} 
+              style={{ cursor: "pointer" }} // Makes it clear that the row is clickable
+            >
               <td className="td-reg-com">{associate.id}</td>
               <td className="td-reg-com">{associate.name}</td>
               <td className="td-reg-com">{associate.sector}</td>
-              <td className="td-reg-com">
+              <td className="td-reg-com" onClick={(e) => e.stopPropagation()}> {/* Prevents navigation when toggling */}
                 <label className="label-reg-com-switch">
                   <input
                     type="checkbox"
                     className="input-reg-com-toggle"
                     checked={associate.access}
-                    onChange={() => toggleAccess(associate.id)}
+                    onChange={(e) => toggleAccess(associate.id, e)}
                   />
                   <span className="span-reg-com-slider"></span>
                 </label>
               </td>
-              <td className="td-reg-com">
+              <td className="td-reg-com" onClick={(e) => e.stopPropagation()}> {/* Prevents navigation when clicking button */}
                 <button className="button-reg-com-more">🔗</button>
               </td>
             </tr>

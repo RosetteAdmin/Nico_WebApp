@@ -42,7 +42,7 @@
   .button-ven-com-filter {
     padding: 0.5rem 1rem;
     font-size: 1rem;
-    background-color: #007bff;
+    background-color: #004a7c;
     color: white;
     border: none;
     border-radius: 5px;
@@ -101,7 +101,7 @@
   }
   
   .label-ven-com-switch input:checked + .span-ven-com-slider {
-    background-color: #007bff;
+    background-color: #004a7c;
   }
   
   .span-ven-com-slider:before {
@@ -122,7 +122,7 @@
   
   .button-ven-com-more {
     font-size: 1rem;
-    color: #007bff;
+    color: #004a7c;
     background: none;
     border: none;
     cursor: pointer;
@@ -138,7 +138,7 @@
   .button-ven-com-pagination {
     padding: 0.5rem 1rem;
     font-size: 1rem;
-    background-color: #007bff;
+    background-color: #004a7c;
     color: white;
     border: none;
     border-radius: 5px;
