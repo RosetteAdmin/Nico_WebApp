@@ -174,21 +174,24 @@ const DeviceDetails = () => {
 
       {/* Basic Info Section */}
       <div className="device-info-card">
-        <div>
-          <h3 className="section-title">Device Basic Information:</h3>
+        <h3 className="section-title">Device Basic Information:</h3>
+        <div className="device-info">
           <p><strong>Device Name:</strong> Random_Name</p>
-          <p><strong>Device ID:</strong> NICO{id}</p>
           <p><strong>Owner Name:</strong> Random_Name</p>
           <p><strong>Owner Phone:</strong> 90354651234</p>
+          <p><strong>Device ID:</strong> NICO{id}</p>
+          <p><strong>Owner Email ID:</strong>Email ID</p>
           <p><strong>Device Sector:</strong> Karnataka</p>
         </div>
       </div>
 
+
       {/* Connection Info Section */}
       <div className="device-info-card">
-        <div>
-          <h3 className="section-title">Device Connection Status and Subscriptions:</h3>
+      <h3 className="section-title">Device Connection Status and Subscriptions:</h3>
+        <div className="device-info">
           <p><strong>Connection Status:</strong> Connected via Wi-Fi</p>
+          <p></p>
           <p><strong>Subscription Status:</strong> Valid till 24 January 2025</p>
         </div>
       </div>

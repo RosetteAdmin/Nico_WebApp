@@ -192,11 +192,28 @@ h2 {
   gap: 10px;
 }
 
+.device-info-card .section-title {
+  margin-bottom: 10px; /* Space between title and content */
+}
+
+.device-info-card .device-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns by default */
+  gap: 10px;
+  /* Make the grid responsive */
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
+  }
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr; /* 1 column on very small screens */
+  }
+}
 
 .device-info-card p {
   margin: 5px 0;
   font-size: 0.95rem;
 }
+
 
 /* Power Status Section */
 .device-power-status {
@@ -263,7 +280,7 @@ h2 {
 /* Sensor Data Section */
 .sensor-data {
   display: flex;
-  gap: 20px;
+  gap: 10rem;
   overflow-x: auto; /* Allow horizontal scrolling if content overflows */
   padding: 10px 0;
 }
@@ -271,11 +288,7 @@ h2 {
 .sensor-item {
   flex: 0 0 auto;
   min-width: 200px;
-  background-color: #f9f9f9;
   padding: 10px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
 .sensor-item h4 {
