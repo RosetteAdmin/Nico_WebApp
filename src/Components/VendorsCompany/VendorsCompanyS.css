@@ -20,11 +20,23 @@
   }
   
   .input-ven-com-search {
-    flex: 1;
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    /* flex: 2; */
+  position: relative;
+  left: 30%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 20rem;
+  border: 1px solid #ccc;
+  border-radius: 2rem;
+  }
+
+  .vendor-search-icon{
+    position: absolute;
+    top: 50%;
+    right: -8%; /* Align the icon inside the search bar */
+    transform: translateY(-50%);
+    color: rgb(0, 0, 0); /* Optional: Style the icon */
+    pointer-events: none; /* Makes the icon unclickable */
   }
   
   .button-ven-com-filter {

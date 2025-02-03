@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./RegisteredCompanyS.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch, faSliders } from "@fortawesome/free-solid-svg-icons";
 
 const associatesData = [
   { id: "00001", name: "Christine Brooks", sector: "Karnataka, India", access: true },
@@ -38,16 +40,23 @@ const RegisteredCompany = () => {
 
   return (
     <div className="div-reg-com-container">
-      <h1 className="h1-reg-com-header">Registered Company Associate Details</h1>
       <div className="div-reg-com-search-bar">
-        <input
-          type="text"
-          className="input-reg-com-search"
-          placeholder="Search"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button className="button-reg-com-filter">Filter</button>
+        <h1 className="h1-reg-com-header">Registered Company Associate Details</h1>
+        <div className="search-bar-container">
+          <input
+            type="text"
+            className="input-reg-com-search"
+            placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <span className="associate-search-icon">
+            <FontAwesomeIcon icon={faSearch} />
+          </span>
+        </div>
+        <button className="filter-button">
+          <FontAwesomeIcon icon={faSliders} />
+        </button>
       </div>
      
       <table className="table-reg-com-list">
@@ -96,6 +105,6 @@ const RegisteredCompany = () => {
       </div>
     </div>
   );
-}
+};
 
 export default RegisteredCompany;
