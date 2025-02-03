@@ -36,54 +36,49 @@ const LoginScreen = ({ handleLogin }) => {
         "Content-Type": "application/json",
       };
 
-      const bodyContent = JSON.stringify({
-        password: password,
-        email: email,
-      });
-
       try {
-        const response = await fetch(`${process.env.REACT_APP_EP}/auth/login`, {
-          method: "POST",
-          body: bodyContent,
-          headers: headersList,
+        const bodyContent = JSON.stringify({ email, password });
+    
+        const response = await fetch(`${process.env.REACT_APP_EP}/data/getuser`, {
+            method: "POST",
+            body: bodyContent,
+            headers: {
+                "Content-Type": "application/json",
+                ...headersList,
+            },
         });
-        // const response = await fetch(`${process.env.REACT_APP_EP}/data/getuser/${email}`, {
-        //   method: "GET",
-        //   headers: headersList,
-        // });
-
-
+    
+        console.log(response);
+    
         const data = await response.json(); // Assuming the server responds with JSON
         console.log("Data:", data.user); // Log the data object
-
-        // if (response.ok  && email === data.data[0].email && password === data.data[0].password) {
-        if (response.ok  && email === data.user.email && password === data.user.password) {
-          console.log("Logged in successfully:", data);
-
-          // Extract the role property
-          const userRole = data.user.role;
-          console.log("User Role:", userRole);
-
-          // Store token or user data in local storage
-          if (data) {
-            localStorage.setItem("authToken", data.token); // Store the token
-            localStorage.setItem("user", JSON.stringify(data.user)); // Optionally store user data
-          }
-          //handleLogin();
-          setRole(userRole); // Set the role state
-          setIsLoggedIn(true); // Confirm login
-          setUser(true);
+    
+        if (response.ok && email === data.user.email && password === data.user.password) {
+            console.log("Logged in successfully:", data);
+    
+            // Extract the role property
+            const userRole = data.user.role;
+            console.log("User Role:", userRole);
+    
+            // Store token or user data in local storage
+            if (data) {
+                localStorage.setItem("authToken", data.token); // Store the token
+                localStorage.setItem("user", JSON.stringify(data.user)); // Optionally store user data
+            }
+            setRole(userRole); // Set the role state
+            setIsLoggedIn(true); // Confirm login
+            setUser(true);
         } else {
-          setError(data.message || "Login failed. Please check your credentials.");
-          setUser(false);
-          setIsLoggedIn(true); // Confirm login
+            setError(data.message || "Login failed. Please check your credentials.");
+            setUser(false);
+            setIsLoggedIn(true); // Confirm login
         }
-      } catch (error) {
+    } catch (error) {
         setError("An error occurred. Please try again later.");
         console.error("Error during login:", error);
-      } finally {
+    } finally {
         setLoading(false); // Hide loading spinner
-      }
+    }
     } else {
       alert("Please enter both email and password!"); // Alert for incomplete input
     }

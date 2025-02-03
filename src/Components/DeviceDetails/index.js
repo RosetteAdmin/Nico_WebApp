@@ -29,10 +29,30 @@ const DeviceDetails = () => {
   });
 
   const [nbGeneratorPower, setNbGeneratorPower] = useState(false); // State for NB generator power status
-  const [loading, setLoading] = useState(false); // State for loading screen
+  const [loading, setLoading] = useState(true); // State for loading screen
+  const [conn, setConn] = useState(false); // State for connection status
   const ozoneGeneratorPower = false; // State for Ozone generator power status
   const oxygenGeneratorPower = false; // State for Oxygen generator power status
 
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/status`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.status === 'Connected') {
+          setConn(true);
+        } else {
+          setConn(false);
+        };
+        setLoading(false);
+      })
+      .catch(error => console.error('Error fetching device data:', error));
+  }, [id]); // Make sure id is in the dependency array
+  
   // Fetch the initial state of nbGeneratorPower
   useEffect(() => {
     const fetchInitialState = async () => {
@@ -55,7 +75,7 @@ const DeviceDetails = () => {
   useEffect(() => {
     const fetchData = () => {
       fetch(`${process.env.REACT_APP_EP}/api/devices/${id}`)
-        .then(response => response.json()).then(setLoading(false))
+        .then(response => response.json())
         .then(data => {
           setDeviceData({
             nbGenerator: {
@@ -129,13 +149,23 @@ const DeviceDetails = () => {
   };
 
   return (
-    <div className="device-detail-container">
-      {loading && (
+    <>
+    {loading && (
       <div className="loading-backdrop">
         <div className="loading-spinner"></div>
         <div className="loading-text">Waiting for device...</div>
       </div>
       )}
+    { !loading && !conn &&
+    <div className="device-detail-disconnected">
+      <div className="device-detail-content">
+        <svg className="device-detail-icon" size={80} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wifi-off"><path d="M12 20h.01"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/><path d="M5 12.859a10 10 0 0 1 5.17-2.69"/><path d="M19 12.859a10 10 0 0 0-2.007-1.523"/><path d="M2 8.82a15 15 0 0 1 4.177-2.643"/><path d="M22 8.82a15 15 0 0 0-11.288-3.764"/><path d="m2 2 20 20"/></svg>
+        <h1 className="device-disconnected-h1">Device Disconnected</h1>
+        <p className="device-disconnected-p">Please check the device's connection and try again.</p>
+      </div>
+    </div> }
+    { conn &&
+    <div className="device-detail-container">
       <h2>Devices</h2>
 
       {/* Basic Info Section */}
@@ -288,6 +318,8 @@ const DeviceDetails = () => {
         </div>
       </div>
     </div>
+    }
+    </>
   );
 };
 
