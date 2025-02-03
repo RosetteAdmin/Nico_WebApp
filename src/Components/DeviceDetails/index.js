@@ -28,6 +28,7 @@ const DeviceDetails = () => {
     }
   });
 
+  const [connectionStatus, setConnectionStatus] = useState(null);
   const [nbGeneratorPower, setNbGeneratorPower] = useState(false); // State for NB generator power status
   const [loading, setLoading] = useState(false); // State for loading screen
   const ozoneGeneratorPower = false; // State for Ozone generator power status
@@ -114,8 +115,8 @@ const DeviceDetails = () => {
         alert('Error updating power status:', error);
         setLoading(false); // Hide loading screen
       });
-    
-      // Make a second API call to set the power status
+
+    // Make a second API call to set the power status
     fetch(`${process.env.REACT_APP_EP}/api/devices/set/${id}-nb`, {
       method: 'GET',
       headers: {
@@ -127,16 +128,49 @@ const DeviceDetails = () => {
         console.error('Error setting power status:', error);
       });
   };
+  useEffect(() => {
+    const fetchConnectionStatus = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/connection-status`);
+        const data = await response.json();
+        if (data.status === 'success') {
+          setConnectionStatus(data.data); // Assuming the API returns "Connected" or "Disconnected"
+        } else {
+          console.error('Failed to fetch connection status:', data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching connection status:', error);
+      }
+    };
+
+    fetchConnectionStatus();
+    const intervalId = setInterval(fetchConnectionStatus, 5000); // Refresh every 5 seconds
+
+    return () => clearInterval(intervalId); // Cleanup interval on unmount
+  }, [id]);
+
 
   return (
     <div className="device-detail-container">
       {loading && (
-      <div className="loading-backdrop">
-        <div className="loading-spinner"></div>
-        <div className="loading-text">Waiting for device...</div>
-      </div>
+        <div className="loading-backdrop">
+          <div className="loading-spinner"></div>
+          <div className="loading-text">Waiting for device...</div>
+        </div>
       )}
-      <h2>Devices</h2>
+      <div className="device-details-header">
+        <h2 className="device-details-title">Device: <span className="device-name">Device Name</span></h2>
+        <div className="device-details-status">
+          <span className={`device-connection-status ${connectionStatus === 'Connected' ? 'connected' : 'disconnected'}`}>
+            {connectionStatus === 'Connected' ? '🔗 Connected' : '❌ Disconnected'}
+          </span>
+          <span className={`power-status ${nbGeneratorPower ? 'power-on' : 'power-off'}`}>
+            {nbGeneratorPower ? '🟢 Power ON' : '🔴 Power OFF'}
+          </span>
+        </div>
+      </div>
+
+
 
       {/* Basic Info Section */}
       <div className="device-info-card">
@@ -169,12 +203,12 @@ const DeviceDetails = () => {
           <div className="power-item">
             <span>NB Generator</span>
             <div className="power-toggle">
-            <span>
-              {nbGeneratorPower 
-                ? `On from: ${new Date(deviceData.nbGenerator.timestamp).toLocaleString()}` 
-                : 'Powered Off'}
-            </span>              <label className="toggle-switch">
-              <input type="checkbox" checked={nbGeneratorPower} onChange={handlePowerToggle} />
+              <span>
+                {nbGeneratorPower
+                  ? `On from: ${new Date(deviceData.nbGenerator.timestamp).toLocaleString()}`
+                  : 'Powered Off'}
+              </span>              <label className="toggle-switch">
+                <input type="checkbox" checked={nbGeneratorPower} onChange={handlePowerToggle} />
                 <span className="toggle-slider"></span>
               </label>
             </div>
@@ -183,12 +217,12 @@ const DeviceDetails = () => {
           <div className="power-item">
             <span>Ozone Generator</span>
             <div className="power-toggle">
-            <span>
-              {ozoneGeneratorPower 
-                ? `On from: ${new Date(deviceData.ozoneGenerator.timestamp).toLocaleString()}` 
-                : 'Powered Off'}
-            </span>              
-            <label className="toggle-switch">
+              <span>
+                {ozoneGeneratorPower
+                  ? `On from: ${new Date(deviceData.ozoneGenerator.timestamp).toLocaleString()}`
+                  : 'Powered Off'}
+              </span>
+              <label className="toggle-switch">
                 <input type="checkbox" />
                 <span className="toggle-slider"></span>
               </label>
@@ -198,12 +232,12 @@ const DeviceDetails = () => {
           <div className="power-item">
             <span>Oxygen Generator</span>
             <div className="power-toggle">
-            <span>
-              {oxygenGeneratorPower 
-                ? `On from: ${new Date(deviceData.oxygenGenerator.timestamp).toLocaleString()}` 
-                : 'Powered Off'}
-            </span>              
-            <label className="toggle-switch">
+              <span>
+                {oxygenGeneratorPower
+                  ? `On from: ${new Date(deviceData.oxygenGenerator.timestamp).toLocaleString()}`
+                  : 'Powered Off'}
+              </span>
+              <label className="toggle-switch">
                 <input type="checkbox" />
                 <span className="toggle-slider"></span>
               </label>

@@ -11,7 +11,60 @@ html, body {
   
 }
 
+.device-details-header {
+  display: flex;
+  justify-content: space-between; /* Push elements apart */
+  align-items: center;
+  width: 100%;
+}
+
+.device-details-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.device-details-status {
+  display: flex;
+  gap: 20px; /* Spacing between connection and power status */
+}
+
+.device-connection-status,
+.power-status {
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.connected {
+  color: green;
+}
+
+.disconnected {
+  color: red;
+}
+
+.power-on {
+  color: green;
+}
+
+.power-off {
+  color: red;
+}
+
+
+
 /* Main container */
+.status-connected {
+  color: green;
+  font-weight: bold;
+}
+
+.status-disconnected {
+  color: red;
+  font-weight: bold;
+}
 
 /* Main container */
 .device-detail-container {
