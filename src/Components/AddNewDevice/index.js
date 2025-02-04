@@ -11,40 +11,61 @@ const AddNewDevice = () => {
     const [emailId, setEmailId] = useState('');
     const [deviceOwner, setDeviceOwner] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+    
         const newDevice = {
-            deviceName,
-            deviceId,
-            deviceOwner,
-            emailId,
-            phoneNumber,
-            sector,
-            status,
-            mode,
-            alerts,
+            device_name: deviceName,
+            device_id: deviceId,
+            owner_name: deviceOwner, // Updated to match the form field
+            email: emailId, // Updated to match the form field
+            phone: phoneNumber, // Updated to match the form field
+            location: sector, // Updated to match the form field
+            device_type: status, // Updated to match the form field
+            subscription: mode, // Updated to match the form field
+            monitory: alerts, // Updated to match the form field
         };
-        console.log('New Device:', newDevice);
-        alert('Device added successfully!');
-        setDeviceId('');
-        setDeviceName('');
-        setSector('');
-        setStatus('active');
-        setMode('auto');
-        setAlerts('auto');
-        setDeviceOwner('');
-        setPhoneNumber('');
+    
+        try {
+            const response = await fetch(`${process.env.REACT_APP_EP}/data/newdevice`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newDevice),
+            });
+    
+            const data = await response.json();
+            if (response.ok) {
+                alert('Device added successfully!');
+                // Reset form fields
+                setDeviceId('');
+                setDeviceName('');
+                setDeviceOwner('');
+                setEmailId('');
+                setPhoneNumber('');
+                setSector('');
+                setStatus('NS03');
+                setMode('Premium');
+                setAlerts('Device Owner');
+            } else {
+                alert(`Error: ${data.message}`);
+            }
+        } catch (error) {
+            alert('Failed to add device. Please try again.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <div className="add-device">
             <div className="add-device-headerDiv">
                 <h1 className="add-device-andHeader">Create New Device</h1>
-                <button className="add-device-button" form="addDeviceForm" type="submit">Create Now</button>
+                <button className="add-device-button" form="addDeviceForm" type="submit">{loading ? 'Creating...' : 'Create Now'}</button>
             </div>
             <div className="add-device-formDiv">
-                
                 <form id="addDeviceForm" className="add-device-andForm" onSubmit={handleSubmit}>
                     <h4 className='add-device-insideHeader'>Add Device Basic Information</h4>
                     <span></span>
@@ -95,7 +116,6 @@ const AddNewDevice = () => {
                             value={emailId}
                             onChange={(e) => setEmailId(e.target.value)}
                             required
-                            disabled={!!emailId}
                         />
                     </div>
                     <div>
@@ -143,9 +163,9 @@ const AddNewDevice = () => {
                             className='add-device-select'
                             onChange={(e) => setMode(e.target.value)}
                         >
-                            <option value="premium">Premium</option>
-                            <option value="freemium">Freemium</option>
-                            <option value="trialVariant">Trial Variant</option>
+                            <option value="Premium">Premium</option>
+                            <option value="Freemium">Freemium</option>
+                            <option value="Trial Variant">Trial Variant</option>
                         </select>
                     </div>
                     <div>
@@ -156,13 +176,12 @@ const AddNewDevice = () => {
                             value={alerts}
                             onChange={(e) => setAlerts(e.target.value)}
                         >
-                            <option value="deviceOwner">Device Owner</option>
-                            <option value="thirdPartyVendors">Third Party Vendors</option>
-                            <option value="sourceCompany">Source Company</option>
+                            <option value="Device Owner">Device Owner</option>
+                            <option value="Third Party Vendors">Third Party Vendors</option>
+                            <option value="Source Company">Source Company</option>
                         </select>
                     </div>
                 </form>
-
             </div>
         </div>
     );
