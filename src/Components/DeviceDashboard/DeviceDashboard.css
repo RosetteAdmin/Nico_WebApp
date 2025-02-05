@@ -3,30 +3,84 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   line-height: 1.5;
+  overflow-x: hidden;
 }
 
-.device-dashboard {
+.device-dashboard-header-div {
+  position: relative;
+  right: 3%;
   padding: 2rem;
   background-color: #ffffff;
   transition: all 0.3s ease;
   margin-top: 25px;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+}
+
+.device-dashboard {
+  position: relative;
+  right: 3%;
+  padding: 2rem;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+  margin-top: 5px;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 3rem;
+  overflow: hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1400px) {
+  .device-dashboard-header-div,
+  .device-dashboard {
+    position: relative;
+    left: 1%;
+    max-width: 1000px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .device-dashboard-header-div,
+  .device-dashboard {
+    max-width: 800px;
+  }
 }
 
 @media (max-width: 1024px) {
+  .device-dashboard-header-div,
   .device-dashboard {
-    padding: 1.5rem; /* Adjust padding for medium screens */
+    padding: 1.5rem;
+    max-width: 700px;
+  }
+}
+
+@media (max-width: 900px) {
+  .device-dashboard-header-div,
+  .device-dashboard {
+    padding: 2rem;
+    max-width: 700px;
   }
 }
 
 @media (max-width: 768px) {
+  .device-dashboard-header-div,
   .device-dashboard {
-    padding: 1rem; /* Adjust padding for smaller screens */
+    padding: 1rem;
+    max-width: 500px;
   }
 }
 
 @media (max-width: 480px) {
+  .device-dashboard-header-div,
   .device-dashboard {
-    padding: 0.5rem; /* Compact padding for very small screens */
+    padding: 0.5rem;
+    max-width: 100%;
   }
 }
 
@@ -36,7 +90,7 @@ body {
   font-weight: bold;
   margin-bottom: 1rem;
   text-align: start;
-  color:black;
+  color: black;
 }
 
 /* Dashboard Controls */
@@ -50,55 +104,98 @@ body {
   position: relative;
   flex: 1;
   min-width: 100px;
-  right: 50px;
 }
 
 .search-bar {
   width: 100%;
-  padding: 0.5rem 2.5rem 0.5rem 1rem; /* Reserve space for the icon on the right */
+  position: relative;
+  right: 25%;
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
   border: 1px solid black;
-  border-radius: 20px; /* Rounded corners */
+  border-radius: 20px;
   outline: none;
 }
 
 .dev-search-icon {
   position: absolute;
+  right: 20%;
   top: 50%;
-  right: -20%; /* Align the icon inside the search bar */
+  right: 10px;
   transform: translateY(-50%);
-  color: rgb(0, 0, 0); /* Optional: Style the icon */
-  pointer-events: none; /* Makes the icon unclickable */
+  color: black;
+  pointer-events: none;
 }
 
-
 .filter-button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 1.5rem;
+  background-color: white;
+  border-radius: 0%;
 }
 
 .filter-button:hover {
-  color: #007bff; /* Optional: Add hover effect for the button */
-}
-
-.filter-button {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
   cursor: pointer;
+  color: #79abcc;
 }
 
 /* Device Table */
+.device-table-wrapper {
+  overflow-x: auto; /* Enables horizontal scrolling */
+  overflow-y: hidden;
+  max-width: 100%;
+  white-space: nowrap; /* Prevents text wrapping */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #888 #f1f1f1;
+}
+
+/* Scrollbar for Chrome, Safari */
+.device-table-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.device-table-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.device-table-wrapper::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
 .device-table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 1rem;
   table-layout: auto;
 }
 
-.device-table-wrapper {
-  overflow-x: auto;
+/* Add smooth horizontal scrolling effect */
+@media (max-width: 768px) {
+  .device-table-wrapper {
+    overflow-x: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    max-width: 100%;
+    white-space: nowrap;
+    padding-bottom: 10px;
+    scroll-behavior: smooth;
+  }
+
+  .device-table {
+    min-width: 700px;
+    display: block;
+  }
+}
+
+/* Table Header with Rounded Borders */
+.device-table thead {
+  background-color: #f6f6f6;
+}
+
+.device-table thead th:first-child {
+  border-top-left-radius: 2rem;
+}
+
+.device-table thead th:last-child {
+  border-top-right-radius: 2rem;
 }
 
 .device-table th,
@@ -106,31 +203,9 @@ body {
   padding: 0.75rem;
   text-align: left;
   border-bottom: 1px solid #ddd;
-  word-wrap: break-word;
-}
-
-.device-table th {
-  background-color: #ffffff;
-}
-
-@media (max-width: 1024px) {
-  .device-table th,
-  .device-table td {
-    font-size: 1rem;
-    padding: 0.6rem;
-  }
 }
 
 @media (max-width: 768px) {
-  .device-table-wrapper {
-    display: block;
-  }
-
-  .device-table {
-    display: block; /* Allows horizontal scrolling */
-    width: 100%; /* Keeps the table responsive */
-  }
-
   .device-table th,
   .device-table td {
     font-size: 0.875rem;
@@ -146,49 +221,16 @@ body {
   }
 }
 
-/* More Button */
-.more-button {
-  background: none;
-  border: none;
-  color: #007bff;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
 /* Table Footer */
 .table-footer {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem; /* Adds spacing between items */
+  gap: 1rem;
 }
 
-/* Pagination Controls */
-.pagination-controls {
-  display: flex;
-  gap: 0.5rem; /* Adds spacing between buttons */
-}
-
-.pagination-controls button {
-  background: none;
-  border: 1px solid #ccc;
-  padding: 0.5rem;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.pagination-controls button:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-/* Utility Classes */
-.hidden {
-  display: none;
-}
-
-
+/* Loading Spinner */
 .loading-backdrop {
   position: fixed;
   top: 0;
@@ -211,15 +253,12 @@ body {
   animation: spin 2s linear infinite;
 }
 
-.loading-text {
-  color: white;
-  font-weight: bold;
-  margin-top: 15px;
-  margin-left: 40px;
-  font-size: 1.5em;
-}
-
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

@@ -1,7 +1,7 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faSliders ,faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faSliders, faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import "./DeviceDashboard.css";
 
 const DeviceDashboard = () => {
@@ -14,12 +14,12 @@ const DeviceDashboard = () => {
       .then(data => {
         setDevices(data.value);
         setLoading(false); // Set loading to false after devices are set
-      })      
+      })
       .catch(error => {
         console.error('Error fetching devices:', error);
         setLoading(false); // Set loading to false in case of error
-      });  
-    }, []);
+      });
+  }, []);
   // const devices = [
   //   { id: "00001", name: "Christine Brooks", sector: "Karnataka, India", status: "Not Connected", mode: "-", alerts: "A1" },
   //   { id: "00002", name: "Rosie Pearson", sector: "Karnataka, India", status: "Connected", mode: "ON", alerts: "A2" },
@@ -79,95 +79,98 @@ const DeviceDashboard = () => {
 
   return (
     <>
-    {loading && (
-      <div className="loading-backdrop">
-        <div className="loading-spinner"></div>
-        <div className="loading-text">Waiting for server...</div>
-      </div>
+      {loading && (
+        <div className="loading-backdrop">
+          <div className="loading-spinner"></div>
+          <div className="loading-text">Waiting for server...</div>
+        </div>
       )}
-    <div className="device-dashboard">
-      <div style={{
-        display: "flex",
-        justifyContent: "space-between", /* Space between title and controls */
-        alignItems: "center", /* Vertically align items */
-      }}>
-        <h2 className="dashboard-title" style={{ margin: 0 }}>Devices</h2>
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <div className="search-bar-container">
-            <input
-              type="text"
-              placeholder="Search by ID, Name, Sector, or Status"
-              className="search-bar"
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setCurrentPage(1); // Reset to first page on new search
-              }}
-            />
-            <span className="dev-search-icon">
-              <FontAwesomeIcon icon={faSearch} />
+      <div className="device-dashboard-header-div">
+        <div style={{
+          display: "flex",
+          justifyContent: "space-between", /* Space between title and controls */
+          alignItems: "center", /* Vertically align items */
+        }}>
+          <h2 className="dashboard-title" style={{ margin: 0 }}>Registered Devices</h2>
+          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+            <div className="search-bar-container">
+              <input
+                type="text"
+                placeholder="Search by ID, Name, Sector, or Status"
+                className="search-bar"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setCurrentPage(1); // Reset to first page on new search
+                }}
+              />
+              <span className="dev-search-icon">
+                <FontAwesomeIcon icon={faSearch} />
+              </span>
+            </div>
+            <span className="filter-button">
+              <FontAwesomeIcon icon={faSliders} />
             </span>
           </div>
-          <button className="filter-button">
-            <FontAwesomeIcon icon={faSliders} />
-          </button>
         </div>
       </div>
 
-      <table className="device-table">
-        <thead>
-
-          <tr>
-            <th>Device ID</th>
-            <th>Device Name</th>
-            <th>Sector</th>
-            <th>Status</th>
-            <th>Mode</th>
-            <th>Alerts</th>
-            <th>More</th>
-          </tr>
-        </thead>
-        <tbody>
-          {displayedDevices.length > 0 ? (
-            displayedDevices.map((device) => (
-              <tr key={device.id} onClick={() => handleRowClick(device.id)} style={{ cursor: "pointer" }}>
-                <td>{device.id}</td>
-                <td>{device.displayName}</td>
-                <td>{device.sector}</td>
-                <td>{device.status}</td>
-                <td>{device.mode}</td>
-                <td>{device.alerts}</td>
-                <td>
-                  <button  className="filter-button">
-                    <FontAwesomeIcon style={{color:"grey"}} icon={faArrowUpRightFromSquare} />
-                  </button>
+      <div className="device-dashboard">
+        <table className="device-table">
+          <thead>
+            <tr>
+              <th>Device ID</th>
+              <th>Device Name</th>
+              <th>Sector</th>
+              <th>Status</th>
+              <th>Mode</th>
+              <th>Alerts</th>
+              <th>More</th>
+            </tr>
+          </thead>
+          <tbody>
+            {displayedDevices.length > 0 ? (
+              displayedDevices.map((device) => (
+                <tr key={device.id} onClick={() => handleRowClick(device.id)} style={{ cursor: "pointer" }}>
+                  <td>{device.id}</td>
+                  <td>{device.displayName}</td>
+                  <td>{device.sector}</td>
+                  <td>{device.status}</td>
+                  <td>{device.mode}</td>
+                  <td>{device.alerts}</td>
+                  <td>
+                    <button className="filter-button">
+                      <FontAwesomeIcon style={{ color: "grey" }} icon={faArrowUpRightFromSquare} />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7" style={{ textAlign: "center" }}>
+                  No devices found
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="7" style={{ textAlign: "center" }}>
-                No devices found
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            )}
+          </tbody>
+        </table>
 
-      <div className="table-footer">
-        <span>
-          Showing {startIndex + 1} - {Math.min(startIndex + rowsPerPage, totalRows)} of {totalRows}
-        </span>
-        <div className="pagination-controls">
-          <button onClick={handlePrevPage} disabled={currentPage === 1}>
-            ◀
-          </button>
-          <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-            ▶
-          </button>
+        <footer>
+        <div className="table-footer">
+          <span>
+            Showing {startIndex + 1} - {Math.min(startIndex + rowsPerPage, totalRows)} of {totalRows}
+          </span>
+          <div className="pagination-controls">
+            <button onClick={handlePrevPage} disabled={currentPage === 1}>
+              ◀
+            </button>
+            <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+              ▶
+            </button>
+          </div>
         </div>
+        </footer>
       </div>
-    </div>
     </>
   );
 };
