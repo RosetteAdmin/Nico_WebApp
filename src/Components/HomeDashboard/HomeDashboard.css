@@ -77,6 +77,8 @@
   color: #0c5890;
   text-align: center;
   flex-shrink: 0; /* Prevents shrinking */
+  padding-bottom:21px;
+  padding-right:11px;
 }
 
 /* Responsive Adjustments */

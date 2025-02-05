@@ -1,38 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faSliders } from "@fortawesome/free-solid-svg-icons";
 import "./PreRegDevices.css";
 
-const vendorsData = [
-  { id: "00001", name: "Christine Brooks", owner: "MIT, Manipal", sector: "Karnataka" },
-  { id: "00002", name: "Rosie Pearson", owner: "Fishery Dept", sector: "Kerala" },
-  { id: "00003", name: "Darrell Caldwell", owner: "XYZAB", sector: "Maharashtra" },
-  { id: "00004", name: "Gilbert Johnston", owner: "Delhi Zoo", sector: "Delhi" },
-  { id: "00005", name: "Alan Cain", owner: "ABC Corp", sector: "Gujarat" },
-  { id: "00006", name: "Alfred Murray", owner: "Tech Solutions", sector: "Tamil Nadu" },
-  { id: "00007", name: "Maggie Sullivan", owner: "Agro India", sector: "Rajasthan" },
-  { id: "00008", name: "Rosie Todd", owner: "Green Energy", sector: "West Bengal" },
-  { id: "00009", name: "Christine Brooks", owner: "MIT, Manipal", sector: "Karnataka" },
-  { id: "00010", name: "Rosie Pearson", owner: "Fishery Dept", sector: "Kerala" },
-  { id: "00011", name: "Darrell Caldwell", owner: "XYZAB", sector: "Maharashtra" },
-  { id: "00012", name: "Gilbert Johnston", owner: "Delhi Zoo", sector: "Delhi" },
-  { id: "00013", name: "Alan Cain", owner: "ABC Corp", sector: "Gujarat" },
-  { id: "00014", name: "Alfred Murray", owner: "Tech Solutions", sector: "Tamil Nadu" },
-  { id: "00015", name: "Maggie Sullivan", owner: "Agro India", sector: "Rajasthan" },
-  { id: "00016", name: "Rosie Todd", owner: "Green Energy", sector: "West Bengal" },
-  { id: "00017", name: "Christine Brooks", owner: "MIT, Manipal", sector: "Karnataka" },
-  { id: "00018", name: "Rosie Pearson", owner: "Fishery Dept", sector: "Kerala" },
-  { id: "00019", name: "Darrell Caldwell", owner: "XYZAB", sector: "Maharashtra" },
-  { id: "00020", name: "Gilbert Johnston", owner: "Delhi Zoo", sector: "Delhi" },
-];
-
 const ITEMS_PER_PAGE = 8;
 
 const VendorsCompany = () => {
+  const [vendorsData, setVendorsData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
+
+  useEffect(() => {
+      fetch(`${process.env.REACT_APP_EP}/data/getprdevices`)
+        .then(response => response.json())
+        .then(data => {
+          setVendorsData(data.data);
+          setLoading(false); // Set loading to false after devices are set
+        })      
+        .catch(error => {
+          console.error('Error fetching devices:', error);
+          setLoading(false); // Set loading to false in case of error
+        });  
+      }, []);
 
   // Apply search filter
   const filteredVendors = vendorsData.filter((vendor) =>
@@ -55,11 +47,17 @@ const VendorsCompany = () => {
 
   const handleDeployClick = (id, e) => {
     e.stopPropagation(); // Prevent unintended row click behavior
-    console.log(`Deploying vendor with ID: ${id}`);
+    alert(`Deploying vendor with ID: ${id}`);
   };
 
   return (
     <div className="div-reg-com-container">
+      {loading && (
+      <div className="loading-backdrop">
+        <div className="loading-spinner"></div>
+        <div className="loading-text">Waiting for server...</div>
+      </div>
+      )}
       <div className="div-reg-com-search-bar">
         <h1 className="h1-reg-com-header">Pre - Registered Devices</h1>
         <div className="search-bar-container">
