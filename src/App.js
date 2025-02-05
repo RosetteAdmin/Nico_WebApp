@@ -5,6 +5,7 @@ import Header from "./Components/Header";
 import SideNavBar from "./Components/SideNavBar";
 import HomeDashboard from "./Components/HomeDashboard";
 import DeviceDashboard from "./Components/DeviceDashboard";
+import PreRegDevices from "./Components/PreRegDevices";
 import DeviceDetails from "./Components/DeviceDetails";
 import AddNewDevice from "./Components/AddNewDevice";
 import ChangeProfile from "./Components/ChangeProfile";
@@ -45,6 +46,7 @@ function App() {
                 <Routes>
                   <Route path="/dashboard" element={<HomeDashboard />} />
                   <Route path="/devices" element={<DeviceDashboard />} />
+                  <Route path="/PreRegDevices" element={<PreRegDevices/>} />
                   <Route path="/device/:id" element={<DeviceDetails />} />
                   <Route path="/add-device" element={<AddNewDevice />} />
                   <Route path="/access-management" element={<AccessManagement />} />

@@ -30,6 +30,12 @@ const menuItems = [
         url: "/devices",
       },
       {
+        key: "pre-reg-device",
+        title: "Pre-Registered Devices",
+        icon: LinkIcon,
+        url: "/PreRegDevices",
+      },
+      {
         key: "add-device",
         title: "Add New Device",
         icon: NoteIcon,
