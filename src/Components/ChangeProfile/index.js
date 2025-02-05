@@ -40,7 +40,7 @@ const ChangeProfile = ({onLogout}) => {
   return (
     <div className="change-profile-main">
       <div className="change-profile-header">
-        <h2>Profile Information</h2>
+        <h1>Profile Information</h1>
         <button className="change-profile-logout-button" onClick={onLogout}>
           Logout
         </button>
