@@ -38,9 +38,9 @@ const VendorsCompany = () => {
   };
 
   return (
-    <div className="div-reg-com-container">
-      <div className="div-reg-com-search-bar">
-        <h1 className="h1-reg-com-header">Registered Vendor Details</h1>
+    <div className="div-ven-com-container">
+      <div className="div-ven-com-search-bar">
+        <h1 className="h1-ven-com-header">Registered Vendor Details</h1>
         <div className="search-bar-container">
           <input
             type="text"
@@ -57,49 +57,49 @@ const VendorsCompany = () => {
           <FontAwesomeIcon icon={faSliders} />
         </button>
       </div>
-      <table className="table-reg-com-list">
-        <thead className="thead-reg-com">
-          <tr className="tr-reg-com-header">
-            <th className="th-reg-com">Vendor ID</th>
-            <th className="th-reg-com">Vendor Name</th>
-            <th className="th-reg-com">Sector</th>
-            <th className="th-reg-com">Access</th>
-            <th className="th-reg-com">More</th>
+      <table className="table-ven-com-list">
+        <thead className="thead-ven-com">
+          <tr className="tr-ven-com-header">
+            <th className="th-ven-com">Vendor ID</th>
+            <th className="th-ven-com">Vendor Name</th>
+            <th className="th-ven-com">Sector</th>
+            <th className="th-ven-com">Access</th>
+            <th className="th-ven-com">More</th>
           </tr>
         </thead>
-        <tbody className="tbody-reg-com">
+        <tbody className="tbody-ven-com">
           {filteredVendors.map((vendor) => (
             <tr 
               key={vendor.id} 
-              className="tr-reg-com-item"
+              className="tr-ven-com-item"
               onClick={() => handleRowClick(vendor.id)}
               style={{ cursor: "pointer" }} // Makes the row clickable
             >
-              <td className="td-reg-com">{vendor.id}</td>
-              <td className="td-reg-com">{vendor.name}</td>
-              <td className="td-reg-com">{vendor.sector}</td>
-              <td className="td-reg-com" onClick={(e) => e.stopPropagation()}>
-                <label className="label-reg-com-switch">
+              <td className="td-ven-com">{vendor.id}</td>
+              <td className="td-ven-com">{vendor.name}</td>
+              <td className="td-ven-com">{vendor.sector}</td>
+              <td className="td-ven-com" onClick={(e) => e.stopPropagation()}>
+                <label className="label-ven-com-switch">
                   <input
                     type="checkbox"
-                    className="input-reg-com-toggle"
+                    className="input-ven-com-toggle"
                     checked={vendor.access}
                     onChange={(e) => toggleAccess(vendor.id, e)}
                   />
-                  <span className="span-reg-com-slider"></span>
+                  <span className="span-ven-com-slider"></span>
                 </label>
               </td>
-              <td className="td-reg-com" onClick={(e) => e.stopPropagation()}>
+              <td className="td-ven-com" onClick={(e) => e.stopPropagation()}>
                 <button className="button-ven-com-more">🔗</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <div className="div-reg-com-pagination">
-        <button className="button-reg-com-pagination">&lt;</button>
-        <span className="span-reg-com-pagination">Showing 1-9 of 78</span>
-        <button className="button-reg-com-pagination">&gt;</button>
+      <div className="div-ven-com-pagination">
+        <button className="button-ven-com-pagination">&lt;</button>
+        <span className="span-ven-com-pagination">Showing 1-9 of 78</span>
+        <button className="button-ven-com-pagination">&gt;</button>
       </div>
     </div>
   );

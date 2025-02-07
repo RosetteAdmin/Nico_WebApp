@@ -149,27 +149,86 @@
   .span-reg-com-pagination {
     font-size: 1rem;
   }
-  
-  @media (max-width: 768px) {
-    .div-reg-com-search-bar {
-      flex-direction: column;
+
+  @media(max-width:1024px){
+    .div-reg-com-search-bar{
+       flex-direction: row;
     }
-  
-    .input-reg-com-search {
-      margin-bottom: 10px;
+    .h1-reg-com-header {
+        font-size: medium;
+        position: relative;
+        left: 9%;
     }
-  
-    .table-reg-com-list th,
-    .table-reg-com-list td {
+    .search-bar-container{
+      position: relative;
+      right: 30%;
+    }
+    .input-reg-com-search{
+      width: 100%;
+    }
+    .associate-search-icon{
+      right: 5px;
+    }
+    .filter-button{
+      position: relative;
+      right: 10%;
+    }
+    .table-reg-com-list{
+      width: 80%;
+      position: relative;
+      left:9%;
       font-size: 0.9rem;
     }
-  
-    .div-reg-com-container {
-      padding: 10px;
+    .table-reg-com-list th,
+    .table-reg-com-list td {
+      padding: 6px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
     }
+    .div-reg-com-pagination{
+      position: relative;
+      left: 10%;
+      width: 78%;
+    }
+
+  }
   
+  @media (max-width: 768px) {
     .h1-reg-com-header {
-      font-size: 1.5rem;
-    }
+      font-size: medium;
+      position: relative;
+      left: 23%;
+  }
+  .search-bar-container{
+    position: relative;
+    right: 20%;
+  }
+  .input-reg-com-search{
+    width: 60%;
+  }
+  .associate-search-icon{
+    right: 45%;
+  }
+  .filter-button{
+    position: relative;
+    right: 25%;
+  }
+  .table-reg-com-list{
+    width: 50%;
+    position: relative;
+    left:25%;
+    font-size: 0.9rem;
+  }
+  .table-reg-com-list th,
+  .table-reg-com-list td {
+    padding: 6px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  .div-reg-com-pagination{
+    position: relative;
+    left: 24%;
+    width: 50%;
+  }
   }
   
