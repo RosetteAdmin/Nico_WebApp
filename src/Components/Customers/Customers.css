@@ -1,0 +1,226 @@
+/* General Styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.device-dashboard {
+  padding: 2rem;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+  margin-top: 25px;
+}
+
+@media (max-width: 1024px) {
+  .device-dashboard {
+    padding: 1.5rem; /* Adjust padding for medium screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .device-dashboard {
+    padding: 1rem; /* Adjust padding for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .device-dashboard {
+    padding: 0.5rem; /* Compact padding for very small screens */
+  }
+}
+
+/* Dashboard Title */
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: start;
+  color:black;
+}
+
+/* Dashboard Controls */
+.dashboard-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.search-bar-container {
+  position: relative;
+  flex: 1;
+  min-width: 100px;
+  right: 50px;
+}
+
+.search-bar {
+  width: 100%;
+  padding: 0.5rem 2.5rem 0.5rem 1rem; /* Reserve space for the icon on the right */
+  border: 1px solid black;
+  border-radius: 20px; /* Rounded corners */
+  outline: none;
+}
+
+.dev-search-icon {
+  position: absolute;
+  top: 50%;
+  right: -20%; /* Align the icon inside the search bar */
+  transform: translateY(-50%);
+  color: rgb(0, 0, 0); /* Optional: Style the icon */
+  pointer-events: none; /* Makes the icon unclickable */
+}
+
+
+.filter-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.filter-button:hover {
+  color: #007bff; /* Optional: Add hover effect for the button */
+}
+
+.filter-button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* Device Table */
+.device-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  table-layout: auto;
+}
+
+.device-table-wrapper {
+  overflow-x: auto;
+}
+
+.device-table th,
+.device-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  word-wrap: break-word;
+}
+
+.device-table th {
+  background-color: #ffffff;
+}
+
+@media (max-width: 1024px) {
+  .device-table th,
+  .device-table td {
+    font-size: 1rem;
+    padding: 0.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .device-table-wrapper {
+    display: block;
+  }
+
+  .device-table {
+    display: block; /* Allows horizontal scrolling */
+    width: 100%; /* Keeps the table responsive */
+  }
+
+  .device-table th,
+  .device-table td {
+    font-size: 0.875rem;
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .device-table th,
+  .device-table td {
+    font-size: 0.75rem;
+    padding: 0.4rem;
+  }
+}
+
+/* More Button */
+.more-button {
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Table Footer */
+.table-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem; /* Adds spacing between items */
+}
+
+/* Pagination Controls */
+.pagination-controls {
+  display: flex;
+  gap: 0.5rem; /* Adds spacing between buttons */
+}
+
+.pagination-controls button {
+  background: none;
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Utility Classes */
+.hidden {
+  display: none;
+}
+
+
+.loading-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.loading-spinner {
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #3498db;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+.loading-text {
+  color: white;
+  font-weight: bold;
+  margin-top: 15px;
+  margin-left: 40px;
+  font-size: 1.5em;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

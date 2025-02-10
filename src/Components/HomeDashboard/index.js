@@ -4,8 +4,10 @@ import "./HomeDashboard.css";
 import Package from "./../../Images/Dashboard/Package.svg";
 import MobileUser from "./../../Images/Dashboard/MobileUser.svg";
 import Users from "./../../Images/Dashboard/Users.svg";
+import Loading from "./../../Images/Dashboard/loading.svg";
 
 const HomeDashboard = () => {
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState({
     registered_devices: 4,
     pre_registered_devices: 2,
@@ -24,6 +26,7 @@ const HomeDashboard = () => {
             ...prevData,
             ...result.data, // Update with API response while keeping yetToAdd
           }));
+          setLoading(false);
         }
       })
       .catch((error) => {
@@ -73,7 +76,10 @@ const HomeDashboard = () => {
             <div className="card-icon">{card.icon}</div>
             <div className="card-content">
               <h3 className="card-title">{card.title}</h3>
+              { !loading ?
               <p className="card-value">{card.value}</p>
+              : <img src={Loading} alt="Loading" className="dashboard-loading" />
+              }
             </div>
           </div>
         ))}

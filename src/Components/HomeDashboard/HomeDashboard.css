@@ -122,3 +122,11 @@
     max-width: 300px;
   }
 }
+
+.dashboard-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  width: 3rem;
+}
