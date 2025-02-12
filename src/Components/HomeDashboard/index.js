@@ -42,7 +42,7 @@ const HomeDashboard = () => {
       .catch((error) => {
         console.error("Error fetching dashboard data:", error);
       });
-  });
+  }, []);
 
   const scrollLeft = () => {
     if (scrollRef.current) {
@@ -73,7 +73,7 @@ const HomeDashboard = () => {
       icon: <img src={Users} alt="Company Associates Icon" />,
     },
     {
-      title: "Vendors / Service Agents",
+      title: "Vendors/ Service Agents",
       value: data.vendor_service_agents,
       icon: <img src={Users} alt="Vendors/Service Agents Icon" />,
     },
@@ -108,10 +108,13 @@ const HomeDashboard = () => {
             <div className="card-icon">{card.icon}</div>
             <div className="card-content">
               <div className="card-title">{card.title}</div>
-              { !loading ?
-              <div className="card-value">{card.value}</div>
-              : <img src={Loading} alt="Loading" className="dashboard-loading" />
-              }
+              <div className="card-value">
+                {loading ? (
+                  <img src={Loading} alt="Loading" className="dashboard-loading" />
+                ) : (
+                  card.value
+                )}
+              </div>
             </div>
           </div>
         ))}
