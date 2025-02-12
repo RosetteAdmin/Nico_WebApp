@@ -14,6 +14,7 @@ import RegisteredCompany from "./Components/RegisteredCompany";
 import VendorsCompany from "./Components/VendorsCompany";
 import Userinfo from "./Components/Userinfo";
 import Userinfovendor from "./Components/UserInfovendor";
+import Customers from "./Components/Customers";
 import "./App.css";
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                   <Route path="/userinfo/:id" element={<Userinfo />} />
                   <Route path="/userinfovendor/:id" element={<Userinfovendor />} />
+                  <Route path="/customers" element={<Customers />} />
                 </Routes>
               </div>
             </div>

@@ -3,10 +3,12 @@ import "./HomeDashboard.css";
 import Package from "./../../Images/Dashboard/Package.svg";
 import MobileUser from "./../../Images/Dashboard/MobileUser.svg";
 import Users from "./../../Images/Dashboard/Users.svg";
+import Loading from "./../../Images/Dashboard/loading.svg";
 import LeftArrow from "./../../Images/Dashboard/Left.svg";
 import RightArrow from "./../../Images/Dashboard/Rightarrow.svg";
 
 const HomeDashboard = () => {
+  const [loading, setLoading] = useState(true);
   const scrollRef = useRef(null); // Reference for scrolling
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
@@ -34,6 +36,7 @@ const HomeDashboard = () => {
             ...prevData,
             ...result.data,
           }));
+          setLoading(false);
         }
       })
       .catch((error) => {
@@ -105,7 +108,10 @@ const HomeDashboard = () => {
             <div className="card-icon">{card.icon}</div>
             <div className="card-content">
               <div className="card-title">{card.title}</div>
+              { !loading ?
               <div className="card-value">{card.value}</div>
+              : <img src={Loading} alt="Loading" className="dashboard-loading" />
+              }
             </div>
           </div>
         ))}

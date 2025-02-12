@@ -5,9 +5,9 @@ const AddNewDevice = () => {
     const [deviceId, setDeviceId] = useState('');
     const [deviceName, setDeviceName] = useState('');
     const [sector, setSector] = useState('');
-    const [status, setStatus] = useState('active');
-    const [mode, setMode] = useState('auto');
-    const [alerts, setAlerts] = useState('auto');
+    const [status, setStatus] = useState('NS03');
+    const [mode, setMode] = useState('Premium');
+    const [alerts, setAlerts] = useState('Device Owner');
     const [emailId, setEmailId] = useState('');
     const [deviceOwner, setDeviceOwner] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -50,7 +50,7 @@ const AddNewDevice = () => {
                 setMode('Premium');
                 setAlerts('Device Owner');
             } else {
-                alert(`Error: ${data.message}`);
+                alert(`Failed to add device!\nEnsure Phone Number and Device ID are unique and valid!`);
             }
         } catch (error) {
             alert('Failed to add device. Please try again.');
