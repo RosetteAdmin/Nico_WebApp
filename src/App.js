@@ -15,6 +15,7 @@ import VendorsCompany from "./Components/VendorsCompany";
 import Userinfo from "./Components/Userinfo";
 import Userinfovendor from "./Components/UserInfovendor";
 import Customers from "./Components/Customers";
+import ServiceRequestsAlerts from "./Components/ServiceRequestsAlerts";
 import "./App.css";
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
                   <Route path="/access-management" element={<AccessManagement />} />
                   <Route path="/caccess" element={<RegisteredCompany />} />
                   <Route path="/vaccess" element={<VendorsCompany />} />
+                  <Route path="/service-requests" element={<ServiceRequestsAlerts />} />
                   <Route path="/profile" element={<ChangeProfile onLogout={handleLogout}/>} />
                   <Route path="*" element={<Navigate to="/dashboard" />} />
                   <Route path="/userinfo/:id" element={<Userinfo />} />
