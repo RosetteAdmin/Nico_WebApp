@@ -1,12 +1,3 @@
-/* Hide scrollbar */
-.dashboard-cards::-webkit-scrollbar {
-  display: none; /* Hide the scrollbar */
-}
-
-.dashboard-scroll-container::-webkit-scrollbar {
-  display: none;
-}
-
 .dashboard-scroll-container {
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
   scrollbar-width: none; /* Firefox */
@@ -22,22 +13,30 @@
 .dashboard-cards {
   -ms-overflow-style: none;  /* For Internet Explorer 10+ */
   scrollbar-width: none;  /* For Firefox */
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto; /* Allow horizontal scrolling */
+  padding: 1rem 0;
+  white-space: nowrap; /* Prevent cards from wrapping to the next line */
 }
 
 .dashboard-title {
   font-size: 2rem;
   font-weight: bold;
-  margin: 0;
+  margin-bottom: 1.5rem;
   text-align: left; /* Aligns the text to the left */
   position: relative;
   left: 25px;
+  color: #0c5890;
 }
 
-.dashboard-cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  justify-content: flex-start;
+/* Hide scrollbar */
+.dashboard-cards::-webkit-scrollbar {
+  display: none; /* Hide the scrollbar */
+}
+
+.dashboard-scroll-container::-webkit-scrollbar {
+  display: none;
 }
 
 /* Individual Card */
@@ -49,11 +48,15 @@
   padding: 1rem;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15); /* Ensure shadow is visible on all sides */
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  width: 300px;
+  width: 100%;
+  max-width: 250px;
+  min-width: 200px;
+  flex: 1 1 auto; /* Ensure cards take available space */
+  height: 100px;
+  position: relative; /* Ensures stacking order is correct */
+  bottom: 10px;
   z-index: 1;
-  height: 150px;
   overflow: hidden; /* Ensure contents do not overflow */
-  position: relative; /* Ensure cards remain in the same position */
 }
 
 .dashboard-card:first-child {
@@ -67,9 +70,10 @@
 
 .card-content {
   display: flex;
-  align-items: center;
+  align-items: center; /* Align items in a single row */
   justify-content: space-between;
   flex: 1;
+  overflow: hidden; /* Ensure contents do not overflow */
 }
 
 /* Icon Styling */
@@ -88,7 +92,11 @@
   font-size: 1rem;
   font-weight: bold;
   margin: 0;
+  text-align: center;
+  align-items: center;
   flex: 1;
+  padding-right: 15px;
+  white-space: pre-wrap; /* Ensure title wraps to the next line after one word */
 }
 
 .card-value {
@@ -97,116 +105,22 @@
   color: #0c5890;
   text-align: center;
   flex-shrink: 0;
-  padding-bottom: 21px;
-  padding-right: 1px;
 }
 
-/* Adjustments for Large Tablets */
-@media (max-width: 1024px) {
-  .dashboard-cards {
-    gap: 1rem; /* Reduce spacing */
-    justify-content: center; /* Center cards */
-  }
-
-  .dashboard-card {
-    flex: 1 1 calc(33.33% - 1rem); /* Fit 3 cards per row */
-    padding: 0.9rem; /* Slightly reduce padding */
-    min-width: 160px; /* Reduce minimum width */
-  }
-}
-
-@media (max-width: 1250px) {
-  .dashboard-cards {
-    display: grid;
-    grid-template-columns: repeat(2, 0.5fr); /* 2 columns */
-    gap: 0.8rem; /* Space between cards */
-    justify-items: center; /* Center cards horizontally */
-    margin-right: 10%;
-  }
-
-  .dashboard-card {
-    padding: 0.8rem; /* Decrease padding */
-    min-width: 140px; /* Ensure readability */
-    max-width: 250px; /* Limit maximum width */
-    margin-right: 0; /* Remove margin-right */
-  }
-}
-
-@media (max-width: 768px) {
-  .dashboard-cards {
-    gap: 0.8rem; /* Reduce gaps further */
-    justify-content: center; /* Center cards */
-    align-items: center;
-  }
-
-  .dashboard-card {
-    flex: 1 1 calc(50% - 0.8rem); /* Exactly 2 cards per row with adjusted gap */
-    padding: 0.8rem; /* Decrease padding */
-    min-width: 140px; /* Smaller minimum width */
-    max-width: 250px; /* Adjust max width */
-    margin-right: 0; /* Remove margin-right for proper alignment */
-  }
-}
-
-/* Adjustments for Mobile Screens */
-@media (max-width: 480px) {
-  .dashboard-cards {
-    flex-direction: column; /* Stack cards vertically */
-    gap: 0.5rem;
-    margin-right: 50%;
-    justify-content: center;
-    align-items: center; /* Center the stacked cards */
-    max-height: 80vh; /* Limit the height for scrolling */
-    overflow-y: auto; /* Enable vertical scrolling */
-  }
-
-  .dashboard-card {
-    flex: 1 1 90%; /* Full width for mobile screens  */
-    padding: 0.7rem; /* Decrease padding */
-    min-width: 120px; /* Further reduce minimum width */
-    max-width: 200px; /* Adjust max width */
-    justify-content: center;
-    margin-right: 50%;
-    margin-left: 5%;
-    align-items: center; /* Center the stacked cards */
-  } 
-}
-
-.dashboard-header-container .arrow-buttons {
-  display: flex;
-  margin-left: 0; /* Reset the margin */
-  transform: translateX(0); /* Reset the transform */
-  position: relative;
-  top: 10px;
-}
-
-.dashboard-header-container .arrow-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0; /* Ensure no padding */
-  margin: 0; /* Ensure no margin */
+/* Dependent Arrow button styles */
+.dependent-arrow-buttons {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.3rem;
+  position: absolute;
+  right: 20px; /* Ensures buttons remain inside the screen */
+  top: 50%;
+  transform: translateY(-50%);
+  width: auto; /* Prevents collapsing */
+  white-space: nowrap; /* Prevents wrapping */
 }
 
-.dashboard-header-container .arrow-button img {
-  width: 60px; /* Increased button size */
-  height: 50px; /* Increased button size */
-}
-
-/* Independent Arrow button styles */
-.independent-arrow-buttons {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem; /* Further reduce the space between the buttons */
-  position: relative; /* Remove fixed positioning */
-  right: 0; /* Adjust the right position */
-  top: 0; /* Align with the title */
-}
-
-.independent-arrow-button {
+.dependent-arrow-button {
   background: none;
   border: none;
   cursor: pointer;
@@ -217,7 +131,7 @@
   justify-content: center;
 }
 
-.independent-arrow-button img {
+.dependent-arrow-button img {
   width: 60px;
   height: 60px;
 }
@@ -228,9 +142,8 @@
     margin-top: -35px; /* Adjust margin for smaller screens */
   }
 
-  .independent-arrow-buttons {
-    right: 40px; /* Adjust arrow button position */
-    top: 20px; /* Adjust arrow button position */
+  .dependent-arrow-buttons {
+    right: 20px; /* Adjusted to keep buttons visible */
   }
 }
 
@@ -239,9 +152,8 @@
     margin-top: -25px; /* Adjust margin for smaller screens */
   }
 
-  .independent-arrow-buttons {
-    right: 30px; /* Adjust arrow button position */
-    top: 15px; /* Adjust arrow button position */
+  .dependent-arrow-buttons {
+    right: 20px;
   }
 }
 
@@ -250,9 +162,9 @@
     margin-top: -20px; /* Adjust margin for smaller screens */
   }
 
-  .independent-arrow-buttons {
-    right: 20px; /* Adjust arrow button position */
-    top: 10px; /* Adjust arrow button position */
+  .dependent-arrow-buttons {
+    right: 20px;
+    display: flex; /* Ensures both buttons are aligned properly */
   }
 }
 
@@ -261,9 +173,9 @@
     margin-top: -10px; /* Adjust margin for smaller screens */
   }
 
-  .independent-arrow-buttons {
-    right: 10px; /* Adjust arrow button position */
-    top: 5px; /* Adjust arrow button position */
+  .dependent-arrow-buttons {
+    right: 20px;
+    display: flex;
   }
 }
 
@@ -273,12 +185,40 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  top: 20px;
   position: relative;
-  margin-bottom: 20px; /* Add margin to separate from other elements */
+  margin-bottom: -10px; /* Reduce space between header and cards by 30px */
   z-index: 1; /* Ensure it stays on top */
   background-color: white; /* Add background to ensure visibility */
   padding: 10px 20px; /* Add padding for better spacing */
+  box-sizing: border-box; /* Ensure padding is included in the width */
+}
+
+@media (max-width: 1200px) {
+  .dashboard-header {
+    width: 95%; /* Reduce width for smaller screens */
+  }
+}
+
+@media (max-width: 1024px) {
+  .dashboard-header {
+    width: 90%; /* Reduce width for smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    width: 85%; /* Reduce width for smaller screens */
+    padding: 10px 10px; /* Reduce padding for smaller screens */
+    justify-content: space-between; /* Ensure arrow buttons stay inside header */
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-header {
+    width: 80%; /* Further reduce width for smaller screens */
+    padding: 10px 5px; /* Further reduce padding for smaller screens */
+    justify-content: space-between; /* Ensure arrow buttons stay inside header */
+  }
 }
 
 .dashboard-title {
@@ -291,31 +231,6 @@
   top: 0; /* Adjust the top position */
 }
 
-.independent-arrow-buttons {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem; /* Further reduce the space between the buttons */
-  position: relative; /* Remove fixed positioning */
-  right: 0; /* Adjust the right position */
-  top: 0; /* Align with the title */
-}
-
-.independent-arrow-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.independent-arrow-button img {
-  width: 60px;
-  height: 60px;
-}
-
 .dashboard-container {
   height: 50vh;
   width: 75vw;
@@ -323,6 +238,13 @@
   margin-right: auto;
   position: relative;
   top: 30px;
+  padding: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .dashboard-container {
+    left: 20px; /* Move the container 20px to the left for 1024px screen size */
+  }
 }
 
 .dashboard-content {
@@ -341,4 +263,31 @@
   gap: 1rem;
   padding: 1rem 0;
   scroll-snap-type: x mandatory;
+}
+
+/* Responsive adjustments for dashboard-header */
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding: 10px 10px; /* Reduce padding for smaller screens */
+    justify-content: space-between; /* Ensure arrow buttons stay inside header */
+    width: 90%; /* Reduce width for smaller screens */
+  }
+
+  .dependent-arrow-buttons {
+    right: 20px; /* Adjust arrow button position */
+    top: 50%; /* Ensure same distance from top */
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-header {
+    padding: 10px 5px; /* Further reduce padding for smaller screens */
+    justify-content: space-between; /* Ensure arrow buttons stay inside header */
+    width: 80%; /* Further reduce width for smaller screens */
+  }
+
+  .dependent-arrow-buttons {
+    right: 20px; /* Adjust arrow button position */
+    top: 50%; /* Ensure same distance from top */
+  }
 }
