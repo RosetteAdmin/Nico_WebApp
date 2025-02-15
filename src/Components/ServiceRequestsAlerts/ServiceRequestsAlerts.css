@@ -1,0 +1,169 @@
+/* Main Container */
+.service-re-ale-container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+    width: 100%;
+}
+
+/* Title Styling */
+.service-re-ale-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Tabs Section */
+.service-re-ale-tabs {
+    display: flex;
+    border-bottom: 2px solid #ddd;
+}
+
+.service-re-ale-tab {
+    padding: 10px 20px;
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #555;
+    transition: 0.3s;
+    margin-right: 10px;
+    border-bottom: 3px solid transparent;
+}
+
+.service-re-ale-tab.active {
+    font-weight: bold;
+    color: #007bff;
+    border-bottom: 3px solid #007bff;
+}
+
+/* Table Styling */
+.service-re-ale-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+}
+
+.service-re-ale-table th {
+    background: #f4f4f4;
+    text-align: left;
+    padding: 12px;
+    font-size: 14px;
+    color: #555;
+}
+
+.service-re-ale-table td {
+    padding: 12px;
+    font-size: 14px;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Action Buttons */
+.service-re-ale-edit,
+.service-re-ale-deploy {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-right: 5px;
+}
+
+.service-re-ale-edit {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.service-re-ale-deploy {
+    background: #007bff;
+    color: white;
+}
+
+.service-re-ale-edit:hover {
+    background: #e0e0e0;
+}
+
+.service-re-ale-deploy:hover {
+    background: #0056b3;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    .service-re-ale-container {
+        padding: 15px;
+    }
+
+    .service-re-ale-title {
+        font-size: 20px;
+    }
+
+    .service-re-ale-tab {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+
+    .service-re-ale-table th,
+    .service-re-ale-table td {
+        padding: 10px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 768px) {
+    .service-re-ale-tabs {
+        flex-wrap: wrap;
+    }
+
+    .service-re-ale-tab {
+        flex: 1;
+        text-align: center;
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .service-re-ale-table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .service-re-ale-table th,
+    .service-re-ale-table td {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .service-re-ale-edit,
+    .service-re-ale-deploy {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .service-re-ale-title {
+        font-size: 18px;
+    }
+
+    .service-re-ale-tab {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .service-re-ale-table th,
+    .service-re-ale-table td {
+        font-size: 11px;
+        padding: 6px;
+    }
+
+    .service-re-ale-edit,
+    .service-re-ale-deploy {
+        font-size: 10px;
+        padding: 5px 8px;
+    }
+}

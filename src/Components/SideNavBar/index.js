@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import DashBoardIcon from "./../../Images/SideNavBar/DashBoard.svg";
 import DevicesIcon from "./../../Images/SideNavBar/Devices.svg";
 import CustomerIcon from "./../../Images/SideNavBar/Customers.svg";
@@ -53,7 +53,20 @@ const menuItems = [
     key: "access-management",
     title: "Access Management",
     icon: AccessManagementIcon,
-    url: "/access-management",
+    subMenu: [
+      {
+        key: "company-associate",
+        title: "Company Associate",
+        icon: NoteIcon,
+        url: "/caccess",
+      },
+      {
+        key: "vendor-service",
+        title: "Vendor Service",
+        icon: NoteIcon,
+        url: "/vaccess",
+      },
+    ],
   },
   {
     key: "service-requests",
@@ -73,15 +86,30 @@ const SideNavBar = () => {
   const [selectedComponent, setSelectedComponent] = useState("dashboard");
   const [selectedSubComponent, setSelectedSubComponent] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
+  const navigate = useNavigate(); // Hook for navigation
+
+  useEffect(() => {
+    if (selectedComponent === "access-management" && !selectedSubComponent) {
+      setSelectedSubComponent("company-associate");
+      navigate("/caccess"); // Redirect to Company Associate
+    }
+  }, [selectedComponent, selectedSubComponent, navigate]);
 
   const handleComponentClick = (key) => {
     setOpenMenu(false);
     setSelectedSubComponent(null);
     setSelectedComponent(key);
+
+    // If Access Management is selected, set default subcomponent and navigate
+    if (key === "access-management") {
+      setSelectedSubComponent("company-associate");
+      navigate("/caccess"); // Redirect to Company Associate
+    }
   };
 
-  const handleSubComponentClick = (key) => {
+  const handleSubComponentClick = (key, url) => {
     setSelectedSubComponent(key);
+    navigate(url); // Navigate to the clicked subcomponent
   };
 
   const toggleMenu = (key) => {
@@ -102,14 +130,10 @@ const SideNavBar = () => {
                 <img
                   src={item.icon}
                   alt={`${item.title} icon`}
-                  className= {selectedComponent === item.key ? "nav-icon active-img" : "nav-icon"}
+                  className={selectedComponent === item.key ? "nav-icon active-img" : "nav-icon"}
                   style={{ marginRight: "10px" }}
                 />
-                <span
-                  className={`nav-text ${
-                    selectedComponent === item.key ? "active" : ""
-                  }`}
-                >
+                <span className={`nav-text ${selectedComponent === item.key ? "active" : ""}`}>
                   {item.title}
                 </span>
               </Link>
@@ -125,23 +149,15 @@ const SideNavBar = () => {
                   <img
                     src={item.icon}
                     alt={`${item.title} icon`}
-                    className={
-                      selectedComponent === item.key ? "nav-icon active-img" : "nav-icon"
-                    }
+                    className={selectedComponent === item.key ? "nav-icon active-img" : "nav-icon"}
                     style={{ marginRight: "10px" }}
                   />
-                  <span
-                    className={`nav-text ${
-                      selectedComponent === item.key ? "active" : "unbold"
-                    }`}
-                  >
+                  <span className={`nav-text ${selectedComponent === item.key ? "active" : "unbold"}`}>
                     {item.title}
                   </span>
                   <img
                     src={Arrow}
-                    className={`arrow-icon ${
-                      openMenu === item.key ? "rotate" : ""
-                    }`}
+                    className={`arrow-icon ${openMenu === item.key ? "rotate" : ""}`}
                     alt="arrow icon"
                     style={{ marginLeft: "auto" }}
                     onClick={() => toggleMenu(item.key)}
@@ -153,24 +169,16 @@ const SideNavBar = () => {
                       <li key={subItem.key} className="sub-item">
                         <Link
                           to={subItem.url}
-                          onClick={() => handleSubComponentClick(subItem.key)}
+                          onClick={() => handleSubComponentClick(subItem.key, subItem.url)}
                           className="sub-link"
                         >
                           <img
                             src={subItem.icon}
                             alt={`${subItem.title} icon`}
-                            className={
-                              selectedSubComponent === subItem.key
-                                ? "nav-sub-icon"
-                                : "active-img"
-                            }
+                            className={selectedSubComponent === subItem.key ? "nav-sub-icon" : "active-img"}
                             style={{ marginRight: "10px" }}
                           />
-                          <span
-                            className={`nav-text ${
-                              selectedSubComponent === subItem.key ? "active" : "nav-text"
-                            }`}
-                          >
+                          <span className={`nav-text ${selectedSubComponent === subItem.key ? "active" : "nav-text"}`}>
                             {subItem.title}
                           </span>
                         </Link>

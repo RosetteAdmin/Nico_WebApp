@@ -147,10 +147,9 @@
   transition: filter 0.3s;
 }
 
-.sub-linkv img.active-img {
+.sub-link img.active-img {
   filter: grayscale(0%);
 }
-
 
 .nav-sub-icon {
   width: 20px;
@@ -161,4 +160,4 @@
 /* Image */
 .sub-menu .sub-item img{
   filter: grayscale(1) invert(0.7);
- }
+}
