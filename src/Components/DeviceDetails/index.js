@@ -27,7 +27,7 @@ const DeviceDetails = () => {
       totalWaterOutlet: ''
     }
   });
-
+  const [connectionStatus, setConnectionStatus] = useState(null);
   const [nbGeneratorPower, setNbGeneratorPower] = useState(false); // State for NB generator power status
   const [loading, setLoading] = useState(true); // State for loading screen
   const [conn, setConn] = useState(false); // State for connection status
@@ -147,6 +147,27 @@ const DeviceDetails = () => {
         console.error('Error setting power status:', error);
       });
   };
+
+  useEffect(() => {
+    const fetchConnectionStatus = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/connection-status`);
+        const data = await response.json();
+        if (data.status === 'success') {
+          setConnectionStatus(data.data); // Assuming the API returns "Connected" or "Disconnected"
+        } else {
+          console.error('Failed to fetch connection status:', data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching connection status:', error);
+      }
+    };
+
+    fetchConnectionStatus();
+    const intervalId = setInterval(fetchConnectionStatus, 5000); // Refresh every 5 seconds
+
+    return () => clearInterval(intervalId); // Cleanup interval on unmount
+  }, [id]);
 
   return (
     <>
