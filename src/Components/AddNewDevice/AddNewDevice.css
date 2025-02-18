@@ -1,74 +1,63 @@
-/* /* .add-device{
-    font-family: Arial, sans-serif;
-    background-color: rgb(255, 255, 255);
-    padding: 20px 70px;
-    border-radius: 8px;
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
-    /* width: 600px;
-    margin: auto;
-    border-color: green; 
-} */
-/* Add device button */
+/* General Styles - Mobile First */
 .add-device {
-    transform:translatex(0px) translatey(18px);
+    transform: translateX(0px) translateY(18px);
 }
 
-.add-device .add-device-headerDiv .add-device-button{
-    transform:translatex(-84px) translatey(3px);
-   }
-   
-   /* Heading */
-   .add-device .add-device-headerDiv h1{
-    transform:translatex(31px) translatey(0px);
-   }
-   
-/* General Styles - Mobile First */
 .add-device-headerDiv {
     display: flex;
-    justify-content: space-between; /* Distribute space between items */
-    align-items: center; /* Align items vertically in the center */
+    justify-content: space-between;
+    align-items: center;
     margin-top: 30px;
     margin-bottom: 20px;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    flex-wrap: wrap;
 }
 
 .add-device-andHeader {
-    margin-right: 20rem;
-    margin-left: 2rem;
+    position: relative;
+    right:7%;
+    margin: 0 2rem 20px 2rem;
     text-align: left;
-    margin-bottom: 20px;
 }
 
-/* .formDiv {
-    font-family: Arial, sans-serif;
-    background-color: rgb(255, 255, 255);
-    padding:1rem 10rem;
+.add-device-formDiv {
+    position: relative;
+    right: 5%;
+    padding: 2rem 3rem;
+    width: 100%;
+    max-width: 1200px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 90%; 
-    max-width: 600px; 
-    margin: auto;
-    border-width: 5px;
-    border-color: green;
-} */
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
 
 .add-device-insideHeader {
     text-decoration: underline;
 }
 
 .add-device-andForm {
-    padding-left: 2rem;
-    padding-right: 2.5rem;
-    padding-bottom: 5rem;
-    width: 65rem;
-    align-items: center;
-    padding-top: 0;
-    margin: 2rem;
-    border-radius: 2rem;
-    box-shadow: 2px 2px 0.45em rgba(0, 0, 0, 0.1);
+    padding-bottom: 2rem;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr; /* Two columns */
-    gap:auto 80px; /* Spacing between fields */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 50px;
+    margin: 20px auto;
+    background-color: #fff;
+    max-height: 50vh; /* Set a max height to enable scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* Add a scrollbar when content exceeds the max height */
+.add-device-andForm::-webkit-scrollbar {
+    width: 8px;
+}
+
+.add-device-andForm::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.add-device-andForm::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
 }
 
 .add-device-andForm div {
@@ -81,7 +70,8 @@
     margin-bottom: 5px;
 }
 
-.add-device-input, .add-device-select {
+.add-device-input,
+.add-device-select {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
@@ -90,12 +80,12 @@
 }
 
 .add-device-button {
-    justify-self: right;/* Center-align button on smaller screens */
+    justify-self: right;
     display: block;
     padding: 10px 40px;
     font-size: 16px;
     color: #ffffff;
-    background-color: #2963b3; /* Default blue color */
+    background-color: #2963b3;
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -107,31 +97,56 @@
     color: black;
 }
 
-/* Medium Screens (Tablets) */
-@media (min-width: 600px) {
+/* Responsive Design */
+@media (max-width: 1400px) {
     .add-device-andForm {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns for medium screens */
-        gap: 20px 40px; /* Adjust spacing */
-    }
-
-    .add-device-button {
-        margin-left: auto;
-        margin-right: 0; /* Align button to the right */
+        max-width: 800px;
+        grid-template-columns: repeat(2, 1fr);
+        padding: 15px;
     }
 }
 
-/* Large Screens (Desktops) */
-@media (min-width: 1024px) {
+@media (max-width: 1200px) {
     .add-device-andForm {
-        grid-template-columns: repeat(3, 1fr); /* 3 columns for large screens */
-        gap: 20px 100px; /* Restore original spacing */
+        max-width: 600px;
+        grid-template-columns: repeat(2, 1fr);
     }
+}
 
-    .add-device-formDiv {
-        width: 600px; /* Fixed width for larger screens */
+@media (max-width: 1000px) {
+    .add-device-andForm {
+        max-width: 500px;
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 800px) {
+    .add-device-andForm {
+        max-width: 300px;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .add-device-andForm {
+        width: 100%;
+        padding: 10px;
+        grid-template-columns: 1fr;
     }
 
     .add-device-button {
-        margin-left: 120px; /* Restore original alignment */
+        justify-self: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .add-device-andForm {
+        padding: 10px;
+        grid-template-columns: 1fr;
+        max-height: 70vh; /* Reduce height for smaller screens */
+    }
+
+    .add-device-button {
+        width: 100%;
     }
 }
