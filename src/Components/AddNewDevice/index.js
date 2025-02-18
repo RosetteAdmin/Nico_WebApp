@@ -16,7 +16,7 @@ const AddNewDevice = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-    
+
         const newDevice = {
             device_name: deviceName,
             device_id: deviceId,
@@ -28,14 +28,14 @@ const AddNewDevice = () => {
             subscription: mode, // Updated to match the form field
             monitory: alerts, // Updated to match the form field
         };
-    
+
         try {
             const response = await fetch(`${process.env.REACT_APP_EP}/data/newdevice`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newDevice),
             });
-    
+
             const data = await response.json();
             if (response.ok) {
                 alert('Device added successfully!');
@@ -66,10 +66,10 @@ const AddNewDevice = () => {
                 <button className="add-device-button" form="addDeviceForm" type="submit">{loading ? 'Creating...' : 'Create Now'}</button>
             </div>
             <div className="add-device-formDiv">
+                <h4 className='add-device-insideHeader'>Add Device Basic Information</h4>
+
                 <form id="addDeviceForm" className="add-device-andForm" onSubmit={handleSubmit}>
-                    <h4 className='add-device-insideHeader'>Add Device Basic Information</h4>
-                    <span></span>
-                    <span></span>
+
                     <div>
                         <label className="add-device-andLabel" htmlFor="deviceName">Device Name:</label>
                         <input
