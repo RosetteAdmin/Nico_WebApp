@@ -187,7 +187,17 @@ const DeviceDetails = () => {
     </div> }
     { conn &&
     <div className="device-detail-container">
-      <h2>Devices</h2>
+      <div className="device-details-header">
+        <h2 className="device-details-title">Device: <span className="device-name">Device Name</span></h2>
+        <div className="device-details-status">
+          <span className={`device-connection-status ${connectionStatus === 'Connected' ? 'connected' : 'disconnected'}`}>
+            {connectionStatus === 'Connected' ? '🔗 Connected' : '❌ Disconnected'}
+          </span>
+          <span className={`power-status ${nbGeneratorPower ? 'power-on' : 'power-off'}`}>
+            {nbGeneratorPower ? '🟢 Power ON' : '🔴 Power OFF'}
+          </span>
+        </div>
+      </div>
 
       {/* Basic Info Section */}
       <div className="device-info-card">
@@ -197,6 +207,7 @@ const DeviceDetails = () => {
           <p><strong>Device ID:</strong> NICO{id}</p>
           <p><strong>Owner Name:</strong> Random_Name</p>
           <p><strong>Owner Phone:</strong> 90354651234</p>
+          <p><strong>Owner Email ID:</strong>Email ID</p>
           <p><strong>Device Sector:</strong> Karnataka</p>
         </div>
       </div>
