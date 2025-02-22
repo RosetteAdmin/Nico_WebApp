@@ -16,6 +16,7 @@ import Userinfo from "./Components/Userinfo";
 import Userinfovendor from "./Components/UserInfovendor";
 import Customers from "./Components/Customers";
 import ServiceRequestsAlerts from "./Components/ServiceRequestsAlerts";
+import MaintenancePage from "./Components/NFM";
 import "./App.css";
 
 function App() {
@@ -39,31 +40,42 @@ function App() {
     <Router>
       <div className="app-container">
         {isLoggedIn ? (
-          <>
-            {/* Dashboard Layout */}
-            <Header  />
-            <div className="main-content">
-              <SideNavBar />
-              <div className="content-area">
-                <Routes>
-                  <Route path="/dashboard" element={<HomeDashboard />} />
-                  <Route path="/devices" element={<DeviceDashboard />} />
-                  <Route path="/PreRegDevices" element={<PreRegDevices/>} />
-                  <Route path="/device/:id" element={<DeviceDetails />} />
-                  <Route path="/add-device" element={<AddNewDevice />} />
-                  <Route path="/access-management" element={<AccessManagement />} />
-                  <Route path="/caccess" element={<RegisteredCompany />} />
-                  <Route path="/vaccess" element={<VendorsCompany />} />
-                  <Route path="/service-requests" element={<ServiceRequestsAlerts />} />
-                  <Route path="/profile" element={<ChangeProfile onLogout={handleLogout}/>} />
-                  <Route path="*" element={<Navigate to="/dashboard" />} />
-                  <Route path="/userinfo/:id" element={<Userinfo />} />
-                  <Route path="/userinfovendor/:id" element={<Userinfovendor />} />
-                  <Route path="/customers" element={<Customers />} />
-                </Routes>
-              </div>
-            </div>
-          </>
+          <Routes>
+            {/* Maintenance route separated from the dashboard layout */}
+            <Route path="/maintenance" element={<MaintenancePage />} />
+            
+            {/* Dashboard Layout wrapped in a route */}
+            <Route
+              path="/*"
+              element={
+                <>
+                  <Header />
+                  <div className="main-content">
+                    <SideNavBar />
+                    <div className="content-area">
+                      <Routes>
+                        <Route path="/dashboard" element={<HomeDashboard />} />
+                        <Route path="/devices" element={<DeviceDashboard />} />
+                        <Route path="/PreRegDevices" element={<PreRegDevices />} />
+                        <Route path="/device/:id" element={<DeviceDetails />} />
+                        <Route path="/add-device" element={<AddNewDevice />} />
+                        <Route path="/access-management" element={<AccessManagement />} />
+                        <Route path="/caccess" element={<RegisteredCompany />} />
+                        <Route path="/vaccess" element={<VendorsCompany />} />
+                        <Route path="/profile" element={<ChangeProfile onLogout={handleLogout} />} />
+                        <Route path="/userinfo/:id" element={<Userinfo />} />
+                        <Route path="/userinfovendor/:id" element={<Userinfovendor />} />
+                        <Route path="/customers" element={<Customers />} />
+                        <Route path="/service-requests" element={<ServiceRequestsAlerts />} />
+                        <Route path="/" element={<Navigate to="/dashboard" />} />
+                        <Route path="*" element={<Navigate to="/maintenance" />} />
+                      </Routes>
+                    </div>
+                  </div>
+                </>
+              }
+            />
+          </Routes>
         ) : (
           // Login Screen
           <Routes>

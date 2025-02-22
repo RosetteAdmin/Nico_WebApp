@@ -29,10 +29,10 @@ const DeviceDetails = () => {
   });
 
   const [nbGeneratorPower, setNbGeneratorPower] = useState(false); // State for NB generator power status
+  const [ozoneGeneratorPower, setOzoneGeneratorPower] = useState(false); // State for Ozone generator power status
+  const [oxygenGeneratorPower, setOxygenGeneratorPower] = useState(false); // State for Oxygen generator power status
   const [loading, setLoading] = useState(true); // State for loading screen
   const [conn, setConn] = useState(false); // State for connection status
-  const ozoneGeneratorPower = false; // State for Ozone generator power status
-  const oxygenGeneratorPower = false; // State for Oxygen generator power status
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/status`)
@@ -54,23 +54,23 @@ const DeviceDetails = () => {
   }, [id]); // Make sure id is in the dependency array
   
   // Fetch the initial state of nbGeneratorPower
-  useEffect(() => {
-    const fetchInitialState = async () => {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_EP}/api/devices/get/${id}-nb`);
-        const data = await response.json();
-        if (data.status === 'success') {
-          setNbGeneratorPower(data.data);
-        } else {
-          console.error('Failed to fetch initial state:', data.message);
-        }
-      } catch (error) {
-        console.error('Error fetching initial state:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchInitialState = async () => {
+  //     try {
+  //       const response = await fetch(`${process.env.REACT_APP_EP}/api/devices/get/${id}-nb`);
+  //       const data = await response.json();
+  //       if (data.status === 'success') {
+  //         setNbGeneratorPower(data.data);
+  //       } else {
+  //         console.error('Failed to fetch initial state:', data.message);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching initial state:', error);
+  //     }
+  //   };
 
-    fetchInitialState();
-  }, [id]);
+  //   fetchInitialState();
+  // }, [id]);
 
   useEffect(() => {
     const fetchData = () => {
@@ -103,6 +103,12 @@ const DeviceDetails = () => {
               timestamp: data.oxygenGenerator.timestamp
             }
           });
+          setNbGeneratorPower(data.nbGenerator.nbStatus);
+          setOzoneGeneratorPower(data.ozoneGenerator.O3Status);
+          setOxygenGeneratorPower(data.oxygenGenerator.O2Status);
+          console.log(nbGeneratorPower);
+          console.log(ozoneGeneratorPower);
+          console.log(oxygenGeneratorPower);
         })
         .catch(error => console.error('Error fetching device data:', error));
     };
@@ -219,7 +225,7 @@ const DeviceDetails = () => {
                 : 'Powered Off'}
             </span>              
             <label className="toggle-switch">
-                <input type="checkbox" />
+                <input type="checkbox" checked={ozoneGeneratorPower} />
                 <span className="toggle-slider"></span>
               </label>
             </div>
@@ -234,7 +240,7 @@ const DeviceDetails = () => {
                 : 'Powered Off'}
             </span>              
             <label className="toggle-switch">
-                <input type="checkbox" />
+                <input type="checkbox" checked={oxygenGeneratorPower} />
                 <span className="toggle-slider"></span>
               </label>
             </div>
