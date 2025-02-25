@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./userinfo.css";
+import "./AddUsers.css";
 
 const Userinfo = () => {
   const [permissions, setPermissions] = useState({
