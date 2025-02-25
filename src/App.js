@@ -17,6 +17,9 @@ import Userinfovendor from "./Components/UserInfovendor";
 import Customers from "./Components/Customers";
 import ServiceRequestsAlerts from "./Components/ServiceRequestsAlerts";
 import MaintenancePage from "./Components/NFM";
+import Userinfo from "./Userinfo";
+import AddVendors from "./Components/AddVendors";
+import AddUsers from "./Components/AddUsers";
 import "./App.css";
 
 function App() {
@@ -61,7 +64,9 @@ function App() {
                         <Route path="/add-device" element={<AddNewDevice />} />
                         <Route path="/access-management" element={<AccessManagement />} />
                         <Route path="/caccess" element={<RegisteredCompany />} />
+                        <Route path="/addusersinfo" element={<AddUsers/>} />      {/* Adding New Users */}
                         <Route path="/vaccess" element={<VendorsCompany />} />
+                        <Route path="/addvendorsinfo" element={<AddVendors />} /> {/* Adding New Vendors */}
                         <Route path="/profile" element={<ChangeProfile onLogout={handleLogout} />} />
                         <Route path="/userinfo/:id" element={<Userinfo />} />
                         <Route path="/userinfovendor/:id" element={<Userinfovendor />} />

@@ -57,6 +57,9 @@ const RegisteredCompany = () => {
         <button className="filter-button">
           <FontAwesomeIcon icon={faSliders} />
         </button>
+        <button className="grant-access-btn" onClick={() => navigate("/addusersinfo")}> {/* Added button to add Users */}
+          Add User
+        </button>
       </div>
      
       <table className="table-reg-com-list">
