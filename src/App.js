@@ -17,7 +17,6 @@ import Userinfovendor from "./Components/UserInfovendor";
 import Customers from "./Components/Customers";
 import ServiceRequestsAlerts from "./Components/ServiceRequestsAlerts";
 import MaintenancePage from "./Components/NFM";
-import Userinfo from "./Userinfo";
 import AddVendors from "./Components/AddVendors";
 import AddUsers from "./Components/AddUsers";
 import "./App.css";
