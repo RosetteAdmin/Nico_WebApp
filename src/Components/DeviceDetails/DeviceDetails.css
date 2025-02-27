@@ -31,6 +31,12 @@ html, body {
   padding-bottom: 20px; /* Extra padding at the bottom for smooth scrolling */
   flex: 1; /* Makes the container flexible */
 }
+.device-details-header {
+  display: flex;
+  justify-content: space-between; /* Push elements apart */
+  align-items: center;
+  width: 100%;
+}
 
 .device-details-header {
   display: flex;

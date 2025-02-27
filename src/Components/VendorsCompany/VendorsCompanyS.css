@@ -1,73 +1,88 @@
 /* styles.css */
 .div-ven-com-container {
-  max-width: 1200px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  margin-top: 50px;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
-.div-ven-com-search-bar {
-  margin-top: 2rem;
+.div-ven-com-header {
   display: flex;
   justify-content: space-between;
+  /* Pushes elements to opposite sides */
   align-items: center;
-  margin-bottom: 1rem;
-  gap: 1rem;
+  /* width: 100%; */
+  padding: 10px 20px;
 }
 
-.h1-ven-com-header {
-  font-size: 1.5rem;
-  text-align: center;
-  margin-bottom: 1rem;
-  margin-right: 25rem;
+.h1-ven-com-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.vendor-ven-com-search-bar-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.ven-com-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .input-ven-com-search {
-  flex: 2;
-  position: relative;
-  /* left: 1%; */
-  padding: 0.5rem;
-  font-size: 1rem;
-  width: 20rem;
-  border: 1px solid #ccc;
-  border-radius: 2rem;
-}
-
-.vendor-search-icon {
-  position: absolute;
-  top: 50%;
-  right: -12%;
-  transform: translateY(-50%);
-  color: rgb(0, 0, 0);
-  pointer-events: none;
-}
-
-.button-ven-com-filter {
-  padding: 10px 20px;
-  margin-left: 10px;
-  background-color: #007bff;
-  color: #fff;
   border: none;
-  border-radius: 4px;
+  padding: 8px 12px;
+  outline: none;
+  width: 200px;
+}
+
+.vendor-ven-com-search-icon {
+  position: relative;
+  padding: 8px;
+  background-color: white;
+  /* Background for icon */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 }
 
-  /* Grant Access Button */
-  .grant-access-btn {
-    background-color: #0c5890;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    font-size: 14px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
+.vendor-ven-com-filter-button {
+  border: none;
+  background-color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
 
-.button-ven-com-filter:hover {
-  background-color: #0056b3;
+/* Grant Access Button */
+.grant-access-btn {
+  background-color: #0c5890;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.ven-com-filter-button:hover {
+  color: #0056b3;
 }
 
 .table-ven-com-list {
@@ -80,12 +95,36 @@
 .table-ven-com-list td {
   padding: 12px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #ddd; /* Keeps only horizontal lines */
+  border-left: none;  /* Removes left borders */
+  border-right: none; /* Removes right borders */
 }
 
-.table-ven-com-list th {
-  background-color: #f4f4f4;
+.table-ven-com-list th:first-child,
+.table-ven-com-list td:first-child {
+  border-left: none; /* Ensures no left border */
 }
+
+.table-ven-com-list th:last-child,
+.table-ven-com-list td:last-child {
+  border-right: none; /* Ensures no right border */
+}
+
+/* Keep the table header with a background color */
+.table-ven-com-list th {
+  background-color: #f4f4f4; /* Keeps the header background */
+}
+
+/* Remove background color from table rows */
+.table-ven-com-list tr {
+  background-color: transparent !important;
+}
+
+/* Ensure table cells also have no background */
+.table-ven-com-list td {
+  background-color: transparent !important;
+}
+
 
 .label-ven-com-switch {
   position: relative;
@@ -210,9 +249,10 @@
 }
 
 @media (max-width: 768px) {
-  .div-ven-com-search-bar{
+  .div-ven-com-search-bar {
     flex-direction: row;
   }
+
   .h1-ven-com-header {
     font-size: medium;
     position: relative;
