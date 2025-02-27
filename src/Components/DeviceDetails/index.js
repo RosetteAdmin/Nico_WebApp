@@ -272,7 +272,7 @@ const DeviceDetails = () => {
           <p><strong>Owner Name:</strong> Random_Name</p>
           <p><strong>Owner Phone:</strong> 90354651234</p>
           <p><strong>Device Sector:</strong> Karnataka</p>
-          <p><strong>Owner Email ID:</strong>Email ID</p>
+          <p><strong>Owner Email ID:</strong> Email ID</p>
         </div>
       </div>
 
