@@ -54,6 +54,18 @@
   cursor: pointer;
 }
 
+  /* Grant Access Button */
+  .grant-access-btn {
+    background-color: #0c5890;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
 .button-ven-com-filter:hover {
   background-color: #0056b3;
 }

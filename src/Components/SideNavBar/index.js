@@ -16,7 +16,7 @@ const menuItems = [
     key: "dashboard",
     title: "Dashboard",
     icon: DashBoardIcon,
-    url: "/",
+    url: "/dashboard",
   },
   {
     key: "devices",

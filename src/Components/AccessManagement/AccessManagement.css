@@ -1,113 +1,137 @@
+/* General container styling */
 .access-management {
-  width: 100%;
+  width: 90%;
+  max-width: 80vw;
   margin: 0 auto;
-  text-align: left;
-  position: relative;
-  margin-top: 10px;
-  padding: 25px;
-  max-width: 1200px;
+  text-align: center;
+  padding: 2rem;
 }
 
-.access-management .access-title {
-  font-size: 32px;
+/* Title Styling */
+.access-title {
+  font-size: 2.5rem; /* Scales well on different screens */
   font-weight: bold;
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 
-.access-management .access-cards-container {
+/* Card container - Ensures proper spacing & responsiveness */
+.access-cards-container {
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
 }
 
-.access-management .access-card {
+/* Individual Card Styling */
+.access-card {
   background-color: white;
-  border: 1px solid #e5e5e5;
-  border-radius: 10px;
-  padding: 16px;
-  width: 262px;
-  height: 161px;
+  border: 0.1rem solid #e5e5e5;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  width: 40%; /* Adjusting width dynamically */
+  max-width: 22rem; /* Prevents excessive stretching */
+  min-width: 16rem; /* Ensures minimum size */
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   text-align: left;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
 }
 
-.access-management .access-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+/* Hover Effects */
+.access-card:hover {
+  transform: translateY(-0.3rem);
+  box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.2);
 }
 
-.access-management .access-card .card-value {
-  color: #000; /* All card numbers and titles use this color */
+/* Card Header */
+.card-header {
+  margin-bottom: 0.5rem;
 }
 
-.access-management .card-header {
-  margin-bottom: 5px; /* Reduced space between title and card head */
-}
-
-.access-management .card-title {
-  font-size: 16px;
+/* Title inside the card */
+.card-title {
+  font-size: 1.2rem;
   font-weight: bold;
-  color: #000; /* Same color as the value */
-  margin-bottom: 5px;
+  color: #000;
+  margin-bottom: 0.3rem;
 }
 
-.access-management .card-value {
-  font-size: 40px;
+/* Value inside the card */
+.card-value {
+  font-size: 2.5rem;
   font-weight: bold;
+  color: #000;
   margin: 0;
+  margin-top:0.5em !important;
+  padding-top:0.3em !important;
+  padding-bottom:11px !important;
 }
 
-.access-management .card-trend {
+/* Trend styling */
+.card-trend {
   display: flex;
   align-items: center;
-  justify-content: left;
-  font-size: 14px;
+  font-size: 1rem;
   color: #28a745;
-  margin-top: 2px; /* Reduced space between trend and value */
+  margin-top: 0.5rem;
 }
 
-.access-management .trend-icon {
-  width: 12px;
-  height: 12px;
-  margin-right: 5px;
+/* Trend Icon */
+.trend-icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
 }
 
-.access-management .trend-text {
-  font-size: 14px;
+/* Trend Text */
+.trend-text {
+  font-size: 1rem;
   color: #333;
 }
 
-.access-management .access-card:nth-child(2),
-.access-management .access-card:nth-child(3) {
-  cursor: pointer; /* Pointer cursor for clickable cards */
+/* Responsive Design for Tablets */
+@media (max-width: 1024px) {
+  .access-management {
+    width: 95%;
+  }
+
+  .access-title {
+    font-size: 2.2rem;
+  }
+
+  .access-card {
+    width: 45%; /* Slightly wider for tablets */
+  }
 }
 
-/* Responsive Design */
+/* Responsive Design for Mobile Devices */
 @media (max-width: 768px) {
-  .access-management .access-cards-container {
-    flex-wrap: wrap;
-    gap: 15px;
-  }
-
-  .access-management .access-card {
-    flex: 1 1 calc(50% - 15px);
-  }
-}
-
-@media (max-width: 480px) {
-  .access-management .access-cards-container {
+  .access-cards-container {
     flex-direction: column;
     align-items: center;
   }
 
-  .access-management .access-card {
-    flex: 1 1 100%;
-    max-width: 100%;
+  .access-title {
+    font-size: 2rem;
+  }
+
+  .access-card {
+    width: 90%; /* Take full width on mobile */
+  }
+}
+
+/* Extra Small Screens */
+@media (max-width: 480px) {
+  .access-title {
+    font-size: 1.8rem;
+  }
+
+  .access-card {
+    width: 100%;
   }
 }

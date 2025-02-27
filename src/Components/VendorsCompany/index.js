@@ -56,6 +56,9 @@ const VendorsCompany = () => {
         <button className="filter-button">
           <FontAwesomeIcon icon={faSliders} />
         </button>
+        <button className="grant-access-btn" onClick={() => navigate("/addvendorsinfo")}> {/* Added button to add Vendors */}
+          Add Vendors
+        </button>
       </div>
       <table className="table-ven-com-list">
         <thead className="thead-ven-com">
