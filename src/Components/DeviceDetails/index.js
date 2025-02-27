@@ -27,7 +27,7 @@ const DeviceDetails = () => {
       totalWaterOutlet: ''
     }
   });
-
+  const [connectionStatus, setConnectionStatus] = useState(null);
   const [nbGeneratorPower, setNbGeneratorPower] = useState(false); // State for NB generator power status
   const [ozoneGeneratorPower, setOzoneGeneratorPower] = useState(false); // State for Ozone generator power status
   const [oxygenGeneratorPower, setOxygenGeneratorPower] = useState(false); // State for Oxygen generator power status
@@ -154,6 +154,27 @@ const DeviceDetails = () => {
       });
   };
 
+  useEffect(() => {
+    const fetchConnectionStatus = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/connection-status`);
+        const data = await response.json();
+        if (data.status === 'success') {
+          setConnectionStatus(data.data); // Assuming the API returns "Connected" or "Disconnected"
+        } else {
+          console.error('Failed to fetch connection status:', data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching connection status:', error);
+      }
+    };
+
+    fetchConnectionStatus();
+    const intervalId = setInterval(fetchConnectionStatus, 5000); // Refresh every 5 seconds
+
+    return () => clearInterval(intervalId); // Cleanup interval on unmount
+  }, [id]);
+
   return (
     <>
     {loading && (
@@ -172,7 +193,17 @@ const DeviceDetails = () => {
     </div> }
     { conn &&
     <div className="device-detail-container">
-      <h2>Devices</h2>
+      <div className="device-details-header">
+        <h2 className="device-details-title">Device: <span className="device-name">Device Name</span></h2>
+        <div className="device-details-status">
+          <span className={`device-connection-status ${connectionStatus === 'Connected' ? 'connected' : 'disconnected'}`}>
+            {connectionStatus === 'Connected' ? '🔗 Connected' : '❌ Disconnected'}
+          </span>
+          <span className={`power-status ${nbGeneratorPower ? 'power-on' : 'power-off'}`}>
+            {nbGeneratorPower ? '🟢 Power ON' : '🔴 Power OFF'}
+          </span>
+        </div>
+      </div>
 
       {/* Basic Info Section */}
       <div className="device-info-card">
@@ -182,6 +213,7 @@ const DeviceDetails = () => {
           <p><strong>Device ID:</strong> NICO{id}</p>
           <p><strong>Owner Name:</strong> Random_Name</p>
           <p><strong>Owner Phone:</strong> 90354651234</p>
+          <p><strong>Owner Email ID:</strong>Email ID</p>
           <p><strong>Device Sector:</strong> Karnataka</p>
         </div>
       </div>

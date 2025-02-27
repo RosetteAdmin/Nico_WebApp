@@ -1,5 +1,6 @@
 /* styles.css */
   .div-reg-com-container {
+    margin-top: 50px;
     max-width: 1200px;
     margin: 20px auto;
     padding: 20px;
@@ -8,51 +9,66 @@
     border-radius: 8px;
   }
   
-  .div-reg-com-search-bar {
-    margin-top: 2rem;
+  .div-reg-com-header {
     display: flex;
     justify-content: space-between;
+    /* Pushes elements to opposite sides */
     align-items: center;
-    margin-bottom: 1rem;
-    gap: 1rem;
+    /* width: 100%; */
+    padding: 10px 20px;
   }
 
-  .h1-reg-com-header {
-    font-size: 1.5rem;
-  text-align: center;
-  margin-bottom: 1rem;
-  margin-right: 25rem;
+  .h1-reg-com-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+  }
+
+  .associate-reg-com-search-bar-container{
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    /* Adds border to make search field and icon look unified */
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: #fff;
+  }
+
+  .reg-com-actions{
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
   
   .input-reg-com-search {
-  flex: 2;
-  position: relative;
-  left: -5%;
-  padding: 0.5rem;
-  font-size: 1rem;
-  width: 20rem;
-  border: 1px solid #ccc;
-  border-radius: 2rem;
+    border: none;
+    padding: 8px 12px;
+    outline: none;
+    width: 200px;
   }
 
-  .associate-search-icon{
-    position: absolute;
-    top: 50%;
-    right: -15%; 
-    transform: translateY(-50%);
-    color: rgb(0, 0, 0); 
-    pointer-events: none;
-  }
-  
-  .button-reg-com-filter {
-    padding: 10px 20px;
-    margin-left: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
+  .associate-reg-com-search-icon{
+    padding: 8px;
+    background-color: white;
+    /* Background for icon */
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
   }
+  
+  .associate-reg-com-filter-button {
+    border: none;
+    background-color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+
 
   /* Grant Access Button */
 .grant-access-btn {
@@ -66,8 +82,8 @@
   transition: 0.3s;
 }
   
-  .button-reg-com-filter:hover {
-    background-color: #0056b3;
+  .associate-reg-com-filter-button:hover {
+    color: #0056b3;
   }
   
   .table-reg-com-list {
