@@ -10,30 +10,44 @@ const DeviceDetails = () => {
       pressure: '',
       waterTemperature: '',
       systemTemperature: '',
-      totalWaterOutlet: ''
+      totalWaterOutlet: '',
+      timestamp: ''
     },
     ozoneGenerator: {
       flowRate: '',
       pressure: '',
       waterTemperature: '',
       systemTemperature: '',
-      totalWaterOutlet: ''
+      totalWaterOutlet: '',
+      timestamp: ''
     },
     oxygenGenerator: {
       flowRate: '',
       pressure: '',
       waterTemperature: '',
       systemTemperature: '',
-      totalWaterOutlet: ''
+      totalWaterOutlet: '',
+      timestamp: ''
     }
   });
 
-  const [nbGeneratorPower, setNbGeneratorPower] = useState(false); // State for NB generator power status
-  const [ozoneGeneratorPower, setOzoneGeneratorPower] = useState(false); // State for Ozone generator power status
-  const [oxygenGeneratorPower, setOxygenGeneratorPower] = useState(false); // State for Oxygen generator power status
-  const [loading, setLoading] = useState(true); // State for loading screen
-  const [conn, setConn] = useState(false); // State for connection status
+  const [nbGeneratorPower, setNbGeneratorPower] = useState(false);
+  const [ozoneGeneratorPower, setOzoneGeneratorPower] = useState(false);
+  const [oxygenGeneratorPower, setOxygenGeneratorPower] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [conn, setConn] = useState(false);
+  
+  // Add states to track which switches are currently waiting for update
+  const [nbWaiting, setNbWaiting] = useState(false);
+  const [ozoneWaiting, setOzoneWaiting] = useState(false);
+  const [oxygenWaiting, setOxygenWaiting] = useState(false);
+  
+  // Add timestamps for when toggle requests were made
+  const [nbRequestTime, setNbRequestTime] = useState(0);
+  const [ozoneRequestTime, setOzoneRequestTime] = useState(0);
+  const [oxygenRequestTime, setOxygenRequestTime] = useState(0);
 
+  // Check connection status once on mount
   useEffect(() => {
     fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/status`)
       .then(response => {
@@ -47,35 +61,29 @@ const DeviceDetails = () => {
           setConn(true);
         } else {
           setConn(false);
-        };
+        }
         setLoading(false);
       })
-      .catch(error => console.error('Error fetching device data:', error));
-  }, [id]); // Make sure id is in the dependency array
-  
-  // Fetch the initial state of nbGeneratorPower
-  // useEffect(() => {
-  //   const fetchInitialState = async () => {
-  //     try {
-  //       const response = await fetch(`${process.env.REACT_APP_EP}/api/devices/get/${id}-nb`);
-  //       const data = await response.json();
-  //       if (data.status === 'success') {
-  //         setNbGeneratorPower(data.data);
-  //       } else {
-  //         console.error('Failed to fetch initial state:', data.message);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching initial state:', error);
-  //     }
-  //   };
+      .catch(error => {
+        console.error('Error fetching device status:', error);
+        setLoading(false);
+        setConn(false);
+      });
+  }, [id]);
 
-  //   fetchInitialState();
-  // }, [id]);
-
+  // Fetch device data at regular intervals if connected
   useEffect(() => {
+    // Only fetch data if connection is established
+    if (!conn) return;
+    
     const fetchData = () => {
       fetch(`${process.env.REACT_APP_EP}/api/devices/${id}`)
-        .then(response => response.json())
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
         .then(data => {
           setDeviceData({
             nbGenerator: {
@@ -103,55 +111,121 @@ const DeviceDetails = () => {
               timestamp: data.oxygenGenerator.timestamp
             }
           });
+          
+          // Get the current timestamp for comparison
+          const currentTime = Date.now();
+          const timeoutThreshold = 15000; // 10 seconds timeout
+          
+          // Clear waiting states based on timestamps or when status changes
+          // NB Generator
+          if (nbWaiting && (
+              data.nbGenerator.nbStatus !== nbGeneratorPower || 
+              currentTime - nbRequestTime > timeoutThreshold
+          )) {
+            setNbWaiting(false);
+          }
+          
+          // Ozone Generator
+          if (ozoneWaiting && (
+              data.ozoneGenerator.O3Status !== ozoneGeneratorPower || 
+              currentTime - ozoneRequestTime > timeoutThreshold
+          )) {
+            setOzoneWaiting(false);
+          }
+          
+          // Oxygen Generator
+          if (oxygenWaiting && (
+              data.oxygenGenerator.O2Status !== oxygenGeneratorPower || 
+              currentTime - oxygenRequestTime > timeoutThreshold
+          )) {
+            setOxygenWaiting(false);
+          }
+
+          // Update power states
           setNbGeneratorPower(data.nbGenerator.nbStatus);
           setOzoneGeneratorPower(data.ozoneGenerator.O3Status);
           setOxygenGeneratorPower(data.oxygenGenerator.O2Status);
-          console.log(nbGeneratorPower);
-          console.log(ozoneGeneratorPower);
-          console.log(oxygenGeneratorPower);
+          
         })
-        .catch(error => console.error('Error fetching device data:', error));
+        .catch(error => {
+          console.error('Error fetching device data:', error);
+          // Clear waiting states in case of error to prevent UI from being stuck
+          setNbWaiting(false);
+          setOzoneWaiting(false);
+          setOxygenWaiting(false);
+        });
     };
 
-    if (nbGeneratorPower || true) {
-      fetchData(); // Fetch data immediately on mount
-      const intervalId = setInterval(fetchData, 5000); // Fetch data every 5 seconds
-      return () => clearInterval(intervalId); // Cleanup interval on unmount
+    fetchData(); // Fetch data immediately when connected
+    const intervalId = setInterval(fetchData, 5000); // Fetch data every 5 seconds
+    
+    return () => clearInterval(intervalId); // Cleanup interval on unmount
+  }, [id, conn, nbGeneratorPower, ozoneGeneratorPower, oxygenGeneratorPower, nbWaiting, ozoneWaiting, oxygenWaiting, nbRequestTime, ozoneRequestTime, oxygenRequestTime]);
+
+  const handlePowerToggle = (type) => {
+    const currentTime = Date.now();
+    
+    // Set the appropriate waiting state and request time
+    switch(type) {
+      case "nb":
+        setNbWaiting(true);
+        setNbRequestTime(currentTime);
+        break;
+      case "o3":
+        setOzoneWaiting(true);
+        setOzoneRequestTime(currentTime);
+        break;
+      case "o2":
+        setOxygenWaiting(true);
+        setOxygenRequestTime(currentTime);
+        break;
+      default:
+        return;
     }
-  }, [id, nbGeneratorPower]);
-
-  const handlePowerToggle = () => {
-    const newPowerStatus = !nbGeneratorPower;
-    setLoading(true); // Show loading screen
-
+    
     // Make an API call to update the power status
-    fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/toggle`, {
+    fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/toggle/${type}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
-      .then(response => response.json()).then(setNbGeneratorPower(newPowerStatus))
-      .then(data => {
-        alert(`Power status updated: ${nbGeneratorPower ? 'Powered Off' : 'Powered On'}`);
-        setLoading(false); // Hide loading screen
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
       })
       .catch(error => {
-        alert('Error updating power status:', error);
-        setLoading(false); // Hide loading screen
+        console.error('Error updating power status:', error);
+        alert('Error updating power status. Please try again.');
+        
+        // Clear the waiting state in case of error
+        switch(type) {
+          case "nb":
+            setNbWaiting(false);
+            break;
+          case "o3":
+            setOzoneWaiting(false);
+            break;
+          case "o2":
+            setOxygenWaiting(false);
+            break;
+          default:
+            return;
+        }
       });
-    
-      // Make a second API call to set the power status
-    fetch(`${process.env.REACT_APP_EP}/api/devices/set/${id}-nb`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => response.json())
-      .catch(error => {
-        console.error('Error setting power status:', error);
-      });
+  };
+
+  // Helper function to get status text with waiting indicator
+  const getStatusText = (isPowered, timestamp, isWaiting) => {
+    if (isWaiting) {
+      return "Waiting for update...";
+    } else if (isPowered) {
+      return `Last received: ${new Date(timestamp).toLocaleString()}`;
+    } else {
+      return 'Powered Off';
+    }
   };
 
   return (
@@ -161,18 +235,33 @@ const DeviceDetails = () => {
         <div className="loading-spinner"></div>
         <div className="loading-text">Waiting for device...</div>
       </div>
-      )}
+    )}
     { !loading && !conn &&
     <div className="device-detail-disconnected">
       <div className="device-detail-content">
-        <svg className="device-detail-icon" size={80} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wifi-off"><path d="M12 20h.01"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/><path d="M5 12.859a10 10 0 0 1 5.17-2.69"/><path d="M19 12.859a10 10 0 0 0-2.007-1.523"/><path d="M2 8.82a15 15 0 0 1 4.177-2.643"/><path d="M22 8.82a15 15 0 0 0-11.288-3.764"/><path d="m2 2 20 20"/></svg>
+        <svg className="device-detail-icon" size={80} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 20h.01"/>
+          <path d="M8.5 16.429a5 5 0 0 1 7 0"/>
+          <path d="M5 12.859a10 10 0 0 1 5.17-2.69"/>
+          <path d="M19 12.859a10 10 0 0 0-2.007-1.523"/>
+          <path d="M2 8.82a15 15 0 0 1 4.177-2.643"/>
+          <path d="M22 8.82a15 15 0 0 0-11.288-3.764"/>
+          <path d="m2 2 20 20"/>
+        </svg>
         <h1 className="device-disconnected-h1">Device Disconnected</h1>
         <p className="device-disconnected-p">Please check the device's connection and try again.</p>
       </div>
     </div> }
-    { conn &&
+    { !loading && conn &&
     <div className="device-detail-container">
-      <h2>Devices</h2>
+      <div className="device-details-header">
+        <h2 className="device-details-title"><strong>Device: </strong><span className="device-name">{id}</span></h2>
+        <div className="device-details-status">
+          <span className={`device-connection-status ${'connected'}`}>
+            {'🔗 Connected'}
+          </span>
+        </div>
+      </div>
 
       {/* Basic Info Section */}
       <div className="device-info-card">
@@ -183,6 +272,7 @@ const DeviceDetails = () => {
           <p><strong>Owner Name:</strong> Random_Name</p>
           <p><strong>Owner Phone:</strong> 90354651234</p>
           <p><strong>Device Sector:</strong> Karnataka</p>
+          <p><strong>Owner Email ID:</strong>Email ID</p>
         </div>
       </div>
 
@@ -205,12 +295,16 @@ const DeviceDetails = () => {
           <div className="power-item">
             <span>NB Generator</span>
             <div className="power-toggle">
-            <span>
-              {nbGeneratorPower 
-                ? `On from: ${new Date(deviceData.nbGenerator.timestamp).toLocaleString()}` 
-                : 'Powered Off'}
-            </span>              <label className="toggle-switch">
-              <input type="checkbox" checked={nbGeneratorPower} onChange={handlePowerToggle} />
+              <span className={nbWaiting ? "status-waiting" : ""}>
+                {getStatusText(nbGeneratorPower, deviceData.nbGenerator.timestamp, nbWaiting)}
+              </span>
+              <label className={`toggle-switch ${nbWaiting ? "toggle-waiting" : ""}`}>
+                <input 
+                  type="checkbox" 
+                  checked={nbGeneratorPower} 
+                  onChange={() => !nbWaiting && handlePowerToggle("nb")} 
+                  disabled={nbWaiting}
+                />
                 <span className="toggle-slider"></span>
               </label>
             </div>
@@ -219,13 +313,16 @@ const DeviceDetails = () => {
           <div className="power-item">
             <span>Ozone Generator</span>
             <div className="power-toggle">
-            <span>
-              {ozoneGeneratorPower 
-                ? `On from: ${new Date(deviceData.ozoneGenerator.timestamp).toLocaleString()}` 
-                : 'Powered Off'}
-            </span>              
-            <label className="toggle-switch">
-                <input type="checkbox" checked={ozoneGeneratorPower} />
+              <span className={ozoneWaiting ? "status-waiting" : ""}>
+                {getStatusText(ozoneGeneratorPower, deviceData.ozoneGenerator.timestamp, ozoneWaiting)}
+              </span>              
+              <label className={`toggle-switch ${ozoneWaiting ? "toggle-waiting" : ""}`}>
+                <input 
+                  type="checkbox" 
+                  checked={ozoneGeneratorPower} 
+                  onChange={() => !ozoneWaiting && handlePowerToggle("o3")}
+                  disabled={ozoneWaiting}
+                />
                 <span className="toggle-slider"></span>
               </label>
             </div>
@@ -234,13 +331,16 @@ const DeviceDetails = () => {
           <div className="power-item">
             <span>Oxygen Generator</span>
             <div className="power-toggle">
-            <span>
-              {oxygenGeneratorPower 
-                ? `On from: ${new Date(deviceData.oxygenGenerator.timestamp).toLocaleString()}` 
-                : 'Powered Off'}
-            </span>              
-            <label className="toggle-switch">
-                <input type="checkbox" checked={oxygenGeneratorPower} />
+              <span className={oxygenWaiting ? "status-waiting" : ""}>
+                {getStatusText(oxygenGeneratorPower, deviceData.oxygenGenerator.timestamp, oxygenWaiting)}
+              </span>              
+              <label className={`toggle-switch ${oxygenWaiting ? "toggle-waiting" : ""}`}>
+                <input 
+                  type="checkbox" 
+                  checked={oxygenGeneratorPower} 
+                  onChange={() => !oxygenWaiting && handlePowerToggle("o2")}
+                  disabled={oxygenWaiting}
+                />
                 <span className="toggle-slider"></span>
               </label>
             </div>
@@ -262,7 +362,7 @@ const DeviceDetails = () => {
               <p><strong>Total Water Outlet:</strong> {deviceData.nbGenerator.totalWaterOutlet || 'N/A'}</p>
             </div>
             <div className="sensor-item">
-              <h4>Oxygen Generator</h4>
+              <h4>Ozone Generator</h4>
               <p><strong>Water Flow Rate:</strong> {deviceData.ozoneGenerator.flowRate || 'N/A'}</p>
               <p><strong>Water Pressure:</strong> {deviceData.ozoneGenerator.pressure || 'N/A'}</p>
               <p><strong>Water Temperature:</strong> {deviceData.ozoneGenerator.waterTemperature || 'N/A'}</p>
@@ -270,7 +370,7 @@ const DeviceDetails = () => {
               <p><strong>Total Water Outlet:</strong> {deviceData.ozoneGenerator.totalWaterOutlet || 'N/A'}</p>
             </div>
             <div className="sensor-item">
-              <h4>Ozone Generator</h4>
+              <h4>Oxygen Generator</h4>
               <p><strong>Flow Rate:</strong> {deviceData.oxygenGenerator.flowRate || 'N/A'}</p>
               <p><strong>Pressure:</strong> {deviceData.oxygenGenerator.pressure || 'N/A'}</p>
               <p><strong>Water Temperature:</strong> {deviceData.oxygenGenerator.waterTemperature || 'N/A'}</p>
