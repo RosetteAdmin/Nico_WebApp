@@ -16,12 +16,9 @@ import Userinfo from "./Components/Userinfo";
 import Userinfovendor from "./Components/UserInfovendor";
 import Customers from "./Components/Customers";
 import ServiceRequestsAlerts from "./Components/ServiceRequestsAlerts";
-<<<<<<< HEAD
-=======
 import MaintenancePage from "./Components/NFM";
 import AddVendors from "./Components/AddVendors";
 import AddUsers from "./Components/AddUsers";
->>>>>>> 4d95010a42c2c0af4d75bfe1c44ddfe334268194
 import "./App.css";
 
 function App() {
@@ -45,33 +42,6 @@ function App() {
     <Router>
       <div className="app-container">
         {isLoggedIn ? (
-<<<<<<< HEAD
-          <>
-            {/* Dashboard Layout */}
-            <Header  />
-            <div className="main-content">
-              <SideNavBar />
-              <div className="content-area">
-                <Routes>
-                  <Route path="/dashboard" element={<HomeDashboard />} />
-                  <Route path="/devices" element={<DeviceDashboard />} />
-                  <Route path="/PreRegDevices" element={<PreRegDevices/>} />
-                  <Route path="/device/:id" element={<DeviceDetails />} />
-                  <Route path="/add-device" element={<AddNewDevice />} />
-                  <Route path="/access-management" element={<AccessManagement />} />
-                  <Route path="/caccess" element={<RegisteredCompany />} />
-                  <Route path="/vaccess" element={<VendorsCompany />} />
-                  <Route path="/service-requests" element={<ServiceRequestsAlerts />} />
-                  <Route path="/profile" element={<ChangeProfile onLogout={handleLogout}/>} />
-                  <Route path="*" element={<Navigate to="/dashboard" />} />
-                  <Route path="/userinfo/:id" element={<Userinfo />} />
-                  <Route path="/userinfovendor/:id" element={<Userinfovendor />} />
-                  <Route path="/customers" element={<Customers />} />
-                </Routes>
-              </div>
-            </div>
-          </>
-=======
           <Routes>
             {/* Maintenance route separated from the dashboard layout */}
             <Route path="/maintenance" element={<MaintenancePage />} />
@@ -110,7 +80,6 @@ function App() {
               }
             />
           </Routes>
->>>>>>> 4d95010a42c2c0af4d75bfe1c44ddfe334268194
         ) : (
           // Login Screen
           <Routes>
