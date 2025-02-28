@@ -55,7 +55,7 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   width: 100%;
   max-width: 250px;
-  min-width: 200px;
+  min-width: 220px;
   flex: 1 1 auto;
   height: 100px;
   position: relative;
@@ -81,7 +81,7 @@
 }
 
 .card-icon {
-  margin-right: 1rem;
+  margin-right: 0.5rem;
   flex-shrink: 0;
 }
 
@@ -91,13 +91,11 @@
 }
 
 .card-title {
-  font-size: 1rem;
+  font-size: 0.5rem;
   font-weight: bold;
-  margin: 0;
-  text-align: center;
+  text-align:center;
   align-items: center;
   flex: 1;
-  padding-right: 5px;
   white-space: pre-wrap;
 }
 
@@ -110,6 +108,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  bottom:10px;
+  left: 5px;
 }
 
 .dashboard-loading {
@@ -118,6 +119,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  left: 5px;
 }
 
 .dependent-arrow-buttons {
