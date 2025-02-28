@@ -16,6 +16,12 @@ import Userinfo from "./Components/Userinfo";
 import Userinfovendor from "./Components/UserInfovendor";
 import Customers from "./Components/Customers";
 import ServiceRequestsAlerts from "./Components/ServiceRequestsAlerts";
+<<<<<<< HEAD
+=======
+import MaintenancePage from "./Components/NFM";
+import AddVendors from "./Components/AddVendors";
+import AddUsers from "./Components/AddUsers";
+>>>>>>> 4d95010a42c2c0af4d75bfe1c44ddfe334268194
 import "./App.css";
 
 function App() {
@@ -39,6 +45,7 @@ function App() {
     <Router>
       <div className="app-container">
         {isLoggedIn ? (
+<<<<<<< HEAD
           <>
             {/* Dashboard Layout */}
             <Header  />
@@ -64,6 +71,46 @@ function App() {
               </div>
             </div>
           </>
+=======
+          <Routes>
+            {/* Maintenance route separated from the dashboard layout */}
+            <Route path="/maintenance" element={<MaintenancePage />} />
+            
+            {/* Dashboard Layout wrapped in a route */}
+            <Route
+              path="/*"
+              element={
+                <>
+                  <Header />
+                  <div className="main-content">
+                    <SideNavBar />
+                    <div className="content-area">
+                      <Routes>
+                        <Route path="/dashboard" element={<HomeDashboard />} />
+                        <Route path="/devices" element={<DeviceDashboard />} />
+                        <Route path="/PreRegDevices" element={<PreRegDevices />} />
+                        <Route path="/device/:id" element={<DeviceDetails />} />
+                        <Route path="/add-device" element={<AddNewDevice />} />
+                        <Route path="/access-management" element={<AccessManagement />} />
+                        <Route path="/caccess" element={<RegisteredCompany />} />
+                        <Route path="/addusersinfo" element={<AddUsers/>} />      {/* Adding New Users */}
+                        <Route path="/vaccess" element={<VendorsCompany />} />
+                        <Route path="/addvendorsinfo" element={<AddVendors />} /> {/* Adding New Vendors */}
+                        <Route path="/profile" element={<ChangeProfile onLogout={handleLogout} />} />
+                        <Route path="/userinfo/:id" element={<Userinfo />} />
+                        <Route path="/userinfovendor/:id" element={<Userinfovendor />} />
+                        <Route path="/customers" element={<Customers />} />
+                        <Route path="/service-requests" element={<ServiceRequestsAlerts />} />
+                        <Route path="/" element={<Navigate to="/dashboard" />} />
+                        <Route path="*" element={<Navigate to="/maintenance" />} />
+                      </Routes>
+                    </div>
+                  </div>
+                </>
+              }
+            />
+          </Routes>
+>>>>>>> 4d95010a42c2c0af4d75bfe1c44ddfe334268194
         ) : (
           // Login Screen
           <Routes>

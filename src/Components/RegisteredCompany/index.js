@@ -40,25 +40,30 @@ const RegisteredCompany = () => {
 
   return (
     <div className="div-reg-com-container">
-      <div className="div-reg-com-search-bar">
-        <h1 className="h1-reg-com-header">Registered Company Associate Details</h1>
-        <div className="search-bar-container">
-          <input
-            type="text"
-            className="input-reg-com-search"
-            placeholder="Search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <span className="associate-search-icon">
-            <FontAwesomeIcon icon={faSearch} />
-          </span>
+      <div className="div-reg-com-header">
+        <h1 className="h1-reg-com-title">Registered Company Associate Details</h1>
+        <div className="reg-com-actions">
+          <div className="associate-reg-com-search-bar-container">
+            <input
+              type="text"
+              className="input-reg-com-search"
+              placeholder="Search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <span className="associate-reg-com-search-icon">
+              <FontAwesomeIcon icon={faSearch} />
+            </span>
+          </div>
+          <button className="associate-reg-com-filter-button">
+            <FontAwesomeIcon icon={faSliders} />
+          </button>
+          <button className="grant-access-btn" onClick={() => navigate("/addusersinfo")}> {/* Added button to add Users */}
+            Add User
+          </button>
         </div>
-        <button className="filter-button">
-          <FontAwesomeIcon icon={faSliders} />
-        </button>
       </div>
-     
+
       <table className="table-reg-com-list">
         <thead className="thead-reg-com">
           <tr className="tr-reg-com-header">
@@ -71,10 +76,10 @@ const RegisteredCompany = () => {
         </thead>
         <tbody className="tbody-reg-com">
           {filteredAssociates.map((associate) => (
-            <tr 
-              key={associate.id} 
+            <tr
+              key={associate.id}
               className="tr-reg-com-item"
-              onClick={() => handleRowClick(associate.id)} 
+              onClick={() => handleRowClick(associate.id)}
               style={{ cursor: "pointer" }} // Makes it clear that the row is clickable
             >
               <td className="td-reg-com">{associate.id}</td>

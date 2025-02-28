@@ -7,10 +7,8 @@ const AccessManagement = () => {
   const navigate = useNavigate();
 
   const cardsData = [
-    { title: "Admin Access", value: "1", trend: "Admin Access Only" },
     { title: "Company Associates Access", value: "27", trend: "2.5% Up from last month", link: "/caccess" },
     { title: "Vendor / Service Access", value: "525", trend: "2.5% Up from last month", link: "/vaccess" },
-    { title: "Other Access Permissions", value: "70", trend: "2.5% Up from last month" },
   ];
 
   const handleCardClick = (link) => {
@@ -26,8 +24,8 @@ const AccessManagement = () => {
         {cardsData.map((card, index) => (
           <div
             key={index}
-            className={`access-card ${card.link ? "clickable" : ""}`}
-            onClick={() => card.link && handleCardClick(card.link)}
+            className="access-card clickable"
+            onClick={() => handleCardClick(card.link)}
           >
             <div className="card-header">
               <h3 className="card-title">{card.title}</h3>
@@ -43,6 +41,5 @@ const AccessManagement = () => {
     </div>
   );
 };
-
 
 export default AccessManagement;

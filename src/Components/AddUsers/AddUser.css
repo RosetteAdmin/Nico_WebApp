@@ -1,0 +1,160 @@
+/* Access Management Container */
+.access-management-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  padding: 20px;
+  background-color: #ffffff; /* Add background for better visibility */
+  border-radius: 8px;
+  position:relative;
+  top:-8px;
+  height:806px;
+  width:1215px;
+}
+
+/* Grant Access Header Styling */
+.grant-access-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  position:relative;
+  top:33px;
+}
+
+/* Content Wrapper to align details & permissions side by side */
+.content-wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  position:relative;
+ top:41px;
+}
+
+/* Form container */
+.form-container {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  padding-right:49px;
+}
+
+/* Permissions container */
+.permissions-container {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  height: 240px;
+}
+
+/* Input fields styling */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Toggle Switch Styling */
+.toggle-group div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 20px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #007bff;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+/* Grant Access Button */
+.grant-access-btn {
+  background-color: #0c5890;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.grant-access-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Heading Styling */
+h2 {
+  color: #2c3e50;
+  font-weight: 500;
+  font-size: 19px;
+}
+
+@media (max-width: 1250px) {
+  .content-wrapper {
+    flex-direction: column;
+  }
+  .form-container, .permissions-container {
+    width: 100%;
+  }
+}

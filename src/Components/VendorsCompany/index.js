@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./VendorsCompanyS.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faSliders, faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faSliders } from "@fortawesome/free-solid-svg-icons";
 
 const vendorsData = [
   { id: "00001", name: "Christine Brooks", sector: "Karnataka, India", access: true },
@@ -39,23 +39,28 @@ const VendorsCompany = () => {
 
   return (
     <div className="div-ven-com-container">
-      <div className="div-ven-com-search-bar">
-        <h1 className="h1-ven-com-header">Registered Vendor Details</h1>
-        <div className="search-bar-container">
-          <input
-            type="text"
-            className="input-ven-com-search"
-            placeholder="Search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <span className="vendor-search-icon">
-            <FontAwesomeIcon icon={faSearch} />
-          </span>
+      <div className="div-ven-com-header">
+        <h1 className="h1-ven-com-title">Registered Vendor Details</h1>
+        <div className="ven-com-actions">
+          <div className="vendor-ven-com-search-bar-container">
+            <input
+              type="text"
+              className="input-ven-com-search"
+              placeholder="Search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <span className="vendor-ven-com-search-icon">
+              <FontAwesomeIcon icon={faSearch} />
+            </span>
+          </div>
+          <button className="vendor-ven-com-filter-button">
+            <FontAwesomeIcon icon={faSliders} />
+          </button>
+          <button className="grant-access-btn" onClick={() => navigate("/addvendorsinfo")}> {/* Added button to add Vendors */}
+            Add Vendors
+          </button>
         </div>
-        <button className="filter-button">
-          <FontAwesomeIcon icon={faSliders} />
-        </button>
       </div>
       <table className="table-ven-com-list">
         <thead className="thead-ven-com">
@@ -69,8 +74,8 @@ const VendorsCompany = () => {
         </thead>
         <tbody className="tbody-ven-com">
           {filteredVendors.map((vendor) => (
-            <tr 
-              key={vendor.id} 
+            <tr
+              key={vendor.id}
               className="tr-ven-com-item"
               onClick={() => handleRowClick(vendor.id)}
               style={{ cursor: "pointer" }} // Makes the row clickable
