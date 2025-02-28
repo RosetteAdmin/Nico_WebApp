@@ -1,20 +1,23 @@
 /* Page-Specific Styling */
-
-.change-profile-header {
-  margin: 2rem 2rem 20px 2rem;
-  display: flex;
-  flex-wrap: wrap; /* Ensures elements wrap on smaller screens */
-  justify-content: space-between; /* Space between items */
-  align-items: center; /* Aligns items vertically */
-  gap: 10px;
+.change-profile-main {
+  transform: translateX(0px) translateY(18px);
 }
 
-.change-profile-header h2 {
-  margin: 0;
-  font-size: 2rem;
-  flex-grow: 1;
+.change-profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.change-profile-header h1 {
+  position: relative;
+  right: 7%;
+  margin: 0 2rem 20px 2rem;
   text-align: left;
-  color: #14191f;
+
 }
 
 .change-profile-logout-button {
@@ -28,6 +31,7 @@
   font-size: 0.9rem;
   cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
 }
 
 .change-profile-logout-button:hover {
@@ -39,14 +43,41 @@
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
 }
 
+.change-profile-container {
+  position: relative;
+  right: 5%;
+  padding: 2rem 3rem;
+  width: 100%;
+  max-width: 1200px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
 .change-profile-form {
-  margin: 2rem;
-  border-radius: 2rem;
-  box-shadow: 2px 2px 0.45em rgba(0, 0, 0, 0.1);
-  padding: 4.5rem;
+  padding-bottom: 2rem;
   display: grid;
-  grid-template-columns: 1fr 1fr; 
-  gap: 20px 80px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  margin: 20px auto;
+  background-color: #fff;
+  max-height: 50vh;
+  overflow-y: hidden;
+  /* Enable vertical scrolling */
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.change-profile-form::-webkit-scrollbar {
+  width: 8px;
+}
+
+.change-profile-form::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.change-profile-form::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
 }
 
 .change-profile-form-group {
@@ -87,7 +118,10 @@
 
 .change-profile-save-button {
   grid-column: 2;
-  justify-self: end; /* Center-align within the grid */
+  justify-self: center;
+  position: relative;
+  left:15%;
+  width: 165px;
   background: #007bff;
   color: white;
   border: none;
@@ -110,70 +144,72 @@
 /* Responsive Design */
 
 /* Medium screens (tablets and small laptops) */
-@media (max-width: 768px) {
-  .change-profile-header {
-    flex-direction: column; /* Stack header elements */
-    align-items: flex-start;
-    gap: 1rem;
+@media (max-width: 1400px) {
+  .change-profile-form {
+    max-width: 800px;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 15px;
   }
+}
 
-  .change-profile-header h2 {
-    font-size: 1.8rem;
+@media (max-width: 1200px) {
+  .change-profile-form {
+    max-width: 600px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .change-profile-save-button{
+    grid-column: 1;
+  }
+  .change-profile-form {
+    max-width: 500px;
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 800px) {
+  .change-profile-form {
+    max-width: 300px;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .change-profile-header h1 {
+    position: relative;
+    left:3%;
+  }
+  .change-profile-form {
+    width: 100%;
+    padding: 10px;
+    grid-template-columns: 1fr;
   }
 
   .change-profile-logout-button {
-    align-self: flex-end;
-    padding: 10px 30px;
-    font-size: 0.9rem;
-  }
-
-  .change-profile-form {
-    grid-template-columns: 1fr; /* Single column layout */
-    gap: 20px; /* Reduce spacing */
-    padding: 3rem;
+    justify-self: center;
   }
 
   .change-profile-save-button {
-    width: 100%; /* Full-width button */
+    justify-self: center;
   }
 }
 
-/* Small screens (phones) */
 @media (max-width: 480px) {
-  .change-profile-container {
-    padding: 20px;
-  }
-
-  .change-profile-header {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .change-profile-header h2 {
-    font-size: 1.5rem;
-  }
-
   .change-profile-form {
-    grid-template-columns: 1fr; /* Ensure vertical layout */
-    gap: 15px;
-    padding: 2rem;
+    padding: 10px;
+    grid-template-columns: 1fr;
+    max-height: 70vh;
+    /* Reduce height for smaller screens */
   }
 
-  .change-profile-form-group input {
-    font-size: 0.9rem;
-    padding: 12px;
+  .change-profile-logout-button {
+    width: 100%;
   }
 
   .change-profile-save-button {
-    font-size: 1rem;
-    padding: 12px;
-    width: 100%; /* Full width for easier tapping */
-  }
-}
-
-/* Large screens (default) */
-@media (min-width: 769px) {
-  .change-profile-main .change-profile-form .change-profile-save-button {
-    width: 209px;
+    width: 100%;
   }
 }
