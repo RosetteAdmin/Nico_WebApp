@@ -76,7 +76,7 @@
 .service-re-ale-tabs {
     display: flex;
     border-bottom: 2px solid #ddd;
-    justify-content: space-between;
+    justify-content: space-around;
     width: 100%;
     padding: 10px 0;
 }
@@ -175,15 +175,66 @@
     }
 }
 
-@media (max-width: 768px) {
-    .service-re-ale-tabs {
-        flex-wrap: wrap;
+@media (max-width: 1100px) {
+    .service-re-ale-container {
+        padding: 12px;
+    }
+
+    .service-re-ale-title {
+        font-size: 20px;
     }
 
     .service-re-ale-tab {
-        flex: 1;
+        font-size: 15px;
+        padding: 6px 13px;
+    }
+
+    .service-re-ale-table th,
+    .service-re-ale-table td {
+        padding: 7px;
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 975px) {
+    .service-re-ale-container {
+        padding: 10px;
+    }
+
+    .service-re-ale-header{
+        justify-content: center;
+        gap:10px;
+    }
+
+    .service-re-ale-title {
+        font-size: 20px;
+    }
+
+    .service-re-ale-tab {
+        font-size: 15px;
+        padding: 6px 13px;
+    }
+
+    .service-re-ale-table th,
+    .service-re-ale-table td {
+        padding: 7px;
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .service-re-ale-tabs {
+        justify-content: center;
+    }
+
+    .service-re-ale-header{
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .service-re-ale-tab {
         text-align: center;
-        font-size: 14px;
+        font-size: 12px;
         padding: 8px;
     }
 
@@ -192,8 +243,14 @@
         overflow-x: auto;
     }
 
+    .service-re-ale-table{
+        margin-left: 180px;
+        width: 50%;
+    }
+
     .service-re-ale-table th,
     .service-re-ale-table td {
+        margin-left: 20px;
         font-size: 12px;
         padding: 8px;
     }
