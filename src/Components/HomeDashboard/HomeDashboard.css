@@ -1,0 +1,132 @@
+.dashboard-container {
+  padding: 2rem;
+}
+
+/* Dashboard Title */
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  color: #0c5890;
+}
+
+/* Card Hover Effect */
+.dashboard-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Cards Wrapper */
+.dashboard-card {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15); /* Adjusted shadow for uniform effect */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  max-width: 250px;
+  min-width: 200px;
+  flex: 1 1 calc(25% - 1.5rem); /* Adjusted spacing */
+  height: 100px;
+  top: 10px;
+  position: relative; /* Ensures stacking order is correct */
+  bottom:10px;
+}
+
+/* Ensure proper spacing */
+.dashboard-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: flex-start;  
+  align-content: flex-start; /* Helps in keeping cards aligned evenly */
+}
+
+/* Adjust card content alignment */
+.card-content {
+  display: flex;
+  align-items: center;  /* Align items in a single line */
+  justify-content: space-between; /* Spread the items horizontally */
+  flex: 1;
+}
+
+/* Icon Styling */
+.card-icon {
+  margin-right: 1rem;
+  flex-shrink: 0;  /* Prevent icon from shrinking */
+}
+
+.card-icon img {
+  width: 60px;  /* Adjusted size */
+  height: 60px; /* Adjusted size */
+}
+
+/* Card Title and Value */
+.card-title {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-right: 1rem;
+  flex: 1;  /* Allow title to take remaining space */
+}
+
+.card-value {
+  font-size: 2.5rem; /* Increased font size */
+  font-weight: bold;
+  color: #0c5890;
+  text-align: center;
+  flex-shrink: 0; /* Prevents shrinking */
+  padding-bottom:21px;
+  padding-right:11px;
+}
+
+/* Responsive Adjustments */
+
+/* Medium Screens (Tablets) */
+@media (max-width: 1024px) {
+  .dashboard-cards {
+    gap: 1rem;
+  }
+
+  .dashboard-card {
+    flex: 1 1 calc(33% - 1rem);
+    padding: 1rem;
+  }
+}
+
+/* Small Screens (Mobile) */
+@media (max-width: 768px) {
+  .dashboard-cards {
+    justify-content: flex-start;  /* Align cards to the left */
+    gap: 1rem;
+    overflow-x: hidden; /* Prevent horizontal scrollbar */
+  }
+
+  .dashboard-card {
+    flex: 1 1 calc(50% - 1rem);
+  }
+}
+
+/* Extra Small Screens */
+@media (max-width: 480px) {
+  .dashboard-cards {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    overflow-x: hidden; /* Prevent horizontal scrollbar */
+  }
+
+  .dashboard-card {
+    width: 90%;
+    max-width: 300px;
+  }
+}
+
+.dashboard-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3rem;
+  width: 3rem;
+}

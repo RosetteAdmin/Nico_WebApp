@@ -1,0 +1,273 @@
+.edit-user-wrapper {
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+  max-width: 1200px; /* Added to center content on larger screens */
+  margin: 0 auto; /* Center the wrapper */
+}
+
+.edit-user-heading {
+  font-style: oblique;
+  font-size: 24px;
+  font-weight: 500;
+  color: #2e2525;
+}
+
+.user-card {
+  display: flex;
+  justify-content: space-between;
+  border: 2px solid #ddd;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  margin-top: 1rem;
+  padding: 1rem; /* Added padding for better spacing */
+  gap: 1rem; /* Added gap for flex items */
+}
+
+.user-info {
+  padding: 1rem;
+  flex: 1; /* Allow user-info to grow */
+}
+
+.user-contact {
+  margin-top: 0; /* Removed fixed margin-top */
+  margin-right: 0; /* Removed fixed margin-right */
+  padding: 1rem; /* Added padding for consistency */
+  flex: 1; /* Allow user-contact to grow */
+}
+
+.devices-section {
+  background-color: white;
+  border: 2px solid #ddd;
+  border-radius: 15px;
+  padding: 1rem;
+}
+
+.devices-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-btn {
+  background-color: #f0f4ff;
+  color: #1265a9;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.devices-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; /* Ensure table doesn't shrink too much on small screens */
+}
+
+.devices-table th,
+.devices-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.devices-table th {
+  font-weight: 600;
+  color: #333;
+}
+
+.devices-table td {
+  color: #555;
+}
+
+.user-info p,
+.user-contact p {
+  color: black;
+  margin: 0.5rem 0; /* Added margin for better spacing */
+}
+
+.search-bar-container {
+  position: relative;
+  flex: 1;
+  min-width: 200px; /* Adjusted for better scaling */
+}
+
+.search-bar {
+  width: 100%;
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
+  border: 1px solid black;
+  border-radius: 20px;
+  outline: none;
+  font-size: 1rem; /* Added font-size for consistency */
+}
+
+.dev-search-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgb(0, 0, 0);
+  pointer-events: none;
+}
+
+.filter-button:hover {
+  color: #007bff;
+}
+
+.filter-button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-align: start;
+  color: black;
+  font-style: oblique;
+}
+
+body {
+  padding: 3rem;
+}
+
+
+@media (max-width: 1024px) {
+  .edit-user-wrapper {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .search-bar-container {
+    min-width: 150px; 
+  }
+
+  .user-info p,
+  .user-contact p {
+    font-size: 1rem; 
+  }
+
+  .user-card {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: large;
+  }
+
+  .user-info,
+  .user-contact {
+    width: 100%; 
+  }
+
+  .devices-table {
+    display: block; 
+    overflow-x: auto; 
+    width: 100%;
+  }
+
+  .filter-button{
+    right: inherit;
+  }
+}
+
+@media (max-width: 768px) {
+  .edit-user-wrapper {
+    padding: 0.5rem; 
+    width: 90%;
+  }
+
+ 
+
+  .title {
+    font-size: 1.5rem; 
+  }
+
+  .search-bar-container {
+    min-width: 100%; 
+    right: 0; 
+  }
+
+  .search-bar {
+    font-size: 0.9rem; 
+    width: 50%;
+  }
+
+  .dev-search-icon {
+    right: 90px; 
+  }
+
+  .filter-button {
+    font-size: 1rem; 
+  }
+
+  .user-card {
+    padding: 0.5rem;
+  }
+
+  .user-info,
+  .user-contact {
+    padding: 0.5rem; 
+  }
+
+  .user-info p,
+  .user-contact p {
+    font-size: 0.9rem; 
+  }
+
+  .devices-section {
+    padding: 0.5rem; 
+  }
+
+  .devices-header {
+    flex-direction: column; 
+    align-items: flex-start;
+  }
+
+  .devices-table {
+    display: block; 
+    overflow-x: auto;
+  }
+
+  .devices-table th,
+  .devices-table td {
+    padding: 8px; 
+    font-size: 0.9rem; 
+  }
+}
+
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.3rem; 
+  }
+
+  .search-bar {
+    font-size: 0.8rem; 
+    padding: 0.4rem 2rem 0.4rem 0.8rem; 
+  }
+
+  .dev-search-icon {
+    right: 6px; 
+  }
+
+  .filter-button {
+    font-size: 0.9rem; 
+  }
+
+  .user-info p,
+  .user-contact p {
+    font-size: 0.85rem; 
+  }
+
+  .devices-table th,
+  .devices-table td {
+    padding: 6px; 
+    font-size: 0.85rem; 
+  }
+}

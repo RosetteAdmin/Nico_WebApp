@@ -1,0 +1,217 @@
+/* Page-Specific Styling */
+.change-profile-main {
+  transform: translateX(0px) translateY(18px);
+}
+
+.change-profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.change-profile-header h1 {
+  position: relative;
+  right: 7%;
+  margin: 0 2rem 20px 2rem;
+  text-align: left;
+
+}
+
+.change-profile-logout-button {
+  margin-right: 70px;
+  margin-top: 10px;
+  background: #d32f2f;
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  padding: 15px 60px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+}
+
+.change-profile-logout-button:hover {
+  background-color: #b71c1c;
+}
+
+.change-profile-logout-button:focus {
+  outline: none;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+.change-profile-container {
+  position: relative;
+  right: 5%;
+  padding: 2rem 3rem;
+  width: 100%;
+  max-width: 1200px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.change-profile-form {
+  padding-bottom: 2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  margin: 20px auto;
+  background-color: #fff;
+  max-height: 50vh;
+  overflow-y: hidden;
+  /* Enable vertical scrolling */
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.change-profile-form::-webkit-scrollbar {
+  width: 8px;
+}
+
+.change-profile-form::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.change-profile-form::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+.change-profile-form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.change-profile-form-group label {
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.change-profile-form-group input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 0.8rem;
+  font-size: 1rem;
+  color: #14191f;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.change-profile-form-group input::placeholder {
+  color: rgb(75, 138, 132);
+}
+
+.change-profile-form-group input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+.change-profile-form-group input[readonly] {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.change-profile-save-button {
+  grid-column: 2;
+  justify-self: center;
+  position: relative;
+  left:15%;
+  width: 165px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 15px 45px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.change-profile-save-button:hover {
+  background: #0056b3;
+}
+
+.change-profile-save-button:focus {
+  outline: none;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+
+/* Medium screens (tablets and small laptops) */
+@media (max-width: 1400px) {
+  .change-profile-form {
+    max-width: 800px;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 15px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .change-profile-form {
+    max-width: 600px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .change-profile-save-button{
+    grid-column: 1;
+  }
+  .change-profile-form {
+    max-width: 500px;
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 800px) {
+  .change-profile-form {
+    max-width: 300px;
+    padding: 15px;
+  }
+
+  
+}
+
+@media (max-width: 768px) {
+  .change-profile-header h1 {
+    position: relative;
+    left:3%;
+  }
+  .change-profile-form {
+    width: 100%;
+    padding: 10px;
+    grid-template-columns: 1fr;
+  }
+
+  .change-profile-logout-button {
+    justify-self: center;
+  }
+
+  .change-profile-save-button {
+    justify-self: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .change-profile-form {
+    padding: 10px;
+    grid-template-columns: 1fr;
+    max-height: 70vh;
+    /* Reduce height for smaller screens */
+  }
+
+  .change-profile-logout-button {
+    width: 100%;
+  }
+
+  .change-profile-save-button {
+    width: 100%;
+  }
+}

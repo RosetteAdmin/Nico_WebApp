@@ -1,0 +1,137 @@
+/* General container styling */
+.access-management {
+  width: 90%;
+  max-width: 80vw;
+  margin: 0 auto;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Title Styling */
+.access-title {
+  font-size: 2.5rem; /* Scales well on different screens */
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+/* Card container - Ensures proper spacing & responsiveness */
+.access-cards-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+/* Individual Card Styling */
+.access-card {
+  background-color: white;
+  border: 0.1rem solid #e5e5e5;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  width: 40%; /* Adjusting width dynamically */
+  max-width: 22rem; /* Prevents excessive stretching */
+  min-width: 16rem; /* Ensures minimum size */
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+/* Hover Effects */
+.access-card:hover {
+  transform: translateY(-0.3rem);
+  box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.2);
+}
+
+/* Card Header */
+.card-header {
+  margin-bottom: 0.5rem;
+}
+
+/* Title inside the card */
+.card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 0.3rem;
+}
+
+/* Value inside the card */
+.card-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #000;
+  margin: 0;
+  margin-top:0.5em !important;
+  padding-top:0.3em !important;
+  padding-bottom:11px !important;
+}
+
+/* Trend styling */
+.card-trend {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: #28a745;
+  margin-top: 0.5rem;
+}
+
+/* Trend Icon */
+.trend-icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+}
+
+/* Trend Text */
+.trend-text {
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Responsive Design for Tablets */
+@media (max-width: 1024px) {
+  .access-management {
+    width: 95%;
+  }
+
+  .access-title {
+    font-size: 2.2rem;
+  }
+
+  .access-card {
+    width: 45%; /* Slightly wider for tablets */
+  }
+}
+
+/* Responsive Design for Mobile Devices */
+@media (max-width: 768px) {
+  .access-cards-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .access-title {
+    font-size: 2rem;
+  }
+
+  .access-card {
+    width: 90%; /* Take full width on mobile */
+  }
+}
+
+/* Extra Small Screens */
+@media (max-width: 480px) {
+  .access-title {
+    font-size: 1.8rem;
+  }
+
+  .access-card {
+    width: 100%;
+  }
+}
