@@ -1,97 +1,148 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import LoginScreen from "./Components/LoginScreen";
-import Header from "./Components/Header";
-import SideNavBar from "./Components/SideNavBar";
-import HomeDashboard from "./Components/HomeDashboard";
-import DeviceDashboard from "./Components/DeviceDashboard";
-import PreRegDevices from "./Components/PreRegDevices";
-import DeviceDetails from "./Components/DeviceDetails";
-import AddNewDevice from "./Components/AddNewDevice";
-import ChangeProfile from "./Components/ChangeProfile";
-import AccessManagement from "./Components/AccessManagement";
-import RegisteredCompany from "./Components/RegisteredCompany";
-import VendorsCompany from "./Components/VendorsCompany";
-import Userinfo from "./Components/Userinfo";
-import Userinfovendor from "./Components/UserInfovendor";
-import Customers from "./Components/Customers";
-import ServiceRequestsAlerts from "./Components/ServiceRequestsAlerts";
-import MaintenancePage from "./Components/NFM";
-import AddVendors from "./Components/AddVendors";
-import AddUsers from "./Components/AddUsers";
-import EditUser from "./Components/EditUser";
-import "./App.css";
+import "./App.css"; // Import the CSS file
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
-function App() {
-  // Initialize isLoggedIn directly based on localStorage
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    return !!user; // Return true if a user is found, otherwise false
-  });
+const App = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
+  const [showOtpSection, setShowOtpSection] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordStrength, setPasswordStrength] = useState("");
+  const [checkboxError, setCheckboxError] = useState("");
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
-  const handleLogin = () => {
-    setIsLoggedIn(true); 
+
+  const validateEmail = (email) => email.includes("@");
+
+  const handleVerifyOtp = () => {
+  console.log("OTP Verified for", email);
+  setShowSuccessPopup(true);  // Show the success card
+};
+
+
+  const validatePassword = (password) => {
+    const strongPasswordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    return strongPasswordRegex.test(password);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("user");
-    setIsLoggedIn(false); // Update state to logged out
+  const handleGenerateOtp = () => {
+    let valid = true;
+
+    if (!email) {
+      setEmailError("Please enter Email");
+      valid = false;
+    } else if (!validateEmail(email)) {
+      setEmailError("Please enter a valid email with '@'");
+      valid = false;
+    } else {
+      setEmailError("");
+    }
+
+    if (!password) {
+      setPasswordError("Please enter password");
+      valid = false;
+    } else if (!validatePassword(password)) {
+      setPasswordError("Password must be at least 6 characters long and contain letters and numbers");
+      valid = false;
+    } else {
+      setPasswordError("");
+    }
+
+    if (!isChecked) {
+      setCheckboxError("You must agree to the terms of use");
+      valid = false;
+    } else {
+      setCheckboxError("");
+    }
+
+    if (valid) {
+      console.log("OTP Generated for", email);
+      setShowOtpSection(true);
+    }
+  };
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    setPasswordError("");
+    if (!newPassword) {
+      setPasswordStrength("");
+    } else if (validatePassword(newPassword)) {
+      setPasswordStrength("Strong password");
+    } else {
+      setPasswordStrength("Weak password - must contain at least 6 characters, letters, and numbers");
+    }
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    setEmailError("");
+  };
+
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+    setCheckboxError("");
   };
 
   return (
-    <Router>
-      <div className="app-container">
-        {isLoggedIn ? (
-          <Routes>
-            {/* Maintenance route separated from the dashboard layout */}
-            <Route path="/maintenance" element={<MaintenancePage />} />
-            
-            {/* Dashboard Layout wrapped in a route */}
-            <Route
-              path="/*"
-              element={
-                <>
-                  <Header />
-                  <div className="main-content">
-                    <SideNavBar />
-                    <div className="content-area">
-                      <Routes>
-                        <Route path="/edit/:email" element={<EditUser/>} />
-                        <Route path="/dashboard" element={<HomeDashboard />} />
-                        <Route path="/devices" element={<DeviceDashboard />} />
-                        <Route path="/PreRegDevices" element={<PreRegDevices />} />
-                        <Route path="/device/:id" element={<DeviceDetails />} />
-                        <Route path="/add-device" element={<AddNewDevice />} />
-                        <Route path="/access-management" element={<AccessManagement />} />
-                        <Route path="/caccess" element={<RegisteredCompany />} />
-                        <Route path="/addusersinfo" element={<AddUsers/>} />      {/* Adding New Users */}
-                        <Route path="/vaccess" element={<VendorsCompany />} />
-                        <Route path="/addvendorsinfo" element={<AddVendors />} /> {/* Adding New Vendors */}
-                        <Route path="/profile" element={<ChangeProfile onLogout={handleLogout} />} />
-                        <Route path="/userinfo/:id" element={<Userinfo />} />
-                        <Route path="/userinfovendor/:id" element={<Userinfovendor />} />
-                        <Route path="/customers" element={<Customers />} />
-                        <Route path="/service-requests" element={<ServiceRequestsAlerts />} />
-                        <Route path="/" element={<Navigate to="/dashboard" />} />
-                        <Route path="*" element={<Navigate to="/maintenance" />} />
-                      </Routes>
-                    </div>
-                  </div>
-                </>
-              }
-            />
-          </Routes>
-        ) : (
-          // Login Screen
-          <Routes>
-            <Route path="/login" element={<LoginScreen handleLogin={handleLogin} />} />
-            <Route path="*" element={<Navigate to="/login" />} />
-          </Routes>
-        )}
+    <div className="container">
+      <div className="left-section">
+        
       </div>
-    </Router>
+
+      <div className="right-section">
+        <h1>Log In</h1>
+        <p className="note">Note: This page is dedicated only for Governing Members of NICO Nanobubbles India Co.</p>
+
+        <div className="form-container">
+          <label>Email</label>
+          <input type="email" className="input-field" value={email} onChange={handleEmailChange} />
+          {emailError && <p className="error-message">{emailError}</p>}
+
+          <label>Password</label>
+          <input type="password" className="input-field" value={password} onChange={handlePasswordChange} />
+          {passwordError && <p className="error-message">{passwordError}</p>}
+          {passwordStrength && <p className={`password-strength ${validatePassword(password) ? "strong" : "weak"}`}>{passwordStrength}</p>}
+
+          <div className="checkbox-container">
+            <input type="checkbox" checked={isChecked} onChange={handleCheckboxChange} />
+            <label>I agree with the terms of use</label>
+          </div>
+          {checkboxError && <p className="error-message">{checkboxError}</p>}
+
+          <button className="btn" onClick={handleGenerateOtp}>Generate OTP</button>
+
+          {showOtpSection && (
+            <>
+              <p><b> Enter OTP received to Above Email ID</b></p>
+              <input type="text" className="input-field" value={otp} onChange={(e) => setOtp(e.target.value)} />
+              <button className="btn" onClick={handleVerifyOtp}>Verify OTP and Login</button>
+            </>
+          )}
+        </div>
+      </div>
+      {showSuccessPopup && (
+      <div className="overlay">
+        <div className="popup-card">
+          <div className="icon">
+              <i className="fa fa-check-circle" aria-hidden="true"></i>
+          </div>
+          <h2>Log In Successful</h2>
+          <p>You are Logging In as<br /><strong>Company Associate</strong></p>
+          <button className="btn">
+            Continue
+          </button>
+        </div>
+      </div>
+      )}
+    </div>
   );
-}
+};
 
 export default App;
+
+
+
