@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 const LoginScreen = ({ handleLogin }) => {
   const [email, setEmail] = useState(""); // State for email input
+  const [otp, setOtp] = useState(""); // New state for OTP input
   const [password, setPassword] = useState(""); // State for password input
   const [passwordVisible, setPasswordVisible] = useState(false); // State to toggle password visibility
   const [loading, setLoading] = useState(false); // State to track loading
@@ -154,6 +155,8 @@ const LoginScreen = ({ handleLogin }) => {
               required
             />
 
+            
+
             {/* Password Input */}
             <label htmlFor="password">Password</label>
             <div className="password-input">
@@ -190,8 +193,26 @@ const LoginScreen = ({ handleLogin }) => {
 
             {/* Login Button */}
             <button type="submit" className="login-button" disabled={loading}>
-              {loading ? "Logging In..." : "Login"}
+              {loading ? "Logging In..." : "Generate OTP"}
             </button>
+
+
+{/* otp Input */}
+<label style={{ display: "block", textAlign: "center", marginTop: "20px", fontWeight: "bold" }}>
+  Enter OTP received to Above Email ID
+</label>
+            <input
+              type="number"
+              id="otp"
+              placeholder="Enter your otp"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)} // Update email state
+              required
+            />
+            <button onClick={handleLoginAgain} className="login-again-button">
+              Verify OTP and Login
+            </button>
+
           </form>
         </>
       )}

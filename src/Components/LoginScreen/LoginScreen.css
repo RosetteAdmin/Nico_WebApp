@@ -30,7 +30,6 @@ body {
   justify-content: center;
   align-items: center;
   position: relative;
-  margin-top: 20%;
   z-index: 20;
   padding: 2rem;
  
@@ -41,7 +40,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: -2rem;
+  margin-top: -4rem;
 }
 
 .logo img {
@@ -195,7 +195,7 @@ p {
   border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
-  margin-top: 4rem;
+  margin-top: 1rem;
 }
 
 .login-button:hover {
