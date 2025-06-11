@@ -1,6 +1,7 @@
 /* General Styles - Mobile First */
 .add-device {
     transform: translateX(0px) translateY(18px);
+    margin: 0 0 0 90px;
 }
 
 .add-device-headerDiv {

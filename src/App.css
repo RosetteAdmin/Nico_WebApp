@@ -2,6 +2,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 /* General App Styling */
+html, body, #root, .App {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
 .App {
   text-align: center;
 }
@@ -44,7 +52,6 @@
 /* Apply Inter font to the entire page */
 body {
   font-family: 'Inter', sans-serif;
-  margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -53,13 +60,12 @@ body {
 .app-container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 100vh; /* Changed from 100% to 100vh to ensure full viewport height */
   background-color: white !important;
 }
 
 .main-content {
   display: flex;
-
   flex: 1;
   margin-top: 60px; /* Adjusted margin to ensure header does not overlap content */
 }
@@ -67,8 +73,8 @@ body {
 .content-area {
   flex: 1;
   margin-right: 300px;
-  margin-left: 100px;
-  min-height:629px;   /* Make space for sidebar */
+  margin-left: -100px;
+  min-height: 629px; /* Make space for sidebar */
 }
 
 /* Header Styling */

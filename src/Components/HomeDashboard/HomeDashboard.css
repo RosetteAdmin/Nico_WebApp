@@ -1,132 +1,479 @@
-.dashboard-container {
-  padding: 2rem;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+
+.mobile-app-container {
+    font-family: 'Montserrat', sans-serif;
 }
 
-/* Dashboard Title */
-.dashboard-title {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 1.5rem;
-  text-align: left;
-  color: #0c5890;
+.quick-statistics h2 {
+    font-size: 18px;
+    margin-bottom: 14px;
+    margin-top: 14px;
+} 
+
+.statss-cards {
+    display: flex;
+    gap: 10px;
+    margin-top: 40px;
+    position:absolute;
+    left: -50px;
+    flex-wrap: wrap;
+        justify-content: center;
 }
 
-/* Card Hover Effect */
-.dashboard-card:hover {
-  transform: translateY(-5px);
+.arrow-icons {
+    position: absolute;
+    top: 43%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+    color: gray;
 }
 
-/* Cards Wrapper */
-.dashboard-card {
-  display: flex;
-  align-items: center;
-  background-color: white;
-  border-radius: 10px;
-  padding: 1rem;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15); /* Adjusted shadow for uniform effect */
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  width: 100%;
-  max-width: 250px;
-  min-width: 200px;
-  flex: 1 1 calc(25% - 1.5rem); /* Adjusted spacing */
-  height: 100px;
-  top: 10px;
-  position: relative; /* Ensures stacking order is correct */
-  bottom:10px;
+.stat-card {
+    background: rgb(255, 255, 255);
+    padding-left: 10px;
+    border-radius: 7px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
+    display: flex;
+    gap: 10px;
+    width: 250px;
+    height: 100px;
 }
 
-/* Ensure proper spacing */
-.dashboard-cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  justify-content: flex-start;  
-  align-content: flex-start; /* Helps in keeping cards aligned evenly */
+.stat-card.new-users {
+    width: 220px;
 }
 
-/* Adjust card content alignment */
-.card-content {
-  display: flex;
-  align-items: center;  /* Align items in a single line */
-  justify-content: space-between; /* Spread the items horizontally */
-  flex: 1;
+.stat-details {
+    flex-grow: 1;
 }
 
-/* Icon Styling */
-.card-icon {
-  margin-right: 1rem;
-  flex-shrink: 0;  /* Prevent icon from shrinking */
-}
-
-.card-icon img {
-  width: 60px;  /* Adjusted size */
-  height: 60px; /* Adjusted size */
-}
-
-/* Card Title and Value */
-.card-title {
-  font-size: 1rem;
-  font-weight: bold;
-  margin-right: 1rem;
-  flex: 1;  /* Allow title to take remaining space */
-}
-
-.card-value {
-  font-size: 2.5rem; /* Increased font size */
-  font-weight: bold;
-  color: #0c5890;
-  text-align: center;
-  flex-shrink: 0; /* Prevents shrinking */
-  padding-bottom:21px;
-  padding-right:11px;
-}
-
-/* Responsive Adjustments */
-
-/* Medium Screens (Tablets) */
-@media (max-width: 1024px) {
-  .dashboard-cards {
-    gap: 1rem;
-  }
-
-  .dashboard-card {
-    flex: 1 1 calc(33% - 1rem);
-    padding: 1rem;
-  }
-}
-
-/* Small Screens (Mobile) */
-@media (max-width: 768px) {
-  .dashboard-cards {
-    justify-content: flex-start;  /* Align cards to the left */
-    gap: 1rem;
-    overflow-x: hidden; /* Prevent horizontal scrollbar */
-  }
-
-  .dashboard-card {
-    flex: 1 1 calc(50% - 1rem);
-  }
-}
-
-/* Extra Small Screens */
-@media (max-width: 480px) {
-  .dashboard-cards {
-    flex-direction: column;
-    gap: 1rem;
+.stat-icon-container {
+    width: 40px;
+    height: 40px;
+    display: flex;
     align-items: center;
-    overflow-x: hidden; /* Prevent horizontal scrollbar */
-  }
-
-  .dashboard-card {
-    width: 90%;
-    max-width: 300px;
-  }
+    justify-content: center;
+    border-radius: 60%;
+    background-color: #F4F7FE;
 }
 
-.dashboard-loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 3rem;
-  width: 3rem;
+.quick-statistics {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top center;
+    padding-top: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.head {
+    margin-top: 50px;
+    margin-left: 90px;
+    font-weight: normal;
+    color: white;
+    font-size: 15px;
+}
+
+.head h1 {
+    color: white;
+}
+
+.quick-statistics-section {
+    position: relative;
+    padding-left: 20px;
+    padding-top: 90px;
+}
+
+.blue-band-bg {
+    position: absolute;
+    top: 0;
+    left: -100px;
+    height: 200px;
+    width: 150%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top;
+    z-index: 0;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+}
+
+.quick-statistics h2 {
+    color: white;
+}
+
+.stat-icon {
+    font-size: 26px;
+    color: #8F0000;
+}
+
+.stat-card p {
+    top: 20px;
+    font-size: 13px;
+    color: gray;
+    margin: 0;
+    position: relative;
+}
+
+.stat-card h3 {
+    position: relative;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    top: 30px;
+}
+
+.quick-actions {
+    margin-top: 10px;
+    margin-left: 30px;
+}
+
+.quick-actions h2 {
+    font-size: 18px;
+    margin-bottom: 14px;
+    margin-top: 20px;
+}
+
+.push-notification-container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4);
+    margin-bottom: 10px;
+    width: 30%;
+}
+
+.push-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 8px;
+}
+
+.push-title h2 {
+    font-size: 20px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #8F0000;
+    margin: 0;
+    margin-right: 10px;
+}
+
+.notif-icon {
+    font-size: 25px;
+    color: #8F0000;
+}
+
+.add-icon-circle {
+    background-color: #8F0000;
+    border-radius: 50%;
+    margin-left: 10px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.add-icon {
+    font-size: 15px;
+    color: white;
+}
+
+.notification-list {
+    margin-top: 20px;
+}
+
+.notification-card {
+    background: white;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    transition: all 0.2s ease-in-out;
+}
+
+.notification-card:hover {
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.notification-card h4 {
+    margin: 0;
+    font-size: 16px;
+    color: rgb(65, 64, 64);
+    font-weight: bolder;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.notification-card p {
+    font-size: 13px;
+    color: gray;
+    margin: 2px 0 0;
+}
+
+.notification-menu {
+    font-size: 14px;
+    color: gray;
+    cursor: pointer;
+}
+
+.last-days {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 0px;
+}
+
+.last-days p {
+    font-size: 13px;
+    color: gray;
+    margin-bottom: -2px;
+    line-height: 12px;
+}
+
+.days-dropdowna {
+    font-size: 14px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    outline: none;
+    font-weight: 600;
+    position: relative;
+    display: flex;
+    align-items: center;
+    top: 3px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .statss-cards {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .stat-card,
+    .stat-card.new-users {
+        width: 40%; /* Two cards per row */
+        max-width: 300px; /* Prevent overstretching */
+    }
+
+    .blue-band-bg {
+        margin-left: 5%;
+        width: 160%; /* Fit to container */
+        height: 250px; /* Adjust height for text */
+    }
+
+    .head {
+        margin-left: 15px;
+        font-size: 14px;
+    }
+
+    .push-notification-container {
+        width: 70%;
+    }
+}
+
+@media (max-width: 768px) {
+    .statss-cards {
+        flex-wrap: wrap; /* Still allow wrapping */
+        justify-content: center;
+        right: inherit; /* Remove any hardcoded positioning */
+    }
+
+    .stat-card,
+    .stat-card.new-users {
+        width: 100%; /* Larger width for smaller screens */
+        max-width: 350px;
+    }
+
+    .blue-band-bg {
+        left:-285px;
+        width: 190%;
+        height: 300px; /* Increase height for content */
+    }
+
+    .head {
+        margin-left: 10px;
+        font-size: 13px;
+    }
+
+    .head h1 {
+        font-size: 20px; /* Adjust heading size */
+    }
+
+    .quick-statistics-section {
+        padding-left: 0; /* Remove hardcoded padding */
+    }
+
+    .push-notification-container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .push-title h2 {
+        font-size: 18px;
+    }
+
+    .notif-icon {
+        font-size: 22px;
+    }
+
+    .add-icon {
+        font-size: 13px;
+    }
+
+    .notification-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .notification-card h4 {
+        font-size: 15px;
+    }
+
+    .notification-card p {
+        font-size: 12px;
+    }
+
+    .notification-menu {
+        align-self: flex-end;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .statss-cards {
+        gap: 10px;
+        left: 0; /* Reset positioning */
+    }
+
+    .stat-card,
+    .stat-card.new-users {
+        width: 100%; /* Full width for mobile */
+        height: 90px;
+        padding: 8px;
+    }
+
+    .stat-card h3 {
+        font-size: 14px;
+        top: 20px;
+    }
+
+    .stat-card p {
+        font-size: 12px;
+        top: 15px;
+    }
+
+    .blue-band-bg {
+        left: 0;
+        width: 100%;
+        height: 350px; /* Adjust height for mobile */
+    }
+
+    .head {
+        margin-left: 10px;
+        font-size: 12px;
+        margin-top: 30px;
+    }
+
+    .head h1 {
+        font-size: 18px;
+    }
+
+    .quick-statistics-section {
+        padding-top: 60px;
+        padding-left: 0;
+    }
+
+    .progress-circle {
+        width: 50px;
+        height: 50px;
+    }
+
+    .ellipse {
+        width: 100px;
+        height: 100px;
+        left: -25px;
+    }
+
+    .arrow-icons {
+        font-size: 24px;
+    }
+
+    .push-notification-container {
+        width: 100%;
+    }
+
+    .last-days p,
+    .days-dropdown {
+        font-size: 12px;
+    }
+}
+
+.progress-circle {
+    position: relative;
+    width: 64px;
+    height: 64px;
+}
+
+.progress-circle svg {
+    transform: rotate(-90deg);
+}
+
+circle.bg {
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 6;
+}
+
+circle.progress {
+    fill: linear-gradient(to right, #3B8AFF, #0048B2);
+    display: block;
+    stroke-width: 3;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.6s ease;
+}
+
+.ellipse {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    left: -30px;
+}
+
+.arrow {
+    stroke: #999;
+    stroke-width: 2;
+    stroke-linecap: round;
+    transform: rotate(45deg);
+    transform-origin: center;
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-title {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 4px 0 0;
 }

@@ -1,12 +1,11 @@
 /* Base Styles */
 .side-nav {
   margin-top: 15px;
-  width: 250px;
   background-color: white !important;
   padding: 1rem;
   height: 100vh; /* Full viewport height */
   position: absolute; /* Fixing it to the left side */
-  top: 85px; /* Ensure it starts below the header */
+  top: 80px; /* Ensure it starts below the header */
   left: 0; /* Align it to the left of the screen */
   z-index: 999; /* Ensure it is below the header */
   font-weight: 400;
@@ -167,3 +166,54 @@
 
 
 
+/* SideNavBar.css */
+.side-nav {
+  width: 60px;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  background-color: #1e1e2f;
+  height: 100vh;
+  position: fixed;
+  z-index: 100;
+}
+
+.side-nav:hover {
+  width: 250px;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.main-link {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  color: white;
+  text-decoration: none;
+}
+
+.nav-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.nav-text {
+  opacity: 0;
+  white-space: nowrap;
+  margin-left: 10px;
+  transition: opacity 0.3s ease;
+}
+
+/* Show text only when expanded */
+.side-nav:hover .nav-text {
+  opacity: 1;
+}

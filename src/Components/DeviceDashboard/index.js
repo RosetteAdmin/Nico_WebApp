@@ -7,6 +7,7 @@ import "./DeviceDashboard.css";
 const DeviceDashboard = () => {
   const [devices, setDevices] = useState([]);
   const [loading, setLoading] = useState(true); // State for loading screen
+  const userrole = JSON.parse(localStorage.getItem("user")).role;
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_EP}/api/devices`)

@@ -1,0 +1,24 @@
+<svg width="174" height="174" viewBox="0 0 174 174" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_d_2060_5589)">
+<circle cx="87" cy="69" r="47" fill="url(#paint0_linear_2060_5589)"/>
+<circle cx="87" cy="69" r="44.5" stroke="white" stroke-width="5"/>
+</g>
+<path d="M70.5 67.1666C70.5 60.2921 70.5 56.8549 72.2507 54.4453C72.8161 53.6671 73.5004 52.9827 74.2786 52.4173C76.6882 50.6666 80.1255 50.6666 87 50.6666C93.8745 50.6666 97.3118 50.6666 99.7214 52.4173C100.5 52.9827 101.184 53.6671 101.749 54.4453C103.5 56.8549 103.5 60.2921 103.5 67.1666V70.8333C103.5 77.7078 103.5 81.1451 101.749 83.5547C101.184 84.3329 100.5 85.0172 99.7214 85.5826C97.3118 87.3333 93.8745 87.3333 87 87.3333C80.1255 87.3333 76.6882 87.3333 74.2786 85.5826C73.5004 85.0172 72.8161 84.3329 72.2507 83.5547C70.5 81.1451 70.5 77.7078 70.5 70.8333V67.1666Z" stroke="white" stroke-width="1.5"/>
+<path d="M87.0002 80L90.6668 75.4169H83.3335L87.0002 70.8334" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M77.8335 63.5H96.1668" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+<defs>
+<filter id="filter0_d_2060_5589" x="0" y="0" width="174" height="174" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="18"/>
+<feGaussianBlur stdDeviation="20"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.439216 0 0 0 0 0.564706 0 0 0 0 0.690196 0 0 0 0.12 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2060_5589"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2060_5589" result="shape"/>
+</filter>
+<linearGradient id="paint0_linear_2060_5589" x1="40" y1="22" x2="134" y2="116" gradientUnits="userSpaceOnUse">
+<stop stop-color="#3B8AFF"/>
+<stop offset="1" stop-color="#0048B2"/>
+</linearGradient>
+</defs>
+</svg>

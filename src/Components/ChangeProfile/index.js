@@ -41,9 +41,9 @@ const ChangeProfile = ({onLogout}) => {
     <div className="change-profile-main">
       <div className="change-profile-header">
         <h2>Profile Information</h2>
-        <button className="change-profile-logout-button" onClick={onLogout}>
+        {/* <button className="change-profile-logout-button" onClick={onLogout}>
           Logout
-        </button>
+        </button> */}
       </div>
       <div className="change-profile-container">
         <form className="change-profile-form" onSubmit={(e) => e.preventDefault()}>

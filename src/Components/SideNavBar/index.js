@@ -76,12 +76,12 @@ const menuItems = [
     icon: ServicesRequestIcon,
     url: "/service-requests",
   },
-  {
-    key: "profile",
-    title: "Profile",
-    icon: ProfileIcon,
-    url: "/profile",
-  },
+  // {
+  //   key: "profile",
+  //   title: "Profile",
+  //   icon: ProfileIcon,
+  //   url: "/profile",
+  // },
 ];
 
 const SideNavBar = () => {

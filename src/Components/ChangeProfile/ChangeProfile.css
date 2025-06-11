@@ -1,6 +1,7 @@
 /* Page-Specific Styling */
 .change-profile-main {
   transform: translateX(0px) translateY(18px);
+  margin: 0 0 20px 100px;
 }
 
 .change-profile-header {
@@ -60,7 +61,7 @@
   gap: 40px;
   margin: 20px auto;
   background-color: #fff;
-  max-height: 50vh;
+  max-height: none;
   overflow-y: hidden;
   /* Enable vertical scrolling */
   padding: 20px;

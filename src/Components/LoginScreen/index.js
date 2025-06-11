@@ -2,34 +2,38 @@ import React, { useState } from "react";
 import "./LoginScreen.css";
 import NICOCompany from "./../../Images/LoginScreen/NICOCompany.svg";
 import BottomDesign from "./../../Images/LoginScreen/bottomdesign.svg";
-import Confirm from "./../../Images/LoginScreen/Confirmation.svg";
-import CloseEye from "./../../Images/LoginScreen/CloseEye.svg"; // Eye icon for hidden password
-import OpenEye from "./../../Images/LoginScreen/OpenEye.svg";  // Eye icon for visible password
+import CloseEye from "./../../Images/LoginScreen/CloseEye.svg";
+import OpenEye from "./../../Images/LoginScreen/OpenEye.svg";
+import nico from "./../../Images/LoginScreen/nico.svg";
+import leftside from "./../../Images/LoginScreen/leftside.svg";
+
+
 import { useNavigate } from "react-router-dom";
 
 const LoginScreen = ({ handleLogin }) => {
-  const [email, setEmail] = useState(""); // State for email input
-  const [otp, setOtp] = useState(""); // New state for OTP input
-  const [password, setPassword] = useState(""); // State for password input
-  const [passwordVisible, setPasswordVisible] = useState(false); // State to toggle password visibility
-  const [loading, setLoading] = useState(false); // State to track loading
-  const [error, setError] = useState(""); // State to track error messages
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State for login confirmation
-  const [role, setRole] = useState(""); // State to store user role
-  const [user, setUser] = useState(null); // State to store user data
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [error, setError] = useState("");
+  const [errorPopup, setErrorPopup] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [role, setRole] = useState("");
+  const [user, setUser] = useState(null);
+  const [otpGenerated, setOtpGenerated] = useState(false);
 
   const togglePasswordVisibility = () => {
-    setPasswordVisible((prev) => !prev); // Toggle password visibility state
+    setPasswordVisible((prev) => !prev);
   };
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent page reload on form submission
+    e.preventDefault();
 
     if (email && password) {
-      setLoading(true); // Show loading spinner
-      setError(""); // Reset error state before making the request
+      setError("");
+      setErrorPopup(false);
 
       const headersList = {
         Accept: "*/*",
@@ -39,55 +43,125 @@ const LoginScreen = ({ handleLogin }) => {
 
       try {
         const bodyContent = JSON.stringify({ email, password });
-    
         const response = await fetch(`${process.env.REACT_APP_EP}/data/getuser`, {
-            method: "POST",
-            body: bodyContent,
-            headers: {
-                "Content-Type": "application/json",
-                ...headersList,
-            },
+          method: "POST",
+          body: bodyContent,
+          headers: {
+            "Content-Type": "application/json",
+            ...headersList,
+          },
         });
-    
-        console.log(response);
-    
-        const data = await response.json(); // Assuming the server responds with JSON
-        console.log("Data:", data.user); // Log the data object
-    
-        if (response.ok && email === data.user.email && password === data.user.password) {
-            console.log("Logged in successfully:", data);
-    
-            // Extract the role property
-            const userRole = data.user.role;
-            console.log("User Role:", userRole);
-    
-            // Store token or user data in local storage
-            if (data) {
-                localStorage.setItem("authToken", data.token); // Store the token
-                localStorage.setItem("user", JSON.stringify(data.user)); // Optionally store user data
-            }
-            setRole(userRole); // Set the role state
-            setIsLoggedIn(true); // Confirm login
-            setUser(true);
-        } else {
-            setError(data.message || "Login failed. Please check your credentials.");
-            setUser(false);
-            setIsLoggedIn(true); // Confirm login
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Failed to validate email/password.`);
         }
-    } catch (error) {
-        setError("An error occurred. Please try again later.");
+
+        const data = await response.json();
+
+        if (email === data.user.email && password === data.user.password) {
+          const otpResponse = await fetch(`${process.env.REACT_APP_EP}/auth/otp`, {
+            method: "POST",
+            body: JSON.stringify({ email }),
+            headers: {
+              "Content-Type": "application/json",
+              ...headersList,
+            },
+          });
+
+          if (!otpResponse.ok) {
+            const errorText = await otpResponse.text();
+            throw new Error(`OTP generation failed.`) 
+          //     Status: ${otpResponse.status}, Response: ${errorText}
+          //     `);
+          }
+
+          const otpData = await otpResponse.json();
+          if (otpResponse.ok) {
+            setOtpGenerated(true);
+            setUser(data.user);
+            setRole(data.user.role);
+          } else {
+            setError(otpData.message || "Failed to send OTP. Please try again.");
+            setErrorPopup(true);
+            setOtpGenerated(false);
+          }
+        } else {
+          setError(data.message || "Invalid email or password.");
+          setErrorPopup(true);
+          setOtpGenerated(false);
+        }
+      } catch (error) {
+        setError(error.message || "An error occurred during login. Please try again later.");
+        setErrorPopup(true);
         console.error("Error during login:", error);
-    } finally {
-        setLoading(false); // Hide loading spinner
-    }
+        setOtpGenerated(false);
+      }
     } else {
-      alert("Please enter both email and password!"); // Alert for incomplete input
+      setError("Please enter both email and password!");
+      setErrorPopup(true);
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    if (!otpGenerated) {
+      setError("Please generate an OTP first.");
+      setErrorPopup(true);
+      return;
+    }
+
+    if (!otp) {
+      setError("Please enter the OTP.");
+      setErrorPopup(true);
+      return;
+    }
+
+    setError("");
+    setErrorPopup(false);
+
+    const headersList = {
+      Accept: "*/*",
+      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+      "Content-Type": "application/json",
+    };
+
+    try {
+      const verifyResponse = await fetch(`${process.env.REACT_APP_EP}/auth/verifyotp`, {
+        method: "POST",
+        body: JSON.stringify({ email, otp }),
+        headers: {
+          "Content-Type": "application/json",
+          ...headersList,
+        },
+      });
+
+      if (!verifyResponse.ok) {
+        const errorText = await verifyResponse.text();
+        throw new Error(`OTP verification failed.`);
+        //  Status: ${verifyResponse.status}, Response: ${errorText}`);
+      }
+
+      const verifyData = await verifyResponse.json();
+
+      if (verifyResponse.ok) {
+        localStorage.setItem("authToken", verifyData.token || "mock-token");
+        localStorage.setItem("user", JSON.stringify(user));
+        setIsLoggedIn(true);
+      } else {
+        setError(verifyData.message || "Invalid OTP. Please try again.");
+        setErrorPopup(true);
+        setIsLoggedIn(false);
+      }
+    } catch (error) {
+      setError(error.message || "An error occurred during OTP verification. Please try again.");
+      setErrorPopup(true);
+      console.error("Error during OTP verification:", error);
     }
   };
 
   const handleContinue = () => {
-    handleLogin(); // Update the parent component's state 
-    navigate("/dashboard"); // Redirect to the dashboard
+    handleLogin();
+    navigate("/dashboard");
   };
 
   const handleLoginAgain = () => {
@@ -95,77 +169,78 @@ const LoginScreen = ({ handleLogin }) => {
     setUser(null);
     setEmail("");
     setPassword("");
+    setOtp("");
     setError("");
+    setErrorPopup(false);
     setRole("");
+    setOtpGenerated(false);
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
-    };
+  };
 
   return (
     <div className="login-page">
-      <div className="logo">
-        <img src={NICOCompany} alt="NICO Logo" />
+      <div className="left-section">
+        <img src={leftside} alt="NICO Logo" />
       </div>
+      <div className="right-section">
       {isLoggedIn && user ? (
+        
         <div className="confirmation-view">
           <div className="confirmation-content">
             <div className="confirm-icon">
-              <img src={Confirm} alt="Confirmation Icon" />
+              <i className="fa fa-check-circle" aria-hidden="true"></i>
             </div>
             <h2>Login Successful</h2>
             <p>You are logging in as:</p>
-            <p>{role}</p> {/* Display the role */}
+            <p>{role}</p>
             <button onClick={handleContinue} className="continue-button">
               Continue
             </button>
           </div>
-          {/* <button onClick={handleLoginAgain} className="login-again-button">
-            Login
-          </button> */}
         </div>
-      ) : isLoggedIn && !user ? (
+      ) : (isLoggedIn && !user) || errorPopup ? (
         <div className="confirmation-view">
           <div className="confirmation-content">
-            <h2>Invalid User</h2>
-            <p>The user does not exist in the database.</p>
+            <h2>Error</h2>
+            <p>{error}</p>
             <button onClick={handleLoginAgain} className="login-again-button">
-              Login
+              Try Again
             </button>
           </div>
         </div>
       ) : (
         <>
-          {/* Title and Info */}
-          <h2>Login Now</h2>
-          <p>*Login to Admin Dashboard is only for Company Authorized Associates</p>
+          <h1>Log In </h1>
+          <p className="note">Note: This page is dedicated only for Governing Members of NICO Nanububbles India Co.</p>
 
-          {/* Error Message */}
-          {error && <div className="error-message">{error}</div>}
+          {otpGenerated && !error && (
+            <div className="success-message">
+              OTP sent successfully. Please check your email.
+            </div>
+          )}
 
-          {/* Login Form */}
           <form className="login-form" onSubmit={handleSubmit}>
-            {/* Email Input */}
             <label htmlFor="email">Email</label>
             <input
+              className="input-field"
               type="email"
               id="email"
               placeholder="Enter your email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)} // Update email state
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
 
-            
-
-            {/* Password Input */}
             <label htmlFor="password">Password</label>
             <div className="password-input">
               <input
-                type={passwordVisible ? "text" : "password"} // Toggle between text and password
+                className="input-field"
+                type={passwordVisible ? "text" : "password"}
                 id="password"
                 placeholder="Enter your password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)} // Update password state
+                onChange={(e) => setPassword(e.target.value)}
                 required
               />
               <button
@@ -173,7 +248,6 @@ const LoginScreen = ({ handleLogin }) => {
                 className="toggle-password"
                 onClick={togglePasswordVisibility}
               >
-                {/* Dynamically change the password visibility icon */}
                 <img
                   src={passwordVisible ? OpenEye : CloseEye}
                   alt={passwordVisible ? "Hide Password" : "Show Password"}
@@ -182,43 +256,43 @@ const LoginScreen = ({ handleLogin }) => {
               </button>
             </div>
 
-            {/* Remember Me and Forgot Password */}
             <div className="options">
               <div className="remember-me">
                 <input type="checkbox" id="remember-me" />
-                <label htmlFor="remember-me">Remember me</label>
+                <label htmlFor="remember-me">I agree with the terms of use</label>
               </div>
-              <a href="/forgot-password">Forgot Password?</a>
             </div>
 
-            {/* Login Button */}
-            <button type="submit" className="login-button" disabled={loading}>
-              {loading ? "Logging In..." : "Generate OTP"}
+            <button type="submit" className="login-button">
+              Generate OTP
             </button>
-
-
-{/* otp Input */}
-<label style={{ display: "block", textAlign: "center", marginTop: "20px", fontWeight: "bold" }}>
-  Enter OTP received to Above Email ID
-</label>
+            <div className="otp-label">
+            <label style={{ display: "block", textAlign: "center", marginTop: "20px", fontWeight: "bold" }}>
+              Enter OTP received to Above Email ID
+            </label>
+            </div>
             <input
+              className="input-field"
               type="number"
               id="otp"
-              placeholder="Enter your otp"
+              placeholder="Enter your OTP"
               value={otp}
-              onChange={(e) => setOtp(e.target.value)} // Update email state
-              required
+              onChange={(e) => setOtp(e.target.value)}
             />
-            <button onClick={handleLoginAgain} className="login-again-button">
+            <button
+              type="button"
+              onClick={handleVerifyOtp}
+              className="login-again-button"
+            >
               Verify OTP and Login
             </button>
-
           </form>
         </>
       )}
-      <div className="bottom-design">
+      {/* <div className="bottom-design">
         <img src={BottomDesign} alt="Bottom Design" />
-      </div>
+      </div> */}
+    </div>
     </div>
   );
 };
