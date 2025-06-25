@@ -11,36 +11,39 @@ import LinkIcon from "./../../Images/SideNavBar/LinkIcon.svg";
 import NoteIcon from "./../../Images/SideNavBar/NoteIcon.svg";
 import "./SideNavBar.css";
 
+// Define menu items with role-based access
 const menuItems = [
   {
     key: "dashboard",
     title: "Dashboard",
     icon: DashBoardIcon,
     url: "/dashboard",
+    roles: ["Admin", "Company Associate", "Customer", "Vendor"],
   },
   {
     key: "devices",
     title: "Devices",
     icon: DevicesIcon,
+    roles: ["Admin", "Company Associate","Customer","Vendor"],
     subMenu: [
       {
         key: "registered-devices",
-        title: "Registered Devices",
-        icon: LinkIcon,
+        title: "Installed",
         url: "/devices",
+        roles: ["Admin", "Company Associate","Vendor"],
       },
       {
         key: "pre-reg-device",
-        title: "Pre-Registered Devices",
-        icon: LinkIcon,
+        title: "Registered",
         url: "/PreRegDevices",
+        roles: ["Admin", "Company Associate","Vendor"],
       },
-      {
-        key: "add-device",
-        title: "Add New Device",
-        icon: NoteIcon,
-        url: "/add-device",
-      },
+      // {
+      //   key: "add-device",
+      //   title: "Add New Device",
+      //   url: "/add-device",
+      //   roles: ["Admin", "Company Associate","Vendor"],
+      // },
     ],
   },
   {
@@ -48,26 +51,27 @@ const menuItems = [
     title: "Customers",
     icon: CustomerIcon,
     url: "/customers",
+    roles: ["Admin", "Company Associate","Vendor"],
   },
   {
     key: "access-management",
-    title: "Access Management",
+    title: "User Access",
     icon: AccessManagementIcon,
     url: "/access-management",
+    roles: ["Admin"],
     subMenu: [
       {
         key: "company-associates",
-        title: "Company Associates",
-        icon: NoteIcon,
+        title: "Associates",
         url: "/caccess",
+        roles: ["Admin"],
       },
       {
         key: "vendors",
-        title: "Vendor / Service",
-        icon: NoteIcon,
+        title: "Vendors",
         url: "/vaccess",
+        roles: ["Admin"],
       },
-      
     ],
   },
   {
@@ -75,12 +79,14 @@ const menuItems = [
     title: "Service Requests",
     icon: ServicesRequestIcon,
     url: "/service-requests",
+    roles: ["Admin", "Company Associate", "Vendor"],
   },
   // {
   //   key: "profile",
   //   title: "Profile",
   //   icon: ProfileIcon,
   //   url: "/profile",
+  //   roles: ["Admin", "Customer"],
   // },
 ];
 
@@ -88,6 +94,8 @@ const SideNavBar = () => {
   const [selectedComponent, setSelectedComponent] = useState("dashboard");
   const [selectedSubComponent, setSelectedSubComponent] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
+
+  const userRole =  JSON.parse(localStorage.getItem("user")).role; // manage access
 
   const handleComponentClick = (key) => {
     setOpenMenu(false);
@@ -97,34 +105,47 @@ const SideNavBar = () => {
 
   const handleSubComponentClick = (key) => {
     setSelectedSubComponent(key);
+
+    const parent = menuItems.find((item) =>
+      item.subMenu?.some((subItem) => subItem.key === key)
+    );
+    if (parent) {
+      setSelectedComponent(parent.key);
+    }
   };
 
   const toggleMenu = (key) => {
     setOpenMenu((prevMenu) => (prevMenu === key ? null : key));
   };
 
+  // Filter menu items based on user role
+  const filteredMenuItems = menuItems
+    .filter((item) => item.roles.includes(userRole))
+    .map((item) => ({
+      ...item,
+      subMenu: item.subMenu?.filter((subItem) => subItem.roles.includes(userRole)),
+    }))
+    .filter((item) => !item.subMenu || item.subMenu.length > 0);
+
   return (
-    
     <nav className="side-nav">
       <ul className="nav-list">
-        {menuItems.map((item) => (
-          <li key={item.key} className="nav-item">
+        {filteredMenuItems.map((item) => (
+          <li key={item.key} className={`nav-item${openMenu === item.key ? " open" : ""}`}>
             {!item.subMenu ? (
               <Link
                 to={item.url}
                 onClick={() => handleComponentClick(item.key)}
-                className="main-link"
+                className={`main-link ${selectedComponent === item.key ? "active" : ""}`}
               >
                 <img
                   src={item.icon}
                   alt={`${item.title} icon`}
-                  className= {selectedComponent === item.key ? "nav-icon active-img" : "nav-icon"}
+                  className={selectedComponent === item.key ? "nav-icon active-icon" : "nav-icon"}
                   style={{ marginRight: "10px" }}
                 />
                 <span
-                  className={`nav-text ${
-                    selectedComponent === item.key ? "active" : ""
-                  }`}
+                  className={`nav-text ${selectedComponent === item.key ? "active" : ""}`}
                 >
                   {item.title}
                 </span>
@@ -132,22 +153,18 @@ const SideNavBar = () => {
             ) : (
               <>
                 <div
-                  // onClick={() => {
-                  //   handleComponentClick(item.key);
-                  //   toggleMenu(item.key);
-                  // }}
                   onClick={(e) => {
-                    e.stopPropagation(); 
+                    e.stopPropagation();
                     handleComponentClick(item.key);
                     toggleMenu(item.key === openMenu ? null : item.key);
                   }}
-                  className="main-link"
+                  className={`main-link ${selectedComponent === item.key ? "active" : ""}`}
                 >
                   <img
                     src={item.icon}
                     alt={`${item.title} icon`}
                     className={
-                      selectedComponent === item.key ? "nav-icon active-img" : "nav-icon"
+                      selectedComponent === item.key ? "nav-icon active-icon" : "nav-icon"
                     }
                     style={{ marginRight: "10px" }}
                   />
@@ -160,14 +177,11 @@ const SideNavBar = () => {
                   </span>
                   <img
                     src={Arrow}
-                    className={`arrow-icon ${
-                      openMenu === item.key ? "rotate" : ""
-                    }`}
+                    className={`arrow-icon ${openMenu === item.key ? "rotate" : ""}`}
                     alt="arrow icon"
                     style={{ marginLeft: "auto" }}
-                    // onClick={() => toggleMenu(item.key)} old toggle menu
                     onClick={(e) => {
-                      e.stopPropagation(); // Prevent parent click
+                      e.stopPropagation();
                       toggleMenu(item.key === openMenu ? null : item.key);
                     }}
                   />
@@ -179,18 +193,19 @@ const SideNavBar = () => {
                         <Link
                           to={subItem.url}
                           onClick={() => handleSubComponentClick(subItem.key)}
-                          className="sub-link"
+                          className={`sub-link ${
+                            selectedSubComponent === subItem.key ? "active" : ""
+                          }`}
                         >
-                          <img
-                            src={subItem.icon}
-                            alt={`${subItem.title} icon`}
-                            className={
-                              selectedSubComponent === subItem.key
-                                ? "nav-sub-icon"
-                                : "active-img"
-                            }
-                            style={{ marginRight: "10px" }}
-                          />
+                          {subItem.icon && (
+                            <img
+                              src={subItem.icon}
+                              alt={`${subItem.title} icon`}
+                              className={`nav-sub-icon ${
+                                selectedSubComponent === subItem.key ? "active-icon" : ""
+                              }`}
+                            />
+                          )}
                           <span
                             className={`nav-text ${
                               selectedSubComponent === subItem.key ? "active" : "nav-text"

@@ -63,10 +63,9 @@ const AddNewDevice = () => {
         <div className="add-device">
             <div className="add-device-headerDiv">
                 <h1 className="add-device-andHeader">Create New Device</h1>
-                <button className="add-device-button" form="addDeviceForm" type="submit">{loading ? 'Creating...' : 'Create Now'}</button>
+                <button className="add-device-button" form="addDeviceForm" type="submit">{loading ? 'Creating...' : 'Create'}</button>
             </div>
             <div className="add-device-formDiv">
-                <h4 className='add-device-insideHeader'>Add Device Basic Information</h4>
 
                 <form id="addDeviceForm" className="add-device-andForm" onSubmit={handleSubmit}>
 
@@ -95,18 +94,6 @@ const AddNewDevice = () => {
                         />
                     </div>
                     <div>
-                        <label className="add-device-andLabel" htmlFor="deviceOwner">Device Owner:</label>
-                        <input
-                            placeholder="Owner Name"
-                            type="text"
-                            id="deviceOwner"
-                            className='add-device-input'
-                            value={deviceOwner}
-                            onChange={(e) => setDeviceOwner(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div>
                         <label className="add-device-andLabel" htmlFor="emailId">Email ID:</label>
                         <input
                             placeholder="example@gmail.com"
@@ -118,6 +105,19 @@ const AddNewDevice = () => {
                             required
                         />
                     </div>
+                    <div>
+                        <label className="add-device-andLabel" htmlFor="deviceOwner">Device Owner:</label>
+                        <input
+                            placeholder="Owner Name"
+                            type="text"
+                            id="deviceOwner"
+                            className='add-device-input'
+                            value={deviceOwner}
+                            onChange={(e) => setDeviceOwner(e.target.value)}
+                            required
+                        />
+                    </div>
+                    
                     <div>
                         <label className="add-device-andLabel" htmlFor="phoneNumber">Phone Number:</label>
                         <input

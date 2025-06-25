@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faSearch,faSliders,faEllipsisVertical,} from "@fortawesome/free-solid-svg-icons";
+import { faSearch,faAngleLeft,faAngleRight, faSliders, faEllipsisVertical,faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import "./Customers.css";
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
-  const [loading, setLoading] = useState(true); // State for loading screen
+  const [loading, setLoading] = useState(true);
   const [activeMenu, setActiveMenu] = useState(null);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_EP}/data/customers`)
       .then((response) => response.json())
       .then((data) => {
-        setCustomers(data.value || []); // Safe access
+        const updatedData = (data.value || []).map(customer => ({
+          ...customer,
+          status: getRandomStatus()
+        }));
+        setCustomers(updatedData);
         setLoading(false);
       })
       .catch((error) => {
@@ -22,14 +26,18 @@ const Customers = () => {
       });
   }, []);
 
+  const getRandomStatus = () => {
+    const statuses = ["Info", "Warning", "Dark", "Light", "Secondary", "Success", "Danger"];
+    return statuses[Math.floor(Math.random() * statuses.length)];
+  };
+
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState(""); // Search query state
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 7;
 
-  // Filter customers based on the search query
-  const filteredCustomers = customers.filter((Customer) =>
-    Object.values(Customer)
+  const filteredCustomers = customers.filter((customer) =>
+    Object.values(customer)
       .join(" ")
       .toLowerCase()
       .includes(searchQuery.toLowerCase())
@@ -38,10 +46,7 @@ const Customers = () => {
   const totalRows = filteredCustomers.length;
   const totalPages = Math.ceil(totalRows / rowsPerPage);
   const startIndex = (currentPage - 1) * rowsPerPage;
-  const displayedCustomers = filteredCustomers.slice(
-    startIndex,
-    startIndex + rowsPerPage
-  );
+  const displayedCustomers = filteredCustomers.slice(startIndex, startIndex + rowsPerPage);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
@@ -52,39 +57,34 @@ const Customers = () => {
   };
 
   const handleEdit = (email) => {
-    navigate(`/edit/${email}`);  
+    navigate(`/edit/${email}`);
   };
-  
 
   const handleDelete = async (email) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this user?");
     if (!confirmDelete) return;
-  
+
     try {
       const response = await fetch(`${process.env.REACT_APP_EP}/data/deletecustomer`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email }),  // <-- Send email in body
+        body: JSON.stringify({ email }),
       });
-  
+
       const result = await response.json();
-  
-      if (result.status === 'success') {
-        // Remove the customer from state
-        setCustomers(prevCustomers => prevCustomers.filter(c => c.email !== email));
-        console.log('User deleted successfully');
+
+      if (result.status === "success") {
+        setCustomers((prevCustomers) => prevCustomers.filter((c) => c.email !== email));
+        console.log("User deleted successfully");
       } else {
-        console.error('Failed to delete user:', result.message);
+        console.error("Failed to delete user:", result.message);
       }
-  
     } catch (error) {
-      console.error('Failed to delete user:', error);
+      console.error("Failed to delete user:", error);
     }
   };
-  
-  
 
   const handleRowClick = () => {
     // navigate(`/device/${id}`);
@@ -98,94 +98,121 @@ const Customers = () => {
           <div className="loading-text">Waiting for server...</div>
         </div>
       )}
-      <div className="device-dashboard">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <h2 className="dashboard-title" style={{ margin: 0 }}>
-            Device Owners
-          </h2>
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <div className="search-bar-container">
+<div className="search-bar-container">
+      <h2 className="dashboard-title">Customers</h2>
+      
+            
               <input
                 type="text"
-                placeholder="Search by Email, Name, Sector, or Devices"
+                placeholder="Search"
                 className="search-bar"
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
-                  setCurrentPage(1); // Reset to first page on new search
+                  setCurrentPage(1);
                 }}
               />
               <span className="dev-search-icon">
                 <FontAwesomeIcon icon={faSearch} />
               </span>
-            </div>
             <button className="filter-button">
               <FontAwesomeIcon icon={faSliders} />
             </button>
+
+            <div className="table-footer">
+          <span className="pagination-info">
+             
+            {Math.min(startIndex + rowsPerPage, totalRows)} of {totalRows}
+          </span>
+          <div className="pagination-controls">
+            <button onClick={handlePrevPage} disabled={currentPage === 1}>
+                <span className="arrow-icon">
+              <FontAwesomeIcon icon={faAngleLeft} />
+                </span>
+            </button>
+            <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+              <span className="arrow-icon">
+              <FontAwesomeIcon icon={faAngleRight} />
+              </span>
+
+            </button>
           </div>
+        </div>
+            </div>
+
+
+      <div className="device-dashboard">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
+        >
+          
         </div>
 
         <table className="device-table">
           <thead>
             <tr>
-              <th>Email ID</th>
+              <th>Email</th>
               <th>Name</th>
-              <th>Sector</th>
+              <th>Location/Sector</th>
               <th>Devices Linked</th>
-              <th>Actions</th>
+              <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {displayedCustomers.length > 0 ? (
-              displayedCustomers.map((Customer) => (
+              displayedCustomers.map((customer) => (
                 <tr
-                  key={Customer.email}
-                  onClick={() => handleRowClick(Customer.email)}
+                  key={customer.email}
+                  onClick={() => handleRowClick(customer.email)}
                   style={{ cursor: "pointer" }}
                 >
-                  <td>{Customer.email}</td>
-                  <td>{Customer.name}</td>
-                  <td>{Customer.sector}</td>
-                  <td>{Customer.connected_devices}</td>
+                  <td>{customer.email}</td>
+                  <td>{customer.name}</td>
+                  <td>{customer.sector}</td>
+                  <td>{customer.connected_devices}</td>
+                  <td>
+                    <span className={`status-indicator status-${customer.status.toLowerCase()}`}>
+                      {customer.status}
+                    </span>
+                  </td>
                   <td>
                     <div className="dropdown-wrapper">
                       <FontAwesomeIcon
                         className="ellipsis-icon"
-                        icon={faEllipsisVertical}
+                        icon={faEllipsis}
                         onClick={(e) => {
                           e.stopPropagation();
                           setActiveMenu((prev) =>
-                            prev === Customer.email ? null : Customer.email
+                            prev === customer.email ? null : customer.email
                           );
                         }}
                       />
-                      {activeMenu === Customer.email && (
+                      {activeMenu === customer.email && (
                         <div className="dropdown-menu">
-                          {/* editing a customer */}
-                          <div className="dropdown-item" onClick={(e) => {
-                            e.stopPropagation();   // prevent table row click
-                            handleEdit(Customer.email); // pass the email
-                          }}>
+                          <div
+                            className="dropdown-item"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleEdit(customer.email);
+                            }
+                          }
+                          >
                             Edit User
                           </div>
-
-
-                          {/* deleting customer */}
-                          <div className="dropdown-item" onClick={(e) => {
+                          <div
+                            className="dropdown-item"
+                            onClick={(e) => {
                               e.stopPropagation();
-                              handleDelete(Customer.email);
-                          }}>
+                              handleDelete(customer.email);
+                            }}
+                          >
                             Delete User
                           </div>
-
-
-
                         </div>
                       )}
                     </div>
@@ -194,7 +221,7 @@ const Customers = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="7" style={{ textAlign: "center" }}>
+                <td colSpan="6" style={{ textAlign: "center" }}>
                   No customers found
                 </td>
               </tr>
@@ -202,23 +229,7 @@ const Customers = () => {
           </tbody>
         </table>
 
-        <div className="table-footer">
-          <span>
-            Showing {startIndex + 1} -{" "}
-            {Math.min(startIndex + rowsPerPage, totalRows)} of {totalRows}
-          </span>
-          <div className="pagination-controls">
-            <button onClick={handlePrevPage} disabled={currentPage === 1}>
-              ◀
-            </button>
-            <button
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-            >
-              ▶
-            </button>
-          </div>
-        </div>
+        
       </div>
     </>
   );

@@ -1,7 +1,8 @@
 /* General Styles - Mobile First */
 .add-device {
     transform: translateX(0px) translateY(18px);
-    margin: 0 0 0 90px;
+    width: 60%;
+    margin-left: 350px;
 }
 
 .add-device-headerDiv {
@@ -18,16 +19,18 @@
     right:7%;
     margin: 0 2rem 20px 2rem;
     text-align: left;
+    color:white;
 }
 
 .add-device-formDiv {
     position: relative;
     right: 5%;
-    padding: 2rem 3rem;
+    padding: 1rem 1rem;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1500px;
     border-radius: 8px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
 }
 
 .add-device-insideHeader {
@@ -39,7 +42,6 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 50px;
-    margin: 20px auto;
     background-color: #fff;
     max-height: 50vh; /* Set a max height to enable scrolling */
     overflow-y: auto; /* Enable vertical scrolling */
@@ -85,16 +87,18 @@
     display: block;
     padding: 10px 40px;
     font-size: 16px;
-    color: #ffffff;
-    background-color: #2963b3;
+    color: #0C5890;
+    background-color: white;
     border: none;
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    position: relative;
+    right:3%;
 }
 
 .add-device-button:hover {
-    background-color: rgb(29, 173, 31);
+    background-color: rgb(185, 191, 185);
     color: black;
 }
 

@@ -34,7 +34,8 @@ const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("user"); // Clear user data
-    navigate("/login"); // Redirect to login or home page
+    localStorage.removeItem("authToken"); // Clear auth token
+    window.location.href = "/login"; // Force full reload to reset state
     setShowDropdown(false); // Close dropdown on logout
   };
 
@@ -63,14 +64,19 @@ const Header = () => {
     };
   }, [showDropdown]); // Re-run effect when showDropdown changes
 
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    location: "",
-    email: "",
-    password: "",
-  });
-
+  // const [formData, setFormData] = useState({
+  //   name: "",
+  //   phone: "",
+  //   location: "",
+  //   email: "",
+  //   password: "",
+  // });
+const displayRole = () => {
+    if (userrole === "Company Associate") {
+      return "Associate";
+    }
+    return `${userrole}`;
+  };
   return (
     <header className="header">
       <img src={CompanyLogo} alt="NICO Logo" className="header-logo" />
@@ -78,7 +84,7 @@ const Header = () => {
       <div className="header-right">
         <div className="nico-container">
           <img src={nico} alt="SearchIcon" className="nico-icon" />
-          <p className="header-text">NICO IT {userrole}</p>
+          <p className="header-text">NICO IT {displayRole()}</p>
 
           {/* Dropdown Button and Menu Wrapper */}
           <div className="dropdown-wrapper">
@@ -97,11 +103,11 @@ const Header = () => {
             />
 
             {showDropdown && (
-              <div className="dropdown-menu" ref={dropdownRef}>
+              <div className="dropdown-options" ref={dropdownRef}>
                 <button
                   onClick={viewprofile}
                   type="button"
-                  className="dropdown-item"
+                  className="dropdown-category"
                 >
                   <img src={profileIcon} alt="Profile" />
                   View Profile
@@ -109,7 +115,7 @@ const Header = () => {
                 <button
                   onClick={handleLogout}
                   type="button"
-                  className="dropdown-item logout"
+                  className="dropdown-category logout"
                 >
                   <img src={logoutIcon} alt="Logout" />
                   Log Out

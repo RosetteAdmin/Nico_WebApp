@@ -21,6 +21,8 @@ import AddVendors from "./Components/AddVendors";
 import AddUsers from "./Components/AddUsers";
 import EditUser from "./Components/EditUser";
 import "./App.css";
+import blueband from "./Images/Dashboard/blueband.svg";
+
 
 function App() {
   // Initialize isLoggedIn directly based on localStorage
@@ -54,7 +56,9 @@ function App() {
                 <>
                   <Header />
                   <div className="main-content">
-                    <SideNavBar />
+                    <div className="blue-band-bg" style={{ backgroundImage: `url(${blueband})` }}>
+                    
+                    <SideNavBar/>
                     <div className="content-area">
                       <Routes>
                         <Route path="/edit/:email" element={<EditUser/>} />
@@ -77,6 +81,7 @@ function App() {
                         <Route path="*" element={<Navigate to="/maintenance" />} />
                       </Routes>
                     </div>
+                  </div>
                   </div>
                 </>
               }

@@ -1,7 +1,7 @@
 import React, { useEffect,useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faSliders ,faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faSliders ,faEllipsis,faAngleLeft,faAngleRight,faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import "./DeviceDashboard.css";
 
 const DeviceDashboard = () => {
@@ -13,7 +13,11 @@ const DeviceDashboard = () => {
     fetch(`${process.env.REACT_APP_EP}/api/devices`)
       .then(response => response.json())
       .then(data => {
-        setDevices(data.value);
+        const updatedData = (data.value || []).map(device => ({
+          ...device,
+          status: getRandomStatus()
+        }));
+        setDevices(updatedData);
         setLoading(false); // Set loading to false after devices are set
       })      
       .catch(error => {
@@ -21,6 +25,12 @@ const DeviceDashboard = () => {
         setLoading(false); // Set loading to false in case of error
       });  
     }, []);
+
+    
+    const getRandomStatus = () => {
+    const statuses = ["Info", "Warning", "Dark", "Light", "Secondary", "Success", "Danger"];
+    return statuses[Math.floor(Math.random() * statuses.length)];
+  };
   // const devices = [
   //   { id: "00001", name: "Christine Brooks", sector: "Karnataka, India", status: "Not Connected", mode: "-", alerts: "A1" },
   //   { id: "00002", name: "Rosie Pearson", sector: "Karnataka, India", status: "Connected", mode: "ON", alerts: "A2" },
@@ -86,46 +96,58 @@ const DeviceDashboard = () => {
         <div className="loading-text">Waiting for server...</div>
       </div>
       )}
-    <div className="device-dashboard">
-      <div style={{
-        display: "flex",
-        justifyContent: "space-between", /* Space between title and controls */
-        alignItems: "center", /* Vertically align items */
-      }}>
-        <h2 className="dashboard-title" style={{ margin: 0 }}>Devices</h2>
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <div className="search-bar-container">
-            <input
-              type="text"
-              placeholder="Search by ID, Name, Sector, or Status"
-              className="search-bar"
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setCurrentPage(1); // Reset to first page on new search
-              }}
-            />
-            <span className="dev-search-icon">
-              <FontAwesomeIcon icon={faSearch} />
-            </span>
-          </div>
-          <button className="filter-button">
-            <FontAwesomeIcon icon={faSliders} />
-          </button>
-        </div>
-      </div>
-
-      <table className="device-table">
+      <div className="search-bar-container">
+            <h2 className="dashboard-title-reg">Installed Devices</h2>
+            
+                  
+                    <input
+                      type="text"
+                      placeholder="Search"
+                      className="search-bar"
+                      value={searchQuery}
+                      onChange={(e) => {
+                        setSearchQuery(e.target.value);
+                        setCurrentPage(1);
+                      }}
+                    />
+                    <span className="dev-search-icon">
+                      <FontAwesomeIcon icon={faSearch} />
+                    </span>
+                  <button className="filter-button">
+                    <FontAwesomeIcon icon={faSliders} />
+                  </button>
+      
+                  <div className="table-footer">
+                <span className="pagination-info">
+                   
+                  {Math.min(startIndex + rowsPerPage, totalRows)} of {totalRows}
+                </span>
+                <div className="pagination-controls">
+                  <button onClick={handlePrevPage} disabled={currentPage === 1}>
+                      <span className="arrow-icon">
+                    <FontAwesomeIcon icon={faAngleLeft} />
+                      </span>
+                  </button>
+                  <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+                    <span className="arrow-icon">
+                    <FontAwesomeIcon icon={faAngleRight} />
+                    </span>
+      
+                  </button>
+                </div>
+              </div>
+                  </div>
+    <div className="device-dashboard-reg">
+      <table className="device-table-reg">
         <thead>
-
           <tr>
             <th>Device ID</th>
             <th>Device Name</th>
             <th>Sector</th>
+            <th>Device Owner</th>
             <th>Status</th>
-            <th>Mode</th>
-            <th>Alerts</th>
-            <th>More</th>
+            {/* <th>More</th> */}
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -135,13 +157,21 @@ const DeviceDashboard = () => {
                 <td>{device.id}</td>
                 <td>{device.displayName}</td>
                 <td>{device.sector}</td>
-                <td>{device.status}</td>
-                <td>{device.mode}</td>
-                <td>{device.alerts}</td>
+                {/* <td>{device.status}</td> */}
+                {/* <td>{device.mode}</td> */}
+                <td>{device.owner_name}</td>
                 <td>
-                  <button  className="filter-button">
-                    <FontAwesomeIcon style={{color:"grey"}} icon={faArrowUpRightFromSquare} />
-                  </button>
+  <span className={`status-indicator status-${(device.status).toLowerCase()}`}>
+    {device.status}
+  </span>
+</td>
+                <td>
+                 <div className="dropdown-wrapper">
+                                       <FontAwesomeIcon
+                                         className="ellipsis-icon"
+                                         icon={faEllipsis}
+                                       />
+                                     </div>
                 </td>
               </tr>
             ))
@@ -155,19 +185,7 @@ const DeviceDashboard = () => {
         </tbody>
       </table>
 
-      <div className="table-footer">
-        <span>
-          Showing {startIndex + 1} - {Math.min(startIndex + rowsPerPage, totalRows)} of {totalRows}
-        </span>
-        <div className="pagination-controls">
-          <button onClick={handlePrevPage} disabled={currentPage === 1}>
-            ◀
-          </button>
-          <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-            ▶
-          </button>
-        </div>
-      </div>
+     
     </div>
     </>
   );

@@ -252,9 +252,8 @@ const DeviceDetails = () => {
         <p className="device-disconnected-p">Please check the device's connection and try again.</p>
       </div>
     </div> }
-    { !loading && conn &&
-    <div className="device-detail-container">
-      <div className="device-details-header">
+
+    <div className="device-details-header">
         <h2 className="device-details-title"><strong>Device: </strong><span className="device-name">{id}</span></h2>
         <div className="device-details-status">
           <span className={`device-connection-status ${'connected'}`}>
@@ -262,6 +261,9 @@ const DeviceDetails = () => {
           </span>
         </div>
       </div>
+    { !loading && conn &&
+    <div className="device-detail-container">
+      
 
       {/* Basic Info Section */}
       <div className="device-info-card">

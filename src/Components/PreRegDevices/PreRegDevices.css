@@ -298,180 +298,24 @@
    */
   
 
-  .div-reg-com-container {
-  margin: 0 auto;
-  padding: 1rem;
-  max-width: 1200px;
-  box-sizing: border-box;
-}
-
-.h1-reg-com-header {
-  font-size: 1.8rem;
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-.div-reg-com-search-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-  gap: 1rem;
-  position: relative;
-  max-width: 100%;
-}
-
-.input-ven-com-search {
-  position: relative;
-  left: 60%;
-  padding: 0.5rem;
-  font-size: 1rem;
-  width: 20rem;
-  border: 1px solid #121212;
-  border-radius: 2rem;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-  border-color: black;
-}
-
-.vendor-search-icon {
-  position: absolute;
-  top: 50%;
-  right: -8%;
-  transform: translateY(-50%);
-  color: rgb(0, 0, 0);
-  pointer-events: none;
-}
-
- .button-ven-com-filter {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: #004a7c;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
- .button-ven-com-filter:hover {
-  background-color: #0056b3;
-}
-
-.table-reg-com-list {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1rem;
-}
-
-.th-reg-com, .td-reg-com {
-  text-align: left;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  white-space: nowrap;
-}
-
-.th-reg-com {
-  background-color: #f4f4f4;
-  font-weight: bold;
-}
-
-.tbody-reg-com .tr-reg-com-item:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.edit-button, .deploy-button {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.edit-button {
-  background-color: white;
-  color: #007bff;
-  border: 1px solid #007bff;
-}
-
-.deploy-button {
-  background-color: #007bff;
-  color: white;
-}
-
-.edit-icon, .deploy-icon {
-  font-size: 16px;
-}
-
-.div-reg-com-pagination {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-}
-
-.button-reg-com-pagination {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: #004a7c;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.button-reg-com-pagination:hover {
-  background-color: #0056b3;
-}
-
-.span-reg-com-pagination {
-  font-size: 1rem;
-}
-
-@media (max-width: 768px) {
-  .div-reg-com-search-bar {
-    flex-direction: column;
-    align-items: stretch;
-  }
+  
 
 
-  .table-reg-com-list {
-    display: block;
-    overflow-y: auto;
-  }
 
-  .div-reg-com-pagination {
-    flex-direction: column;
-    align-items: center;
-  }
 
-  .span-reg-com-pagination {
-    margin: 0.5rem 0;
-  }
-}
 
-@media (max-width: 480px) {
-  .h1-reg-com-header {
-    font-size: 1.5rem;
-  }
 
-  .filter-button,
-  .button-reg-com-pagination {
-    font-size: 0.9rem;
-    padding: 0.4rem 0.8rem;
-  }
 
-  .input-ven-com-search {
-    font-size: 0.9rem;
-  }
 
-  .td-reg-com, .th-reg-com {
-    font-size: 0.85rem;
-    padding: 0.5rem;
-  }
-}
 
+
+
+
+
+
+
+
+/* Loading backdrop and spinner remain unchanged */
 .loading-backdrop {
   position: fixed;
   top: 0;
@@ -502,12 +346,406 @@
   font-size: 1.5em;
 }
 
-.table-container {
-  width: 100%;
-  overflow-y: auto;
-}
-
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Updated PreRegDevices.css */
+.reg-dev-header-card {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0 0 24px 0;
+  margin: 50px auto;
+  max-width: 1200px;
+  width: 100%;
+  gap: 20px;
+  position: relative;
+  margin-left: 280px;
+  flex-wrap: nowrap;
+}
+
+.reg-dev-title {
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+  flex-shrink: 0;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.reg-dev-add-btn {
+  background: #fff;
+  color: #0C5890;
+  font-weight: 600;
+  border: none;
+  border-radius: 2rem;
+  padding: 10px 28px;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(10, 75, 176, 0.08);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  position: relative;
+  left: 180px; /* Space from left element */
+}
+
+.reg-dev-search-filter-bar {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 2rem;
+  padding: 0 12px;
+  min-width: 300px;
+  max-width: 450px;
+  position: relative;
+  flex: 1;
+margin-left: 200px;   /* Space from left element */
+}
+
+.reg-dev-search-bar {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1rem;
+  padding: 10px 0 10px 12px;
+  width: 120%;
+  min-width: 200px;
+  border-radius: 2rem;
+  max-width: 500px;
+}
+
+.preg-dev-search-icon {
+  color: #000;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.reg-dev-filter-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  left: 100px;
+  position: relative;
+}
+
+
+
+
+
+
+.th-reg-com,
+.td-reg-com {
+  text-align: left;
+  padding: 0.75rem;
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+.th-reg-com {
+  background-color: #ffffff;
+  font-weight: 600;
+}
+
+.reg-dev-table-container table {
+  width: 63%;
+  transition: all 0.3s ease;
+  background-color: white;
+  margin-top: -45px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  position: relative;
+  margin-left: 280px;
+}
+
+.reg-dev-table-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.reg-dev-pagination-info {
+  color: #fff;
+  font-size: 1rem;
+  right: 8px;
+  white-space: nowrap;
+  position: relative;
+  left: 100px;
+}
+
+.reg-dev-pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.reg-dev-pagination-controls button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #f8f8f8;
+  color: #333;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 5px;
+  position: relative;
+  left: 100px;
+}
+
+.reg-dev-pagination-controls button + button {
+  margin-left: -4px; /* remove gap caused by adjacent borders */
+}
+
+.reg-dev-pagination-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.reg-dev-arrow-icon {
+  font-size: 1rem;
+}
+
+/* Responsive Media Queries */
+
+/* 1024px Breakpoint - Tablet Landscape */
+@media (max-width: 1024px) {
+  .reg-dev-header-card {
+    margin-left: 70px;
+    max-width: calc(100% - 400px);
+    gap: 15px;
+  }
+  
+  .reg-dev-title {
+    font-size: 1.2rem;
+    left:120px;
+    position: relative;
+  }
+  
+  .reg-dev-add-btn {
+    left: 150px;
+    padding: 8px 20px;
+    font-size: 1rem;
+  }
+  
+  .reg-dev-search-filter-bar {
+    margin-left: 150px;
+    max-width: 300px;
+    min-width: 250px;
+  }
+  
+  .reg-dev-search-bar {
+    width: 100%;
+    min-width: 180px;
+  }
+  
+  .reg-dev-filter-btn {
+    left: 60px;
+    font-size: 1.1rem;
+  }
+  
+  .reg-dev-pagination-info {
+    left: 60px;
+    font-size: 0.95rem;
+  }
+  
+  .reg-dev-pagination-controls button {
+    left: 60px;
+    height: 25px;
+  }
+  
+  .reg-dev-table-container table {
+    margin-left: 70px;
+    width: calc(100% - 450px);
+  }
+  
+  .th-reg-com,
+  .td-reg-com {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* 768px Breakpoint - Tablet Portrait */
+@media (max-width: 768px) {
+  .reg-dev-header-card {
+    margin-left: 90px;
+    width: 80%;
+    margin-right: 50px;
+    gap: 50px;
+          
+    padding: 0 0 20px 0;
+  }
+  
+  .reg-dev-title {
+    font-size: 1rem;
+    order: 1;
+  }
+  
+  .reg-dev-add-btn {
+    left: 50px;
+    order: 2;
+    padding: 8px 18px;
+    font-size: 0.7rem;
+  }
+  
+  .reg-dev-search-filter-bar {
+    margin-left: 10px;
+    order: 3;
+    flex: 1 1 100%;
+    max-width: 100%;
+    min-width: 200px;
+    margin-top: 10px;
+    width:10%;
+  }
+  
+  .reg-dev-search-bar {
+    width: 60%;
+    min-width: 150px;
+  }
+  
+  .reg-dev-filter-btn {
+    left: 50px;
+    order: 4;
+    font-size: 1rem;
+  }
+  
+  .reg-dev-table-footer {
+    order: 5;
+    margin-left: 0;
+    gap: 10px;
+  }
+  
+  .reg-dev-pagination-info {
+    left: 0;
+    font-size: 0.9rem;
+  }
+  
+  .reg-dev-pagination-controls button {
+    left: 0;
+    height: 30px;
+    width: 30px;
+  }
+  
+  .reg-dev-table-container table {
+    margin-left: -25px;
+    width: calc(100% - 300px);
+  }
+  
+  .th-reg-com,
+  .td-reg-com {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* 480px Breakpoint - Mobile */
+@media (max-width: 480px) {
+  .reg-dev-header-card {
+    flex-direction: column;
+    align-items: stretch;
+    margin: 20px 5px;
+    gap: 10px;
+    padding: 0 0 15px 0;
+  }
+  
+  .reg-dev-title {
+    font-size: 1.2rem;
+    text-align: center;
+    order: 1;
+    white-space: normal;
+  }
+  
+  .reg-dev-add-btn {
+    left: 0;
+    order: 2;
+    align-self: center;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+  
+  .reg-dev-search-filter-bar {
+    margin-left: 0;
+    order: 3;
+    min-width: 180px;
+    margin: 5px 0;
+  }
+  
+  .reg-dev-search-bar {
+    width: 100%;
+    min-width: 120px;
+    font-size: 0.9rem;
+  }
+  
+  .reg-dev-filter-btn {
+    left: 0;
+    order: 4;
+    align-self: center;
+    font-size: 0.95rem;
+  }
+  
+  .reg-dev-table-footer {
+    order: 5;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    margin-left: 0;
+  }
+  
+  .reg-dev-pagination-info {
+    left: 0;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+  
+  .reg-dev-pagination-controls {
+    justify-content: center;
+  }
+  
+  .reg-dev-pagination-controls button {
+    left: 0;
+    height: 35px;
+    width: 35px;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .reg-dev-table-container table {
+    margin-left: 5px;
+    width: calc(100% - 10px);
+  }
+  
+  .th-reg-com,
+  .td-reg-com {
+    padding: 0.4rem;
+    font-size: 0.75rem;
+    white-space: normal;
+  }
+  
+  .loading-text {
+    font-size: 1.2em;
+    margin-left: 0;
+    text-align: center;
+  }
+  
+  .loading-spinner {
+    width: 80px;
+    height: 80px;
+    border: 12px solid #f3f3f3;
+    border-top: 12px solid #3498db;
+  }
 }

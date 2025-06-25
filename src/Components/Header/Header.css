@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 101vw;
+  width: 105vw;
   padding: 1rem 2rem;
   background-color: #ffffff;
   border-bottom: 1px solid #ddd;
@@ -13,8 +13,12 @@
   z-index: 1000;
 }
 
-
-
+.header-logo {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: visible;
+}
 
 .header-right {
   display: flex;
@@ -25,14 +29,13 @@
   padding-bottom:13px;
   padding-top:8px;
   padding-right:20px;
-
   padding-left:27px;
 }
 
 .header-text{
 color:black;
 font-weight: bold;
-left: 220px;
+left: 240px;
 top:-15px;
 position: relative;
 }
@@ -44,6 +47,7 @@ position: relative;
   margin-left: 250px; /* spacing from the text */
   align-self: center;
   margin-top: 10px;
+  cursor: pointer;
 
 
 }
@@ -55,6 +59,7 @@ position: relative;
   height: 30px;
   width:360px;
   position: relative; /* Keep for absolute positioning of search icon */
+  right:15%;
 }
 
 /* .search-input {
@@ -79,7 +84,7 @@ position: relative;
 .nico-icon {
   padding-left: 12px;
   position: absolute;
-  left: 150px; 
+  left: 170px; 
   width: 70px;
   height: 70px;
   cursor: pointer;
@@ -115,13 +120,14 @@ position: relative;
 .dropdown-wrapper {
   position: relative;
   overflow: visible; 
+  margin-top: -3%;
 }
 
-.dropdown-item {
-  width: 110%;
+.dropdown-category {
+  width: 150%;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   background-color: rgb(255, 255, 255); /* light gray or any soft color */
   margin-bottom: 5px;
   padding: 10px 15px;
@@ -132,29 +138,63 @@ position: relative;
   /* border:none; */
 }
 
-
+.dropdown-category:hover {
+  background-color: #d0c3c3; /* Slightly darker gray on hover */
+}
 
 .dropdown-separator {
   height: 8px;
   
 }
-.dropdown-menu {
+.dropdown-options {
   position: absolute;
-  top: 100%;
-  margin-top: 35px;
+  top: 110%;
+  right: 0;
+  margin-top: 8px;
   left: 200px;
   background-color: transparent !important; /* Force no background on the container */
   background: none !important; /* Additional safeguard */
   box-shadow: none !important; /* Remove any potential shadows */
   padding: 0; 
+  z-index: 1000;
 }
 
 
 
-.dropdown-wrapper .dropdown-menu .dropdown-item.logout {
+.dropdown-wrapper .dropdown-options .dropdown-category.logout {
   color: red;
 }
 
 .dropdown-separator {
   display: none; /* Already set, but confirming */
+}
+
+@media (max-width: 1024px) {
+.nico-container {
+    position: relative;
+    right: 7%; /* Align to the left edge of the screen */
+  }
+ 
+
+
+}
+
+
+@media (max-width: 768px) {
+  .dropdown-wrapper {
+    position: relative;
+    margin-top: -3%;
+    right: 9%; /* Align to the left edge of the screen */
+  }
+}
+
+@media (max-width: 480px) {
+  .nico-container {
+    position: relative;
+    right: 45%; /* Align to the left edge of the screen */
+  }
+  .header-logo {
+    width: 50%; /* Adjust logo width for smaller screens */
+  }
+  
 }

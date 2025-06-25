@@ -67,6 +67,7 @@
   transform: rotate(90deg);
 }
 
+
 /* Text Styles */
 .nav-text {
   font-size: 16px;
@@ -86,8 +87,8 @@
 
 /* SVG Icon Styles */
 .main-link .nav-icon {
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   filter: grayscale(100%);
   transition: filter 0.3s, color 0.3s;
 }
@@ -204,6 +205,8 @@
   width: 24px;
   height: 24px;
   flex-shrink: 0;
+  
+  
 }
 
 .nav-text {
@@ -216,4 +219,66 @@
 /* Show text only when expanded */
 .side-nav:hover .nav-text {
   opacity: 1;
+}
+
+/* Blue bar for main active item */
+.main-link.active {
+  position: relative;
+  background: #e0e0e0;
+  z-index: 2;
+}
+
+.main-link.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 6px;
+  background: linear-gradient(to bottom, #3B8AFF 0%, #0048B2 100%);
+  border-radius: 0 4px 4px 0;
+  z-index: 3;
+}
+
+.sub-menu {
+  z-index: 1;
+  position: relative;
+}
+
+
+/* Submenu active indicator */
+.sub-link.active {
+  position: relative;
+}
+
+.sub-link.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -10px; 
+  height: 100%;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+}
+
+/* For regular icons when active */
+  .nav-icon.active-icon,
+.nav-sub-icon.active-icon {
+  filter: brightness(0) saturate(100%) invert(25%) sepia(100%) saturate(6500%) hue-rotate(203deg) brightness(95%) contrast(93%);
+}
+
+  .nav-item.open {
+  position: relative;
+}
+
+.nav-item.open::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(to bottom, #3B8AFF 0%, #0048B2 100%);
+  border-radius: 0 4px 4px 0;
+  z-index: 3;
 }

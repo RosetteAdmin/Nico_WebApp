@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import blueband from "./../../Images/Dashboard/blueband.svg";
 import "./ChangeProfile.css";
 
 const ChangeProfile = ({onLogout}) => {
@@ -40,10 +41,14 @@ const ChangeProfile = ({onLogout}) => {
   return (
     <div className="change-profile-main">
       <div className="change-profile-header">
-        <h2>Profile Information</h2>
+        
+        <h2>My Profile</h2>
         {/* <button className="change-profile-logout-button" onClick={onLogout}>
           Logout
         </button> */}
+        <button className="change-profile-save-button" type="button" onClick={handleSave}>
+            Save
+          </button>
       </div>
       <div className="change-profile-container">
         <form className="change-profile-form" onSubmit={(e) => e.preventDefault()}>
@@ -108,9 +113,7 @@ const ChangeProfile = ({onLogout}) => {
               readOnly
             />
           </div>
-          <button className="change-profile-save-button" type="button" onClick={handleSave}>
-            Save
-          </button>
+          
         </form>
       </div>
     </div>

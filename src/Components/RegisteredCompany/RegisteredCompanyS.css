@@ -1,13 +1,14 @@
 /* styles.css */
   .div-reg-com-container {
-    
-    margin-top: 50px;
-    max-width: 1200px;
-    margin: 20px auto;
+    width: 60%;
+    margin-top: 100px;
+    max-width: 1500px;
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    position: relative;
+    margin-left: 350px;
   }
   
   .div-reg-com-header {

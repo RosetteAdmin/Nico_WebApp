@@ -65,55 +65,37 @@ const EditUser = () => {
 
   return (
     <div className="edit-user-wrapper">
-      
-      
-<div style={{
-        display: "flex",
-        justifyContent: "space-between", /* Space between title and controls */
-        alignItems: "center", /* Vertically align items */
-      }}>
-        <h2 className="dashboard-title" style={{ margin: 0 }}>{userData.name}</h2>
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <div className="search-bar-container">
-          <input
-              type="text"
-              placeholder="Search"
-              className="search-bar"
-            />
-            <span className="dev-search-icon">
-              <FontAwesomeIcon icon={faSearch} />
-            </span>
-          </div>
-          <button className="filter-button">
-            <FontAwesomeIcon icon={faSliders} />
-          </button>
-        </div>
-      </div>
+  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <h2 className="dashboard-title1" style={{ margin: 0 }}>{userData.name}</h2>
+  </div>
 
-      <section className="user-card">
-        <div className="user-info">
-          <h3>User Information</h3>
-          <p><strong>Name:</strong> <em>{userData.name || "N/A"}</em></p>
-          <p><strong>Location:</strong> <em>{userData.sector || "N/A"}</em></p>
-        </div>
-        <div className="user-contact">
-          <p><strong>Email:</strong> <em>{userData.email || "N/A"}</em></p>
-          <p><strong>Phone:</strong> <em>{userData.phone || "N/A"}</em></p>
-        </div>
-      </section>
-
-      <section className="devices-section">
-        <div className="devices-header">
-          <h3>Linked Devices</h3>
-        </div>
-        {userData.devices && userData.devices.length > 0 ? (
-          <table className="devices-table">
-          </table>
-        ) : (
-          <div className="no-devices">No linked devices.</div>
-        )}
-      </section>
+  <section className="user-card">
+    <div className="user-info">
+      <h3 style={{ fontSize: "1rem", margin: "0.5rem 0" , color:"grey",textDecoration:"underline"}}>User Information:</h3>
+      <p><strong>Name:</strong> <em>{userData.name || "N/A"}</em></p>
+      <p><strong>Location:</strong> <em>{userData.sector || "N/A"}</em></p>
     </div>
+    <div className="user-contact">
+      <p><strong>Email:</strong> <em>{userData.email || "N/A"}</em></p>
+      <p><strong>Phone:</strong> <em>{userData.phone || "N/A"}</em></p>
+    </div>
+    <div className="devices-connected">
+      <p><strong>Number of Devices Connected:</strong> <em>{userData.devicesConnected || "N/A"}</em></p>
+    </div>
+  </section>
+
+  <section className="devices-section">
+    <div className="devices-header">
+      <h3 style={{fontSize: "1rem",textDecoration:"underline"}}>Linked Devices</h3>
+    </div>
+    {userData.devices && userData.devices.length > 0 ? (
+      <table className="devices-table">
+      </table>
+    ) : (
+      <div className="no-devices">No linked devices.</div>
+    )}
+  </section>
+</div>
   );
 };
 

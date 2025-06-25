@@ -6,8 +6,6 @@ import CloseEye from "./../../Images/LoginScreen/CloseEye.svg";
 import OpenEye from "./../../Images/LoginScreen/OpenEye.svg";
 import nico from "./../../Images/LoginScreen/nico.svg";
 import leftside from "./../../Images/LoginScreen/leftside.svg";
-
-
 import { useNavigate } from "react-router-dom";
 
 const LoginScreen = ({ handleLogin }) => {
@@ -21,6 +19,12 @@ const LoginScreen = ({ handleLogin }) => {
   const [role, setRole] = useState("");
   const [user, setUser] = useState(null);
   const [otpGenerated, setOtpGenerated] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+ 
+  // Temporary credentials for testing
+  const TEMP_EMAIL = "tempuser@nico.com";
+  const TEMP_PASSWORD = "TempPass123";
+  const TEMP_ROLE = "Admin";
 
   const togglePasswordVisibility = () => {
     setPasswordVisible((prev) => !prev);
@@ -30,10 +34,27 @@ const LoginScreen = ({ handleLogin }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+  if (!agreedToTerms) {
+  setError("Please agree to the terms of use before generating OTP.");
+  setErrorPopup(true);
+  return;
+}
 
     if (email && password) {
       setError("");
       setErrorPopup(false);
+
+      // Check for temporary credentials
+      if (email === TEMP_EMAIL && password === TEMP_PASSWORD) {
+        const tempUser = { email: TEMP_EMAIL, role: TEMP_ROLE };
+        localStorage.setItem("authToken", "temp-token");
+        localStorage.setItem("user", JSON.stringify(tempUser));
+        setUser(tempUser);
+        setRole(TEMP_ROLE);
+        setIsLoggedIn(true);
+        return; // Skip OTP generation and proceed to confirmation view
+      }
 
       const headersList = {
         Accept: "*/*",
@@ -71,9 +92,7 @@ const LoginScreen = ({ handleLogin }) => {
 
           if (!otpResponse.ok) {
             const errorText = await otpResponse.text();
-            throw new Error(`OTP generation failed.`) 
-          //     Status: ${otpResponse.status}, Response: ${errorText}
-          //     `);
+            throw new Error(`OTP generation failed.`);
           }
 
           const otpData = await otpResponse.json();
@@ -138,7 +157,6 @@ const LoginScreen = ({ handleLogin }) => {
       if (!verifyResponse.ok) {
         const errorText = await verifyResponse.text();
         throw new Error(`OTP verification failed.`);
-        //  Status: ${verifyResponse.status}, Response: ${errorText}`);
       }
 
       const verifyData = await verifyResponse.json();
@@ -184,115 +202,129 @@ const LoginScreen = ({ handleLogin }) => {
         <img src={leftside} alt="NICO Logo" />
       </div>
       <div className="right-section">
-      {isLoggedIn && user ? (
-        
-        <div className="confirmation-view">
-          <div className="confirmation-content">
-            <div className="confirm-icon">
-              <i className="fa fa-check-circle" aria-hidden="true"></i>
+        {isLoggedIn && user ? (
+          <div className="confirmation-view">
+            <div className="confirmation-content">
+              <div className="confirm-icon">
+                <i className="fa fa-check-circle" aria-hidden="true"></i>
+              </div>
+              <h2>Login Successful</h2>
+              <p>You are logging in as:</p>
+              <p>{role}</p>
+              <button onClick={handleContinue} className="continue-button">
+                Continue
+              </button>
             </div>
-            <h2>Login Successful</h2>
-            <p>You are logging in as:</p>
-            <p>{role}</p>
-            <button onClick={handleContinue} className="continue-button">
-              Continue
-            </button>
           </div>
-        </div>
-      ) : (isLoggedIn && !user) || errorPopup ? (
-        <div className="confirmation-view">
-          <div className="confirmation-content">
-            <h2>Error</h2>
-            <p>{error}</p>
-            <button onClick={handleLoginAgain} className="login-again-button">
-              Try Again
-            </button>
-          </div>
-        </div>
-      ) : (
-        <>
-          <h1>Log In </h1>
-          <p className="note">Note: This page is dedicated only for Governing Members of NICO Nanububbles India Co.</p>
-
-          {otpGenerated && !error && (
-            <div className="success-message">
-              OTP sent successfully. Please check your email.
+        ) : (isLoggedIn && !user) || errorPopup ? (
+          <div className="confirmation-view">
+            <div className="confirmation-content">
+              <h2>Error</h2>
+              <p>{error}</p>
+              <button onClick={handleLoginAgain} className="login-again-button">
+                Try Again
+              </button>
             </div>
-          )}
+          </div>
+        ) : (
+          <>
+            <h1>Log In</h1>
+            <p className="note">
+              Note: This page is dedicated only for Governing Members of NICO
+              Nanububbles India Co.
+            </p>
 
-          <form className="login-form" onSubmit={handleSubmit}>
-            <label htmlFor="email">Email</label>
-            <input
-              className="input-field"
-              type="email"
-              id="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            {otpGenerated && !error && (
+              <div className="success-message">
+                OTP sent successfully. Please check your email.
+              </div>
+            )}
 
-            <label htmlFor="password">Password</label>
-            <div className="password-input">
+            <form className="login-form" onSubmit={handleSubmit}>
+              <label htmlFor="email">Email</label>
               <input
                 className="input-field"
-                type={passwordVisible ? "text" : "password"}
-                id="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
+              />
+
+              <label htmlFor="password">Password</label>
+              <div className="password-input">
+                <input
+                  className="input-field"
+                  type={passwordVisible ? "text" : "password"}
+                  id="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="button"
+                  className="toggle-password"
+                  onClick={togglePasswordVisibility}
+                >
+                  <img
+                    src={passwordVisible ? OpenEye : CloseEye}
+                    alt={passwordVisible ? "Hide Password" : "Show Password"}
+                    className="eye-icon"
+                  />
+                </button>
+              </div>
+
+              <div className="options">
+                <div className="remember-me">
+                  <input 
+                  type="checkbox" 
+                  id="remember-me"
+                  checked={agreedToTerms}
+                  onChange={(e) => setAgreedToTerms(e.target.checked)}
+                  />
+                  <label htmlFor="remember-me">I agree with the terms of use</label>
+                </div>
+              </div>
+
+              <button 
+              type="submit" 
+              className="login-button"
+              >
+                Generate OTP
+              </button>
+              <div className="otp-label">
+                <label
+                  style={{
+                    display: "block",
+                    textAlign: "center",
+                    marginTop: "20px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Enter OTP received to Above Email ID
+                </label>
+              </div>
+              <input
+                className="input-field"
+                type="number"
+                id="otp"
+                placeholder="Enter your OTP"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
               />
               <button
                 type="button"
-                className="toggle-password"
-                onClick={togglePasswordVisibility}
+                onClick={handleVerifyOtp}
+                className="login-again-button"
               >
-                <img
-                  src={passwordVisible ? OpenEye : CloseEye}
-                  alt={passwordVisible ? "Hide Password" : "Show Password"}
-                  className="eye-icon"
-                />
+                Verify OTP and Login
               </button>
-            </div>
-
-            <div className="options">
-              <div className="remember-me">
-                <input type="checkbox" id="remember-me" />
-                <label htmlFor="remember-me">I agree with the terms of use</label>
-              </div>
-            </div>
-
-            <button type="submit" className="login-button">
-              Generate OTP
-            </button>
-            <div className="otp-label">
-            <label style={{ display: "block", textAlign: "center", marginTop: "20px", fontWeight: "bold" }}>
-              Enter OTP received to Above Email ID
-            </label>
-            </div>
-            <input
-              className="input-field"
-              type="number"
-              id="otp"
-              placeholder="Enter your OTP"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-            />
-            <button
-              type="button"
-              onClick={handleVerifyOtp}
-              className="login-again-button"
-            >
-              Verify OTP and Login
-            </button>
-          </form>
-        </>
-      )}
-      {/* <div className="bottom-design">
-        <img src={BottomDesign} alt="Bottom Design" />
-      </div> */}
-    </div>
+            </form>
+          </>
+        )}
+      </div>
     </div>
   );
 };

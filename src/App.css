@@ -56,6 +56,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.blue-band-bg {
+    position: absolute;
+    top: 70px;
+    left: -30px;
+    height: 200px;
+    width: 150%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center top;
+    z-index: 0;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+}
+
 /* Dashboard Layout Styling */
 .app-container {
   display: flex;
