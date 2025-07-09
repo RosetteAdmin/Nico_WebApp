@@ -101,7 +101,7 @@ const Customers = () => {
 <div className="search-bar-container">
       <h2 className="dashboard-title">Customers</h2>
       
-            
+          
               <input
                 type="text"
                 placeholder="Search"
@@ -142,15 +142,7 @@ const Customers = () => {
 
 
       <div className="device-dashboard">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
-          
-        </div>
+        
 
         <table className="device-table">
           <thead>

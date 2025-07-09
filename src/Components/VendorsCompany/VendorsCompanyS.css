@@ -1,13 +1,16 @@
 /* styles.css */
 .div-ven-com-container {
   margin-top: 120px;
-    max-width: 1200px;
+    max-width: 1500px;
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    margin-left: 350px;
-
+    /* margin-left: 315px; */
+ margin-left: 300px;
+  margin-right: auto;
+  position: relative;
+  width: 60%;
 }
 
 .div-ven-com-header {
@@ -27,7 +30,6 @@
 }
 
 .vendor-ven-com-search-bar-container {
-  position: relative;
   display: flex;
   align-items: center;
   border: 1px solid #ccc;
@@ -50,7 +52,6 @@
 }
 
 .vendor-ven-com-search-icon {
-  position: relative;
   padding: 8px;
   background-color: white;
   /* Background for icon */
@@ -202,7 +203,19 @@
   font-size: 1rem;
 }
 
-@media(max-width:1024px) {
+@media (max-width: 1024px) {
+  .div-ven-com-search-bar {
+    flex-direction: row;
+  }
+
+  .div-ven-com-container {
+    width: 95%;
+    max-width: 800px;
+    padding: 15px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .h1-ven-com-header {
     font-size: medium;
     position: relative;
@@ -211,7 +224,7 @@
 
   .search-bar-container {
     position: relative;
-    right: 20%;
+    right: 30%;
   }
 
   .input-ven-com-search {
@@ -219,7 +232,7 @@
   }
 
   .vendor-search-icon {
-    right: -28%;
+    right: 5px;
   }
 
   .filter-button {
@@ -246,24 +259,27 @@
     left: 10%;
     width: 78%;
   }
-
 }
 
 @media (max-width: 768px) {
-  .div-ven-com-search-bar {
-    flex-direction: row;
-  }
-
   .h1-ven-com-header {
     font-size: medium;
     position: relative;
-    left: 25%;
+    left: 23%;
   }
 
+  .div-ven-com-container {
+    width: 100%;
+    max-width: 600px;
+    padding: 15px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+
   .search-bar-container {
-    /* flex-direction: column; */
     position: relative;
-    right: 23%;
+    right: 20%;
   }
 
   .input-ven-com-search {
@@ -271,7 +287,7 @@
   }
 
   .vendor-search-icon {
-    right: 10%;
+    right: 45%;
   }
 
   .filter-button {
@@ -294,7 +310,6 @@
   }
 
   .div-ven-com-pagination {
-    flex-direction: row;
     position: relative;
     left: 24%;
     width: 50%;

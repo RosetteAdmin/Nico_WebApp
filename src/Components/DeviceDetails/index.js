@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./DeviceDetails.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { faLink, faPencil,faEllipsisH } from "@fortawesome/free-solid-svg-icons";
+import svg1 from "./../../Images/Dashboard/Icon.svg";
+
 
 const DeviceDetails = () => {
   const { id } = useParams(); // Get the device ID from the URL
@@ -230,6 +235,45 @@ const DeviceDetails = () => {
 
   return (
     <>
+    <div className="device-details-banner">
+  <div className="device-details-header">
+    <h2 className="device-details-title">
+      <strong>Device Name || </strong><span className="device-name">NICO{id}</span>
+    </h2>
+    <div className="device-details-status">
+    <span className="device-connection-status">
+      <FontAwesomeIcon
+          icon={faLink}
+          className={`status-icon ${conn ? 'green' : 'red'}`}
+        />
+      {conn  ? 'Connected' : 'Disconnected'}
+    </span>
+
+
+    <span className={`connection-badge ${nbGeneratorPower ? 'on' : 'off'}`}>
+        {nbGeneratorPower ? 'ON' : 'OFF'}
+      </span>
+      <span className={`connection-label ${nbGeneratorPower ? 'green' : 'red'}`}>
+        {nbGeneratorPower ? 'Power ON' : 'Power OFF'}
+      </span>
+
+
+
+  </div>
+  </div>
+  {conn && (
+        <div className="device-power-status-banner">
+          <span className={`power-badge ${nbGeneratorPower ? 'on' : 'off'}`}>
+            {nbGeneratorPower ? 'ON' : 'OFF'}
+          </span>
+          <span className={`power-label ${nbGeneratorPower ? 'green' : 'red'}`}>
+            {nbGeneratorPower ? 'Power ON' : 'Power OFF'}
+          </span>
+        </div>
+      )}
+</div>
+
+
     {loading && (
       <div className="loading-backdrop">
         <div className="loading-spinner"></div>
@@ -253,37 +297,40 @@ const DeviceDetails = () => {
       </div>
     </div> }
 
-    <div className="device-details-header">
-        <h2 className="device-details-title"><strong>Device: </strong><span className="device-name">{id}</span></h2>
-        <div className="device-details-status">
-          <span className={`device-connection-status ${'connected'}`}>
-            {'🔗 Connected'}
-          </span>
-        </div>
-      </div>
+    
     { !loading && conn &&
     <div className="device-detail-container">
       
 
       {/* Basic Info Section */}
       <div className="device-info-card">
-        <div>
-          <h3 className="section-title">Device Basic Information:</h3>
-          <p><strong>Device Name:</strong> Random_Name</p>
-          <p><strong>Device ID:</strong> NICO{id}</p>
-          <p><strong>Owner Name:</strong> Random_Name</p>
-          <p><strong>Owner Phone:</strong> 90354651234</p>
-          <p><strong>Device Sector:</strong> Karnataka</p>
-          <p><strong>Owner Email ID:</strong> Email ID</p>
-        </div>
-      </div>
+  <div className="device-info-header">
+    <h3 className="section-title">Device Basic Information:</h3>
+    <button className="editt-btn">
+      <FontAwesomeIcon icon={faPencil} />Edit
+    </button>
+  </div>
+
+  <div className="device-info-grid">
+    <p><strong>Device Name:</strong> Random_Name</p>
+    <p><strong>Owner Name:</strong> Random_Name</p>
+    <p><strong>Owner Phone:</strong> 90354651234</p>
+    <p><strong>Device ID:</strong> NICO{id}</p>
+    <p><strong>Owner Email ID:</strong> Email ID</p>
+    <p><strong>Device Sector:</strong> Karnataka</p>
+  </div>
+  </div>
+
 
       {/* Connection Info Section */}
       <div className="device-info-card">
         <div>
           <h3 className="section-title">Device Connection Status and Subscriptions:</h3>
+            <div className="device-connection-grid">
+
           <p><strong>Connection Status:</strong> Connected via Wi-Fi</p>
           <p><strong>Subscription Status:</strong> Valid till 24 January 2025</p>
+        </div>
         </div>
       </div>
 
@@ -292,7 +339,8 @@ const DeviceDetails = () => {
         <div>
           <h3 className="section-title">
             Device Power Status:
-            <a href="/logs" className="view-logs-link">View Previous Power Logs</a>
+            <a href="/logs" className="view-logs-link"><img src={svg1} alt="View Logs" />
+            View Previous Power Logs</a>
           </h3>
           <div className="power-item">
             <span>NB Generator</span>
@@ -353,7 +401,11 @@ const DeviceDetails = () => {
       {/* Sensor Data Section */}
       <div className="device-info-card">
         <div>
-          <h3 className="section-title">Sensor Data:</h3>
+          <h3 className="section-title">Sensor Data:
+            <a href={`/device/${id}/logdetails`} className="view-logs-link"><img src={svg1} alt="View Logs" />
+                  View Previous Power Logs</a>
+          </h3>
+
           <div className="sensor-data">
             <div className="sensor-item">
               <h4>NB Generator</h4>

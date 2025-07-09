@@ -1,0 +1,103 @@
+.log-details-container {
+  padding: 20px;
+  max-width: 1300px;
+  margin: 0 260px;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.log-details-header {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.log-details-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  position: relative;
+}
+
+.back-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.back-link svg {
+  margin-right: 8px;
+}
+
+
+
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+.error-message {
+  text-align: center;
+  color: #ff4d4d;
+  font-size: 16px;
+  padding: 20px;
+}
+
+.log-details-content {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.log-details-content h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.power-logs-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.power-logs-table th,
+.power-logs-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+.power-logs-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  color: #333;
+}
+
+.power-logs-table td {
+  color: #555;
+}
+
+.power-logs-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.power-logs-table tr:hover {
+  background-color: #f1f1f1;
+}

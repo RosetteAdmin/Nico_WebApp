@@ -94,6 +94,7 @@ const SideNavBar = () => {
   const [selectedComponent, setSelectedComponent] = useState("dashboard");
   const [selectedSubComponent, setSelectedSubComponent] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   const userRole =  JSON.parse(localStorage.getItem("user")).role; // manage access
 
@@ -128,8 +129,14 @@ const SideNavBar = () => {
     .filter((item) => !item.subMenu || item.subMenu.length > 0);
 
   return (
-    <nav className="side-nav">
-      <ul className="nav-list">
+<nav
+    className={`side-nav ${isHovered ? "" : "collapsed"}`}
+    onMouseEnter={() => setIsHovered(true)}
+    onMouseLeave={() => {
+      setIsHovered(false);
+      setOpenMenu(null); // Close any open sub-menus when not hovered
+    }}
+  >      <ul className="nav-list">
         {filteredMenuItems.map((item) => (
           <li key={item.key} className={`nav-item${openMenu === item.key ? " open" : ""}`}>
             {!item.subMenu ? (

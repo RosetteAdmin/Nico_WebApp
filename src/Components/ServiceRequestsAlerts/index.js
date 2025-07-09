@@ -30,12 +30,12 @@ const ServiceAlerts = () => {
   };
 
   return (
-    <div className="service-re-ale-page">
-      <div className="service-re-ale-container">
-        <div className="service-re-ale-header">
+
+<>
+    <div className="service-bar-container">
+
           <h2 className="service-re-ale-title">Service Requests & Alerts</h2>
-          <div className="service-re-ale-actions">
-            <div className="service-re-ale-search-bar-container">
+
               <input
                 type="text"
                 className="input-ser-ale-search"
@@ -46,11 +46,17 @@ const ServiceAlerts = () => {
               <span className="service-ale-re-search-icon">
                 <FontAwesomeIcon icon={faSearch} />
               </span>
-            </div>
             <button className="service-req-ale-filter-button">
               <FontAwesomeIcon icon={faSliders} />
             </button>
+
+            
           </div>
+    
+      <div className="service-re-ale-container">
+        <div className="service-re-ale-header">
+
+          
         </div>
 
         <div className="service-re-ale-tabs">
@@ -100,7 +106,7 @@ const ServiceAlerts = () => {
           </tbody>
         </table>
       </div>
-    </div>
+    </>
   );
 };
 

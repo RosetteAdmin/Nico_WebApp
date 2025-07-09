@@ -19,6 +19,9 @@
     left: 250px;
     flex-wrap: wrap;
     justify-content: center;
+    width:70%;
+    position: relative;
+    margin-left: -60px;
 }
 
 .arrow-icons {
