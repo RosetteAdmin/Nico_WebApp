@@ -11,6 +11,7 @@ html, body {
   
 }
 
+
 /* Main container */
 
 /* Main container */
@@ -216,15 +217,14 @@ h2 {
 }
 
 .power-item {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 12px;
-  border: 1px solid #e0e0e0;
   border-radius: 8px;
   background-color: #ffffff;
   flex-wrap: wrap; /* Allow wrapping for smaller screens */
 }
+
+
 
 .power-toggle {
   display: flex;
@@ -232,12 +232,21 @@ h2 {
   gap: 12px;
 }
 
+.power-toggle span:first-child {
+  width: 190px; /* Fixed width instead of max-width */
+  min-height: 40px; /* Minimum height to maintain consistent spacing */
+  line-height: 1.2;
+  font-size: 0.9rem;
+}
+
+
 /* Toggle Switch */
 .toggle-switch {
-  position: relative;
+  position:absolute;
   display: inline-block;
   width: 34px;
   height: 20px;
+  margin-left: 200px;
 }
 
 .toggle-switch input {
@@ -246,7 +255,7 @@ h2 {
   height: 0;
 }
 
-.toggle-slider {
+/* .toggle-slider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -256,9 +265,12 @@ h2 {
   background-color: #ff0000;
   transition: 0.4s;
   border-radius: 10px;
-}
+} */
 
-.toggle-slider:before {
+
+
+
+/* .toggle-slider:before {
   position: absolute;
   content: '';
   height: 14px;
@@ -268,7 +280,8 @@ h2 {
   background-color: white;
   transition: 0.4s;
   border-radius: 50%;
-}
+} */
+
 
 /* Sensor Data Section */
 .sensor-data {
@@ -317,12 +330,51 @@ h2 {
 }
 
 /* Input Toggle */
+.toggle-slider {
+  top: -50px;
+  position: relative;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  background-color: #EF4444; /* Default red for OFF */
+  border-radius: 50%; /* Circular shape */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.4s;
+  color: white;
+  font-weight: bold;
+  font-size: 0.9rem;
+  
+}
+
+.toggle-slider:before {
+  content: 'OFF'; /* Default text for OFF state */
+  position: absolute;
+  color: white;
+  font-weight: bold;
+  font-size: 0.9rem;
+  z-index: 1;
+}
+
+/* When checked, change background and text */
 input:checked + .toggle-slider {
-  background-color: #4caf50;
+  background-color: #5EE001; /* Green for ON */
+  
 }
 
 input:checked + .toggle-slider:before {
-  transform: translateX(14px);
+  content: 'ON'; /* Change text to ON when checked */
+}
+
+/* Remove the transform that was moving the pseudo-element */
+input:checked + .toggle-slider:before {
+  transform: none;
+}
+
+.status-datetime {
+  font-size: 1rem; /* Smaller text size */
+  
 }
 
 /* Media Queries for Responsiveness */
@@ -437,7 +489,7 @@ input:checked + .toggle-slider:before {
   color: white;
 }
 
-
+ 
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }

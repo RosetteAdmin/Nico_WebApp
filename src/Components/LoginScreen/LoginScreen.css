@@ -297,3 +297,39 @@ p {
     margin-left: 25%;
   }
 }
+
+/* Success messages (green) */
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 15px 0;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Error messages (red) */
+/* .error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 15px 0;
+  text-align: center;
+  font-weight: 500;
+} */
+
+/* Warning messages (yellow/orange) */
+.warning-message {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 15px 0;
+  text-align: center;
+  font-weight: 500;
+}

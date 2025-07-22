@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./DeviceDetails.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import DeviceCharts from "../DataChart";
 import { faLink, faPencil,faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 import svg1 from "./../../Images/Dashboard/Icon.svg";
 
@@ -223,15 +223,56 @@ const DeviceDetails = () => {
   };
 
   // Helper function to get status text with waiting indicator
-  const getStatusText = (isPowered, timestamp, isWaiting) => {
-    if (isWaiting) {
-      return "Waiting for update...";
-    } else if (isPowered) {
-      return `Last received: ${new Date(timestamp).toLocaleString()}`;
+  // const getStatusText = (isPowered, timestamp, isWaiting) => {
+  //   if (isWaiting) {
+  //     return "Waiting for update...";
+  //   } else if (isPowered) {
+  //     return `On from: ${new Date(timestamp).toLocaleString()}`;
+  //   } else {
+  //     // return 'Powered Off';
+  //   }
+  // };
+
+// Helper function to get status text with waiting indicator
+const getStatusText = (isPowered, timestamp, isWaiting) => {
+  if (isWaiting) {
+    return "Waiting for update...";
+  } else if (isPowered) {
+    const date = new Date(timestamp);
+    const dateStr = date.toLocaleDateString('en-GB', { 
+      day: 'numeric', 
+      month: 'short', 
+      year: 'numeric' 
+    });    const timeStr = date.toLocaleTimeString(); // Just the time
+    
+    // Calculate hours ago
+    const now = new Date();
+    const diffInMs = now - date;
+    const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+    const diffInDays = Math.floor(diffInHours / 24);
+    
+    let timeAgo;
+    if (diffInDays > 0) {
+      timeAgo = `(${diffInDays} day${diffInDays > 1 ? 's' : ''} ago)`;
+    } else if (diffInHours > 0) {
+      timeAgo = `(${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago)`;
     } else {
-      return 'Powered Off';
+      const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+      timeAgo = `(${diffInMinutes} minute${diffInMinutes > 1 ? 's' : ''} ago)`;
     }
-  };
+
+
+    return (
+      <span className="status-datetime">
+        On from: {timeStr}<br />
+        {dateStr}
+        <span className="time-ago">{timeAgo}</span>
+      </span>
+    );
+  } else {
+    // return 'Powered Off';
+  }
+};
 
   return (
     <>
@@ -340,7 +381,7 @@ const DeviceDetails = () => {
           <h3 className="section-title">
             Device Power Status:
             <a href="/logs" className="view-logs-link"><img src={svg1} alt="View Logs" />
-            View Previous Power Logs</a>
+            Export Report</a>
           </h3>
           <div className="power-item">
             <span>NB Generator</span>
@@ -348,6 +389,11 @@ const DeviceDetails = () => {
               <span className={nbWaiting ? "status-waiting" : ""}>
                 {getStatusText(nbGeneratorPower, deviceData.nbGenerator.timestamp, nbWaiting)}
               </span>
+
+              <span className={`power-status-text ${nbGeneratorPower ? 'on' : 'off'}`}>
+              {/* {nbGeneratorPower ? 'ON' : 'OFF'} */}
+              </span>
+              
               <label className={`toggle-switch ${nbWaiting ? "toggle-waiting" : ""}`}>
                 <input 
                   type="checkbox" 
@@ -366,6 +412,11 @@ const DeviceDetails = () => {
               <span className={ozoneWaiting ? "status-waiting" : ""}>
                 {getStatusText(ozoneGeneratorPower, deviceData.ozoneGenerator.timestamp, ozoneWaiting)}
               </span>              
+
+              <span className={`power-status-text ${ozoneGeneratorPower ? 'on' : 'off'}`}>
+              {/* {ozoneGeneratorPower ? 'ON' : 'OFF'} */}
+              </span>
+
               <label className={`toggle-switch ${ozoneWaiting ? "toggle-waiting" : ""}`}>
                 <input 
                   type="checkbox" 
@@ -383,7 +434,12 @@ const DeviceDetails = () => {
             <div className="power-toggle">
               <span className={oxygenWaiting ? "status-waiting" : ""}>
                 {getStatusText(oxygenGeneratorPower, deviceData.oxygenGenerator.timestamp, oxygenWaiting)}
-              </span>              
+              </span>          
+
+              <span className={`power-status-text ${oxygenGeneratorPower ? 'on' : 'off'}`}>
+              {/* {oxygenGeneratorPower ? 'ON' : 'OFF'} */}
+              </span>
+                  
               <label className={`toggle-switch ${oxygenWaiting ? "toggle-waiting" : ""}`}>
                 <input 
                   type="checkbox" 
@@ -397,6 +453,10 @@ const DeviceDetails = () => {
           </div>
         </div>
       </div>
+
+
+<DeviceCharts deviceId={id} />
+
 
       {/* Sensor Data Section */}
       <div className="device-info-card">

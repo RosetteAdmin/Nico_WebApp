@@ -233,7 +233,7 @@ const LogDetails = () => {
         fetchLogs();
 
         // Set up polling every 30 seconds
-        const intervalId = setInterval(fetchLogs, 30000);
+const intervalId = setInterval(fetchLogs, 5000);
 
         // Clean up interval on component unmount
         return () => clearInterval(intervalId);
@@ -296,7 +296,7 @@ const LogDetails = () => {
                     </div>
 
                     <div className="log-details-content">
-                        <h3>Historical Logs (All Generators Combined)</h3>
+                        <h3>Historical Logs</h3>
                         <table className="power-logs-table">
                             <thead>
                                 <tr>
