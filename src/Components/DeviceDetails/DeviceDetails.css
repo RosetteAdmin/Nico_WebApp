@@ -772,7 +772,7 @@ input:checked + .toggle-slider:before {
 .config-input:disabled {
   background: #f8f9fa;
   border: 1px solid #e9ecef;
-  color: #6c757d;
+  color: #212529;
   cursor: not-allowed;
 }
 
@@ -781,6 +781,11 @@ input:checked + .toggle-slider:before {
   background: white;
   color: #212529;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.config-input.editingg {
+  background: white;
+  color: #212529;
 }
 
 .config-input:focus {

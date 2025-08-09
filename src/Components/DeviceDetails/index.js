@@ -67,6 +67,7 @@ const DeviceDetails = () => {
   const [onTime, setOnTime] = useState('100');
   const [offTime, setOffTime] = useState('120');
   const [counter, setCounter] = useState('360');
+  
   const [isEditingOnTime, setIsEditingOnTime] = useState(false);
   const [isEditingOffTime, setIsEditingOffTime] = useState(false);
   const [isEditingCounter, setIsEditingCounter] = useState(false);
@@ -204,62 +205,133 @@ const DeviceDetails = () => {
     return () => clearInterval(intervalId); // Cleanup interval on unmount
   }, [id, conn, nbGeneratorPower, ozoneGeneratorPower, oxygenGeneratorPower, nbWaiting, ozoneWaiting, oxygenWaiting, nbRequestTime, ozoneRequestTime, oxygenRequestTime]);
 
-  const handlePowerToggle = (type) => {
-    const currentTime = Date.now();
+  // const handlePowerToggle = (type) => {
+  //   const currentTime = Date.now();
     
-    // Set the appropriate waiting state and request time
-    switch(type) {
-      case "nb":
-        setNbWaiting(true);
-        setNbRequestTime(currentTime);
-        break;
-      case "o3":
-        setOzoneWaiting(true);
-        setOzoneRequestTime(currentTime);
-        break;
-      case "o2":
-        setOxygenWaiting(true);
-        setOxygenRequestTime(currentTime);
-        break;
-      default:
-        return;
-    }
+  //   // Set the appropriate waiting state and request time
+  //   switch(type) {
+  //     case "nb":
+  //       setNbWaiting(true);
+  //       setNbRequestTime(currentTime);
+  //       break;
+  //     case "o3":
+  //       setOzoneWaiting(true);
+  //       setOzoneRequestTime(currentTime);
+  //       break;
+  //     case "o2":
+  //       setOxygenWaiting(true);
+  //       setOxygenRequestTime(currentTime);
+  //       break;
+  //     default:
+  //       return;
+  //   }
     
-    // Make an API call to update the power status
-    fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/toggle/${type}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .catch(error => {
-        console.error('Error updating power status:', error);
-        alert('Error updating power status. Please try again.');
+  //   // Make an API call to update the power status
+  //   fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/toggle/${type}`, {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   })
+  //     .then(response => {
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! Status: ${response.status}`);
+  //       }
+  //       return response.json();
+  //     })
+  //     .catch(error => {
+  //       console.error('Error updating power status:', error);
+  //       alert('Error updating power status. Please try again.');
         
-        // Clear the waiting state in case of error
-        switch(type) {
-          case "nb":
-            setNbWaiting(false);
-            break;
-          case "o3":
-            setOzoneWaiting(false);
-            break;
-          case "o2":
-            setOxygenWaiting(false);
-            break;
-          default:
-            return;
-        }
-      });
-  };
+  //       // Clear the waiting state in case of error
+  //       switch(type) {
+  //         case "nb":
+  //           setNbWaiting(false);
+  //           break;
+  //         case "o3":
+  //           setOzoneWaiting(false);
+  //           break;
+  //         case "o2":
+  //           setOxygenWaiting(false);
+  //           break;
+  //         default:
+  //           return;
+  //       }
+  //     });
+  // };
 
   // Helper function to get status text with waiting indicator
+  
+  
+  
+  const handlePowerToggle = (type) => {
+  const currentTime = Date.now();
+
+  // Optimistically toggle the local state
+  if (type === "nb") {
+    setNbWaiting(true);
+    setNbRequestTime(currentTime);
+    setNbGeneratorPower(prev => !prev); // Immediate UI update
+  } else if (type === "o3") {
+    setOzoneWaiting(true);
+    setOzoneRequestTime(currentTime);
+    setOzoneGeneratorPower(prev => !prev);
+  } else if (type === "o2") {
+    setOxygenWaiting(true);
+    setOxygenRequestTime(currentTime);
+    setOxygenGeneratorPower(prev => !prev);
+  }
+
+  // Make an API call to update the power status
+  fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/toggle/${type}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      // Update state based on API response if it includes status
+      if (type === "nb" && data.nbStatus !== undefined) {
+        setNbGeneratorPower(data.nbStatus);
+        setNbWaiting(false);
+      } else if (type === "o3" && data.O3Status !== undefined) {
+        setOzoneGeneratorPower(data.O3Status);
+        setOzoneWaiting(false);
+      } else if (type === "o2" && data.O2Status !== undefined) {
+        setOxygenGeneratorPower(data.O2Status);
+        setOxygenWaiting(false);
+      }
+    })
+    .catch(error => {
+      console.error('Error updating power status:', error);
+      alert('Error updating power status. Please try again.');
+      
+      // Revert to previous state on error
+      if (type === "nb") {
+        setNbGeneratorPower(prev => !prev);
+        setNbWaiting(false);
+      } else if (type === "o3") {
+        setOzoneGeneratorPower(prev => !prev);
+        setOzoneWaiting(false);
+      } else if (type === "o2") {
+        setOxygenGeneratorPower(prev => !prev);
+        setOxygenWaiting(false);
+      }
+    });
+};
+  
+  
+  
+  
+  
+  
+  
   const getStatusText = (isPowered, timestamp, isWaiting) => {
     if (isWaiting) {
       return "Waiting for update...";
@@ -466,15 +538,27 @@ const DeviceDetails = () => {
                   <div className="config-item">
                     <label>Auto Sequence Counter:</label>
                     <div className="editable-field">
-                      <input
+                    <input
                         type="number"
                         value={counter}
+                        onChange={(e) => setCounter(e.target.value)}
+                        disabled
+                        className={`config-input ${isEditingCounter ? 'editingg' : ''}`}
+                      />
+                      <button 
+                        onClick={() => setIsEditingCounter(!isEditingCounter)} 
+                        className="editt-btn"
+                      >
+                        <FontAwesomeIcon icon={faPenToSquare } />
+                      </button>
+                      <input
+                        type="number"
                         onChange={(e) => setCounter(e.target.value)}
                         disabled={!isEditingCounter}
                         className={`config-input ${isEditingCounter ? 'editing' : ''}`}
                       />
                       <button 
-                        onClick={() => setIsEditingCounter(!isEditingCounter)} 
+                        // onClick={() => setIsEditingCounter(!isEditingCounter)} 
                         className="editt-btn"
                       >
                         <FontAwesomeIcon icon={faCircleCheck} />
@@ -490,36 +574,60 @@ const DeviceDetails = () => {
                   <div className="config-item">
                     <label>Auto Sequence ON Time:</label>
                     <div className="editable-field">
-                      <input
+                    <input
                         type="number"
                         value={onTime}
+                        onChange={(e) => setOnTime(e.target.value)}
+                        disabled
+                        className={`config-input ${isEditingOnTime ? 'editingg' : ''}`}
+                      />
+                      <button 
+                        onClick={() => setIsEditingOnTime(!isEditingOnTime)} 
+                        className="editt-btn" 
+                      >
+                        <FontAwesomeIcon icon={faPenToSquare} />
+                      </button>
+                      <input
+                        type="number"
                         onChange={(e) => setOnTime(e.target.value)}
                         disabled={!isEditingOnTime}
                         className={`config-input ${isEditingOnTime ? 'editing' : ''}`}
                       />
                       <button 
-                        onClick={() => setIsEditingOnTime(!isEditingOnTime)} 
+                        // onClick={() => setIsEditingCounter(!isEditingCounter)} 
                         className="editt-btn"
                       >
-                        <FontAwesomeIcon icon={faPenToSquare} />
+                        <FontAwesomeIcon icon={faCircleCheck} />
                       </button>
                     </div>
                   </div>
                   <div className="config-item">
                     <label>Auto Sequence OFF Time:</label>
                     <div className="editable-field">
-                      <input
+                    <input
                         type="number"
                         value={offTime}
                         onChange={(e) => setOffTime(e.target.value)}
-                        disabled={!isEditingOffTime}
-                        className={`config-input ${isEditingOffTime ? 'editing' : ''}`}
+                        disabled
+                        className={`config-input ${isEditingOffTime ? 'editingg' : ''}`}
                       />
                       <button 
                         onClick={() => setIsEditingOffTime(!isEditingOffTime)} 
                         className="editt-btn"
                       >
                         <FontAwesomeIcon icon={faPenToSquare } />
+                      </button>
+                      <input
+                        type="number"
+                        onChange={(e) => setOffTime(e.target.value)}
+                        disabled={!isEditingOffTime}
+                        className={`config-input ${isEditingOffTime ? 'editing' : ''}`}
+                      />
+                      <button 
+                        // onClick={() => setIsEditingCounter(!isEditingCounter)} 
+                        className="editt-btn"
+                      >
+                        <FontAwesomeIcon icon={faCircleCheck} />
                       </button>
                     </div>
                   </div>

@@ -10,7 +10,9 @@ const DeviceDashboard = () => {
   const userrole = JSON.parse(localStorage.getItem("user")).role;
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_EP}/api/devices`)
+    //old route to directly fetch devices
+    fetch(`${process.env.REACT_APP_EP}/api/devices`)   
+    // fetch(`${process.env.REACT_APP_EP}/api/devices/active`)
       .then(response => response.json())
       .then(data => {
         const updatedData = (data.value || []).map(device => ({

@@ -58,7 +58,7 @@ const menuItems = [
     title: "User Access",
     icon: AccessManagementIcon,
     url: "/access-management",
-    roles: ["Admin"],
+    roles: ["Admin", "Company Associate"],
     subMenu: [
       {
         key: "company-associates",
@@ -70,7 +70,7 @@ const menuItems = [
         key: "vendors",
         title: "Vendors",
         url: "/vaccess",
-        roles: ["Admin"],
+        roles: ["Admin", "Company Associate"],
       },
     ],
   },

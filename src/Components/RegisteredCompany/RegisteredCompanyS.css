@@ -21,10 +21,12 @@
   }
 
   .h1-reg-com-title {
-    font-size: 22px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 15px;
+    font-size: 1.7rem;
+  text-align: start;
+  color: rgb(255, 255, 255);
+  position: relative;
+  right: 480px; /* Adjusted to align with sidebar width */
+  white-space: nowrap;
   }
 
   .associate-reg-com-search-bar-container{
@@ -35,6 +37,10 @@
     border-radius: 20px;
     overflow: hidden;
     background-color: #fff;
+    position: relative;
+    flex: 1;
+    min-width: 300px;
+    right: 50px;
   }
 
   .reg-com-actions{
@@ -71,17 +77,24 @@
   }
 
 
-
   /* Grant Access Button */
-.grant-access-btn {
-  background-color: #0c5890;
-  color: white;
+.add-user-btn {
+  background: #fff; 
+  color: #0C5890;
+  font-weight: 600;
   border: none;
-  padding: 10px 15px;
-  font-size: 14px;
-  border-radius: 5px;
+  border-radius: 2rem;
+  padding: 10px 28px;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(10, 75, 176, 0.08);
   cursor: pointer;
-  transition: 0.3s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  position: relative;
+  right: 600px;
 }
   
   .associate-reg-com-filter-button:hover {
@@ -268,3 +281,68 @@
   }
   }
   
+.reg-search-bar{
+  width: 100%;
+  padding: 0.5rem 2rem 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 14px;
+  border:none;
+  outline: none;
+}
+
+.reg-search-icon{
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: black;
+  pointer-events: none;
+}
+
+.cus-table-footer{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+  flex-shrink: 0;
+  position: relative;
+  right: 100px;
+}
+
+
+.cus-pagination-info {
+  color: #fff;
+  font-size: 1rem;
+  white-space: nowrap;
+  position: relative;
+  right: 10px;
+}
+
+.cus-pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cus-pagination-controls button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #f8f8f8;
+  color: #333;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 5px;
+  position: relative;
+}
+
+.cus-pagination-controls button + button {
+  margin-left: -4px; /* remove gap caused by adjacent borders */
+}
+
+.cus-pagination-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
