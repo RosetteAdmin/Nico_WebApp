@@ -30,7 +30,7 @@ const DeviceDashboard = () => {
 
     
     const getRandomStatus = () => {
-    const statuses = ["Info", "Warning", "Dark", "Light", "Secondary", "Success", "Danger"];
+    const statuses = ["Success", "Danger"];
     return statuses[Math.floor(Math.random() * statuses.length)];
   };
   // const devices = [

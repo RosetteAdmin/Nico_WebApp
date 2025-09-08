@@ -62,7 +62,7 @@ const HomeDashboard = ({ title, value, maxValue }) => {
         <div className="heading">
           <h2 className="head">
             <h1>Hello {userrole},</h1>
-            <br />
+            <br/>
             Our commitment to excellence has driven us to develop state-of-the-art NICO Nanobubble Generators, Mixers, and Ozone & Oxygen Generators. We are dedicated to creating ground-breaking 
             technologies that address the evolving needs of such critical industries while ensuring energy efficiency for end users.
           </h2>

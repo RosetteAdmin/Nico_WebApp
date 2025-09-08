@@ -15,7 +15,6 @@
     flex-wrap: wrap;
     gap: 10px;
     margin-top: 40px;
-    position:absolute;
     left: 250px;
     flex-wrap: wrap;
     justify-content: center;
@@ -70,21 +69,26 @@
     border-bottom-right-radius: 40px;
     position: relative;
     display: flex;
-    flex-wrap: wrap;    }
+    flex-wrap: wrap;
+}
 
+/* FIXED - Text overflow issue */
 .head {
     margin-top: 50px;
     margin-left: 90px;
     font-weight: normal;
     color: white;
     font-size: 15px;
-    max-width: calc(100% - 110px); /* Account for left margin */
+    width: calc(100vw - 150px); /* Changed to viewport-based width */
+    max-width: calc(100% - 120px); /* Added max-width constraint */
     word-wrap: break-word;
     overflow-wrap: break-word;
     line-height: 1.4;
     position: relative;
-    margin-right: 400px;
-    }
+    margin-right: 30px; /* Reduced from 400px */
+    box-sizing: border-box; /* Added for proper width calculation */
+}
+
 .head h1 {
     color: white;
 }
@@ -295,12 +299,13 @@
         height: 250px; /* Adjust height for text */
     }
 
+    /* FIXED - Responsive text overflow */
     .head {
+        width: calc(100vw - 280px);
+        max-width: calc(100% - 100px);
         margin-left: 60px;
+        margin-right: 20px;
         font-size: 14px;
-        position: relative;
-        bottom: 20px;
-        width: 100%;
     }
 
     .push-notification-container {
@@ -320,7 +325,6 @@
         width: 90%; /* Larger width for smaller screens */
         max-width: 350px;
         flex-wrap: wrap;
-
     }
 
     .blue-band-bg {
@@ -329,13 +333,15 @@
         height: 300px; /* Increase height for content */
     }
 
+    /* FIXED - Mobile text overflow */
     .head {
-        width: 100%;
-        margin-left:80px;
+        width: calc(100vw - 160px);
+        max-width: calc(100% - 80px);
+        margin-left: 40px;
+        margin-right: 20px;
         font-size: 13px;
         bottom: 30px;
         position: relative;
-        max-width: max-content;
     }
 
     .head h1 {
@@ -414,9 +420,12 @@
         height: 350px; /* Adjust height for mobile */
     }
 
+    /* FIXED - Small mobile text overflow */
     .head {
-        width: 280%;
-        margin-left: 50px;
+        width: calc(100vw - 100px);
+        max-width: calc(100% - 60px);
+        margin-left: 30px;
+        margin-right: 15px;
         font-size: 10px;
         margin-top: 50px;
     }

@@ -118,7 +118,6 @@ const VendorsCompany = () => {
               <th className="th-reg-com">Device Name</th>
               <th className="th-reg-com">Sector</th>
               <th className="th-reg-com">Device Owner</th>
-              <th className="th-reg-com">Status</th>
               <th className="th-reg-com">Actions</th>
             </tr>
           </thead>

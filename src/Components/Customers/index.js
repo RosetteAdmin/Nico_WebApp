@@ -8,6 +8,33 @@ const Customers = () => {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeMenu, setActiveMenu] = useState(null);
+  const [rowsPerPage, setRowsPerPage] = useState(7); // Dynamic rows per page
+
+  // Function to determine rows per page based on screen width
+  const getRowsPerPage = () => {
+    const screenWidth = window.innerWidth;
+    if (screenWidth >= 1600) {
+      return 11; // Extra wide screens
+    } else if (screenWidth >= 1400) {
+      return 9; // Wide screens
+    } else if (screenWidth >= 1200) {
+      return 8; // Medium-wide screens
+    } else {
+      return 7; // Normal screens (current behavior)
+    }
+  };
+
+  // Update rows per page on mount and window resize
+  useEffect(() => {
+    const updateRowsPerPage = () => {
+      setRowsPerPage(getRowsPerPage());
+    };
+
+    updateRowsPerPage(); // Set initial value
+    window.addEventListener('resize', updateRowsPerPage);
+
+    return () => window.removeEventListener('resize', updateRowsPerPage);
+  }, []);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_EP}/data/customers`)
@@ -34,7 +61,6 @@ const Customers = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 7;
 
   const filteredCustomers = customers.filter((customer) =>
     Object.values(customer)
@@ -47,6 +73,11 @@ const Customers = () => {
   const totalPages = Math.ceil(totalRows / rowsPerPage);
   const startIndex = (currentPage - 1) * rowsPerPage;
   const displayedCustomers = filteredCustomers.slice(startIndex, startIndex + rowsPerPage);
+
+  // Reset to page 1 when rowsPerPage changes or search query changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [rowsPerPage, searchQuery]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
@@ -98,52 +129,46 @@ const Customers = () => {
           <div className="loading-text">Waiting for server...</div>
         </div>
       )}
-<div className="search-bar-container">
-      <h2 className="dashboard-title">Customers</h2>
-      
-          
-              <input
-                type="text"
-                placeholder="Search"
-                className="search-bar"
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  setCurrentPage(1);
-                }}
-              />
-              <span className="dev-search-icon">
-                <FontAwesomeIcon icon={faSearch} />
-              </span>
-            <button className="filter-button">
-              <FontAwesomeIcon icon={faSliders} />
-            </button>
+      <div className="search-bar-container">
+        <h2 className="dashboard-title">Customers</h2>
+        
+        <input
+          type="text"
+          placeholder="Search"
+          className="search-bar"
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            setCurrentPage(1);
+          }}
+        />
+        <span className="dev-search-icon">
+          <FontAwesomeIcon icon={faSearch} />
+        </span>
+        <button className="filter-button">
+          <FontAwesomeIcon icon={faSliders} />
+        </button>
 
-            <div className="table-footer">
+        <div className="table-footer">
           <span className="pagination-info">
-             
             {Math.min(startIndex + rowsPerPage, totalRows)} of {totalRows}
           </span>
           <div className="pagination-controls">
             <button onClick={handlePrevPage} disabled={currentPage === 1}>
-                <span className="arrow-icon">
-              <FontAwesomeIcon icon={faAngleLeft} />
-                </span>
+              <span className="arrow-icon">
+                <FontAwesomeIcon icon={faAngleLeft} />
+              </span>
             </button>
             <button onClick={handleNextPage} disabled={currentPage === totalPages}>
               <span className="arrow-icon">
-              <FontAwesomeIcon icon={faAngleRight} />
+                <FontAwesomeIcon icon={faAngleRight} />
               </span>
-
             </button>
           </div>
         </div>
-            </div>
-
+      </div>
 
       <div className="device-dashboard">
-        
-
         <table className="device-table">
           <thead>
             <tr>
@@ -151,7 +176,7 @@ const Customers = () => {
               <th>Name</th>
               <th>Location/Sector</th>
               <th>Devices Linked</th>
-              <th>Status</th>
+              {/* <th>Status</th> */}
               <th>Action</th>
             </tr>
           </thead>
@@ -167,11 +192,11 @@ const Customers = () => {
                   <td>{customer.name}</td>
                   <td>{customer.sector}</td>
                   <td>{customer.connected_devices}</td>
-                  <td>
+                  {/* <td>
                     <span className={`status-indicator status-${customer.status.toLowerCase()}`}>
                       {customer.status}
                     </span>
-                  </td>
+                  </td> */}
                   <td>
                     <div className="dropdown-wrapper">
                       <FontAwesomeIcon
@@ -191,8 +216,7 @@ const Customers = () => {
                             onClick={(e) => {
                               e.stopPropagation();
                               handleEdit(customer.email);
-                            }
-                          }
+                            }}
                           >
                             Edit User
                           </div>
@@ -220,8 +244,6 @@ const Customers = () => {
             )}
           </tbody>
         </table>
-
-        
       </div>
     </>
   );

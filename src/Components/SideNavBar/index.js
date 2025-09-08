@@ -18,7 +18,7 @@ const menuItems = [
     title: "Dashboard",
     icon: DashBoardIcon,
     url: "/dashboard",
-    roles: ["Admin", "Company Associate", "Customer", "Vendor"],
+    roles: ["Admin", "Company Associate","Customer", "Vendor"],
   },
   {
     key: "devices",
@@ -30,7 +30,7 @@ const menuItems = [
         key: "registered-devices",
         title: "Installed",
         url: "/devices",
-        roles: ["Admin", "Company Associate","Vendor"],
+        roles: ["Admin", "Company Associate","Customer","Vendor"],
       },
       {
         key: "pre-reg-device",

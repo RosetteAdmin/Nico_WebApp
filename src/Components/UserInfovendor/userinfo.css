@@ -4,13 +4,15 @@
   flex-direction: column;
   gap: 20px;
   width: 100%;
+  max-width: calc(100vw - 320px); /* Responsive width accounting for sidebar */
+  min-width: 300px;
   padding: 20px;
-  background-color: #ffffff; /* Add background for better visibility */
+  background-color: #ffffff;
   border-radius: 8px;
-  position:relative;
-  top:-8px;
-  height:806px;
-  width:1215px;
+  position: relative;
+  margin: 0 auto;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 /* Grant Access Header Styling */
@@ -22,8 +24,18 @@
   padding: 15px 20px;
   border-radius: 8px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  position:relative;
-  top:33px;
+  width: 100%;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.grant-access-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  word-wrap: break-word;
+  flex: 1;
+  min-width: 200px;
 }
 
 /* Content Wrapper to align details & permissions side by side */
@@ -32,28 +44,31 @@
   justify-content: space-between;
   gap: 20px;
   width: 100%;
-  position:relative;
- top:41px;
+  box-sizing: border-box;
+  flex-wrap: wrap;
 }
 
 /* Form container */
 .form-container {
   flex: 1;
+  min-width: 300px;
   background: #fff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  padding-right:49px;
+  box-sizing: border-box;
 }
 
 /* Permissions container */
 .permissions-container {
   flex: 1;
+  min-width: 300px;
   background: #fff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  height: 240px;
+  box-sizing: border-box;
+  height: fit-content;
 }
 
 /* Input fields styling */
@@ -65,6 +80,7 @@
   display: block;
   font-weight: 600;
   margin-bottom: 5px;
+  word-wrap: break-word;
 }
 
 .form-group input {
@@ -72,14 +88,29 @@
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 14px;
 }
 
 /* Toggle Switch Styling */
+.toggle-group {
+  width: 100%;
+}
+
 .toggle-group div {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.toggle-group span {
+  flex: 1;
+  margin-right: 15px;
+  word-wrap: break-word;
+  font-weight: 500;
 }
 
 .switch {
@@ -87,6 +118,7 @@
   display: inline-block;
   width: 40px;
   height: 20px;
+  flex-shrink: 0;
 }
 
 .switch input {
@@ -137,6 +169,8 @@ input:checked + .slider:before {
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .grant-access-btn:hover {
@@ -148,13 +182,98 @@ h2 {
   color: #2c3e50;
   font-weight: 500;
   font-size: 19px;
+  margin-top: 0;
+  word-wrap: break-word;
 }
 
-@media (max-width: 1250px) {
+h3 {
+  color: #2c3e50;
+  font-weight: 500;
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 20px;
+  word-wrap: break-word;
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+  .access-management-container {
+    max-width: calc(100vw - 280px);
+  }
+}
+
+@media (max-width: 1200px) {
+  .access-management-container {
+    max-width: calc(100vw - 60px);
+    margin: 0 30px;
+  }
+}
+
+@media (max-width: 1024px) {
   .content-wrapper {
     flex-direction: column;
   }
-  .form-container, .permissions-container {
+  
+  .form-container, 
+  .permissions-container {
     width: 100%;
+    min-width: auto;
+  }
+  
+  .access-management-container {
+    max-width: calc(100vw - 40px);
+    margin: 0 20px;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .grant-access-header {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  
+  .grant-access-header h1 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+  }
+  
+  .access-management-container {
+    max-width: calc(100vw - 20px);
+    margin: 0 10px;
+    padding: 10px;
+  }
+  
+  .form-container,
+  .permissions-container {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grant-access-header h1 {
+    font-size: 1.1rem;
+  }
+  
+  .grant-access-btn {
+    width: 100%;
+    padding: 12px;
+  }
+  
+  .toggle-group div {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .toggle-group span {
+    margin-right: 0;
+    margin-bottom: 5px;
+  }
+  
+  .switch {
+    align-self: center;
   }
 }

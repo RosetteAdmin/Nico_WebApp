@@ -344,7 +344,6 @@ body {
 .dropdown-item {
   padding: 8px 16px;
   cursor: pointer;
-  transition: background 0.2s ease;
 }
 
 .dropdown-item:hover {

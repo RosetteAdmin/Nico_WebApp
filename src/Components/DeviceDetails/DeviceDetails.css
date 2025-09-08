@@ -171,11 +171,28 @@ h2 {
 }
 
 
-/* Info layout in grid */
+/* Info layout in grid - FIXED TO PREVENT EMAIL WRAPPING */
 .device-info-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 5px 150px;
+  grid-template-columns: 1fr 1fr 1fr; /* Three equal columns instead of auto-fit */
+  gap: 15px 80px; /* Better spacing */
+  align-items: start;
+}
+
+/* Ensure long text doesn't overflow and wraps properly */
+.device-info-grid p {
+  margin: 5px 0;
+  font-size: 0.95rem;
+  word-wrap: break-word; /* Break long words */
+  overflow-wrap: break-word; /* Modern property */
+  hyphens: auto; /* Add hyphens for long words */
+  line-height: 1.4; /* Better readability */
+}
+
+/* Specific handling for long email addresses */
+.device-info-grid p:nth-child(5) {
+  word-break: break-all; /* Force break for emails specifically */
+  overflow-wrap: anywhere; /* Break anywhere if needed */
 }
 
 .device-connection-grid {
