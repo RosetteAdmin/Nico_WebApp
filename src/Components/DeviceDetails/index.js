@@ -310,7 +310,7 @@
 //     })
 //     .catch(error => {
 //       console.error('Error updating power status:', error);
-//       alert('Error updating power status. Please try again.');
+//       // alert('Error updating power status. Please try again.');
       
 //       // Revert to previous state on error
 //       if (type === "nb") {
@@ -334,7 +334,10 @@
   
 //   const getStatusText = (isPowered, timestamp, isWaiting) => {
 //     if (isWaiting) {
-//       return "Waiting for update...";
+
+//       //power button status 
+//       // return "Waiting for update...";
+//       return "request sent ";
 //     } else if (isPowered) {
 //       const date = new Date(timestamp);
 //       const dateStr = date.toLocaleDateString('en-GB', { 
@@ -788,13 +791,8 @@ const DeviceDetails = () => {
   const [isEditingOffTime, setIsEditingOffTime] = useState(false);
   const [isEditingCounter, setIsEditingCounter] = useState(false);
 
-  // NEW STATES FOR TIME-BASED INCREMENTAL VALUES
-  const [startTime] = useState(Date.now()); // Fixed start time when component mounts
-  const [runningHours, setRunningHours] = useState(100);
-  const [waterOutletQty, setWaterOutletQty] = useState(1000);
-
-  // NEW STATE FOR SYSTEM POWER CONTROL
-  const [systemPower, setSystemPower] = useState(true); // System is ON by default
+  // NEW STATE FOR POWER CONTROL - Controls data fetching and display
+  const [isPowerOn, setIsPowerOn] = useState(true);
 
   // Check connection status once on mount
   useEffect(() => {
@@ -820,31 +818,10 @@ const DeviceDetails = () => {
       });
   }, [id]);
 
-  // NEW USEEFFECT FOR TIME-BASED INCREMENTAL VALUES - Only when system is ON
+  // Fetch device data at regular intervals if connected AND power is ON
   useEffect(() => {
-    if (!systemPower) return; // Don't update values when system is OFF
-    
-    const interval = setInterval(() => {
-      const currentTime = Date.now();
-      const elapsedTimeInMinutes = (currentTime - startTime) / (1000 * 60); // Convert to minutes
-      
-      // Calculate running hours: starts at 100, increases by 0.1 every minute (6 per hour)
-      const newRunningHours = 100 + (elapsedTimeInMinutes * 0.1);
-      setRunningHours(newRunningHours);
-      
-      // Calculate water outlet quantity: starts at 1000, increases by 2 every minute (120 per hour)
-      const newWaterOutletQty = 1000 + (elapsedTimeInMinutes * 2);
-      setWaterOutletQty(newWaterOutletQty);
-      
-    }, 5000); // Update every 5 seconds
-
-    return () => clearInterval(interval);
-  }, [startTime, systemPower]);
-
-  // Fetch device data at regular intervals if connected AND system is ON
-  useEffect(() => {
-    // Only fetch data if connection is established AND system is ON
-    if (!conn || !systemPower) return;
+    // Only fetch data if connection is established AND power is ON
+    if (!conn || !isPowerOn) return;
     
     const fetchData = () => {
       // Using the existing endpoint that now returns transformed sensor data
@@ -948,20 +925,27 @@ const DeviceDetails = () => {
     const intervalId = setInterval(fetchData, 5000); // Fetch data every 5 seconds
     
     return () => clearInterval(intervalId); // Cleanup interval on unmount
-  }, [id, conn, systemPower, nbGeneratorPower, ozoneGeneratorPower, oxygenGeneratorPower, nbWaiting, ozoneWaiting, oxygenWaiting, nbRequestTime, ozoneRequestTime, oxygenRequestTime]);
+  }, [id, conn, isPowerOn, nbGeneratorPower, ozoneGeneratorPower, oxygenGeneratorPower, nbWaiting, ozoneWaiting, oxygenWaiting, nbRequestTime, ozoneRequestTime, oxygenRequestTime]);
 
-  // UPDATED handlePowerToggle function with temporary system power control
+  // UPDATED handlePowerToggle function to control data fetching
   const handlePowerToggle = (type) => {
-    // Handle system power toggle (temporary fix)
+    const currentTime = Date.now();
+
+    // Handle main power toggle - controls data fetching
     if (type === "nb") {
-      setSystemPower(!systemPower);
-      setNbGeneratorPower(!nbGeneratorPower);
+      setNbWaiting(true);
+      setNbRequestTime(currentTime);
+      setIsPowerOn(prev => !prev); // Toggle power state
+      setNbGeneratorPower(prev => !prev); // Immediate UI update
+      
+      // Simulate API call completion after a delay
+      setTimeout(() => {
+        setNbWaiting(false);
+      }, 2000);
       return;
     }
 
-    const currentTime = Date.now();
-
-    // Optimistically toggle the local state for other generators
+    // Handle other generator toggles (existing logic)
     if (type === "o3") {
       setOzoneWaiting(true);
       setOzoneRequestTime(currentTime);
@@ -972,7 +956,7 @@ const DeviceDetails = () => {
       setOxygenGeneratorPower(prev => !prev);
     }
 
-    // Make an API call to update the power status (for non-system toggles)
+    // Make an API call to update the power status
     fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/toggle/${type}`, {
       method: 'GET',
       headers: {
@@ -986,7 +970,7 @@ const DeviceDetails = () => {
         return response.json();
       })
       .then(data => {
-        // Update state based on API response
+        // Update state based on API response if it includes status
         if (type === "o3" && data.O3Status !== undefined) {
           setOzoneGeneratorPower(data.O3Status);
           setOzoneWaiting(false);
@@ -997,10 +981,6 @@ const DeviceDetails = () => {
       })
       .catch(error => {
         console.error('Error updating power status:', error);
-        // Don't show alert for system power (temporary fix)
-        if (type !== "nb") {
-          alert('Error updating power status. Please try again.');
-        }
         
         // Revert to previous state on error
         if (type === "o3") {
@@ -1014,13 +994,9 @@ const DeviceDetails = () => {
   };
   
   const getStatusText = (isPowered, timestamp, isWaiting) => {
-    if (!systemPower) {
-      return "System OFF";
-    }
-    
     if (isWaiting) {
-      return "Waiting for update...";
-    } else if (isPowered) {
+      return "request sent ";
+    } else if (isPowered && isPowerOn) {
       const date = new Date(timestamp);
       const dateStr = date.toLocaleDateString('en-GB', { 
         day: 'numeric', 
@@ -1052,7 +1028,9 @@ const DeviceDetails = () => {
           <span className="time-ago">{timeAgo}</span>
         </span>
       );
-    } 
+    } else if (!isPowerOn) {
+      return "System OFF";
+    }
   };
 
   return (
@@ -1060,10 +1038,7 @@ const DeviceDetails = () => {
       <div className="device-details-banner">
         <div className="device-details-header">
           <h2 className="device-details-title">
-            {/* <strong>Device Name || </strong><span className="device-name">NICO{id}</span> */}
-            <strong>Nico Nanobubble India Co || </strong><span className="device-name">NICO{id}</span>
-
-            
+            <strong>Device Name || </strong><span className="device-name">NICO{id}</span>
           </h2>
           <div className="device-details-status">
             <span className="device-connection-status">
@@ -1074,21 +1049,21 @@ const DeviceDetails = () => {
               {conn ? 'Connected' : 'Disconnected'}
             </span>
 
-            <span className={`connection-badge ${systemPower ? 'on' : 'off'}`}>
-              {systemPower ? 'ON' : 'OFF'}
+            <span className={`connection-badge ${isPowerOn ? 'on' : 'off'}`}>
+              {isPowerOn ? 'ON' : 'OFF'}
             </span>
-            <span className={`connection-label ${systemPower ? 'green' : 'red'}`}>
-              {systemPower ? 'Power ON' : 'Power OFF'}
+            <span className={`connection-label ${isPowerOn ? 'green' : 'red'}`}>
+              {isPowerOn ? 'Power ON' : 'Power OFF'}
             </span>
           </div>
         </div>
         {conn && (
           <div className="device-power-status-banner">
-            <span className={`power-badge ${systemPower ? 'on' : 'off'}`}>
-              {systemPower ? 'ON' : 'OFF'}
+            <span className={`power-badge ${isPowerOn ? 'on' : 'off'}`}>
+              {isPowerOn ? 'ON' : 'OFF'}
             </span>
-            <span className={`power-label ${systemPower ? 'green' : 'red'}`}>
-              {systemPower ? 'Power ON' : 'Power OFF'}
+            <span className={`power-label ${isPowerOn ? 'green' : 'red'}`}>
+              {isPowerOn ? 'Power ON' : 'Power OFF'}
             </span>
           </div>
         )}
@@ -1131,11 +1106,11 @@ const DeviceDetails = () => {
             </div>
 
             <div className="device-info-grid">
-              <p><strong>Device Name:</strong> Nico Nanobubble India Co</p>
-              <p><strong>Owner Name:</strong> Vikas</p>
-              <p><strong>Owner Phone:</strong> 7988917140</p>
+              <p><strong>Device Name:</strong> Random_Name</p>
+              <p><strong>Owner Name:</strong> Random_Name</p>
+              <p><strong>Owner Phone:</strong> 90354651234</p>
               <p><strong>Device ID:</strong> NICO{id}</p>
-              <p><strong>Email ID:</strong>design.electricals@niconanobubbles.com</p>
+              <p><strong>Owner Email ID:</strong> Email ID</p>
               <p><strong>Device Sector:</strong> Karnataka</p>
             </div>
           </div>
@@ -1153,14 +1128,14 @@ const DeviceDetails = () => {
                       {getStatusText(nbGeneratorPower, deviceData.nbGenerator.timestamp, nbWaiting)}
                     </span>
 
-                    <span className={`power-status-text ${systemPower ? 'on' : 'off'}`}>
+                    <span className={`power-status-text ${isPowerOn ? 'on' : 'off'}`}>
                     </span>
                     
                     <label className={`toggle-switch ${nbWaiting ? "toggle-waiting" : ""}`}>
                       <input
                         type="checkbox" 
-                        checked={systemPower} 
-                        onChange={() => handlePowerToggle("nb")} 
+                        checked={isPowerOn} 
+                        onChange={() => !nbWaiting && handlePowerToggle("nb")} 
                         disabled={nbWaiting}
                       />
                       <span className="toggle-slider"></span>
@@ -1171,7 +1146,7 @@ const DeviceDetails = () => {
             </div>
           </div>
 
-          {/* Device Configuration & Alerts Section - Show N/A when system is OFF */}
+          {/* Device Configuration & Alerts Section - Show N/A when power is OFF */}
           <div className="device-info-card device-power-status">
             <div>
               <h3 className="section-title">
@@ -1183,13 +1158,13 @@ const DeviceDetails = () => {
                   <div className="config-item">
                     <label>Pump Motor frequency:</label>
                     <span className="config-value">
-                      {systemPower ? (deviceData.nbGenerator.pump_motor_frequency ? `${deviceData.nbGenerator.pump_motor_frequency} Hz` : 'N/A') : 'N/A'}
+                      {isPowerOn ? (deviceData.nbGenerator.pump_motor_frequency ? `${deviceData.nbGenerator.pump_motor_frequency} Hz` : 'N/A') : 'N/A'}
                     </span>
                   </div>
                   <div className="config-item">
                     <label>Total Running Hours:</label>
                     <span className="config-value">
-                      {systemPower ? `${runningHours.toFixed(2)} H` : 'N/A'}
+                      {isPowerOn ? (deviceData.nbGenerator.total_running_hours ? `${deviceData.nbGenerator.total_running_hours} H` : 'N/A') : 'N/A'}
                     </span>
                   </div>
                 </div>
@@ -1198,13 +1173,13 @@ const DeviceDetails = () => {
                   <div className="config-item">
                     <label>Pump Motor Current:</label>
                     <span className="config-value">
-                      {systemPower ? (deviceData.nbGenerator.pump_motor_current ? `${parseFloat(deviceData.nbGenerator.pump_motor_current).toFixed(2)} A` : 'N/A') : 'N/A'}
+                      {isPowerOn ? (deviceData.nbGenerator.pump_motor_current ? `${deviceData.nbGenerator.pump_motor_current.toFixed(2)} A` : 'N/A') : 'N/A'}
                     </span>
                   </div>
                   <div className="config-item">
                     <label>Total Water Outlet Qty:</label>
                     <span className="config-value">
-                      {systemPower ? `${waterOutletQty.toFixed(2)} L` : 'N/A'}
+                      {isPowerOn ? 'N/A' : 'N/A'}
                     </span>
                   </div>
                 </div>
@@ -1216,9 +1191,9 @@ const DeviceDetails = () => {
                       <label className="toggle-switch auto-toggle">
                         <input
                           type="checkbox"
-                          checked={systemPower && autoMode}
-                          onChange={() => systemPower && setAutoMode(!autoMode)}
-                          disabled={!systemPower}
+                          checked={isPowerOn && autoMode}
+                          onChange={() => isPowerOn && setAutoMode(!autoMode)}
+                          disabled={!isPowerOn}
                         />
                         <span className="toggle-slider"></span>
                       </label>
@@ -1229,27 +1204,27 @@ const DeviceDetails = () => {
                     <div className="editable-field">
                     <input
                         type="number"
-                        value={systemPower ? counter : 'N/A'}
+                        value={isPowerOn ? counter : 'N/A'}
                         onChange={(e) => setCounter(e.target.value)}
-                        disabled={!systemPower}
+                        disabled={!isPowerOn}
                         className={`config-input ${isEditingCounter ? 'editingg' : ''}`}
                       />
                       <button 
-                        onClick={() => systemPower && setIsEditingCounter(!isEditingCounter)} 
+                        onClick={() => isPowerOn && setIsEditingCounter(!isEditingCounter)} 
                         className="editt-btn"
-                        disabled={!systemPower}
+                        disabled={!isPowerOn}
                       >
                         <FontAwesomeIcon icon={faPenToSquare } />
                       </button>
                       <input
                         type="number"
                         onChange={(e) => setCounter(e.target.value)}
-                        disabled={!isEditingCounter || !systemPower}
+                        disabled={!isEditingCounter || !isPowerOn}
                         className={`config-input ${isEditingCounter ? 'editing' : ''}`}
                       />
                       <button 
                         className="editt-btn"
-                        disabled={!systemPower}
+                        disabled={!isPowerOn}
                       >
                         <FontAwesomeIcon icon={faCircleCheck} />
                       </button>
@@ -1266,27 +1241,27 @@ const DeviceDetails = () => {
                     <div className="editable-field">
                     <input
                         type="number"
-                        value={systemPower ? onTime : 'N/A'}
+                        value={isPowerOn ? onTime : 'N/A'}
                         onChange={(e) => setOnTime(e.target.value)}
-                        disabled={!systemPower}
+                        disabled={!isPowerOn}
                         className={`config-input ${isEditingOnTime ? 'editingg' : ''}`}
                       />
                       <button 
-                        onClick={() => systemPower && setIsEditingOnTime(!isEditingOnTime)} 
+                        onClick={() => isPowerOn && setIsEditingOnTime(!isEditingOnTime)} 
                         className="editt-btn"
-                        disabled={!systemPower}
+                        disabled={!isPowerOn}
                       >
                         <FontAwesomeIcon icon={faPenToSquare} />
                       </button>
                       <input
                         type="number"
                         onChange={(e) => setOnTime(e.target.value)}
-                        disabled={!isEditingOnTime || !systemPower}
+                        disabled={!isEditingOnTime || !isPowerOn}
                         className={`config-input ${isEditingOnTime ? 'editing' : ''}`}
                       />
                       <button 
                         className="editt-btn"
-                        disabled={!systemPower}
+                        disabled={!isPowerOn}
                       >
                         <FontAwesomeIcon icon={faCircleCheck} />
                       </button>
@@ -1297,27 +1272,27 @@ const DeviceDetails = () => {
                     <div className="editable-field">
                     <input
                         type="number"
-                        value={systemPower ? offTime : 'N/A'}
+                        value={isPowerOn ? offTime : 'N/A'}
                         onChange={(e) => setOffTime(e.target.value)}
-                        disabled={!systemPower}
+                        disabled={!isPowerOn}
                         className={`config-input ${isEditingOffTime ? 'editingg' : ''}`}
                       />
                       <button 
-                        onClick={() => systemPower && setIsEditingOffTime(!isEditingOffTime)} 
+                        onClick={() => isPowerOn && setIsEditingOffTime(!isEditingOffTime)} 
                         className="editt-btn"
-                        disabled={!systemPower}
+                        disabled={!isPowerOn}
                       >
                         <FontAwesomeIcon icon={faPenToSquare } />
                       </button>
                       <input
                         type="number"
                         onChange={(e) => setOffTime(e.target.value)}
-                        disabled={!isEditingOffTime || !systemPower}
+                        disabled={!isEditingOffTime || !isPowerOn}
                         className={`config-input ${isEditingOffTime ? 'editing' : ''}`}
                       />
                       <button 
                         className="editt-btn"
-                        disabled={!systemPower}
+                        disabled={!isPowerOn}
                       >
                         <FontAwesomeIcon icon={faCircleCheck} />
                       </button>
@@ -1328,7 +1303,18 @@ const DeviceDetails = () => {
             </div>
           </div>
 
-          <DeviceCharts deviceId={id} />
+          {/* Only render charts when power is ON */}
+          {isPowerOn && <DeviceCharts deviceId={id} />}
+          
+          {/* Show message when power is OFF */}
+          {!isPowerOn && (
+            <div className="device-info-card">
+              <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
+                <h3>System Power is OFF</h3>
+                <p>Turn on the system power to view sensor data and charts.</p>
+              </div>
+            </div>
+          )}
 
           {/* Device Alert and Info History Section */}
           <div className="device-info-card">
@@ -1379,3 +1365,4 @@ const DeviceDetails = () => {
 };
 
 export default DeviceDetails;
+
