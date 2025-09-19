@@ -2,8 +2,13 @@ import React, { useState, useEffect } from "react";
 import blueband from "./../../Images/Dashboard/blueband.svg";
 import "./ChangeProfile.css";
 
-const ChangeProfile = ({onLogout}) => {
-  const userrole = JSON.parse(localStorage.getItem("user")).role;
+// Import Role constants and helper
+import { roleToString } from "../../constants/roles";
+
+const ChangeProfile = ({ onLogout }) => {
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const userRole = storedUser && storedUser.role !== undefined ? parseInt(storedUser.role, 10) : null;
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -13,11 +18,10 @@ const ChangeProfile = ({onLogout}) => {
   });
 
   useEffect(() => {
-    // Simulated data fetching
-    const user = JSON.parse(localStorage.getItem("user"));
-    const pass = user.password.length;
+    const user = JSON.parse(localStorage.getItem("user")) || {};
+    const passLength = user.password ? user.password.length : 8;
     const savedEmail = user.email || "ca1@niconanobubble.com";
-    const savedPassword = '*'.repeat(pass) || "********";
+    const savedPassword = '*'.repeat(passLength) || "********";
     setFormData((prevData) => ({
       ...prevData,
       email: savedEmail,
@@ -41,14 +45,13 @@ const ChangeProfile = ({onLogout}) => {
   return (
     <div className="change-profile-main">
       <div className="change-profile-header">
-        
         <h2>My Profile</h2>
         {/* <button className="change-profile-logout-button" onClick={onLogout}>
           Logout
         </button> */}
         <button className="change-profile-save-button" type="button" onClick={handleSave}>
-            Save
-          </button>
+          Save
+        </button>
       </div>
       <div className="change-profile-container">
         <form className="change-profile-form" onSubmit={(e) => e.preventDefault()}>
@@ -88,7 +91,12 @@ const ChangeProfile = ({onLogout}) => {
           </div>
           <div className="change-profile-form-group">
             <label htmlFor="role">Logged In as</label>
-            <input id="role" type="text" value={userrole} readOnly />
+            <input
+              id="role"
+              type="text"
+              value={roleToString(userRole)}  // Display friendly role name
+              readOnly
+            />
           </div>
           <div className="change-profile-form-group">
             <label htmlFor="location">Location</label>
@@ -113,7 +121,6 @@ const ChangeProfile = ({onLogout}) => {
               readOnly
             />
           </div>
-          
         </form>
       </div>
     </div>

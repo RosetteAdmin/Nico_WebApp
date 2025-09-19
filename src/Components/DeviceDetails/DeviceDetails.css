@@ -8,11 +8,8 @@ html, body {
   overflow-x: hidden; /* Prevent horizontal scrolling */
   font-family: 'Arial', sans-serif;
   overflow-y: auto;
-  
 }
 
-
-/* Main container */
 
 /* Main container */
 .device-detail-container {
@@ -57,51 +54,6 @@ html, body {
   -ms-overflow-style: none;  /* For Internet Explorer 10+ */
   scrollbar-width: none;  /* For Firefox */
 }
-/* @media (max-width: 1400px) {
-  .device-detail-container {
-    width: 100%;
-    max-width: 800px; 
-    padding: 15px;
-  }
-}
-
-@media (max-width: 1300px) {
-  .device-detail-container {
-    width: 100%;
-    max-width: 700px; 
-    padding: 15px;
-  }
-}
-
-@media (max-width: 1200px) {
-  .device-detail-container {
-    width: 100%;
-    max-width: 600px; 
-    padding: 15px;
-  }
-}
-@media (max-width: 1000px) {
-  .device-detail-container {
-    width: 100%;
-    max-width: 500px; 
-    padding: 15px;
-  }
-}
-@media (max-width: 800px) {
-  .device-detail-container {
-    width: 100%;
-    max-width: 300px; 
-    padding: 15px;
-  }
-} */
-
-/* Ensure table content scrolls */
-.alert-history-table {
-  width: 100%;
-  border-collapse: collapse;
-  overflow: auto;
-}
-
 
 
 /* Ensure table content scrolls */
@@ -170,7 +122,6 @@ h2 {
   align-items: center;
 }
 
-
 /* Info layout in grid - FIXED TO PREVENT EMAIL WRAPPING */
 .device-info-grid {
   display: grid;
@@ -198,7 +149,7 @@ h2 {
 .device-connection-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap:  450px;
+  gap: 450px;
 }
 
 /* Optional: style the edit button */
@@ -218,8 +169,6 @@ h2 {
 .editt-btn:hover {
   background-color: #e1e1e1;
 }
-
-
 
 .device-info-card p {
   margin: 5px 0;
@@ -244,8 +193,6 @@ h2 {
   flex-wrap: wrap; /* Allow wrapping for smaller screens */
 }
 
-
-
 .power-toggle {
   display: flex;
   align-items: center;
@@ -259,49 +206,71 @@ h2 {
   font-size: 0.9rem;
 }
 
-
-/* Toggle Switch */
+/* ============================= */
+/* Toggle Switch – FIXED VERSION */
+/* Applies to the big circular "System Power" toggle only */
+/* ============================= */
 .toggle-switch {
-  position:absolute;
-  display: inline-block;
-  width: 34px;
-  height: 20px;
-  margin-left: 200px;
+  position: relative;          /* was absolute */
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0;              /* remove forced offset */
+  width: auto;
+  height: auto;
 }
 
 .toggle-switch input {
   opacity: 0;
   width: 0;
   height: 0;
+  position: absolute;          /* keep it clickable but hidden */
 }
 
-/* .toggle-slider {
-  position: absolute;
+.toggle-switch .toggle-slider {
+  position: relative;
   cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ff0000;
-  transition: 0.4s;
-  border-radius: 10px;
-} */
-
-
-
-
-/* .toggle-slider:before {
-  position: absolute;
-  content: '';
-  height: 14px;
-  width: 14px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 0.4s;
+  width: 50px;
+  height: 50px;
+  background-color: #EF4444;   /* OFF by default */
   border-radius: 50%;
-} */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  top: 0;                      /* reset odd offsets */
+  right: 0;
+}
 
+/* Default label */
+.toggle-switch .toggle-slider::before {
+  content: 'OFF';
+  display: block;
+}
+
+/* Checked state: color + label */
+.toggle-switch input:checked + .toggle-slider {
+  background-color: #5EE001;   /* ON color */
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  content: 'ON';
+}
+
+/* Disabled visual */
+.toggle-switch input:disabled + .toggle-slider {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Preserve your "waiting" animation state */
+.toggle-waiting .toggle-slider {
+  opacity: 0.6;
+  cursor: not-allowed;
+  animation: pulse 1.5s infinite;
+}
 
 /* Sensor Data Section */
 .sensor-data {
@@ -349,52 +318,8 @@ h2 {
   white-space: nowrap;
 }
 
-/* Input Toggle */
-.toggle-slider {
-  top: -80px;
-  position: relative;
-  cursor: pointer;
-  width: 50px;
-  height: 50px;
-  background-color: #EF4444; /* Default red for OFF */
-  border-radius: 50%; /* Circular shape */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.4s;
-  color: white;
-  font-weight: bold;
-  font-size: 0.9rem;
-  right:50px;
-}
-
-.toggle-slider:before {
-  content: 'OFF'; /* Default text for OFF state */
-  position: absolute;
-  color: white;
-  font-weight: bold;
-  font-size: 0.9rem;
-  z-index: 1;
-}
-
-/* When checked, change background and text */
-input:checked + .toggle-slider {
-  background-color: #5EE001; /* Green for ON */
-  
-}
-
-input:checked + .toggle-slider:before {
-  content: 'ON'; /* Change text to ON when checked */
-}
-
-/* Remove the transform that was moving the pseudo-element */
-input:checked + .toggle-slider:before {
-  transform: none;
-}
-
 .status-datetime {
   font-size: 1rem; /* Smaller text size */
-  
 }
 
 /* Media Queries for Responsiveness */
@@ -440,7 +365,6 @@ input:checked + .toggle-slider:before {
     font-size: 0.9rem;
   }
 }
-
 
 .loading-backdrop {
   position: fixed;
@@ -509,7 +433,6 @@ input:checked + .toggle-slider:before {
   color: white;
 }
 
- 
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -518,12 +441,6 @@ input:checked + .toggle-slider:before {
 .status-waiting {
   font-style: italic;
   color: #888;
-}
-
-.toggle-waiting .toggle-slider {
-  opacity: 0.6;
-  cursor: not-allowed;
-  animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
@@ -537,11 +454,6 @@ input:checked + .toggle-slider:before {
     box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
   }
 }
-
-.toggle-switch input:disabled + .toggle-slider {
-  cursor: not-allowed;
-}
-
 
 .device-details-banner {
   height: 160px;
@@ -585,10 +497,6 @@ input:checked + .toggle-slider:before {
   font-weight: bold;
 }
 
-
-
-
-
 .device-connection-status {
   color: white;
   display: flex;
@@ -610,8 +518,6 @@ input:checked + .toggle-slider:before {
 .status-icon.red {
   color: #dc3545; 
 }
-
-
 
 .device-details-status {
   display: flex;
@@ -655,8 +561,6 @@ input:checked + .toggle-slider:before {
   justify-content: center;
 }
 
-
-
 .connection-badge.on {
   background-color: #5EE001; /* green */
 }
@@ -680,7 +584,6 @@ input:checked + .toggle-slider:before {
 
 .config-row {
   display: flex;
-  
   justify-content: space-between;
   gap: 80px;
   align-items: center;
@@ -691,7 +594,6 @@ input:checked + .toggle-slider:before {
   align-items: center;
   justify-content: space-between;
   flex: 1;
-  /* padding: 12px 16px; */
   min-height: 48px;
 }
 
@@ -719,6 +621,7 @@ input:checked + .toggle-slider:before {
   align-items: center;
 }
 
+/* Small switch used inside config (kept unchanged) */
 .auto-toggle {
   position: relative;
   display: inline-block;
@@ -824,7 +727,6 @@ input:checked + .toggle-slider:before {
   gap: 5px;
 }
 
-
 .edit-btn:hover {
   color: #007bff;
   background: #e9ecef;
@@ -926,11 +828,6 @@ input:checked + .toggle-slider:before {
   transition: box-shadow 0.2s ease, transform 0.1s ease;
 }
 
-/* .config-item:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  transform: translateY(-1px);
-} */
-
 /* Focus states for accessibility */
 .edit-btn:focus {
   outline: 2px solid #007bff;
@@ -961,5 +858,3 @@ input:checked + .toggle-slider:before {
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
-
-

@@ -163,9 +163,9 @@ const DeviceDashboard = () => {
                 {/* <td>{device.mode}</td> */}
                 <td>{device.owner_name}</td>
                 <td>
-  <span className={`status-indicator status-${(device.status).toLowerCase()}`}>
+  {/* <span className={`status-indicator status-${(device.status).toLowerCase()}`}>
     {device.status}
-  </span>
+  </span> */}
 </td>
                 <td>
                  <div className="dropdown-wrapper">

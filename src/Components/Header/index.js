@@ -7,86 +7,76 @@ import dropdownClose from "./../../Images/Header/dropdown-close.svg";
 import profileIcon from "./../../Images/Header/profile.svg";
 import logoutIcon from "./../../Images/Header/logout.svg";
 import { useNavigate } from "react-router-dom";
+import { Role, roleToString } from "../../constants/roles";  // Import role utilities
 
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const userrole = JSON.parse(localStorage.getItem("user")).role;
-  const navigate = useNavigate();
-  const dropdownRef = useRef(null); // Reference for the dropdown menu
-  const dropdownButtonRef = useRef(null); // Reference for the dropdown button
 
-  // Modified to always close the dropdown when clicking the button
+  // Safely parse role from localStorage
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const userRole = storedUser && storedUser.role !== undefined ? parseInt(storedUser.role, 10) : null;
+
+  const navigate = useNavigate();
+  const dropdownRef = useRef(null);
+  const dropdownButtonRef = useRef(null);
+
   const handleDropdownClick = () => {
-    setShowDropdown(false); // Always close the dropdown
+    setShowDropdown(false);
   };
 
-  // Open the dropdown only if it's closed
   const openDropdown = () => {
-    if (!showDropdown) {
-      setShowDropdown(true);
-    }
+    if (!showDropdown) setShowDropdown(true);
   };
 
   const viewprofile = () => {
     navigate("/profile");
-    setShowDropdown(false); // Close dropdown on navigation
+    setShowDropdown(false);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("user"); // Clear user data
-    localStorage.removeItem("authToken"); // Clear auth token
-    window.location.href = "/login"; // Force full reload to reset state
-    setShowDropdown(false); // Close dropdown on logout
+    localStorage.removeItem("user");
+    localStorage.removeItem("authToken");
+    window.location.href = "/login"; // Force full reload
+    setShowDropdown(false);
   };
 
-  // Handle clicks outside the dropdown
+  // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Check if the click is outside both the dropdown menu and the button
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target) &&
         dropdownButtonRef.current &&
         !dropdownButtonRef.current.contains(event.target)
       ) {
-        setShowDropdown(false); // Close dropdown if click is outside
+        setShowDropdown(false);
       }
     };
 
-    // Add event listener when dropdown is open
     if (showDropdown) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
-    // Cleanup event listener on component unmount or when dropdown closes
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [showDropdown]); // Re-run effect when showDropdown changes
+  }, [showDropdown]);
 
-  // const [formData, setFormData] = useState({
-  //   name: "",
-  //   phone: "",
-  //   location: "",
-  //   email: "",
-  //   password: "",
-  // });
-const displayRole = () => {
-    if (userrole === "Company Associate") {
-      return "Associate";
-    }
-    return `${userrole}`;
+  // Map role to display string ("Associate" for CompanyAssociate)
+  const displayRole = () => {
+    if (userRole === Role.CompanyAssociate) return "Associate";
+    return roleToString(userRole);
   };
+
   return (
     <header className="header">
       <img src={CompanyLogo} alt="NICO Logo" className="header-logo" />
 
       <div className="header-right">
         <div className="nico-container">
-          <img src={nico} alt="SearchIcon" className="nico-icon" />
+          <img src={nico} alt="NICO" className="nico-icon" />
           <p className="header-text">NICO IT {displayRole()}</p>
 
-          {/* Dropdown Button and Menu Wrapper */}
           <div className="dropdown-wrapper">
             <img
               src={showDropdown ? dropdownOpen : dropdownClose}
@@ -94,29 +84,21 @@ const displayRole = () => {
               className="dropdown-icon"
               onClick={() => {
                 if (showDropdown) {
-                  handleDropdownClick(); // Close if already open
+                  handleDropdownClick();
                 } else {
-                  openDropdown(); // Open if closed
+                  openDropdown();
                 }
               }}
-              ref={dropdownButtonRef} 
+              ref={dropdownButtonRef}
             />
 
             {showDropdown && (
               <div className="dropdown-options" ref={dropdownRef}>
-                <button
-                  onClick={viewprofile}
-                  type="button"
-                  className="dropdown-category"
-                >
+                <button onClick={viewprofile} type="button" className="dropdown-category">
                   <img src={profileIcon} alt="Profile" />
                   View Profile
                 </button>
-                <button
-                  onClick={handleLogout}
-                  type="button"
-                  className="dropdown-category logout"
-                >
+                <button onClick={handleLogout} type="button" className="dropdown-category logout">
                   <img src={logoutIcon} alt="Logout" />
                   Log Out
                 </button>

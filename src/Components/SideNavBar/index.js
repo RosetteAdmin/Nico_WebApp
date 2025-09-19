@@ -11,66 +11,66 @@ import LinkIcon from "./../../Images/SideNavBar/LinkIcon.svg";
 import NoteIcon from "./../../Images/SideNavBar/NoteIcon.svg";
 import "./SideNavBar.css";
 
-// Define menu items with role-based access
+// Role mapping: 0 = Admin, 1 = Company Associate, 2 = Vendor, 3 = Customer
 const menuItems = [
   {
     key: "dashboard",
     title: "Dashboard",
     icon: DashBoardIcon,
     url: "/dashboard",
-    roles: ["Admin", "Company Associate","Customer", "Vendor"],
+    roles: [0, 1, 3, 2],  // Admin, Company Associate, Customer, Vendor
   },
   {
     key: "devices",
     title: "Devices",
     icon: DevicesIcon,
-    roles: ["Admin", "Company Associate","Customer","Vendor"],
+    roles: [0, 1, 3, 2],
     subMenu: [
       {
         key: "registered-devices",
         title: "Installed",
         url: "/devices",
-        roles: ["Admin", "Company Associate","Customer","Vendor"],
+        roles: [0, 1, 3, 2],
       },
       {
         key: "pre-reg-device",
         title: "Registered",
         url: "/PreRegDevices",
-        roles: ["Admin", "Company Associate","Vendor"],
+        roles: [0, 1, 2],
       },
+      // Uncomment and update roles if needed
       // {
       //   key: "add-device",
       //   title: "Add New Device",
       //   url: "/add-device",
-      //   roles: ["Admin", "Company Associate","Vendor"],
+      //   roles: [0, 1, 2],
       // },
     ],
-  },
-  {
-    key: "customers",
-    title: "Customers",
-    icon: CustomerIcon,
-    url: "/customers",
-    roles: ["Admin", "Company Associate","Vendor"],
   },
   {
     key: "access-management",
     title: "User Access",
     icon: AccessManagementIcon,
     url: "/access-management",
-    roles: ["Admin", "Company Associate"],
+    roles: [0, 1],
     subMenu: [
       {
         key: "company-associates",
         title: "Associates",
         url: "/caccess",
-        roles: ["Admin"],
+        roles: [0],
       },
       {
         key: "vendors",
-        title: "Vendors",
+        title: "Local Admins",
         url: "/vaccess",
-        roles: ["Admin", "Company Associate"],
+        roles: [0, 1],
+      },
+      {
+        key: "customers",
+        title: "Operators",
+        url: "/customers",
+        roles: [0, 1, 2],
       },
     ],
   },
@@ -79,14 +79,14 @@ const menuItems = [
     title: "Service Requests",
     icon: ServicesRequestIcon,
     url: "/service-requests",
-    roles: ["Admin", "Company Associate", "Vendor"],
+    roles: [0, 1, 2],
   },
   // {
   //   key: "profile",
   //   title: "Profile",
   //   icon: ProfileIcon,
   //   url: "/profile",
-  //   roles: ["Admin", "Customer"],
+  //   roles: [0, 3],
   // },
 ];
 
@@ -96,7 +96,9 @@ const SideNavBar = () => {
   const [openMenu, setOpenMenu] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
 
-  const userRole =  JSON.parse(localStorage.getItem("user")).role; // manage access
+  // Parse stored role as integer for correct comparison
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const userRole = storedUser && storedUser.role !== undefined ? parseInt(storedUser.role, 10) : null;
 
   const handleComponentClick = (key) => {
     setOpenMenu(false);
@@ -106,10 +108,7 @@ const SideNavBar = () => {
 
   const handleSubComponentClick = (key) => {
     setSelectedSubComponent(key);
-
-    const parent = menuItems.find((item) =>
-      item.subMenu?.some((subItem) => subItem.key === key)
-    );
+    const parent = menuItems.find((item) => item.subMenu?.some((subItem) => subItem.key === key));
     if (parent) {
       setSelectedComponent(parent.key);
     }
@@ -119,7 +118,7 @@ const SideNavBar = () => {
     setOpenMenu((prevMenu) => (prevMenu === key ? null : key));
   };
 
-  // Filter menu items based on user role
+  // Filter menu items based on userRole integer
   const filteredMenuItems = menuItems
     .filter((item) => item.roles.includes(userRole))
     .map((item) => ({
@@ -129,14 +128,15 @@ const SideNavBar = () => {
     .filter((item) => !item.subMenu || item.subMenu.length > 0);
 
   return (
-<nav
-    className={`side-nav ${isHovered ? "" : "collapsed"}`}
-    onMouseEnter={() => setIsHovered(true)}
-    onMouseLeave={() => {
-      setIsHovered(false);
-      setOpenMenu(null); // Close any open sub-menus when not hovered
-    }}
-  >      <ul className="nav-list">
+    <nav
+      className={`side-nav ${isHovered ? "" : "collapsed"}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        setOpenMenu(null);
+      }}
+    >
+      <ul className="nav-list">
         {filteredMenuItems.map((item) => (
           <li key={item.key} className={`nav-item${openMenu === item.key ? " open" : ""}`}>
             {!item.subMenu ? (
@@ -151,9 +151,7 @@ const SideNavBar = () => {
                   className={selectedComponent === item.key ? "nav-icon active-icon" : "nav-icon"}
                   style={{ marginRight: "10px" }}
                 />
-                <span
-                  className={`nav-text ${selectedComponent === item.key ? "active" : ""}`}
-                >
+                <span className={`nav-text ${selectedComponent === item.key ? "active" : ""}`}>
                   {item.title}
                 </span>
               </Link>
