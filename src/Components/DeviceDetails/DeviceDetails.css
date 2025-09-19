@@ -1,4 +1,4 @@
-/* Ensure body and html allow scrolling */
+Ensure body and html allow scrolling
 html, body {
   height: auto; 
   margin: 0;
