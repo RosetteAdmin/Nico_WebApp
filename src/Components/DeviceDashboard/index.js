@@ -100,7 +100,6 @@ const DeviceDashboard = () => {
       )}
       <div className="search-bar-container">
             <h2 className="dashboard-title-reg">Installed Devices</h2>
-            
                   
                     <input
                       type="text"

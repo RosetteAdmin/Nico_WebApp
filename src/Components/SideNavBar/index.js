@@ -52,7 +52,7 @@ const menuItems = [
     title: "User Access",
     icon: AccessManagementIcon,
     url: "/access-management",
-    roles: [0, 1],
+    roles: [0,1,2],
     subMenu: [
       {
         key: "company-associates",

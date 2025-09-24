@@ -75,7 +75,9 @@ const Header = () => {
       <div className="header-right">
         <div className="nico-container">
           <img src={nico} alt="NICO" className="nico-icon" />
-          <p className="header-text">NICO IT {displayRole()}</p>
+<p className="header-text">
+  NICO IT <span style={{ whiteSpace: "nowrap" }}>{displayRole()}</span>
+</p>
 
           <div className="dropdown-wrapper">
             <img

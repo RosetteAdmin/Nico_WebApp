@@ -130,7 +130,7 @@ const Customers = () => {
         </div>
       )}
       <div className="search-bar-container">
-        <h2 className="dashboard-title">Customers</h2>
+        <h2 className="dashboard-title">Operators</h2>
         
         <input
           type="text"

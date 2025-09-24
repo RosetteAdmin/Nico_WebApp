@@ -124,7 +124,7 @@ const VendorsCompany = () => {
       )}
       
       <div className="search-bar-container">
-        <h2 className="h1-reg-com-title">Vendor Details</h2>
+        <h2 className="h1-reg-com-title">Local Admin Details</h2>
         <div className="reg-com-actions">
           <div className="associate-reg-com-search-bar-container">
             <input

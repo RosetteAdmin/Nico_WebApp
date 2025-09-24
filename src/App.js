@@ -69,7 +69,6 @@ function App() {
                         <Route path="/device/:id" element={<DeviceDetails />} />
                         {/* <Route path="/device/:id/logdetails" element={<LogDetails />} /> */}
                         <Route path="/device/:azure_device_id/logdetails" element={<LogDetails />} />
-
                         <Route path="/add-device" element={<AddNewDevice />} />
                         <Route path="/access-management" element={<AccessManagement />} />
                         <Route path="/caccess" element={<RegisteredCompany />} />

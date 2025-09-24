@@ -519,3 +519,19 @@ circle.progress {
     font-weight: bold;
     margin: 4px 0 0;
 }
+
+
+.stat-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.stat-card {
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;}
+
+.stat-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
