@@ -127,7 +127,7 @@ const Userinfo = () => {
         <div className="vendor-content-wrapper">
           {/* Left Side - Add or Remove Access */}
           <div className="form-container">
-            <h2>Add Company Associate</h2>
+            <h2>Add Company Associate:</h2>
             {/* <div className="form-group">
               <label>Associate Name</label>
               <input 
@@ -137,6 +137,8 @@ const Userinfo = () => {
                 onChange={(e) => handleInputChange("name", e.target.value)}
               />
             </div> */}
+            <div className="form-row two-col">
+
             <div className="form-group">
               <label>Email ID *</label>
               <input 
@@ -156,6 +158,7 @@ const Userinfo = () => {
                 onChange={(e) => handleInputChange("password", e.target.value)}
                 required
               />
+            </div>
             </div>
             {/* <div className="form-group">
               <label>Phone Number</label>
@@ -178,7 +181,7 @@ const Userinfo = () => {
           </div>
 
           {/* Right Side - Device Power Access Permissions */}
-          <div className="permissions-container">
+          {/* <div className="permissions-container">
             <h3>Device Power Access Permission:</h3>
             <div className="toggle-group">
               <div>
@@ -215,7 +218,7 @@ const Userinfo = () => {
                 </label>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

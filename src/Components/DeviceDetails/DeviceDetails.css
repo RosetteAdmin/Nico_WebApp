@@ -136,7 +136,7 @@ h2 {
 }
 
 /* Optional: style the edit button */
-.editt-btn {
+/* .editt-btn {
   background: white;
   border: 1px solid #c2c2c2;
   padding: 6px 12px;
@@ -151,7 +151,43 @@ h2 {
 
 .editt-btn:hover {
   background-color: #e1e1e1;
+} */
+
+.editt-btn {
+  background: white;
+  border: 1px solid #c2c2c2;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: #050505;
+  gap: 5px;
+  pointer-events: auto;  /* Ensure it's clickable */
+  z-index: 10;           /* Make sure it's on top */
+  position: relative;    /* Proper positioning */
+  transition: all 0.2s ease;
 }
+
+.editt-btn:hover {
+  background-color: #e1e1e1;
+  color: #007bff;
+}
+
+.editt-btn:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+.editt-btn:active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+  transform: translateY(1px);
+}
+
+
 
 .device-info-card p {
   margin: 5px 0;
@@ -190,7 +226,7 @@ h2 {
   top:50px;
 }
 
-/* ============================= */
+/* ============================ */
 /* Toggle Switch – FIXED VERSION */
 /* Applies to the big circular "System Power" toggle only */
 /* ============================= */
@@ -224,7 +260,7 @@ h2 {
   color: #fff;
   font-weight: 700;
   font-size: 0.9rem;
-  top: 0;                      /* reset odd offsets */
+  top: -30px;                      /* reset odd offsets */
   right: 0;
 }
 
@@ -253,7 +289,6 @@ h2 {
 .toggle-waiting .toggle-slider {
   opacity: 0.6;
   cursor: not-allowed;
-  animation: pulse 1.5s infinite;
 }
 
 /* Sensor Data Section */
@@ -700,9 +735,9 @@ h2 {
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-.editt-btn {
+/* .editt-btn {
   background: white;
-  border: none;  /* Remove the border */
+  border: none;  
   padding: 6px 12px;
   border-radius: 5px;
   font-size: 1.2rem;
@@ -711,7 +746,7 @@ h2 {
   align-items: center;
   color:black;
   gap: 5px;
-}
+} */
 
 .edit-btn:hover {
   color: #007bff;
@@ -868,4 +903,22 @@ h2 {
     max-width: none;
     margin: clamp(12px, 4vw, 36px) var(--page-gutter, 24px) 24px var(--page-gutter, 24px);
   }
+}
+
+
+.spinner {
+  display: inline-block;
+  animation: spin 1s linear infinite;
+  font-size: 16px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.config-input.editing {
+  border-color: #007bff !important;
+  background-color: #fff !important;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
 }

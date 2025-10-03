@@ -23,6 +23,7 @@ import EditUser from "./Components/EditUser";
 import "./App.css";
 import blueband from "./Images/Dashboard/blueband.svg";
 import LogDetails from "./Components/LogDetails";
+import EditDevice from "./Components/EditDevice";
 
 
 function App() {
@@ -65,6 +66,7 @@ function App() {
                         <Route path="/edit/:email" element={<EditUser/>} />
                         <Route path="/dashboard" element={<HomeDashboard />} />
                         <Route path="/devices" element={<DeviceDashboard />} />
+                        <Route path="/editdevice/:id" element={<EditDevice />} />
                         <Route path="/PreRegDevices" element={<PreRegDevices />} />
                         <Route path="/device/:id" element={<DeviceDetails />} />
                         {/* <Route path="/device/:id/logdetails" element={<LogDetails />} /> */}

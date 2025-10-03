@@ -1,108 +1,6 @@
-// import React, { useState } from "react";
-// import "./AddVendor.css";
-
-// const Userinfo = () => {
-//   const [permissions, setPermissions] = useState({
-//     nbGenerator: false,
-//     ozoneGenerator1: false,
-//     ozoneGenerator2: false,
-//   });
-
-//   const togglePermission = (key) => {
-//     setPermissions((prevPermissions) => ({
-//       ...prevPermissions,
-//       [key]: !prevPermissions[key],
-//     }));
-//   };
-
-//   return (
-//     <>
-//     <div className="grant-access-headerr">
-//         <h1 className="vendor-title">Grant Access Permission</h1>
-//         <button className="add-vendor-btn">Grant Access</button>
-//       </div>
-//     <div className="vendor-management-container">
-//       {/* Header Section */}
-      
-
-//       {/* Content Section with Flexbox */}
-//       <div className="vendor-content-wrapper">
-//         {/* Left Side - Add or Remove Access */}
-//         <div className="form-container">
-//           <h2>Add or Remove Access Details:</h2>
-//           {/* <div className="form-group">
-//             <label>Associate Name</label>
-//             <input type="text" placeholder="Name" readOnly/>
-//           </div> */}
-//           <div className="form-group">
-//             <label>Email ID</label>
-//             <input type="email" placeholder="email@email.com" readOnly/>
-//           </div>
-//           <div className="form-group">
-//             <label>Password</label>
-//             <input type="text" placeholder="Password" readOnly/>
-//           </div>
-//           {/* <div className="form-group">
-//             <label>Phone Number</label>
-//             <input type="text" placeholder="1234567890" readOnly/>
-//           </div> */}
-//           {/* <div className="form-group">
-//             <label>Sector</label>
-//             <input type="text" placeholder="Sector Name" readOnly />
-//           </div> */}
-//         </div>
-
-//         {/* Right Side - Device Power Access Permissions */}
-//         <div className="permissions-container">
-//           <h3>Device Power Access Permission:</h3>
-//           <div className="toggle-group">
-//             <div>
-//               <span>NB Generator</span>
-//               <label className="switch">
-//                 <input
-//                   type="checkbox"
-//                   checked={permissions.nbGenerator}
-//                   onChange={() => togglePermission("nbGenerator")}
-//                 />
-//                 <span className="slider"></span>
-//               </label>
-//             </div>
-//             <div>
-//               <span>Ozone Generator 1</span>
-//               <label className="switch">
-//                 <input
-//                   type="checkbox"
-//                   checked={permissions.ozoneGenerator1}
-//                   onChange={() => togglePermission("ozoneGenerator1")}
-//                 />
-//                 <span className="slider"></span>
-//               </label>
-//             </div>
-//             <div>
-//               <span>Ozone Generator 2</span>
-//               <label className="switch">
-//                 <input
-//                   type="checkbox"
-//                   checked={permissions.ozoneGenerator2}
-//                   onChange={() => togglePermission("ozoneGenerator2")}
-//                 />
-//                 <span className="slider"></span>
-//               </label>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//     </>
-//   );
-// };
-
-// export default Userinfo;
-
-
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./AddVendor.css";
+import "./EditDevice.css";
 
 const Userinfo = () => {
   const [permissions, setPermissions] = useState({
@@ -158,7 +56,7 @@ const Userinfo = () => {
     }
 
     const confirmCreate = window.confirm(
-      `Are you sure you want to create a new Vendor with email: ${userInfo.email}?`
+      `Are you sure you want to edit this device?: ${userInfo.email}?`
     );
     
     if (!confirmCreate) return;
@@ -212,13 +110,13 @@ const Userinfo = () => {
       )}
 
       <div className="grant-access-headerr">
-        <h1 className="vendor-title">Grant Access Permission</h1>
+        <h1 className="vendor-title">Edit Device Details</h1>
         <button 
           className="add-vendor-btn" 
           onClick={handleGrantAccess}
           disabled={loading}
         >
-          {loading ? "Creating..." : "Grant Access"}
+          {loading ? "Creating..." : "Save Changes"}
         </button>
       </div>
 
@@ -226,7 +124,7 @@ const Userinfo = () => {
         <div className="vendor-content-wrapper">
           {/* Left Side - Add or Remove Access */}
           <div className="form-container">
-            <h2>Add Vendor:</h2>
+            <h2>Change Details:</h2>
             {/* <div className="form-group">
               <label>Associate Name</label>
               <input 
@@ -238,17 +136,38 @@ const Userinfo = () => {
             </div> */}            
             <div className="form-row two-col">
             <div className="form-group">
-              <label>Email ID *</label>
+              <label>Owner Name</label>
               <input 
-                type="email" 
-                placeholder="email@email.com" 
+                type="text" 
+                placeholder="Owner Name" 
+                value={userInfo.name}
+                onChange={(e) => handleInputChange("name", e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label>Owner Email ID </label>
+              <input 
+                type="text" 
+                placeholder="Owner Email ID" 
                 value={userInfo.email}
                 onChange={(e) => handleInputChange("email", e.target.value)}
                 required
               />
             </div>
+            </div>
+            <div className="form-row two-col">
             <div className="form-group">
-              <label>Password *</label>
+              <label>Device Sector</label>
+              <input 
+                type="text" 
+                placeholder="Device Sector" 
+                value={userInfo.sector}
+                onChange={(e) => handleInputChange("sector", e.target.value)}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Password </label>
               <input 
                 type="text" 
                 placeholder="Password" 
