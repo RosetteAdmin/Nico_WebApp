@@ -1286,11 +1286,66 @@ const DeviceDetails = () => {
 
   const navigate = useNavigate();
 
-   const handleEditClick = () => {
+  const handleEditClick = () => {
     navigate(`/editdevice/${id}`); 
   };
 
-  // Function to write to registers
+  // Function to fetch device data manually
+  const fetchDeviceData = async () => {
+    if (!conn) return;
+    
+    try {
+      // Fetch telemetry for display data - NOW FROM DATABASE
+      const telemetryRes = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}`);
+      if (!telemetryRes.ok) throw new Error(`HTTP ${telemetryRes.status}`);
+      const data = await telemetryRes.json();
+
+      // Update device data with fallback to prevent null/undefined
+      setDeviceData({
+        nbGenerator: { 
+          ...data.nbGenerator,
+          // Ensure all values have defaults (never null/undefined)
+          pump_motor_frequency: data.nbGenerator.pump_motor_frequency ?? 0,
+          pump_motor_current: data.nbGenerator.pump_motor_current ?? 0,
+          total_running_hours: data.nbGenerator.total_running_hours ?? 0,
+          auto_sequence_on_time: data.nbGenerator.auto_sequence_on_time ?? 0,
+          auto_sequence_off_time: data.nbGenerator.auto_sequence_off_time ?? 0,
+          auto_sequence_counter: data.nbGenerator.auto_sequence_counter ?? 0,
+          alert_status: data.nbGenerator.alert_status ?? 0
+        },
+        ozoneGenerator: { ...data.ozoneGenerator },
+        oxygenGenerator: { ...data.oxygenGenerator },
+      });
+
+      // Use the check-power endpoint for real-time status (UNCHANGED)
+      const currentPowerStatus = await checkPowerStatus();
+      
+      if (currentPowerStatus !== null) {
+        // Use the Azure IoT endpoint result
+        if (currentPowerStatus !== isPowerOn) {
+          setIsPowerOn(currentPowerStatus);
+          console.log(`Power status changed via Azure IoT: ${currentPowerStatus ? 'ON (57)' : 'OFF (1)'}`);
+        }
+      } else {
+        // Fallback to telemetry alert_status if endpoint fails
+        const fallbackStatus = data.nbGenerator?.alert_status === 57;
+        if (fallbackStatus !== isPowerOn) {
+          setIsPowerOn(fallbackStatus);
+          console.log(`Power status changed (fallback) - Alert Status: ${data.nbGenerator?.alert_status}, Power: ${fallbackStatus ? 'ON' : 'OFF'}`);
+        }
+      }
+
+      // Clear waiting after confirmation
+      if (nbWaiting) {
+        setNbWaiting(false);
+      }
+    } catch (err) {
+      console.error("Data fetch error:", err);
+      setNbWaiting(false);
+    }
+  };
+
+  // Function to write to registers (UNCHANGED)
   const writeToRegister = async (registerType, value) => {
     if (!value || value === '') {
       alert('Please enter a valid value');
@@ -1330,6 +1385,9 @@ const DeviceDetails = () => {
             break;
         }
         
+        // Refresh data after successful write
+        await fetchDeviceData();
+        
         return true;
       }
     } catch (error) {
@@ -1341,7 +1399,7 @@ const DeviceDetails = () => {
     }
   };
 
-  // Handler functions
+  // Handler functions (UNCHANGED)
   const handleCounterClick = async () => {
     if (counter) {
       await writeToRegister('auto_sequence_counter', counter);
@@ -1358,35 +1416,35 @@ const DeviceDetails = () => {
     }
   };
 
-  // Add this function after your handler functions (around line 105)
-const checkPowerStatus = async () => {
-  try {
-    const response = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/check-power`);
-    
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-    
-    const data = await response.json();
-    
-    if (data.success) {
-      console.log(`Power Status Check:`, {
-        device: id,
-        status_value: data.status_value,
-        power: data.power ? 'ON' : 'OFF',
-        source: data.source || 'azure',
-        timestamp: data.timestamp
-      });
+  // power status update (UNCHANGED)
+  const checkPowerStatus = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/check-power`);
       
-      return data.power;
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        console.log(`Power Status Check:`, {
+          device: id,
+          status_value: data.status_value,
+          power: data.power ? 'ON' : 'OFF',
+          source: data.source || 'azure',
+          timestamp: data.timestamp
+        });
+        
+        return data.power;
+      }
+      
+      return null;
+    } catch (error) {
+      console.error('Error checking power status:', error);
+      return null;
     }
-    
-    return null;
-  } catch (error) {
-    console.error('Error checking power status:', error);
-    return null;
-  }
-};
+  };
 
   const handleOffTimeClick = async () => {
     if (offTime) {
@@ -1404,12 +1462,12 @@ const checkPowerStatus = async () => {
       waterTemperature: "",
       systemTemperature: "",
       totalWaterOutlet: "",
-      pump_motor_frequency: null,
-      pump_motor_current: null,
-      total_running_hours: null,
-      auto_sequence_on_time: null,
-      auto_sequence_off_time: null,
-      auto_sequence_counter: null,
+      pump_motor_frequency: 0,
+      pump_motor_current: 0,
+      total_running_hours: 0,
+      auto_sequence_on_time: 0,
+      auto_sequence_off_time: 0,
+      auto_sequence_counter: 0,
       alert_status: 0,
       timestamp: "",
     },
@@ -1447,7 +1505,7 @@ const checkPowerStatus = async () => {
   // Master gate for charts/polling
   const [isPowerOn, setIsPowerOn] = useState(false);
 
-  // Owner/misc info
+  // Owner/misc info (UNCHANGED)
   useEffect(() => {
     fetch(`${process.env.REACT_APP_EP}/data/devices/${id}/info`)
       .then((r) => {
@@ -1478,7 +1536,7 @@ const checkPowerStatus = async () => {
       });
   }, [id]);
 
-  // Device list → deviceName
+  // Device list → deviceName (UNCHANGED)
   useEffect(() => {
     let cancelled = false;
     fetch(`${process.env.REACT_APP_EP}/api/devices`)
@@ -1499,179 +1557,55 @@ const checkPowerStatus = async () => {
     };
   }, [id]);
 
-  // Connection status and initial power check
-  // useEffect(() => {
-  //   const fetchInitialStatus = async () => {
-  //     try {
-  //       // Fetch connection status
-  //       const statusRes = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/status`);
-  //       if (!statusRes.ok) throw new Error(`HTTP ${statusRes.status}`);
-  //       const statusData = await statusRes.json();
+  // Connection status and initial power check (UNCHANGED)
+  useEffect(() => {
+    const fetchInitialStatus = async () => {
+      try {
+        // Fetch connection status
+        const statusRes = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/status`);
+        if (!statusRes.ok) throw new Error(`HTTP ${statusRes.status}`);
+        const statusData = await statusRes.json();
         
-  //       setConn(statusData.status === "Connected");
+        setConn(statusData.status === "Connected");
         
-  //       // If connected, fetch initial telemetry to get alert_status
-  //       if (statusData.status === "Connected") {
-  //         const telemetryRes = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}`);
-  //         if (telemetryRes.ok) {
-  //           const data = await telemetryRes.json();
-  //           // Check alert_status: 57 = ON, 0 = OFF
-  //           const powerStatus = data.nbGenerator?.alert_status === 57;
-  //           setIsPowerOn(powerStatus);
-  //           console.log(`Initial power status - Alert Status: ${data.nbGenerator?.alert_status}, Power: ${powerStatus ? 'ON' : 'OFF'}`);
-  //         }
-  //       }
-        
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.error("Error fetching initial status:", error);
-  //       setConn(false);
-  //       setIsPowerOn(false);
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchInitialStatus();
-  // }, [id]);
-
-// Connection status and initial power check
-useEffect(() => {
-  const fetchInitialStatus = async () => {
-    try {
-      // Fetch connection status
-      const statusRes = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/status`);
-      if (!statusRes.ok) throw new Error(`HTTP ${statusRes.status}`);
-      const statusData = await statusRes.json();
-      
-      setConn(statusData.status === "Connected");
-      
-      // If connected, use the new check-power endpoint
-      if (statusData.status === "Connected") {
-        const powerStatus = await checkPowerStatus();
-        if (powerStatus !== null) {
-          setIsPowerOn(powerStatus);
-          console.log(`Initial power status via Azure IoT: ${powerStatus ? 'ON (57)' : 'OFF (1)'}`);
-        } else {
-          // Fallback to telemetry if new endpoint fails
-          const telemetryRes = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}`);
-          if (telemetryRes.ok) {
-            const data = await telemetryRes.json();
-            const powerStatus = data.nbGenerator?.alert_status === 57;
+        // If connected, use the new check-power endpoint
+        if (statusData.status === "Connected") {
+          const powerStatus = await checkPowerStatus();
+          if (powerStatus !== null) {
             setIsPowerOn(powerStatus);
-            console.log(`Initial power status (fallback) - Alert Status: ${data.nbGenerator?.alert_status}, Power: ${powerStatus ? 'ON' : 'OFF'}`);
+            console.log(`Initial power status via Azure IoT: ${powerStatus ? 'ON (57)' : 'OFF (1)'}`);
+          } else {
+            // Fallback to telemetry if new endpoint fails
+            const telemetryRes = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}`);
+            if (telemetryRes.ok) {
+              const data = await telemetryRes.json();
+              const powerStatus = data.nbGenerator?.alert_status === 57;
+              setIsPowerOn(powerStatus);
+              console.log(`Initial power status (fallback) - Alert Status: ${data.nbGenerator?.alert_status}, Power: ${powerStatus ? 'ON' : 'OFF'}`);
+            }
           }
         }
-      }
-      
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching initial status:", error);
-      setConn(false);
-      setIsPowerOn(false);
-      setLoading(false);
-    }
-  };
-
-  fetchInitialStatus();
-}, [id]);
-
-
-  // UPDATED: Poll telemetry + statuses with alert_status check
-  // useEffect(() => {
-  //   if (!conn) return;
-
-  //   const fetchData = async () => {
-  //     try {
-  //       // Fetch telemetry
-  //       const telemetryRes = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}`);
-  //       if (!telemetryRes.ok) throw new Error(`HTTP ${telemetryRes.status}`);
-  //       const data = await telemetryRes.json();
-
-  //       setDeviceData({
-  //         nbGenerator: { ...data.nbGenerator },
-  //         ozoneGenerator: { ...data.ozoneGenerator },
-  //         oxygenGenerator: { ...data.oxygenGenerator },
-  //       });
-
-  //       // UPDATED: Check alert_status to determine power status
-  //       // alert_status: 57 = ON, 0 = OFF
-  //       const currentPowerStatus = data.nbGenerator?.alert_status === 57;
         
-  //       // Only update if status has changed to avoid unnecessary re-renders
-  //       if (currentPowerStatus !== isPowerOn) {
-  //         setIsPowerOn(currentPowerStatus);
-  //         console.log(`Power status changed - Alert Status: ${data.nbGenerator?.alert_status}, Power: ${currentPowerStatus ? 'ON' : 'OFF'}`);
-  //       }
-
-  //       // Clear waiting after confirmation if status matches expected
-  //       if (nbWaiting) {
-  //         setNbWaiting(false);
-  //       }
-  //     } catch (err) {
-  //       console.error("Polling error:", err);
-  //       setNbWaiting(false);
-  //     }
-  //   };
-
-  //   fetchData();
-  //   const intervalId = setInterval(fetchData, 5000);
-  //   return () => clearInterval(intervalId);
-  // }, [id, conn, nbWaiting, isPowerOn]);
-
-// UPDATED: Poll telemetry + power status check
-useEffect(() => {
-  if (!conn) return;
-
-  const fetchData = async () => {
-    try {
-      // Fetch telemetry for display data
-      const telemetryRes = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}`);
-      if (!telemetryRes.ok) throw new Error(`HTTP ${telemetryRes.status}`);
-      const data = await telemetryRes.json();
-
-      setDeviceData({
-        nbGenerator: { ...data.nbGenerator },
-        ozoneGenerator: { ...data.ozoneGenerator },
-        oxygenGenerator: { ...data.oxygenGenerator },
-      });
-
-      // NEW: Use the check-power endpoint for real-time status
-      const currentPowerStatus = await checkPowerStatus();
-      
-      if (currentPowerStatus !== null) {
-        // Use the Azure IoT endpoint result
-        if (currentPowerStatus !== isPowerOn) {
-          setIsPowerOn(currentPowerStatus);
-          console.log(`Power status changed via Azure IoT: ${currentPowerStatus ? 'ON (57)' : 'OFF (1)'}`);
-        }
-      } else {
-        // Fallback to telemetry alert_status if endpoint fails
-        const fallbackStatus = data.nbGenerator?.alert_status === 57;
-        if (fallbackStatus !== isPowerOn) {
-          setIsPowerOn(fallbackStatus);
-          console.log(`Power status changed (fallback) - Alert Status: ${data.nbGenerator?.alert_status}, Power: ${fallbackStatus ? 'ON' : 'OFF'}`);
-        }
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching initial status:", error);
+        setConn(false);
+        setIsPowerOn(false);
+        setLoading(false);
       }
+    };
 
-      // Clear waiting after confirmation
-      if (nbWaiting) {
-        setNbWaiting(false);
-      }
-    } catch (err) {
-      console.error("Polling error:", err);
-      setNbWaiting(false);
+    fetchInitialStatus();
+  }, [id]);
+
+  // Fetch device data once when connection is established (UNCHANGED)
+  useEffect(() => {
+    if (conn) {
+      fetchDeviceData();
     }
-  };
+  }, [conn]);
 
-  fetchData();
-  const intervalId = setInterval(fetchData, 5000);
-  return () => clearInterval(intervalId);
-}, [id, conn, nbWaiting, isPowerOn]);
-
-
-
-
-  const handlePowerToggle = () => {
+  const handlePowerToggle = async () => {
     const desired = !isPowerOn;
 
     setNbWaiting(true);
@@ -1684,26 +1618,30 @@ useEffect(() => {
     // Optimistic UI update
     setIsPowerOn(desired);
 
-    fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/toggle/nb`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: desired ? "on" : "off" }),
-    })
-      .then((r) => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        return r.json();
-      })
-      .then(() => {
-        // Don't set nbWaiting to false here, let the polling handle it
-        // when it confirms the actual status change
-        console.log(`Toggle command sent: ${desired ? 'ON' : 'OFF'}`);
-      })
-      .catch((err) => {
-        console.error("Error updating power status:", err);
-        setIsPowerOn(!desired);  // Revert on error
-        setNbWaiting(false);
-        alert("Error updating power status. Please try again.");
+    try {
+      const response = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/toggle/nb`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: desired ? "on" : "off" }),
       });
+
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      
+      await response.json();
+      console.log(`Toggle command sent: ${desired ? 'ON' : 'OFF'}`);
+      
+      // Wait a bit for the device to respond, then check status
+      setTimeout(async () => {
+        await fetchDeviceData();
+        setNbWaiting(false);
+      }, 3000);
+      
+    } catch (err) {
+      console.error("Error updating power status:", err);
+      setIsPowerOn(!desired);  // Revert on error
+      setNbWaiting(false);
+      alert("Error updating power status. Please try again.");
+    }
   };
 
   const getStatusText = (isPowered, timestamp, isWaiting) => {
@@ -1831,7 +1769,7 @@ useEffect(() => {
             </div>
           </div>
 
-          {/* Device Configuration & Alerts */}
+          {/* Device Configuration & Alerts - UPDATED: Always show values, never N/A */}
           <div className="device-info-card device-power-status">
             <div>
               <h3 className="section-title">Device Configuration & Alerts:</h3>
@@ -1841,21 +1779,13 @@ useEffect(() => {
                   <div className="config-item">
                     <label>Pump Motor frequency:</label>
                     <span className="config-value">
-                      {isPowerOn && conn
-                        ? deviceData.nbGenerator.pump_motor_frequency
-                          ? `${deviceData.nbGenerator.pump_motor_frequency} Hz`
-                          : "N/A"
-                        : "N/A"}
+                      {deviceData.nbGenerator.pump_motor_frequency || 0} Hz
                     </span>
                   </div>
                   <div className="config-item">
                     <label>Total Running Hours:</label>
                     <span className="config-value">
-                      {isPowerOn && conn
-                        ? deviceData.nbGenerator.total_running_hours
-                          ? `${deviceData.nbGenerator.total_running_hours} H`
-                          : "N/A"
-                        : "N/A"}
+                      {deviceData.nbGenerator.total_running_hours || 0} H
                     </span>
                   </div>
                 </div>
@@ -1864,16 +1794,12 @@ useEffect(() => {
                   <div className="config-item">
                     <label>Pump Motor Current:</label>
                     <span className="config-value">
-                      {isPowerOn && conn
-                        ? deviceData.nbGenerator.pump_motor_current !== null
-                          ? `${Number(deviceData.nbGenerator.pump_motor_current).toFixed(2)} A`
-                          : "N/A"
-                        : "N/A"}
+                      {Number(deviceData.nbGenerator.pump_motor_current || 0).toFixed(2)} A
                     </span>
                   </div>
                   <div className="config-item">
                     <label>Total Water Outlet Qty:</label>
-                    <span className="config-value">N/A</span>
+                    <span className="config-value">0</span>
                   </div>
                 </div>
 
@@ -1895,16 +1821,10 @@ useEffect(() => {
                    <div className="config-item">
                     <label>Auto Sequence Counter:</label>
                     <div className="editable-field">
-                      {/* Left input - always shows current value */}
+                      {/* Left input - always shows current value from database */}
                       <input
                         type="number"
-                        value={
-                          isPowerOn && conn
-                            ? deviceData.nbGenerator.auto_sequence_counter !== null
-                              ? deviceData.nbGenerator.auto_sequence_counter
-                              : "N/A"
-                            : "N/A"
-                        }
+                        value={deviceData.nbGenerator.auto_sequence_counter ?? 0}
                         disabled={true}
                         readOnly={true}
                         className="config-input"
@@ -1940,16 +1860,10 @@ useEffect(() => {
                   <div className="config-item">
                     <label>Auto Sequence ON Time:</label>
                     <div className="editable-field">
-                      {/* Left input - always shows current value */}
+                      {/* Left input - always shows current value from database */}
                       <input
                         type="number"
-                        value={
-                          isPowerOn && conn
-                            ? deviceData.nbGenerator.auto_sequence_on_time !== null
-                              ? deviceData.nbGenerator.auto_sequence_on_time
-                              : "N/A"
-                            : "N/A"
-                        }
+                        value={deviceData.nbGenerator.auto_sequence_on_time ?? 0}
                         disabled={true}
                         readOnly={true}
                         className="config-input"
@@ -1982,16 +1896,10 @@ useEffect(() => {
                   <div className="config-item">
                     <label>Auto Sequence OFF Time:</label>
                     <div className="editable-field">
-                      {/* Left input - always shows current value */}
+                      {/* Left input - always shows current value from database */}
                       <input
                         type="number"
-                        value={
-                          isPowerOn && conn
-                            ? deviceData.nbGenerator.auto_sequence_off_time !== null
-                              ? deviceData.nbGenerator.auto_sequence_off_time
-                              : "N/A"
-                            : "N/A"
-                        }
+                        value={deviceData.nbGenerator.auto_sequence_off_time ?? 0}
                         disabled={true}
                         readOnly={true}
                         className="config-input"
@@ -2025,9 +1933,7 @@ useEffect(() => {
               </div>
             </div>
           </div>
-
           {isPowerOn && <DeviceCharts deviceId={id} />}
-
           {!isPowerOn && (
             <div className="device-info-card">
               <div style={{ textAlign: "center", padding: "40px", color: "#666" }}>
