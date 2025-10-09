@@ -118,7 +118,7 @@ const VendorsCompany = () => {
               <th className="th-reg-com">Device Name</th>
               <th className="th-reg-com">Sector</th>
               <th className="th-reg-com">Device Owner</th>
-              <th className="th-reg-com">Actions</th>
+              {/* <th className="th-reg-com">Actions</th> */}
             </tr>
           </thead>
           <tbody className="tbody-reg-com">
@@ -128,8 +128,8 @@ const VendorsCompany = () => {
                 <td className="td-reg-com">{vendor.name}</td>
                 <td className="td-reg-com">{vendor.sector}</td>
                 <td className="td-reg-com">{vendor.owner}</td>
-                <td className="td-reg-com"></td>
-                <td
+                {/* <td className="td-reg-com"></td> */}
+                {/* <td
                   className="td-reg-com"
                   style={{ display: "flex", gap: "10px", alignItems: "center" }}
                 >
@@ -138,7 +138,7 @@ const VendorsCompany = () => {
                                           icon={faEllipsis}
                                           
                   />
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>

@@ -1,67 +1,85 @@
-import React, { useEffect,useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faSliders ,faEllipsis,faAngleLeft,faAngleRight,faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faSliders, faEllipsis, faAngleLeft, faAngleRight, faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import "./DeviceDashboard.css";
 
 const DeviceDashboard = () => {
   const [devices, setDevices] = useState([]);
-  const [loading, setLoading] = useState(true); // State for loading screen
+  const [loading, setLoading] = useState(true);
   const userrole = JSON.parse(localStorage.getItem("user")).role;
 
   useEffect(() => {
-    //old route to directly fetch devices
-    fetch(`${process.env.REACT_APP_EP}/api/devices`)   
-    // fetch(`${process.env.REACT_APP_EP}/api/devices/active`)
-      .then(response => response.json())
-      .then(data => {
-        const updatedData = (data.value || []).map(device => ({
-          ...device,
-          status: getRandomStatus()
-        }));
-        setDevices(updatedData);
-        setLoading(false); // Set loading to false after devices are set
-      })      
-      .catch(error => {
-        console.error('Error fetching devices:', error);
-        setLoading(false); // Set loading to false in case of error
-      });  
-    }, []);
+    const fetchDevicesWithInfo = async () => {
+      try {
+        // Fetch devices from Azure
+        const response = await fetch(`${process.env.REACT_APP_EP}/api/devices`);
+        const data = await response.json();
+        const azureDevices = data.value || [];
 
-    
-    const getRandomStatus = () => {
-    const statuses = ["Success", "Danger"];
-    return statuses[Math.floor(Math.random() * statuses.length)];
-  };
-  // const devices = [
-  //   { id: "00001", name: "Christine Brooks", sector: "Karnataka, India", status: "Not Connected", mode: "-", alerts: "A1" },
-  //   { id: "00002", name: "Rosie Pearson", sector: "Karnataka, India", status: "Connected", mode: "ON", alerts: "A2" },
-  //   { id: "00003", name: "Darrell Caldwell", sector: "Pune, India", status: "Not Connected", mode: "ON", alerts: "A2" },
-  //   { id: "00004", name: "Gilbert Johnston", sector: "New Delhi, India", status: "Connected", mode: "Off", alerts: "A2" },
-  //   { id: "00005", name: "Alan Cain", sector: "Kerala, India", status: "Connected", mode: "Off", alerts: "A2" },
-  //   { id: "00006", name: "Alfred Murray", sector: "Haryana, India", status: "Connected", mode: "Off", alerts: "A2" },
-  //   { id: "00007", name: "Maggie Sullivan", sector: "Patna, India", status: "Connected", mode: "ON", alerts: "A2" },
-  //   { id: "00008", name: "Rosie Todd", sector: "Manipal, India", status: "Connected", mode: "ON", alerts: "A2" },
-  //   { id: "00009", name: "Christine Brooks", sector: "Karnataka, India", status: "Not Connected", mode: "-", alerts: "A1" },
-  //   { id: "00010", name: "Rosie Pearson", sector: "Karnataka, India", status: "Connected", mode: "ON", alerts: "A2" },
-  //   { id: "00011", name: "Darrell Caldwell", sector: "Pune, India", status: "Not Connected", mode: "ON", alerts: "A2" },
-  //   { id: "00012", name: "Gilbert Johnston", sector: "New Delhi, India", status: "Connected", mode: "Off", alerts: "A2" },
-  //   { id: "00013", name: "Alan Cain", sector: "Kerala, India", status: "Connected", mode: "Off", alerts: "A2" },
-  //   { id: "00014", name: "Alfred Murray", sector: "Haryana, India", status: "Connected", mode: "Off", alerts: "A2" },
-  //   { id: "00015", name: "Maggie Sullivan", sector: "Patna, India", status: "Connected", mode: "ON", alerts: "A2" },
-  //   { id: "00016", name: "Rosie Todd", sector: "Manipal, India", status: "Connected", mode: "ON", alerts: "A2" },
-  //   { id: "00017", name: "Christine Brooks", sector: "Karnataka, India", status: "Not Connected", mode: "-", alerts: "A1" },
-  //   { id: "00018", name: "Rosie Pearson", sector: "Karnataka, India", status: "Connected", mode: "ON", alerts: "A2" },
-  //   { id: "00019", name: "Darrell Caldwell", sector: "Pune, India", status: "Not Connected", mode: "ON", alerts: "A2" },
-  //   { id: "00020", name: "Gilbert Johnston", sector: "New Delhi, India", status: "Connected", mode: "Off", alerts: "A2" },
-  //   { id: "00021", name: "Alan Cain", sector: "Kerala, India", status: "Connected", mode: "Off", alerts: "A2" },
-  //   { id: "00022", name: "Alfred Murray", sector: "Haryana, India", status: "Connected", mode: "Off", alerts: "A2" },
-  //   { id: "00023", name: "Maggie Sullivan", sector: "Patna, India", status: "Connected", mode: "ON", alerts: "A2" },
-  //   { id: "00024", name: "Rosie Todd", sector: "Manipal, India", status: "Connected", mode: "ON", alerts: "A2" },
-  // ];
+        // Fetch additional info for each device from database
+        const devicesWithInfo = await Promise.all(
+          azureDevices.map(async (device) => {
+            try {
+              // Fetch device info (owner, sector, etc.)
+              const infoResponse = await fetch(`${process.env.REACT_APP_EP}/data/devices/${device.id}/info`);
+              const infoData = await infoResponse.json();
+              
+              // Fetch connection status
+              let connectionStatus = "Disconnected";
+              try {
+                const statusResponse = await fetch(`${process.env.REACT_APP_EP}/api/devices/${device.id}/status`);
+                const statusData = await statusResponse.json();
+                connectionStatus = statusData.status === "Connected" ? "Connected" : "Disconnected";
+              } catch (statusError) {
+                console.error(`Error fetching status for device ${device.id}:`, statusError);
+              }
+              
+              if (infoData.status === "success" && infoData.data) {
+                return {
+                  ...device,
+                  owner_name: infoData.data.owner_name || "N/A",
+                  sector: infoData.data.location || "N/A",
+                  phone_number: infoData.data.phone_number || "N/A",
+                  email_id: infoData.data.email_id || "N/A",
+                  status: connectionStatus
+                };
+              }
+              
+              // If info fetch fails, return device with default values
+              return {
+                ...device,
+                owner_name: "N/A",
+                sector: "N/A",
+                phone_number: "N/A",
+                email_id: "N/A",
+                status: connectionStatus
+              };
+            } catch (error) {
+              console.error(`Error fetching info for device ${device.id}:`, error);
+              return {
+                ...device,
+                owner_name: "N/A",
+                sector: "N/A",
+                status: "Disconnected"
+              };
+            }
+          })
+        );
+
+        setDevices(devicesWithInfo);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching devices:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchDevicesWithInfo();
+  }, []);
 
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState(""); // Search query state
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 10;
 
@@ -92,102 +110,86 @@ const DeviceDashboard = () => {
 
   return (
     <>
-    {loading && (
-      <div className="loading-backdrop">
-        <div className="loading-spinner"></div>
-        <div className="loading-text">Waiting for server...</div>
-      </div>
+      {loading && (
+        <div className="loading-backdrop">
+          <div className="loading-spinner"></div>
+          <div className="loading-text">Waiting for server...</div>
+        </div>
       )}
       <div className="search-bar-container">
-            <h2 className="dashboard-title-reg">Installed Devices</h2>
-                  
-                    <input
-                      type="text"
-                      placeholder="Search"
-                      className="search-bar"
-                      value={searchQuery}
-                      onChange={(e) => {
-                        setSearchQuery(e.target.value);
-                        setCurrentPage(1);
-                      }}
-                    />
-                    <span className="dev-search-icon">
-                      <FontAwesomeIcon icon={faSearch} />
+        <h2 className="dashboard-title-reg">Installed Devices</h2>
+
+        <input
+          type="text"
+          placeholder="Search"
+          className="search-bar"
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            setCurrentPage(1);
+          }}
+        />
+        <span className="dev-search-icon">
+          <FontAwesomeIcon icon={faSearch} />
+        </span>
+        <button className="filter-button">
+          <FontAwesomeIcon icon={faSliders} />
+        </button>
+
+        <div className="table-footer">
+          <span className="pagination-info">
+            {Math.min(startIndex + rowsPerPage, totalRows)} of {totalRows}
+          </span>
+          <div className="pagination-controls">
+            <button onClick={handlePrevPage} disabled={currentPage === 1}>
+              <span className="arrow-icon">
+                <FontAwesomeIcon icon={faAngleLeft} />
+              </span>
+            </button>
+            <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+              <span className="arrow-icon">
+                <FontAwesomeIcon icon={faAngleRight} />
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className="device-dashboard-reg">
+        <table className="device-table-reg">
+          <thead>
+            <tr>
+              <th>Device ID</th>
+              <th>Device Name</th>
+              <th>Sector</th>
+              <th>Device Owner</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {displayedDevices.length > 0 ? (
+              displayedDevices.map((device) => (
+                <tr key={device.id} onClick={() => handleRowClick(device.id)} style={{ cursor: "pointer" }}>
+                  <td>{device.id}</td>
+                  <td>{device.displayName}</td>
+                  <td>{device.sector}</td>
+                  <td>{device.owner_name}</td>
+                  <td>
+                    <span className={`status-indicator status-${(device.status || 'Disconnected').toLowerCase()}`}>
+                      {device.status || "Disconnected"}
                     </span>
-                  <button className="filter-button">
-                    <FontAwesomeIcon icon={faSliders} />
-                  </button>
-      
-                  <div className="table-footer">
-                <span className="pagination-info">
-                   
-                  {Math.min(startIndex + rowsPerPage, totalRows)} of {totalRows}
-                </span>
-                <div className="pagination-controls">
-                  <button onClick={handlePrevPage} disabled={currentPage === 1}>
-                      <span className="arrow-icon">
-                    <FontAwesomeIcon icon={faAngleLeft} />
-                      </span>
-                  </button>
-                  <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-                    <span className="arrow-icon">
-                    <FontAwesomeIcon icon={faAngleRight} />
-                    </span>
-      
-                  </button>
-                </div>
-              </div>
-                  </div>
-    <div className="device-dashboard-reg">
-      <table className="device-table-reg">
-        <thead>
-          <tr>
-            <th>Device ID</th>
-            <th>Device Name</th>
-            <th>Sector</th>
-            <th>Device Owner</th>
-            <th>Status</th>
-            {/* <th>More</th> */}
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {displayedDevices.length > 0 ? (
-            displayedDevices.map((device) => (
-              <tr key={device.id} onClick={() => handleRowClick(device.id)} style={{ cursor: "pointer" }}>
-                <td>{device.id}</td>
-                <td>{device.displayName}</td>
-                <td>{device.sector}</td>
-                {/* <td>{device.status}</td> */}
-                {/* <td>{device.mode}</td> */}
-                <td>{device.owner_name}</td>
-                <td>
-  {/* <span className={`status-indicator status-${(device.status).toLowerCase()}`}>
-    {device.status}
-  </span> */}
-</td>
-                <td>
-                 <div className="dropdown-wrapper">
-                                       <FontAwesomeIcon
-                                         className="ellipsis-icon"
-                                         icon={faEllipsis}
-                                       />
-                                     </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" style={{ textAlign: "center" }}>
+                  No devices found
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="7" style={{ textAlign: "center" }}>
-                No devices found
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-
-     
-    </div>
+            )}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 };

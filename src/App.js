@@ -78,7 +78,7 @@ function App() {
                         <Route path="/vaccess" element={<VendorsCompany />} />
                         <Route path="/addvendorsinfo" element={<AddVendors />} /> {/* Adding New Vendors */}
                         <Route path="/profile" element={<ChangeProfile onLogout={handleLogout} />} />
-                        <Route path="/userinfo/:id" element={<Userinfo />} />
+                        <Route path="/userinfo/:email" element={<Userinfo />} />
                         <Route path="/userinfovendor/:id" element={<Userinfovendor />} />
                         <Route path="/customers" element={<Customers />} />
                         <Route path="/service-requests" element={<ServiceRequestsAlerts />} />

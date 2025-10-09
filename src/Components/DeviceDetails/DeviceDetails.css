@@ -208,7 +208,6 @@ h2 {
   align-items: center;
   padding: 12px;
   border-radius: 8px;
-  background-color: #ffffff;
   flex-wrap: wrap; /* Allow wrapping for smaller screens */
 }
 
@@ -990,4 +989,139 @@ h2 {
 
 .config-input.editing:focus::placeholder {
   opacity: 0.5;
+}
+
+
+
+/* Refresh Status Button */
+.refresh-status-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 400;
+  transition: all 0.1s ease;
+}
+
+.refresh-status-btn:hover:not(:disabled) {
+  background-color: #45a049;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.refresh-status-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.refresh-status-btn .refresh-text {
+  font-size: 13px;
+}
+
+.refresh-status-btn .refresh-icon {
+  font-size: 16px;
+}
+
+.refresh-status-btn .refresh-icon.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.refresh-status-btn.refreshing {
+  background-color: #2196F3;
+}
+
+
+/*styling for auto mode */
+/* Auto Mode Toggle - Separate styling to avoid conflicts */
+.auto-mode-toggle-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.auto-mode-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.auto-mode-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.auto-mode-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.3s;
+  border-radius: 24px;
+}
+
+.auto-mode-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+/* When checked - slider moves right, background turns green */
+.auto-mode-switch input:checked + .auto-mode-slider {
+  background-color: #4CAF50;
+}
+
+.auto-mode-switch input:checked + .auto-mode-slider:before {
+  transform: translateX(26px);
+}
+
+/* Disabled state */
+.auto-mode-switch input:disabled + .auto-mode-slider {
+  background-color: #ddd;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Waiting/Processing state - subtle pulsing effect */
+.auto-mode-switch.auto-mode-waiting .auto-mode-slider {
+  animation: auto-mode-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes auto-mode-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Hover effect when not disabled */
+.auto-mode-switch:not(:has(input:disabled)):hover .auto-mode-slider {
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
 }

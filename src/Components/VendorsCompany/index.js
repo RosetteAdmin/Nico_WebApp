@@ -174,10 +174,11 @@ const VendorsCompany = () => {
         <table className="device-table">
           <thead>
             <tr>
-              <th>Vendor ID</th>
-              <th>Vendor Name</th>
+              {/* <th>Local Admin ID</th> */}
+              <th>Local Admin Name</th>
+              <th>Local Admin Email</th>
               <th>Sector</th>
-              <th>Access</th>
+              {/* <th>Access</th> */}
               <th>Action</th>
             </tr>
           </thead>
@@ -186,13 +187,14 @@ const VendorsCompany = () => {
               displayedVendors.map((vendor) => (
                 <tr
                   key={vendor.email}
-                  onClick={() => handleRowClick(vendor.email)}
+                  // onClick={() => handleRowClick(vendor.email)}
                   style={{ cursor: "pointer" }}
                 >
-                  <td>{vendor.id}</td>
                   <td>{vendor.name}</td>
+                  <td>{vendor.email}</td>
+                  {/* <td>{vendor.id}</td> */}
                   <td>{vendor.sector}</td>
-                  <td onClick={(e) => e.stopPropagation()}>
+                  {/* <td onClick={(e) => e.stopPropagation()}>
                     <label className="label-reg-com-switch">
                       <input
                         type="checkbox"
@@ -202,7 +204,7 @@ const VendorsCompany = () => {
                       />
                       <span className="span-reg-com-slider"></span>
                     </label>
-                  </td>
+                  </td> */}
                   <td>
                     <div className="dropdown-wrapper">
                       <FontAwesomeIcon
@@ -217,7 +219,7 @@ const VendorsCompany = () => {
                       />
                       {activeMenu === vendor.email && (
                         <div className="dropdown-menu">
-                          <div
+                          {/* <div
                             className="dropdown-item"
                             onClick={(e) => {
                               e.stopPropagation();
@@ -226,7 +228,7 @@ const VendorsCompany = () => {
                             }}
                           >
                             Edit User
-                          </div>
+                          </div> */}
                           <div
                             className="dropdown-item"
                             onClick={(e) => {

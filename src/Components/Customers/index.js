@@ -172,8 +172,8 @@ const Customers = () => {
         <table className="device-table">
           <thead>
             <tr>
-              <th>Email</th>
               <th>Name</th>
+              <th>Email</th>
               <th>Location/Sector</th>
               <th>Devices Linked</th>
               {/* <th>Status</th> */}
@@ -188,8 +188,9 @@ const Customers = () => {
                   onClick={() => handleRowClick(customer.email)}
                   style={{ cursor: "pointer" }}
                 >
-                  <td>{customer.email}</td>
+                  
                   <td>{customer.name}</td>
+                  <td>{customer.email}</td>
                   <td>{customer.sector}</td>
                   <td>{customer.connected_devices}</td>
                   {/* <td>
@@ -211,7 +212,7 @@ const Customers = () => {
                       />
                       {activeMenu === customer.email && (
                         <div className="dropdown-menu">
-                          <div
+                          {/* <div
                             className="dropdown-item"
                             onClick={(e) => {
                               e.stopPropagation();
@@ -219,7 +220,7 @@ const Customers = () => {
                             }}
                           >
                             Edit User
-                          </div>
+                          </div> */}
                           <div
                             className="dropdown-item"
                             onClick={(e) => {
