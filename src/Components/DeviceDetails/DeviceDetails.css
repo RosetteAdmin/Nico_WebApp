@@ -203,8 +203,8 @@ h2 {
 
 .power-item {
   position: relative;
-  top:-15px;
-  right:19px;
+  top:35px;
+  right:228%;
   align-items: center;
   padding: 12px;
   border-radius: 8px;
@@ -1007,6 +1007,9 @@ h2 {
   font-size: 10px;
   font-weight: 400;
   transition: all 0.1s ease;
+  position: relative;
+  top: 35px;
+  right: 700px;
 }
 
 .refresh-status-btn:hover:not(:disabled) {

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./userinfo.css"; // Use the same CSS structure as EditDevice.css
+import "./operatorinfo.css";
 
-const UserinfoVendor = () => {
+const Operatorinfo = () => {
   const { email } = useParams();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [localAdminInfo, setLocalAdminInfo] = useState({
+  const [operatorInfo, setOperatorInfo] = useState({
     email: "",
     name: "",
     phone_number: "",
@@ -23,7 +23,7 @@ const UserinfoVendor = () => {
   });
 
   useEffect(() => {
-    const fetchLocalAdminData = async () => {
+    const fetchOperatorData = async () => {
       if (!email) {
         alert("No email provided");
         setLoading(false);
@@ -37,14 +37,14 @@ const UserinfoVendor = () => {
         const result = await response.json();
 
         if (result.status === "success") {
-          setLocalAdminInfo(result.data);
+          setOperatorInfo(result.data);
           setEditableInfo({
             name: result.data.name || "",
             phone_number: result.data.phone_number || "",
             sector: result.data.sector || ""
           });
         } else {
-          alert(`Failed to load local admin data: ${result.message}`);
+          alert(`Failed to load operator data: ${result.message}`);
         }
       } catch (error) {
         alert(`Error: ${error.message}`);
@@ -53,7 +53,7 @@ const UserinfoVendor = () => {
       }
     };
 
-    fetchLocalAdminData();
+    fetchOperatorData();
   }, [email]);
 
   const handleInputChange = (field, value) => {
@@ -71,7 +71,7 @@ const UserinfoVendor = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email: localAdminInfo.email,
+          email: operatorInfo.email,
           name: editableInfo.name,
           phone_number: editableInfo.phone_number,
           sector: editableInfo.sector
@@ -83,21 +83,20 @@ const UserinfoVendor = () => {
       const result = await response.json();
 
       if (result.status === "success") {
-        alert("Local Admin updated successfully!");
-        setLocalAdminInfo(prev => ({
+        alert("Operator updated successfully!");
+        setOperatorInfo(prev => ({
           ...prev,
           name: editableInfo.name,
           phone_number: editableInfo.phone_number,
           sector: editableInfo.sector
         }));
         setIsEditMode(false);
-        // Redirect to vendors/local admin page
-        setTimeout(() => navigate("/vaccess"), 500);
+        setTimeout(() => navigate("/operators"), 500);
       } else {
-        alert(`Failed to update local admin: ${result.message}`);
+        alert(`Failed to update operator: ${result.message}`);
       }
     } catch (error) {
-      alert(`Failed to update local admin: ${error.message}`);
+      alert(`Failed to update operator: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -112,16 +111,15 @@ const UserinfoVendor = () => {
     return (
       <div className="loading-backdrop">
         <div className="loading-spinner"></div>
-        <div className="loading-text">Loading local admin data...</div>
+        <div className="loading-text">Loading operator data...</div>
       </div>
     );
   }
 
   return (
     <>
-      {/* Header section */}
       <div className="grant-access-headerr">
-        <h1 className="vendor-title">Edit Local Admin Details</h1>
+        <h1 className="vendor-title">Edit Operator Details</h1>
         <button
           className="add-vendor-btn"
           onClick={handleEditToggle}
@@ -131,7 +129,6 @@ const UserinfoVendor = () => {
         </button>
       </div>
 
-      {/* Main container */}
       <div className="vendor-management-container">
         <div className="vendor-content-wrapper">
           <div className="form-container">
@@ -139,11 +136,11 @@ const UserinfoVendor = () => {
 
             <div className="form-row two-col">
               <div className="form-group">
-                <label>Local Admin Name</label>
+                <label>Operator Name</label>
                 <input
                   type="text"
                   placeholder="Enter name"
-                  value={isEditMode ? editableInfo.name : localAdminInfo.name}
+                  value={isEditMode ? editableInfo.name : operatorInfo.name}
                   onChange={(e) => handleInputChange("name", e.target.value)}
                   disabled={!isEditMode}
                 />
@@ -154,7 +151,7 @@ const UserinfoVendor = () => {
                 <input
                   type="email"
                   placeholder="email@email.com"
-                  value={localAdminInfo.email}
+                  value={operatorInfo.email}
                   readOnly
                   className="readonly-field"
                 />
@@ -167,7 +164,7 @@ const UserinfoVendor = () => {
                 <input
                   type="tel"
                   placeholder="1234567890"
-                  value={isEditMode ? editableInfo.phone_number : localAdminInfo.phone_number}
+                  value={isEditMode ? editableInfo.phone_number : operatorInfo.phone_number}
                   onChange={(e) => handleInputChange("phone_number", e.target.value)}
                   disabled={!isEditMode}
                 />
@@ -178,7 +175,7 @@ const UserinfoVendor = () => {
                 <input
                   type="text"
                   placeholder="Enter sector"
-                  value={isEditMode ? editableInfo.sector : localAdminInfo.sector}
+                  value={isEditMode ? editableInfo.sector : operatorInfo.sector}
                   onChange={(e) => handleInputChange("sector", e.target.value)}
                   disabled={!isEditMode}
                 />
@@ -191,7 +188,7 @@ const UserinfoVendor = () => {
                 <input
                   type="text"
                   placeholder="Role"
-                  value={localAdminInfo.role}
+                  value={operatorInfo.role}
                   readOnly
                   className="readonly-field"
                 />
@@ -204,4 +201,4 @@ const UserinfoVendor = () => {
   );
 };
 
-export default UserinfoVendor;
+export default Operatorinfo;

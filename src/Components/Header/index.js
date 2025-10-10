@@ -120,6 +120,7 @@
 
 // src/components/Header/index.js
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ Import navigation hook
 import "./Header.css";
 
 import CompanyLogo from "./../../Images/Header/NICOCompany.svg";
@@ -135,6 +136,7 @@ const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
   const dropdownButtonRef = useRef(null);
+  const navigate = useNavigate(); // ✅ Initialize router navigation
 
   const parseJsonOrNull = (str) => {
     try {
@@ -150,20 +152,17 @@ const Header = () => {
       ? Number(storedUser.role)
       : null;
 
-  // Compute label; roleToString returns null if role invalid/missing
   const label =
     userRole === Role.CompanyAssociate ? "Associate" : roleToString(userRole);
 
-  // If role is invalid/missing, clear session and hard-redirect to /login
   useEffect(() => {
     if (label === null) {
       localStorage.removeItem("user");
       localStorage.removeItem("authToken");
-      window.location.replace("/login"); // full reload -> App sees logged-out state
+      navigate("/login", { replace: true }); // ✅ Client-side navigation
     }
-  }, [label]);
+  }, [label, navigate]);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -185,22 +184,34 @@ const Header = () => {
   const handleDropdownClick = () => setShowDropdown(false);
   const openDropdown = () => !showDropdown && setShowDropdown(true);
 
+  // ✅ Smooth React Router navigation instead of full reload
   const viewprofile = () => {
-    // If you use a router Link elsewhere, you can replace this with it.
-    window.location.href = "/profile";
+    navigate("/profile");
     setShowDropdown(false);
   };
 
   const handleLogout = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("authToken");
-    window.location.replace("/login"); // ensure clean state and route exists
+    navigate("/login", { replace: true });
     setShowDropdown(false);
+  };
+
+  // ✅ Logo click handler using navigate
+  const handleLogoClick = () => {
+    navigate("/dashboard");
   };
 
   return (
     <header className="header">
-      <img src={CompanyLogo} alt="NICO Logo" className="header-logo" />
+      {/* ✅ Logo is now clickable and uses React Router navigation */}
+      <img
+        src={CompanyLogo}
+        alt="NICO Logo"
+        className="header-logo"
+        style={{ cursor: "pointer" }}
+        onClick={handleLogoClick}
+      />
 
       <div className="header-right">
         <div className="nico-container">

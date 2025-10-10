@@ -1,101 +1,134 @@
 /* Access Management Container */
-.access-management-container {
+.vendor-management-container {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  max-width: 1215px;
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  min-height: 600px;
-  margin: 0 auto;
+  position:relative;
+  margin: 120px 10px 10px 280px;
+  
+  transition: all 0.3s ease;
+  width: 63%;
 }
 
 /* Grant Access Header Styling */
-.grant-access-header {
+.grant-access-headerr {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 40%;
+  flex-wrap: nowrap;
+  position: absolute;
+  top: 30px;
+  left: 660px;
+  z-index: 1;
+  border:none;
+}
+
+.vendor-title{
+  font-size: 1.7rem;
+  font-weight: bold;
+  text-align: start;
+  color: rgb(255, 255, 255);
+  position: relative;
+  right: 480px;
+}
+
+/* Content Wrapper to align details & permissions side by side */
+.vendor-content-wrapper {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  background-color: #ffffff;
-  padding: 20px 30px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.grant-access-header h1 {
-  margin: 0;
-  font-size: 24px;
-  color: #2c3e50;
-  font-weight: 600;
-}
-
-/* Content Wrapper */
-.content-wrapper {
-  display: flex;
-  justify-content: center;
   gap: 20px;
   width: 100%;
+  position:relative;
+  border-collapse: collapse;
+  table-layout: auto;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  padding: 1rem;
+  background-color: #ffffff;
 }
 
 /* Form container */
-.form-container {
-  flex: 1;
-  max-width: 600px;
-  background: #fff;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-}
 
-.form-container h2 {
-  color: #2c3e50;
-  font-weight: 500;
-  font-size: 20px;
-  margin-bottom: 25px;
-  border-bottom: 2px solid #f0f0f0;
-  padding-bottom: 10px;
+
+/* Permissions container */
+.permissions-container {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  height: 240px;
 }
 
 /* Input fields styling */
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .form-group label {
   display: block;
   font-weight: 600;
-  margin-bottom: 8px;
-  color: #34495e;
-  font-size: 14px;
+  margin-bottom: 5px;
 }
 
 .form-group input {
   width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #ddd;
+  max-width: 50%;
+  padding: 10px;
+  border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 14px;
-  transition: all 0.3s ease;
-  background-color: #f9f9f9;
 }
 
-.form-group input:read-only {
-  background-color: #f9f9f9;
-  cursor: not-allowed;
-  color: #666;
+/* Toggle Switch Styling */
+.toggle-group div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
-.form-group input.editable {
-  background-color: #ffffff;
-  border: 2px solid #4CAF50;
-  cursor: text;
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
 }
 
-.form-group input.editable:focus {
-  outline: none;
-  border-color: #45a049;
-  box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 20px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #007bff;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
 }
 
 /* Grant Access Button */
@@ -103,88 +136,80 @@
   background-color: #0c5890;
   color: white;
   border: none;
-  padding: 12px 25px;
-  font-size: 15px;
-  font-weight: 500;
+  padding: 10px 15px;
+  font-size: 14px;
   border-radius: 5px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: 0.3s;
 }
 
 .grant-access-btn:hover {
   background-color: #0056b3;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.grant-access-btn:active {
-  transform: translateY(0);
+/* Heading Styling */
+h2 {
+  color: #2c3e50;
+  font-weight: 500;
+  font-size: 19px;
 }
 
-/* Loading backdrop */
-.loading-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.loading-spinner {
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #0c5890;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  animation: spin 1s linear infinite;
-}
-
-.loading-text {
-  color: white;
-  margin-top: 15px;
-  font-size: 16px;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Responsive Design */
 @media (max-width: 1250px) {
-  .access-management-container {
-    width: 100%;
-    max-width: 100%;
-  }
-  
   .content-wrapper {
     flex-direction: column;
   }
   
-  .form-container {
-    width: 100%;
-    max-width: 100%;
-  }
 }
 
+
+.add-vendor-btn {
+  background: #fff; 
+  color: #0C5890;
+  font-weight: 600;
+  border: none;
+  border-radius: 2rem;
+  padding: 10px 28px;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(10, 75, 176, 0.08);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  position: relative;
+  left: 300px;
+  top: 15px;
+}
+
+
+/* Row for two columns */
+.form-row.two-col {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap; /* lets it wrap on small screens */
+}
+
+/* Make both fields share the row evenly */
+.form-row.two-col .form-group {
+  flex: 1 1 300px; /* grow, shrink, min width */
+  margin-bottom: 0;
+}
+
+/* Ensure inputs use full width inside their column */
+.form-row.two-col .form-group input {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* If you keep this global rule elsewhere, remove or override it:
+.form-group input { max-width: 50%; }
+*/
+
+/* Stack on small screens */
 @media (max-width: 768px) {
-  .grant-access-header {
+  .form-row.two-col {
     flex-direction: column;
-    gap: 15px;
-    text-align: center;
-  }
-
-  .grant-access-header h1 {
-    font-size: 20px;
-  }
-
-  .form-container {
-    padding: 20px;
   }
 }

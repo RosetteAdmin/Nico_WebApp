@@ -226,7 +226,7 @@ const Userinfo = () => {
         <div className="vendor-content-wrapper">
           {/* Left Side - Add or Remove Access */}
           <div className="form-container">
-            <h2>Add Vendor:</h2>
+            <h2>Add Local Admin:</h2>
             {/* <div className="form-group">
               <label>Associate Name</label>
               <input 

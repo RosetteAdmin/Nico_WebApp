@@ -148,7 +148,7 @@ const VendorsCompany = () => {
             className="add-user-btn"
             onClick={() => navigate("/addvendorsinfo")}
           >
-            <FontAwesomeIcon icon={faPlus} /> Add Vendor
+            <FontAwesomeIcon icon={faPlus} /> Add Local Admin
           </button>
         </div>
         <div className="cus-table-footer">
@@ -187,7 +187,7 @@ const VendorsCompany = () => {
               displayedVendors.map((vendor) => (
                 <tr
                   key={vendor.email}
-                  // onClick={() => handleRowClick(vendor.email)}
+                  onClick={() => handleRowClick(vendor.email)}
                   style={{ cursor: "pointer" }}
                 >
                   <td>{vendor.name}</td>

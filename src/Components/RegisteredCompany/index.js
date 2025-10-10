@@ -157,7 +157,7 @@ const RegisteredCompany = () => {
             className="add-user-btn"
             onClick={() => navigate("/addusersinfo")}
           >
-            <FontAwesomeIcon icon={faPlus} /> Add User
+            <FontAwesomeIcon icon={faPlus} /> Add Associate
           </button>
         </div>
         <div className="cus-table-footer">
@@ -196,7 +196,7 @@ const RegisteredCompany = () => {
               displayedAssociates.map((associate) => (
                 <tr
                   key={associate.email}
-                  // onClick={() => handleRowClick(associate.email)}
+                  onClick={() => handleRowClick(associate.email)}
                   style={{ cursor: "pointer" }}
                 >
                   {/* <td>{associate.id}</td> */}

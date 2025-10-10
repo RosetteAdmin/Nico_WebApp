@@ -736,27 +736,27 @@
           <strong>Connection Status:</strong> {conn ? "Connected" : "Disconnected"}
         </p>
 
-        {/* NB (System Power) */}
-        <div className="power-item">
-          <span>System Power </span>
-          <div className="power-toggle">
-            <span className={nbWaiting ? "status-waiting" : ""}>
-              {getStatusText(isPowerOn, deviceData.nbGenerator.timestamp, nbWaiting)}
-            </span>
-            <label className={`toggle-switch ${nbWaiting ? "toggle-waiting" : ""}`}>
-              <input
-                type="checkbox"
-                checked={isPowerOn}
-                onChange={() => !nbWaiting && handlePowerToggle()}
-                disabled={nbWaiting || !conn}
-              />
-              <span className="toggle-slider"></span>
-            </label>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+                    {/* NB (System Power) */}
+                    <div className="power-item">
+                      <span>System Power </span>
+                      <div className="power-toggle">
+                        <span className={nbWaiting ? "status-waiting" : ""}>
+                          {getStatusText(isPowerOn, deviceData.nbGenerator.timestamp, nbWaiting)}
+                        </span>
+                        <label className={`toggle-switch ${nbWaiting ? "toggle-waiting" : ""}`}>
+                          <input
+                            type="checkbox"
+                            checked={isPowerOn}
+                            onChange={() => !nbWaiting && handlePowerToggle()}
+                            disabled={nbWaiting || !conn}
+                          />
+                          <span className="toggle-slider"></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
             {/* Device Configuration & Alerts - UPDATED: Always show values, never N/A */}
             <div className="device-info-card device-power-status">

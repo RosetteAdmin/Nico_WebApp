@@ -14,11 +14,13 @@ import RegisteredCompany from "./Components/RegisteredCompany";
 import VendorsCompany from "./Components/VendorsCompany";
 import Userinfo from "./Components/Userinfo";
 import Userinfovendor from "./Components/UserInfovendor";
+import UserinfoOperator from "./Components/operatorinfo";
 import Customers from "./Components/Customers";
 import ServiceRequestsAlerts from "./Components/ServiceRequestsAlerts";
 import MaintenancePage from "./Components/NFM";
 import AddVendors from "./Components/AddVendors";
 import AddUsers from "./Components/AddUsers";
+import AddOperator from "./Components/AddOperator";
 import EditUser from "./Components/EditUser";
 import "./App.css";
 import blueband from "./Images/Dashboard/blueband.svg";
@@ -74,12 +76,14 @@ function App() {
                         <Route path="/add-device" element={<AddNewDevice />} />
                         <Route path="/access-management" element={<AccessManagement />} />
                         <Route path="/caccess" element={<RegisteredCompany />} />
-                        <Route path="/addusersinfo" element={<AddUsers/>} />      {/* Adding New Users */}
+                        <Route path="/addusersinfo" element={<AddUsers/>} />      {/* Adding New associate */}
+                        <Route path="/addoperatorinfo" element={<AddOperator/>} />      {/* Adding New operator */}
                         <Route path="/vaccess" element={<VendorsCompany />} />
-                        <Route path="/addvendorsinfo" element={<AddVendors />} /> {/* Adding New Vendors */}
+                        <Route path="/addvendorsinfo" element={<AddVendors />} /> {/* Adding New local admin */}
                         <Route path="/profile" element={<ChangeProfile onLogout={handleLogout} />} />
                         <Route path="/userinfo/:email" element={<Userinfo />} />
-                        <Route path="/userinfovendor/:id" element={<Userinfovendor />} />
+                        <Route path="/userinfovendor/:email" element={<Userinfovendor />} />
+                        <Route path="/userinfooperator/:email" element={<UserinfoOperator />} />
                         <Route path="/customers" element={<Customers />} />
                         <Route path="/service-requests" element={<ServiceRequestsAlerts />} />
                         <Route path="/" element={<Navigate to="/dashboard" />} />

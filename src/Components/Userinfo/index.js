@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./userinfo.css";
+import "./userinfo.css"; // Use the same CSS structure as EditDevice.css
 
 const Userinfo = () => {
-  const { email } = useParams(); // ✅ CHANGED: Direct destructuring
+  const { email } = useParams();
   const navigate = useNavigate();
-  
-  // Debug logs
-  console.log("URL Params - email:", email);
-  
+
   const [loading, setLoading] = useState(true);
   const [isEditMode, setIsEditMode] = useState(false);
   const [associateInfo, setAssociateInfo] = useState({
@@ -25,33 +22,19 @@ const Userinfo = () => {
     sector: ""
   });
 
-  // Fetch associate data on component mount
   useEffect(() => {
     const fetchAssociateData = async () => {
-      console.log("Fetching data for email:", email);
-      
       if (!email) {
-        console.error("No email provided in URL");
         alert("No email provided");
         setLoading(false);
         return;
       }
 
       try {
-        // ✅ FIXED: URL encode the email parameter
         const url = `${process.env.REACT_APP_EP}/data/associate/${encodeURIComponent(email)}`;
-        console.log("Fetching from URL:", url);
-        
         const response = await fetch(url);
-        console.log("Response status:", response.status);
-        
-        // Check if response is ok
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const result = await response.json();
-        console.log("API Response:", result);
 
         if (result.status === "success") {
           setAssociateInfo(result.data);
@@ -64,7 +47,6 @@ const Userinfo = () => {
           alert(`Failed to load associate data: ${result.message}`);
         }
       } catch (error) {
-        console.error("Error fetching associate data:", error);
         alert(`Error: ${error.message}`);
       } finally {
         setLoading(false);
@@ -87,9 +69,7 @@ const Userinfo = () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_EP}/data/updateassociate`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: associateInfo.email,
           name: editableInfo.name,
@@ -98,9 +78,7 @@ const Userinfo = () => {
         }),
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
       const result = await response.json();
 
@@ -113,11 +91,11 @@ const Userinfo = () => {
           sector: editableInfo.sector
         }));
         setIsEditMode(false);
+        setTimeout(() => navigate("/caccess"), 500);
       } else {
         alert(`Failed to update associate: ${result.message}`);
       }
     } catch (error) {
-      console.error("Error updating associate:", error);
       alert(`Failed to update associate: ${error.message}`);
     } finally {
       setLoading(false);
@@ -125,11 +103,8 @@ const Userinfo = () => {
   };
 
   const handleEditToggle = () => {
-    if (isEditMode) {
-      handleSaveChanges();
-    } else {
-      setIsEditMode(true);
-    }
+    if (isEditMode) handleSaveChanges();
+    else setIsEditMode(true);
   };
 
   if (loading) {
@@ -142,76 +117,89 @@ const Userinfo = () => {
   }
 
   return (
-    <div className="access-management-container">
-      <div className="grant-access-header">
-        <h1>Edit Associate Details</h1>
-        <button className="grant-access-btn" onClick={handleEditToggle}>
-          {isEditMode ? "Save Changes" : "Edit"}
+    <>
+      {/* Header section */}
+      <div className="grant-access-headerr">
+        <h1 className="vendor-title">Edit Associate Details</h1>
+        <button
+          className="add-vendor-btn"
+          onClick={handleEditToggle}
+          disabled={loading}
+        >
+          {isEditMode ? (loading ? "Saving..." : "Save Changes") : "Edit"}
         </button>
       </div>
 
-      <div className="content-wrapper">
-        <div className="form-container">
-          <h2>Associate Information:</h2>
-          
-          <div className="form-group">
-            <label>Associate Name</label>
-            <input 
-              type="text" 
-              placeholder="Name" 
-              value={isEditMode ? editableInfo.name : associateInfo.name}
-              onChange={(e) => handleInputChange("name", e.target.value)}
-              readOnly={!isEditMode}
-              className={isEditMode ? "editable" : ""}
-            />
-          </div>
-          
-          <div className="form-group">
-            <label>Email ID</label>
-            <input 
-              type="email" 
-              placeholder="email@email.com" 
-              value={associateInfo.email}
-              readOnly
-            />
-          </div>
-          
-          <div className="form-group">
-            <label>Phone Number</label>
-            <input 
-              type="text" 
-              placeholder="1234567890" 
-              value={isEditMode ? editableInfo.phone_number : associateInfo.phone_number}
-              onChange={(e) => handleInputChange("phone_number", e.target.value)}
-              readOnly={!isEditMode}
-              className={isEditMode ? "editable" : ""}
-            />
-          </div>
-          
-          <div className="form-group">
-            <label>Sector</label>
-            <input 
-              type="text" 
-              placeholder="Sector Name" 
-              value={isEditMode ? editableInfo.sector : associateInfo.sector}
-              onChange={(e) => handleInputChange("sector", e.target.value)}
-              readOnly={!isEditMode}
-              className={isEditMode ? "editable" : ""}
-            />
-          </div>
+      {/* Main container */}
+      <div className="vendor-management-container">
+        <div className="vendor-content-wrapper">
+          <div className="form-container">
+            <h2>Change Details:</h2>
 
-          <div className="form-group">
-            <label>Role</label>
-            <input 
-              type="text" 
-              placeholder="Role" 
-              value={associateInfo.role}
-              readOnly
-            />
+            <div className="form-row two-col">
+              <div className="form-group">
+                <label>Associate Name</label>
+                <input
+                  type="text"
+                  placeholder="Enter name"
+                  value={isEditMode ? editableInfo.name : associateInfo.name}
+                  onChange={(e) => handleInputChange("name", e.target.value)}
+                  disabled={!isEditMode}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Email ID</label>
+                <input
+                  type="email"
+                  placeholder="email@email.com"
+                  value={associateInfo.email}
+                  readOnly
+                  className="readonly-field"
+                />
+              </div>
+            </div>
+
+            <div className="form-row two-col">
+              <div className="form-group">
+                <label>Phone Number</label>
+                <input
+                  type="tel"
+                  placeholder="1234567890"
+                  value={isEditMode ? editableInfo.phone_number : associateInfo.phone_number}
+                  onChange={(e) => handleInputChange("phone_number", e.target.value)}
+                  disabled={!isEditMode}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Sector</label>
+                <input
+                  type="text"
+                  placeholder="Enter sector"
+                  value={isEditMode ? editableInfo.sector : associateInfo.sector}
+                  onChange={(e) => handleInputChange("sector", e.target.value)}
+                  disabled={!isEditMode}
+                />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Role</label>
+                <input
+                  type="text"
+                  placeholder="Role"
+                  value={associateInfo.role}
+                  readOnly
+                  className="readonly-field"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

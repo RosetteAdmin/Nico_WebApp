@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch,faAngleLeft,faAngleRight, faSliders, faEllipsisVertical,faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import { faSearch,faAngleLeft,faAngleRight, faSliders,faPlus, faEllipsisVertical,faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import "./Customers.css";
 
 const Customers = () => {
@@ -117,8 +117,8 @@ const Customers = () => {
     }
   };
 
-  const handleRowClick = () => {
-    // navigate(`/device/${id}`);
+   const handleRowClick = (email) => {
+    navigate(`/userinfooperator/${email}`);
   };
 
   return (
@@ -148,6 +148,12 @@ const Customers = () => {
         <button className="filter-button">
           <FontAwesomeIcon icon={faSliders} />
         </button>
+        {/* <button
+                    className="add-user-btn"
+                    onClick={() => navigate("/addoperatorinfo")}
+                  >
+                    <FontAwesomeIcon icon={faPlus} /> Add Operator
+                  </button> */}
 
         <div className="table-footer">
           <span className="pagination-info">
@@ -185,7 +191,7 @@ const Customers = () => {
               displayedCustomers.map((customer) => (
                 <tr
                   key={customer.email}
-                  onClick={() => handleRowClick(customer.email)}
+                  // onClick={() => handleRowClick(customer.email)}
                   style={{ cursor: "pointer" }}
                 >
                   
