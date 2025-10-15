@@ -50,8 +50,7 @@ const RegisteredCompany = () => {
         const updatedData = (data.value || []).map(associate => ({
           ...associate,
           access: true,
-          name: associate.email.split('@')[0],
-          sector: "Karnataka, India"
+          
         }));
         setAssociates(updatedData);
         setLoading(false);
@@ -62,6 +61,7 @@ const RegisteredCompany = () => {
       });
   }, []);
 
+  
   const handleDelete = async (email) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this Company Associate?");
     if (!confirmDelete) return;

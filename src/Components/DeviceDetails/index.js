@@ -13,6 +13,8 @@
 
     // Device name and owner info
     // Add after nbWaiting state
+    const [powerStatusHistory, setPowerStatusHistory] = useState([]);
+    const [loadingHistory, setLoadingHistory] = useState(false);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [autoWaiting, setAutoWaiting] = useState(false);
     const [deviceName, setDeviceName] = useState("Loading...");
@@ -56,6 +58,32 @@
 
 
     const navigate = useNavigate();
+
+
+
+    // Fetch power status history
+const fetchPowerStatusHistory = async () => {
+  if (!conn) return;
+  
+  setLoadingHistory(true);
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_EP}/data/devices/${id}/power-status-history?limit=20`
+    );
+    
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    
+    const data = await response.json();
+    
+    if (data.status === 'success') {
+      setPowerStatusHistory(data.data);
+    }
+  } catch (error) {
+    console.error('Error fetching power status history:', error);
+  } finally {
+    setLoadingHistory(false);
+  }
+};
 
     // Function to fetch device data manually
     const fetchDeviceData = async () => {
@@ -440,6 +468,7 @@
     useEffect(() => {
       if (conn) {
         fetchDeviceData();
+        fetchPowerStatusHistory();
       }
     }, [conn]);
 
@@ -471,6 +500,7 @@
         // Wait a bit for the device to respond, then check status
         setTimeout(async () => {
           await fetchDeviceData();
+          await fetchPowerStatusHistory();// Refresh history after toggle
           setNbWaiting(false);
         }, 3000);
         
@@ -717,7 +747,7 @@
 
 
             {/* Connection + Power (single NB toggle) */}
-  <div className="device-info-card">
+  {/* <div className="device-info-card">
     <div>
       <div className="device-info-header">
         <h3 className="section-title">Device Connection Status and Power:</h3>
@@ -737,7 +767,7 @@
         </p>
 
                     {/* NB (System Power) */}
-                    <div className="power-item">
+                    {/* <div className="power-item">
                       <span>System Power </span>
                       <div className="power-toggle">
                         <span className={nbWaiting ? "status-waiting" : ""}>
@@ -756,7 +786,100 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */} 
+
+
+              {/* Connection + Power with Status History */}
+<div className="device-info-card">
+  <div>
+    <div className="device-info-header">
+      <h3 className="section-title">Device Connection Status and Power:</h3>
+      <button 
+        className={`refresh-status-btn ${isRefreshing ? 'refreshing' : ''}`}
+        onClick={handleRefreshStatus}
+        disabled={!conn || isRefreshing}
+        title="Check latest device status"
+      >
+        <span className="refresh-text">Check Latest Status</span>
+        <FontAwesomeIcon icon={faRotate} className={`refresh-icon ${isRefreshing ? 'spinning' : ''}`} />
+      </button>
+    </div>
+
+    <div className="power-status-layout">
+      {/* Left Section: Connection Status and Toggle */}
+      <div className="power-status-left">
+        <div className="device-connection-grid">
+          <p>
+            <strong>Connection Status:</strong> {conn ? "Connected" : "Disconnected"}
+          </p>
+
+          {/* NB (System Power) */}
+          <div className="power-item">
+            <span>System Power </span>
+            <div className="power-toggle">
+              <span className={nbWaiting ? "status-waiting" : ""}>
+                {getStatusText(isPowerOn, deviceData.nbGenerator.timestamp, nbWaiting)}
+              </span>
+              <label className={`toggle-switch ${nbWaiting ? "toggle-waiting" : ""}`}>
+                <input
+                  type="checkbox"
+                  checked={isPowerOn}
+                  onChange={() => !nbWaiting && handlePowerToggle()}
+                  disabled={nbWaiting || !conn}
+                />
+                <span className="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Section: Status History Table */}
+      
+      <div className="power-status-right">
+        <h4 className="status-history-title">Power Status History:</h4>
+        {loadingHistory ? (
+          <div className="status-history-loading">Loading history...</div>
+        ) : powerStatusHistory.length === 0 ? (
+          <div className="status-history-empty">No status history available</div>
+        ) : (
+          <div className="status-history-table-container">
+            <table className="status-history-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Duration</th>
+                </tr>
+              </thead>
+              <tbody>
+                {powerStatusHistory.map((record, index) => (
+                  <tr key={record.id} className={index === 0 ? 'current-status' : ''}>
+                    <td>
+                      {new Date(record.timestamp).toLocaleDateString('en-GB', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </td>
+                    <td>
+                      <span className={`status-badge ${record.status.toLowerCase()}`}>
+                        {record.status}
+                      </span>
+                    </td>
+                    <td>{record.duration_formatted}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</div>
 
             {/* Device Configuration & Alerts - UPDATED: Always show values, never N/A */}
             <div className="device-info-card device-power-status">

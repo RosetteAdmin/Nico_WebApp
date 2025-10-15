@@ -41,8 +41,7 @@ const VendorsCompany = () => {
         const updatedData = (data.value || []).map(vendor => ({
           ...vendor,
           access: true,
-          name: vendor.email ? vendor.email.split('@')[0] : vendor.name,
-          sector: vendor.sector || "Karnataka, India"
+          
         }));
         setVendors(updatedData);
         setLoading(false);
