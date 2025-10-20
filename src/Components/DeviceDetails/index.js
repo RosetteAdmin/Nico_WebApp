@@ -1055,6 +1055,7 @@ const fetchPowerStatusHistory = async () => {
                 </div>
               </div>
             </div>
+            
             {isPowerOn && <DeviceCharts deviceId={id} />}
             {!isPowerOn && (
               <div className="device-info-card">
