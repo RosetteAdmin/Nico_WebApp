@@ -228,8 +228,6 @@ h2 {
   transform: translateY(1px);
 }
 
-
-
 .device-info-card p {
   margin: 5px 0;
   font-size: 0.95rem;
@@ -252,6 +250,7 @@ h2 {
   flex-wrap: wrap; /* Allow wrapping for smaller screens */
   visibility: visible; /* Ensure it’s not hidden */
 }
+
 .power-toggle {
   display: flex;
   align-items: center;
@@ -1065,7 +1064,7 @@ h2 {
   position: relative;
   background-color: #f0f8ff;
   border-radius: 4px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease;
     animation: editPulse 2s ease-in-out infinite;
 
 }
@@ -1090,7 +1089,7 @@ h2 {
 .success-btn {
   background-color: #4CAF50 ;
   color: white !important;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   animation: successPulse 0.5s ease-in-out;
 }
 
