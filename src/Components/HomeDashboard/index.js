@@ -3,6 +3,10 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import "./HomeDashboard.css";
+import MapView from "./MapView";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+
+
 import Loading from "./../../Images/Dashboard/loading.svg";
 import svg1 from "./../../Images/Dashboard/svg1.svg";
 import svg2 from "./../../Images/Dashboard/svg2.svg";
@@ -141,30 +145,44 @@ const HomeDashboard = () => {
     () => cards.filter((card) => card.roles.includes(userRole)),
     [cards, userRole]
   );
+const [currentCardIndex, setCurrentCardIndex] = useState(0);
 
-  return (
+  const handlePrev = () => {
+    setCurrentCardIndex((prev) =>
+      prev > 0 ? prev - 1 : filteredCards.length - 1
+    );
+  };
+
+  const handleNext = () => {
+    setCurrentCardIndex((prev) =>
+      prev < filteredCards.length - 1 ? prev + 1 : 0
+    );
+  };
+   return (
     <div className="mobile-app-container">
       <div className="quick-statistics-section">
         <div className="heading">
           <h2 className="head">
             <h1>Hello {roleToString(userRole)},</h1>
             <br />
-            Our commitment to excellence has driven us to develop state-of-the-art
-            NICO Nanobubble Generators, Mixers, and Ozone & Oxygen Generators.
-            We are dedicated to creating ground-breaking technologies that address
-            the evolving needs of such critical industries while ensuring energy
-            efficiency for end users.
+            Our commitment to excellence has driven us to develop
+            state-of-the-art NICO Nanobubble Generators, Mixers, and Ozone &
+            Oxygen Generators. We are dedicated to creating ground-breaking
+            technologies that address the evolving needs of such critical
+            industries while ensuring energy efficiency for end users.
           </h2>
         </div>
 
+        {/* Cards Section */}
         <div className="quick-statistics">
           <div className="statss-cards">
-            {filteredCards.map((card) => (
+            {filteredCards.map((card, index) => (
               <Link
                 key={card.key}
                 to={card.route}
-                className="stat-card-link"
-                aria-label={`Go to ${card.title}`}
+                className={`stat-card-link ${
+                  index === currentCardIndex ? "active" : "hidden-card"
+                }`}
               >
                 <div className="stat-card">
                   <div className="progress-circle">
@@ -186,7 +204,11 @@ const HomeDashboard = () => {
                     <p>{card.title}</p>
                     <h3>
                       {countsLoading ? (
-                        <img src={Loading} alt="loading" style={{ height: 18 }} />
+                        <img
+                          src={Loading}
+                          alt="loading"
+                          style={{ height: 18 }}
+                        />
                       ) : (
                         card.value
                       )}
@@ -195,7 +217,35 @@ const HomeDashboard = () => {
                 </div>
               </Link>
             ))}
-           
+          </div>
+
+          {/* Slide Controls */}
+          <div className="slider-controls">
+            <button className="slide-btn left" onClick={handlePrev}>
+              <FaChevronLeft />
+            </button>
+            <button className="slide-btn right" onClick={handleNext}>
+              <FaChevronRight />
+            </button>
+          </div>
+        </div>
+
+        {/* Bottom Section */}
+        <div className="bottom-section">
+          <div className="left-vertical-cards">
+            {[1, 2, 3, 4].map((num) => (
+              <div key={num} className="info-card">
+                <h3>Card {num} Title</h3>
+                <p>
+                  This is some dummy text for card {num}. It can be replaced
+                  later with actual content.
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="right-map-placeholder">
+            <MapView />
           </div>
         </div>
       </div>
