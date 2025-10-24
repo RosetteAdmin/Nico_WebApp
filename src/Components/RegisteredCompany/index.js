@@ -23,7 +23,7 @@ const RegisteredCompany = () => {
       // Check if click is outside all dropdowns
       let clickedInsideAnyDropdown = false;
       
-      Object.values(dropdownRefs.current).forEach(ref => {
+      Object.values(dropdownRefs.current).forEach(ref => {  
         if (ref && ref.contains(event.target)) {
           clickedInsideAnyDropdown = true;
         }
@@ -50,8 +50,7 @@ const RegisteredCompany = () => {
         const updatedData = (data.value || []).map(associate => ({
           ...associate,
           access: true,
-          name: associate.email.split('@')[0],
-          sector: "Karnataka, India"
+          
         }));
         setAssociates(updatedData);
         setLoading(false);
@@ -62,6 +61,7 @@ const RegisteredCompany = () => {
       });
   }, []);
 
+  
   const handleDelete = async (email) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this Company Associate?");
     if (!confirmDelete) return;
@@ -157,7 +157,7 @@ const RegisteredCompany = () => {
             className="add-user-btn"
             onClick={() => navigate("/addusersinfo")}
           >
-            <FontAwesomeIcon icon={faPlus} /> Add User
+            <FontAwesomeIcon icon={faPlus} /> Add Associate
           </button>
         </div>
         <div className="cus-table-footer">
@@ -183,10 +183,11 @@ const RegisteredCompany = () => {
         <table className="device-table">
           <thead>
             <tr>
-              <th>Associate ID</th>
+              {/* <th>Associate ID</th> */}
               <th>Associate Name</th>
+              <th>Associate Email</th>
               <th>Sector</th>
-              <th>Access</th>
+              {/* <th>Access</th> */}
               <th>Action</th>
             </tr>
           </thead>
@@ -198,10 +199,11 @@ const RegisteredCompany = () => {
                   onClick={() => handleRowClick(associate.email)}
                   style={{ cursor: "pointer" }}
                 >
-                  <td>{associate.id}</td>
+                  {/* <td>{associate.id}</td> */}
                   <td>{associate.name}</td>
+                  <td>{associate.email}</td>
                   <td>{associate.sector}</td>
-                  <td onClick={(e) => e.stopPropagation()}>
+                  {/* <td onClick={(e) => e.stopPropagation()}>
                     <label className="label-reg-com-switch">
                       <input
                         type="checkbox"
@@ -211,7 +213,7 @@ const RegisteredCompany = () => {
                       />
                       <span className="span-reg-com-slider"></span>
                     </label>
-                  </td>
+                  </td> */}
                   <td>
                     <div 
                       className="dropdown-wrapper"
@@ -229,7 +231,7 @@ const RegisteredCompany = () => {
                       />
                       {activeMenu === associate.email && (
                         <div className="dropdown-menu">
-                          <div
+                          {/* <div
                             className="dropdown-item"
                             onClick={(e) => {
                               e.stopPropagation();
@@ -238,7 +240,7 @@ const RegisteredCompany = () => {
                             }}
                           >
                             Edit User
-                          </div>
+                          </div> */}
                           <div
                             className="dropdown-item"
                             onClick={(e) => {

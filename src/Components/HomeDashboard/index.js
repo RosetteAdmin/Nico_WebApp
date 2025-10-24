@@ -33,14 +33,7 @@ const baseCards = [
     roles: [Role.Admin, Role.CompanyAssociate, Role.Vendor],
     route: "/PreRegDevices",
   },
-  {
-    key: "operators",
-    title: "Operators",
-    icon: svg3,
-    roles: [Role.Admin, Role.CompanyAssociate, Role.Vendor],
-    route: "/customers",
-  },
-  {
+   {
     key: "associates",
     title: "Associates",
     icon: svg4,
@@ -54,6 +47,15 @@ const baseCards = [
     roles: [Role.Admin, Role.CompanyAssociate],
     route: "/vaccess",
   },
+  {
+    key: "operators",
+    title: "Operators",
+    icon: svg3,
+    roles: [Role.Admin, Role.CompanyAssociate, Role.Vendor],
+    route: "/customers",
+  },
+ 
+  
 ];
 
 const HomeDashboard = () => {

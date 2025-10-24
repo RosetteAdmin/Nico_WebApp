@@ -4,17 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faSliders } from "@fortawesome/free-solid-svg-icons";
 import "./ServiceRequestsAlerts.css";
 
-const alertsData = [
-  { id: "00001", type: "User Generated", device: "NICO", sector: "Karnataka" },
-  { id: "00002", type: "User Generated", device: "Fishery Dept", sector: "Kerala" },
-  { id: "00003", type: "System Generated", device: "XYZAB", sector: "Pune" },
-  { id: "00004", type: "System Generated", device: "Delhi Zoo", sector: "New Delhi" },
-];
+const alertsData = [];
 
 const ServiceAlerts = () => {
   const [alerts, setAlerts] = useState(alertsData);
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeTab, setActiveTab] = useState("User Generated"); // Track active tab
+  const [activeTab, setActiveTab] = useState("User Generated");
   const navigate = useNavigate();
 
   const filteredAlerts = alerts.filter(
@@ -30,34 +25,27 @@ const ServiceAlerts = () => {
   };
 
   return (
+    <>
+      <div className="service-bar-container">
+        <h2 className="service-re-ale-title">Service Requests & Alerts</h2>
 
-<>
-    <div className="service-bar-container">
+        <input
+          type="text"
+          className="input-ser-ale-search"
+          placeholder="Search"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <span className="service-ale-re-search-icon">
+          <FontAwesomeIcon icon={faSearch} />
+        </span>
+        <button className="service-req-ale-filter-button">
+          <FontAwesomeIcon icon={faSliders} />
+        </button>
+      </div>
 
-          <h2 className="service-re-ale-title">Service Requests & Alerts</h2>
-
-              <input
-                type="text"
-                className="input-ser-ale-search"
-                placeholder="Search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <span className="service-ale-re-search-icon">
-                <FontAwesomeIcon icon={faSearch} />
-              </span>
-            <button className="service-req-ale-filter-button">
-              <FontAwesomeIcon icon={faSliders} />
-            </button>
-
-            
-          </div>
-    
       <div className="service-re-ale-container">
-        <div className="service-re-ale-header">
-
-          
-        </div>
+        <div className="service-re-ale-header"></div>
 
         <div className="service-re-ale-tabs">
           <button
@@ -91,18 +79,26 @@ const ServiceAlerts = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredAlerts.map((req) => (
-              <tr key={req.id} onClick={() => handleRowClick(req.id)}>
-                <td>{req.id}</td>
-                <td>{req.type}</td>
-                <td>{req.device}</td>
-                <td>{req.sector}</td>
-                <td>
-                  <button className="service-re-ale-edit">Edit</button>
-                  <button className="service-re-ale-deploy">Deploy</button>
+            {filteredAlerts.length > 0 ? (
+              filteredAlerts.map((req) => (
+                <tr key={req.id} onClick={() => handleRowClick(req.id)}>
+                  <td>{req.id}</td>
+                  <td>{req.type}</td>
+                  <td>{req.device}</td>
+                  <td>{req.sector}</td>
+                  <td>
+                    <button className="service-re-ale-edit">Edit</button>
+                    <button className="service-re-ale-deploy">Deploy</button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" style={{ textAlign: "center", padding: "40px", color: "#1a1a1aff",fontWeight:"400" }}>
+                  No Alerts
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

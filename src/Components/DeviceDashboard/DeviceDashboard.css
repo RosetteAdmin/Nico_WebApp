@@ -253,7 +253,11 @@ body {
   white-space: nowrap; /* Prevent text wrapping */
 }
 
-
+.device-table-reg th,
+.device-table-reg td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
 .device-dashboard-reg .header-controls {
   display: flex;
   justify-content: space-between;
@@ -308,6 +312,13 @@ body {
   border-collapse: collapse;
   table-layout: auto;
   background-color: #fff;
+  
+
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
 }
 
 
@@ -346,7 +357,7 @@ body {
 }
 
 /* Status Indicators */
-.device-table-reg td:nth-child(4) { /* Status column */
+.device-table-reg td:nth-child(5) { 
   font-weight: bold;
 }
 
@@ -511,4 +522,31 @@ body {
 
 .status-danger {
   background-color: #f44336;
+}
+
+
+/* Remove bold from table data */
+.device-table-reg tbody td {
+  font-weight: normal;
+}
+
+/* Status indicator styling */
+.status-indicator {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.status-indicator.status-connected {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.status-indicator.status-disconnected {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
 }
