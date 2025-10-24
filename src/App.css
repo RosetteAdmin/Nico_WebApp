@@ -161,3 +161,17 @@ body {
   color: #007bff;
   font-weight: bold;
 }
+/* ✅ Mobile Responsive Case */
+@media (max-width: 768px) {
+  .blue-band-bg {
+    position: absolute;
+    top: 50px;
+    left: -5%;
+    width: 110vw; /* ✅ full viewport width */
+    height: 180px;
+    border-radius: 0;
+    background-size: cover;
+    background-position: center;
+  }
+}
+
