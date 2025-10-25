@@ -11,48 +11,95 @@ const MapView = () => {
   const mapRef = useRef(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [devices, setDevices] = useState([]);
 
-  // 🟩 Static machine location data
-  const machines = [
-    {
-      id: "1234567",
-      name: "Qwerty",
-      sector: "Manipal",
-      owner: "Likith",
-      coordinates: [74.7851, 13.3543], // Manipal
-    },
-    {
-      id: "12345677899",
-      name: "sdgssdgs",
-      sector: "Manipal",
-      owner: "sdg",
-      coordinates: [74.7865, 13.3560], // Near Manipal
-    },
-    {
-      id: "tester",
-      name: "test",
-      sector: "Karnataka",
-      owner: "test",
-      coordinates: [75.7139, 15.3173], // Karnataka approx center
-    },
-    {
-      id: "898989",
-      name: "Abcd",
-      sector: "Hassan",
-      owner: "Abhi",
-      coordinates: [76.0996, 13.0072], // Hassan
-    },
-    // {
-    //   id: "dfsjkvnfcdf",
-    //   name: "Test_device",
-    //   sector: "Manipal",
-    //   owner: "Leroy",
-    //   coordinates: [74.7848, 13.3529], // Manipal
-    // },
-  ];
+  // 🔹 Convert sector → coordinates using Mapbox Geocoding API
+  const getCoordinatesFromSector = async (sector) => {
+    try {
+      const geoResponse = await fetch(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(
+          sector
+        )}.json?access_token=${mapboxgl.accessToken}`
+      );
+      const geoData = await geoResponse.json();
+      if (geoData.features && geoData.features.length > 0) {
+        return geoData.features[0].center; // [lng, lat]
+      }
+    } catch (err) {
+      console.error("Geocoding error:", err);
+    }
+    return null;
+  };
 
+  // 🔹 Fetch devices and enrich with coordinates + status
   useEffect(() => {
-    if (mapRef.current) return;
+    const fetchDevices = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_EP}/api/devices`);
+        const data = await response.json();
+        const azureDevices = data.value || [];
+
+        const devicesWithInfo = await Promise.all(
+          azureDevices.map(async (device) => {
+            try {
+              const infoRes = await fetch(
+                `${process.env.REACT_APP_EP}/data/devices/${device.id}/info`
+              );
+              const infoData = await infoRes.json();
+
+              // Fetch connection status
+              let connectionStatus = "Disconnected";
+              try {
+                const statusResponse = await fetch(
+                  `${process.env.REACT_APP_EP}/api/devices/${device.id}/status`
+                );
+                const statusData = await statusResponse.json();
+                connectionStatus =
+                  statusData.status === "Connected"
+                    ? "Connected"
+                    : "Disconnected";
+              } catch (statusError) {
+                console.error(`Status fetch failed for ${device.id}`, statusError);
+              }
+
+              if (infoData.status === "success" && infoData.data) {
+                const sector = infoData.data.location || "Karnataka";
+                const coords = await getCoordinatesFromSector(sector);
+
+                if (coords) {
+                  return {
+                    id: device.id,
+                    name: device.displayName,
+                    sector: sector,
+                    owner: infoData.data.owner_name || "N/A",
+                    coordinates: coords,
+                    status: connectionStatus,
+                  };
+                }
+              }
+            } catch (err) {
+              console.error("Error fetching info for device:", err);
+            }
+            return null;
+          })
+        );
+
+        const validDevices = devicesWithInfo.filter(Boolean);
+        setDevices(validDevices);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching devices:", error);
+        setError("Failed to fetch device data.");
+        setLoading(false);
+      }
+    };
+
+    fetchDevices();
+  }, []);
+
+  // 🔹 Initialize map when devices are loaded
+  useEffect(() => {
+    if (!devices.length || mapRef.current) return;
 
     const initMap = () => {
       try {
@@ -60,34 +107,34 @@ const MapView = () => {
           throw new Error("Mapbox token missing. Please check your .env file.");
         }
 
-        // 🗺️ Center map on Karnataka
         const map = new mapboxgl.Map({
           container: mapContainerRef.current,
           style: "mapbox://styles/mapbox/streets-v12",
-          center: [75.7139, 15.3173], // Karnataka
-          zoom: 7,
+center: [78.9629, 20.5937], // India center
+zoom: 4.5,
           interactive: true,
         });
 
         mapRef.current = map;
-
-        // Add zoom + rotation controls
         map.addControl(new mapboxgl.NavigationControl(), "top-right");
 
         map.on("load", () => {
-          // Add marker for each machine
-          machines.forEach((machine) => {
+          const bounds = new mapboxgl.LngLatBounds();
+
+          devices.forEach((machine) => {
             const el = document.createElement("div");
             el.className = "custom-marker";
+
+            // ✅ Marker color depends on status
+            const markerColor =
+              machine.status === "Connected" ? "#00ff00" : "#ff0000";
+
             el.innerHTML = `
-              <div class="marker-pin"></div>
-              <div class="marker-pulse"></div>
+              <div class="marker-pin" style="background:${markerColor}"></div>
+              <div class="marker-pulse" style="background:${markerColor}33"></div>
             `;
 
-            new mapboxgl.Marker({
-              element: el,
-              anchor: "bottom",
-            })
+            new mapboxgl.Marker({ element: el, anchor: "bottom" })
               .setLngLat(machine.coordinates)
               .setPopup(
                 new mapboxgl.Popup({
@@ -99,14 +146,24 @@ const MapView = () => {
                     <strong>📟 Device Name:</strong> ${machine.name}<br/>
                     <small><b>ID:</b> ${machine.id}</small><br/>
                     <small><b>Sector:</b> ${machine.sector}</small><br/>
-                    <small><b>Owner:</b> ${machine.owner}</small>
+                    <small><b>Owner:</b> ${machine.owner}</small><br/>
+                    <small><b>Status:</b> ${machine.status}</small>
                   </div>
                 `)
               )
               .addTo(map);
+
+            // Extend bounds to include each marker
+            bounds.extend(machine.coordinates);
           });
 
-          setLoading(false);
+          // ✅ Fit all markers in the map view
+          if (!bounds.isEmpty()) {
+            map.fitBounds(bounds, { padding: 80 });
+            map.once("moveend", () => {
+  map.zoomOut(1); // zooms out one level more
+});
+          }
         });
 
         map.on("error", (e) => {
@@ -128,7 +185,7 @@ const MapView = () => {
         mapRef.current = null;
       }
     };
-  }, []);
+  }, [devices]);
 
   return (
     <div className="map-wrapper">

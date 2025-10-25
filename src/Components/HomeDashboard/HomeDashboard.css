@@ -73,8 +73,7 @@
 }
 .bottom-section {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: center;  align-items: flex-start;
   margin-top: 40px;
   gap: 20px;
   width: 80%;
