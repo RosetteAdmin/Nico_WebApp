@@ -234,7 +234,7 @@ const [currentCardIndex, setCurrentCardIndex] = useState(0);
 
         {/* Bottom Section */}
         <div className="bottom-section">
-          <div className="left-vertical-cards">
+          {/* <div className="left-vertical-cards">
             {[1, 2, 3, 4].map((num) => (
               <div key={num} className="info-card">
                 <h3>Card {num} Title</h3>
@@ -244,7 +244,7 @@ const [currentCardIndex, setCurrentCardIndex] = useState(0);
                 </p>
               </div>
             ))}
-          </div>
+          </div> */}
 
           <div className="right-map-placeholder">
             <MapView />
