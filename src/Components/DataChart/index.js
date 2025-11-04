@@ -440,6 +440,8 @@
 
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {faEllipsisV  } from "@fortawesome/free-solid-svg-icons";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import "./DataChart.css";
 
@@ -453,6 +455,7 @@ const DataChart = ({ deviceId }) => {
   const [selectedTimeRange, setSelectedTimeRange] = useState('Hour');
   const [selectedGenerator, setSelectedGenerator] = useState('nb');
   const [currentSlide, setCurrentSlide] = useState(0);
+  const navigate = useNavigate();
 
   const totalCharts = 4; // Flow Rate, Pressure, Total Water Outlet, Total Running Hours
 
@@ -830,9 +833,18 @@ const DataChart = ({ deviceId }) => {
   return (
     <div className="device-info-card charts-container">
       <div>
-        <h3 className="section-title charts-section-title">
-          Sensor Data:
-        </h3>
+      <div className="sensor-header">
+  <h2>Sensor Data:</h2>
+  <button 
+    className="view-logs-btn"
+    onClick={() => navigate(`/device/${deviceId}/logdetails`)}
+  >
+    View All Sensor Logs
+  </button>
+</div>
+<hr className="sensor-divider" />
+
+
 
         {error && (
           <div className="error-container" style={{
@@ -915,6 +927,7 @@ const DataChart = ({ deviceId }) => {
           ))}
         </div>
       </div>
+     
     </div>
   );
 };

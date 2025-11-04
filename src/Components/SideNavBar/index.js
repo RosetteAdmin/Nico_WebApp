@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import DashBoardIcon from "./../../Images/SideNavBar/DashBoard.svg";
 import DevicesIcon from "./../../Images/SideNavBar/Devices.svg";
@@ -18,7 +18,7 @@ const menuItems = [
     title: "Dashboard",
     icon: DashBoardIcon,
     url: "/dashboard",
-    roles: [0, 1, 3, 2],  // Admin, Company Associate, Customer, Vendor
+    roles: [0, 1, 3, 2],
   },
   {
     key: "devices",
@@ -38,13 +38,6 @@ const menuItems = [
         url: "/PreRegDevices",
         roles: [0, 1, 2],
       },
-      // Uncomment and update roles if needed
-      // {
-      //   key: "add-device",
-      //   title: "Add New Device",
-      //   url: "/add-device",
-      //   roles: [0, 1, 2],
-      // },
     ],
   },
   {
@@ -52,7 +45,7 @@ const menuItems = [
     title: "User Access",
     icon: AccessManagementIcon,
     url: "/access-management",
-    roles: [0,1,2],
+    roles: [0, 1, 2],
     subMenu: [
       {
         key: "company-associates",
@@ -81,13 +74,6 @@ const menuItems = [
     url: "/service-requests",
     roles: [0, 1, 2],
   },
-  // {
-  //   key: "profile",
-  //   title: "Profile",
-  //   icon: ProfileIcon,
-  //   url: "/profile",
-  //   roles: [0, 3],
-  // },
 ];
 
 const SideNavBar = () => {
@@ -95,15 +81,57 @@ const SideNavBar = () => {
   const [selectedSubComponent, setSelectedSubComponent] = useState(null);
   const [openMenu, setOpenMenu] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  
+  const navRef = useRef(null);
 
-  // Parse stored role as integer for correct comparison
+  // Parse stored role as integer
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const userRole = storedUser && storedUser.role !== undefined ? parseInt(storedUser.role, 10) : null;
 
-  const handleComponentClick = (key) => {
-    setOpenMenu(false);
-    setSelectedSubComponent(null);
-    setSelectedComponent(key);
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      
+      // Close menu when switching from mobile to desktop
+      if (!mobile) {
+        setOpenMenu(null);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Handle click outside to close submenu on mobile
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMobile && navRef.current && !navRef.current.contains(event.target)) {
+        setOpenMenu(null);
+      }
+    };
+
+    if (isMobile) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [isMobile]);
+
+  const handleComponentClick = (key, hasSubMenu) => {
+    if (isMobile && hasSubMenu) {
+      // On mobile, toggle submenu instead of navigating
+      toggleMenu(key);
+    } else if (!hasSubMenu) {
+      // Navigate if no submenu
+      setOpenMenu(null);
+      setSelectedSubComponent(null);
+      setSelectedComponent(key);
+    } else {
+      // Desktop with submenu
+      setSelectedComponent(key);
+    }
   };
 
   const handleSubComponentClick = (key) => {
@@ -112,13 +140,31 @@ const SideNavBar = () => {
     if (parent) {
       setSelectedComponent(parent.key);
     }
+    
+    // Close submenu on mobile after selection
+    if (isMobile) {
+      setOpenMenu(null);
+    }
   };
 
   const toggleMenu = (key) => {
     setOpenMenu((prevMenu) => (prevMenu === key ? null : key));
   };
 
-  // Filter menu items based on userRole integer
+  const handleMouseEnter = () => {
+    if (!isMobile) {
+      setIsHovered(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!isMobile) {
+      setIsHovered(false);
+      setOpenMenu(null);
+    }
+  };
+
+  // Filter menu items based on userRole
   const filteredMenuItems = menuItems
     .filter((item) => item.roles.includes(userRole))
     .map((item) => ({
@@ -129,20 +175,21 @@ const SideNavBar = () => {
 
   return (
     <nav
+      ref={navRef}
       className={`side-nav ${isHovered ? "" : "collapsed"}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => {
-        setIsHovered(false);
-        setOpenMenu(null);
-      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <ul className="nav-list">
         {filteredMenuItems.map((item) => (
-          <li key={item.key} className={`nav-item${openMenu === item.key ? " open" : ""}`}>
+          <li 
+            key={item.key} 
+            className={`nav-item${openMenu === item.key ? " open" : ""}${item.subMenu ? " has-submenu" : ""}`}
+          >
             {!item.subMenu ? (
               <Link
                 to={item.url}
-                onClick={() => handleComponentClick(item.key)}
+                onClick={() => handleComponentClick(item.key, false)}
                 className={`main-link ${selectedComponent === item.key ? "active" : ""}`}
               >
                 <img
@@ -160,10 +207,15 @@ const SideNavBar = () => {
                 <div
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleComponentClick(item.key);
-                    toggleMenu(item.key === openMenu ? null : item.key);
+                    handleComponentClick(item.key, true);
+                    
+                    // Desktop behavior - toggle on click
+                    if (!isMobile) {
+                      toggleMenu(item.key === openMenu ? null : item.key);
+                    }
                   }}
                   className={`main-link ${selectedComponent === item.key ? "active" : ""}`}
+                  style={{ cursor: "pointer" }}
                 >
                   <img
                     src={item.icon}
@@ -180,16 +232,18 @@ const SideNavBar = () => {
                   >
                     {item.title}
                   </span>
-                  <img
-                    src={Arrow}
-                    className={`arrow-icon ${openMenu === item.key ? "rotate" : ""}`}
-                    alt="arrow icon"
-                    style={{ marginLeft: "auto" }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleMenu(item.key === openMenu ? null : item.key);
-                    }}
-                  />
+                  {!isMobile && (
+                    <img
+                      src={Arrow}
+                      className={`arrow-icon ${openMenu === item.key ? "rotate" : ""}`}
+                      alt="arrow icon"
+                      style={{ marginLeft: "auto" }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleMenu(item.key === openMenu ? null : item.key);
+                      }}
+                    />
+                  )}
                 </div>
                 {openMenu === item.key && (
                   <ul className="sub-menu">
@@ -212,8 +266,8 @@ const SideNavBar = () => {
                             />
                           )}
                           <span
-                            className={`nav-text ${
-                              selectedSubComponent === subItem.key ? "active" : "nav-text"
+                            className={`sub-text ${
+                              selectedSubComponent === subItem.key ? "active" : ""
                             }`}
                           >
                             {subItem.title}

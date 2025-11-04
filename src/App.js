@@ -183,6 +183,7 @@ function App() {
                           <Route path="/editdevice/:id" element={<EditDevice />} />
                           <Route path="/PreRegDevices" element={<PreRegDevices />} />
                           <Route path="/device/:id" element={<DeviceDetails />} />
+                          {/* <Route path="/device/:azure_device_id/logdetails" element={<LogDetails />} /> */}
                           <Route path="/device/:azure_device_id/logdetails" element={<LogDetails />} />
                           <Route path="/add-device" element={<AddNewDevice />} />
                           <Route path="/access-management" element={<AccessManagement />} />

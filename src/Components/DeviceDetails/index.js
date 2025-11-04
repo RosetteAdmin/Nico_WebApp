@@ -4,7 +4,7 @@
   import "./DeviceDetails.css";
   import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
   import DeviceCharts from "../DataChart";
-  import { faLink, faPencil, faCheck, faSave,faRotate  } from "@fortawesome/free-solid-svg-icons";
+  import { faLink, faPencil, faCheck, faSave,faRotate,faEllipsisV  } from "@fortawesome/free-solid-svg-icons";
   import { faPenToSquare, faCircleCheck } from '@fortawesome/free-regular-svg-icons';
   import axios from "axios";
 
@@ -106,7 +106,11 @@ const fetchPowerStatusHistory = async () => {
             auto_sequence_on_time: data.nbGenerator.auto_sequence_on_time ?? 0,
             auto_sequence_off_time: data.nbGenerator.auto_sequence_off_time ?? 0,
             auto_sequence_counter: data.nbGenerator.auto_sequence_counter ?? 0,
+            auto_sequence_on_write: data.nbGenerator.auto_sequence_on_write ?? 0,      
+            auto_sequence_off_write: data.nbGenerator.auto_sequence_off_write ?? 0,    
+            auto_sequence_counter_write: data.nbGenerator.auto_sequence_counter_write ?? 0,
             alert_status: data.nbGenerator.alert_status ?? 0
+
           },
           ozoneGenerator: { ...data.ozoneGenerator },
           oxygenGenerator: { ...data.oxygenGenerator },
@@ -266,6 +270,9 @@ const fetchPowerStatusHistory = async () => {
         auto_sequence_on_time: 0,
         auto_sequence_off_time: 0,
         auto_sequence_counter: 0,
+        auto_sequence_on_write: 0,
+        auto_sequence_off_write: 0,
+        auto_sequence_counter_write: 0,
         alert_status: 0,
         timestamp: "",
       },
@@ -956,6 +963,13 @@ const fetchPowerStatusHistory = async () => {
                       />
                       <input
                         type="number"
+                        value={deviceData.nbGenerator.auto_sequence_counter_write ?? 0}
+                        disabled={true}
+                        readOnly={true}
+                        className="config-input"
+                      />
+                      <input
+                        type="number"
                         value={counter}
                         onChange={(e) => setCounter(e.target.value)}
                         placeholder={lastWritten.counter || "Enter value"}
@@ -967,7 +981,7 @@ const fetchPowerStatusHistory = async () => {
                       <button 
                         className={`editt-btn ${writeSuccess.counter ? 'success-btn' : ''}`}
                         onClick={handleCounterClick}
-                        disabled={!isPowerOn || !conn || isWriting.counter || !counter}
+                        disabled={ !conn || isWriting.counter || !counter}
                         title={counter ? "Click to write value" : "Enter a value first"}
                       >
                         {isWriting.counter ? (
@@ -993,6 +1007,13 @@ const fetchPowerStatusHistory = async () => {
                       />
                       <input
                         type="number"
+                        value={deviceData.nbGenerator.auto_sequence_on_write ?? 0}
+                        disabled={true}
+                        readOnly={true}
+                        className="config-input"
+                      />
+                      <input
+                        type="number"
                         value={onTime}
                         onChange={(e) => setOnTime(e.target.value)}
                         placeholder={lastWritten.onTime || "Enter value"}
@@ -1004,7 +1025,7 @@ const fetchPowerStatusHistory = async () => {
                       <button 
                         className={`editt-btn ${writeSuccess.onTime ? 'success-btn' : ''}`}
                         onClick={handleOnTimeClick}
-                        disabled={!isPowerOn || !conn || isWriting.onTime || !onTime}
+                        disabled={!conn || isWriting.onTime || !onTime}
                         title={onTime ? "Click to write value" : "Enter a value first"}
                       >
                         {isWriting.onTime ? (
@@ -1027,6 +1048,13 @@ const fetchPowerStatusHistory = async () => {
                       />
                       <input
                         type="number"
+                        value={deviceData.nbGenerator.auto_sequence_off_write ?? 0}
+                        disabled={true}
+                        readOnly={true}
+                        className="config-input"
+                      />
+                      <input
+                        type="number"
                         value={offTime}
                         onChange={(e) => setOffTime(e.target.value)}
                         placeholder={lastWritten.offTime || "Enter value"}
@@ -1038,7 +1066,7 @@ const fetchPowerStatusHistory = async () => {
                       <button 
                         className={`editt-btn ${writeSuccess.offTime ? 'success-btn' : ''}`}
                         onClick={handleOffTimeClick}
-                        disabled={!isPowerOn || !conn || isWriting.offTime || !offTime}
+                        disabled={!conn || isWriting.offTime || !offTime}
                         title={offTime ? "Click to write value" : "Enter a value first"}
                       >
                         {isWriting.offTime ? (
@@ -1050,13 +1078,16 @@ const fetchPowerStatusHistory = async () => {
                     </div>
                   </div>
 
-                    
                   </div>
                 </div>
               </div>
+              
             </div>
             
-            {isPowerOn && <DeviceCharts deviceId={id} />}
+            {/* {isPowerOn 
+            // || !isPowerOn 
+            && 
+            <DeviceCharts deviceId={id} />}
             {!isPowerOn && (
               <div className="device-info-card">
                 <div style={{ textAlign: "center", padding: "40px", color: "#666" }}>
@@ -1064,7 +1095,31 @@ const fetchPowerStatusHistory = async () => {
                   <p>Turn on the system power to view sensor data and charts.</p>
                 </div>
               </div>
-            )}
+            )} */}
+            {/* Always show charts regardless of power status */}
+<DeviceCharts deviceId={id} />
+
+{/* Optional: Show warning banner when power is OFF */}
+{!isPowerOn && (
+  <div className="device-info-card power-off-notice">
+    {/* <div style={{ 
+      textAlign: "center", 
+      padding: "16px", 
+      backgroundColor: "#fef3c7", 
+      borderLeft: "4px solid #f59e0b",
+      borderRadius: "6px"
+    }}>
+      <p style={{ 
+        margin: 0, 
+        color: "#92400e", 
+        fontSize: "14px", 
+        fontWeight: "600" 
+      }}>
+        ⚠️ System Power is OFF - Showing last available sensor data
+      </p>
+    </div> */}
+  </div>
+)}
 
             <div className="device-info-card">
               <div>

@@ -165,10 +165,10 @@ body {
 @media (max-width: 768px) {
   .blue-band-bg {
     position: absolute;
-    top: 50px;
+    top: 110px;
     left: -5%;
     width: 110vw; /* ✅ full viewport width */
-    height: 180px;
+    height: 200px;
     border-radius: 0;
     background-size: cover;
     background-position: center;

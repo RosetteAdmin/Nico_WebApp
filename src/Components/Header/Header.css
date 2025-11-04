@@ -239,6 +239,15 @@ position: relative;
 
 
 @media (max-width: 480px) {
+  .header { 
+    width: 100vw;
+    height: 60px;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.1), 0 1px 30px rgba(0, 0, 0, 0.06);
+  }
+
   .nico-container {
     position: relative;
     right: 0%; /* Align to the left edge of the screen */

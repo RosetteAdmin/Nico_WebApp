@@ -1,5 +1,3 @@
-// 
-
 import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import "./HomeDashboard.css";
@@ -54,8 +52,6 @@ const baseCards = [
     roles: [Role.Admin, Role.CompanyAssociate, Role.Vendor],
     route: "/customers",
   },
- 
-  
 ];
 
 const HomeDashboard = () => {
