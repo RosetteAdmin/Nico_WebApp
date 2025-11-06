@@ -148,12 +148,12 @@ const Customers = () => {
         <button className="filter-button">
           <FontAwesomeIcon icon={faSliders} />
         </button>
-        {/* <button
+        <button
                     className="add-user-btn"
                     onClick={() => navigate("/addoperatorinfo")}
                   >
                     <FontAwesomeIcon icon={faPlus} /> Add Operator
-                  </button> */}
+                  </button>
 
         <div className="table-footer">
           <span className="pagination-info">
@@ -191,7 +191,7 @@ const Customers = () => {
               displayedCustomers.map((customer) => (
                 <tr
                   key={customer.email}
-                  // onClick={() => handleRowClick(customer.email)}
+                  onClick={() => handleRowClick(customer.email)}
                   style={{ cursor: "pointer" }}
                 >
                   
@@ -218,7 +218,7 @@ const Customers = () => {
                       />
                       {activeMenu === customer.email && (
                         <div className="dropdown-menu">
-                          {/* <div
+                          <div
                             className="dropdown-item"
                             onClick={(e) => {
                               e.stopPropagation();
@@ -226,7 +226,7 @@ const Customers = () => {
                             }}
                           >
                             Edit User
-                          </div> */}
+                          </div>
                           <div
                             className="dropdown-item"
                             onClick={(e) => {

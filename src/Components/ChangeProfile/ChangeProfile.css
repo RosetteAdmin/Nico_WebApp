@@ -71,19 +71,18 @@
   gap: 20px;
   margin: 10px auto;
   background-color: #fff;
-  overflow-y: hidden;
   /* Enable vertical scrolling */
   padding: 20px;
   border-radius: 10px;
 }
 
 .change-profile-form::-webkit-scrollbar {
-  width: 8px;
+  width: 4px;
 }
 
 .change-profile-form::-webkit-scrollbar-thumb {
   background-color: #888;
-  border-radius: 4px;
+  border-radius: 1px;
 }
 
 .change-profile-form::-webkit-scrollbar-thumb:hover {
@@ -215,10 +214,13 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 480px) and (min-width: 320px) {
   .change-profile-header h2 {
-    font-size: 24px;
+    font-size: 28px;
     margin-left: 55%;
+    white-space: nowrap;
+    top:-20px;
+    position: relative;
   }
   .change-profile-form {
     padding: 10px;
@@ -228,6 +230,8 @@
   }
   .change-profile-container{
     margin-left: 30%;
+    width: 200%;
+    top:-80px;
   }
 
   .change-profile-logout-button {
@@ -235,7 +239,46 @@
   }
 
   .change-profile-save-button {
-    width: 100%;
+    width: 180%;
     margin-left: 80%;
+    padding: 10px 20px;
+    position: relative;
+    top:-80px;
+    left: 150px;
+    max-width: 200%;
   }
+}
+
+@media screen and (max-width:394px) and (min-width: 320px) {
+  /* .change-profile-header h2 {
+    font-size: 28px;
+    margin-left: 40%;
+    white-space: nowrap;
+  } */
+  .change-profile-container{
+    margin-left: 20%;
+    width: 250%;
+    top:-80px;
+  }
+/* 
+  .change-profile-save-button {
+    width: 150%;
+    margin-left: 60%;
+    padding: 10px 20px;
+    position: relative;
+    top:-60px;
+    left: 100px;
+    max-width: 200%;
+  } */
+  
+}
+
+
+@media (max-width: 480px) and (min-width: 425px) {
+    .change-profile-container{
+    margin-left: 20%;
+    width: 170%;
+    top:-80px;
+  }
+
 }

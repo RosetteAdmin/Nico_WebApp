@@ -1,10 +1,8 @@
-
-
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./EditUser.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch,faSliders } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faSliders } from "@fortawesome/free-solid-svg-icons";
 
 const EditUser = () => {
   const { email } = useParams();
@@ -32,7 +30,7 @@ const EditUser = () => {
           setUserData({
             email: result.data.email,
             name: result.data.name,
-            phone: result.data.phone,
+            phone: result.data.phone_number,
             sector: result.data.sector,
             location: result.data.location,
             devices: result.data.devices || []
@@ -65,41 +63,43 @@ const EditUser = () => {
 
   return (
     <div className="edit-user-wrapper">
-  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-    <h2 className="dashboard-title1" style={{ margin: 0 }}>{userData.name}</h2>
-  </div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <h2 className="dashboard-title1" style={{ margin: 0 }}>{userData.name}</h2>
+      </div>
 
-  <section className="user-card">
-    <div className="user-info">
-      <h3 style={{ fontSize: "1rem", margin: "0.5rem 0" , color:"grey",textDecoration:"underline"}}>User Information:</h3>
-      <p><strong>Name:</strong> <em>{userData.name || "N/A"}</em></p>
-      <p><strong>Location:</strong> <em>{userData.sector || "N/A"}</em></p>
-    </div>
-    <div className="user-contact">
-      <p><strong>Email:</strong> <em>{userData.email || "N/A"}</em></p>
-      <p><strong>Phone:</strong> <em>{userData.phone || "N/A"}</em></p>
-    </div>
-    <div className="devices-connected">
-      <p><strong>Number of Devices Connected:</strong> <em>{userData.devicesConnected || "N/A"}</em></p>
-    </div>
-  </section>
+      <section className="user-card">
+        <div className="user-info">
+          <h3 style={{ fontSize: "1rem", margin: "0.5rem 0", color: "black", textDecoration: "underline" }}>
+            User Information:
+          </h3>
+          <p><strong>Name:</strong> <em>{userData.name || "N/A"}</em></p>
+          <p><strong>Location:</strong> <em>{userData.sector || "N/A"}</em></p>
+        </div>
+        <div className="user-contact">
+          <p><strong>Email:</strong> <em>{userData.email || "N/A"}</em></p>
+          <p><strong>Phone:</strong> <em>{userData.phone || "N/A"}</em></p>
+          {/* ✅ FIXED: Changed from userData.phone_number to userData.phone */}
+        </div>
+        <div className="devices-connected">
+          <p><strong>Number of Devices Connected:</strong> <em>{userData.devices?.length || 0}</em></p>
+          {/* ✅ BONUS FIX: Changed to show actual device count */}
+        </div>
+      </section>
 
-  <section className="devices-section">
-    <div className="devices-header">
-      <h3 style={{fontSize: "1rem",textDecoration:"underline"}}>Linked Devices</h3>
+      <section className="devices-section">
+        <div className="devices-header">
+          <h3 style={{ fontSize: "1rem", textDecoration: "underline" }}>Linked Devices</h3>
+        </div>
+        {userData.devices && userData.devices.length > 0 ? (
+          <table className="devices-table">
+            {/* Add your table content here */}
+          </table>
+        ) : (
+          <div className="no-devices">No linked devices.</div>
+        )}
+      </section>
     </div>
-    {userData.devices && userData.devices.length > 0 ? (
-      <table className="devices-table">
-      </table>
-    ) : (
-      <div className="no-devices">No linked devices.</div>
-    )}
-  </section>
-</div>
   );
 };
 
 export default EditUser;
-
-
-

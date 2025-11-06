@@ -31,7 +31,7 @@ const Operatorinfo = () => {
       }
 
       try {
-        const url = `${process.env.REACT_APP_EP}/data/associate/${encodeURIComponent(email)}`;
+        const url = `${process.env.REACT_APP_EP}/data/customer/${encodeURIComponent(email)}`;
         const response = await fetch(url);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const result = await response.json();
@@ -67,7 +67,7 @@ const Operatorinfo = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_EP}/data/updateassociate`, {
+      const response = await fetch(`${process.env.REACT_APP_EP}/data/updatecustomer`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -91,7 +91,7 @@ const Operatorinfo = () => {
           sector: editableInfo.sector
         }));
         setIsEditMode(false);
-        setTimeout(() => navigate("/operators"), 500);
+        // setTimeout(() => navigate("/operators"), 500);
       } else {
         alert(`Failed to update operator: ${result.message}`);
       }
@@ -163,7 +163,7 @@ const Operatorinfo = () => {
                 <label>Phone Number</label>
                 <input
                   type="tel"
-                  placeholder="1234567890"
+                  placeholder="Enter phone number"
                   value={isEditMode ? editableInfo.phone_number : operatorInfo.phone_number}
                   onChange={(e) => handleInputChange("phone_number", e.target.value)}
                   disabled={!isEditMode}
@@ -182,7 +182,7 @@ const Operatorinfo = () => {
               </div>
             </div>
 
-            <div className="form-row">
+            {/* <div className="form-row">
               <div className="form-group">
                 <label>Role</label>
                 <input
@@ -193,7 +193,7 @@ const Operatorinfo = () => {
                   className="readonly-field"
                 />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

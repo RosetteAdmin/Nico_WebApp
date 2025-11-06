@@ -285,3 +285,139 @@ position: relative;
   }
   
 }
+
+
+/* --- Mobile Responsive (below 768px) --- */
+@media (max-width: 768px) {
+  .header {
+    width: 100vw;
+    padding: 0.8rem 1rem;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+  }
+
+  .header-logo {
+    width: 90px;
+    height: auto;
+  }
+
+  .header-right {
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+
+  .nico-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; 
+    width: auto;
+    gap: 6px;
+  }
+
+  .nico-icon {
+    position: static;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+  }
+
+  .header-text {
+    position: static;
+    font-size: 0.9rem;
+    margin: 0 4px;
+    color: black;
+  }
+
+  .dropdown-icon {
+    width: 28px;
+    height: 28px;
+    margin: 0;
+  }
+
+  .dropdown-wrapper {
+    position: static;
+  }
+
+  .dropdown-options {
+    position: fixed;
+    top: 60px;
+    right: 10px;
+    left: auto !important;
+    margin-top: 0;
+    z-index: 1001;
+    min-width: 180px;
+  }
+
+  .dropdown-category {
+    width: 100%;
+  }
+}
+
+/* --- Small Mobile (below 480px) --- */
+@media (max-width: 480px) {
+  .header { 
+    width: 100vw;
+    height: 60px;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.1), 0 1px 30px rgba(0, 0, 0, 0.06);
+  }
+
+  .nico-container {
+    position: relative;
+    right: 0%;
+  }
+
+  .header-text {
+    position: static;
+    font-size: 0.7rem;
+    margin: 0 -11%;
+    color: black;
+  }
+
+  .header-logo {
+    width: 50%;
+    margin-left: -2%;
+    white-space: nowrap;
+  }
+
+  .dropdown-icon {
+    width: 30px;
+    height: 29px;
+    margin: 0;
+    margin-left: 10px;
+    top:10px; 
+    position: relative;
+  }
+
+  .nico-icon {
+    position: static;
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    margin-right: 4%;
+  }
+
+  .dropdown-wrapper {
+    position: static;
+  }
+
+  .dropdown-options {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    left: auto !important;
+    margin-top: 0;
+    z-index: 1001;
+    min-width: 120px;
+  }
+
+  .dropdown-category {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+}

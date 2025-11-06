@@ -99,7 +99,7 @@ body {
 
 .dev-search-icon {
   position: relative;
-  right: 260px; /* Adjusted for better alignment */
+  left: 400px; /* Adjusted for better alignment */
   transform: translateY(-50%);
   color: rgb(0, 0, 0);
   pointer-events: none;

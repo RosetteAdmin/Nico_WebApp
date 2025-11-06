@@ -522,13 +522,13 @@
   
 }
 
-@media (max-width: 430px) and (min-width: 376px) {
+@media (max-width: 480px) and (min-width: 376px) {
   .side-nav {
     margin-left: -2px;
     column-gap:50px;  }
 }
 
-@media (min-width: 376px) and (max-width: 426px) {
+@media (min-width: 376px) and (max-width: 480px) {
   .side-nav {
     margin-left: 0 !important;   /* reset previous negative margin */
     padding: 0 8px;
