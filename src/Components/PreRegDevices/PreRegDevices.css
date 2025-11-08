@@ -429,8 +429,8 @@
     padding: 0.75rem 0.5rem !important;
     gap: 8px !important;
     width: 100% !important;
-    position: relative !important;
-    left:100px;
+    position: relative;
+    left: 100px;
     
   }
 
@@ -744,3 +744,539 @@
     font-size: 0.7rem !important;
   }
 }
+
+
+/* ============================================
+   MOBILE RESPONSIVE - 768px and Below
+   
+============================================ */
+
+@media (max-width: 768px) {
+  .reg-dev-header-card {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    padding: 1rem !important;
+    gap: 10px !important;
+    margin-top: 20px !important;
+    position: static !important;
+  }
+
+  /* Row 1: Title */
+  .reg-dev-title {
+    font-size: 1.4rem !important;
+    text-align: left !important;
+    white-space: normal !important;
+    position: static !important;
+    left: 0 !important;
+    flex: 1 1 auto !important;
+    order: 1 !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* Row 1: Add Button */
+  .reg-dev-add-btn {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    padding: 8px 16px !important;
+    font-size: 0.9rem !important;
+    position: static !important;
+    left: 0 !important;
+    top: 0 !important;
+    order: 1 !important;
+    white-space: nowrap !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* Row 2: Search Bar Container */
+  .reg-dev-search-filter-bar {
+    flex: 1 1 auto !important;
+    max-width: 250px !important;
+    min-width: 150px !important;
+    width: auto !important;
+    margin-left: 0 !important;
+    order: 2 !important;
+    position: relative !important;
+    padding: 0 12px !important;
+  }
+
+  .reg-dev-search-bar {
+    font-size: 0.9rem !important;
+    width: 100% !important;
+    min-width: auto !important;
+    padding: 8px 30px 8px 10px !important;
+  }
+
+  .preg-dev-search-icon {
+    position: absolute !important;
+    right: 16px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* Row 2: Filter Button */
+  .reg-dev-filter-btn {
+    flex: 0 0 auto !important;
+    position: static !important;
+    left: 0 !important;
+    order: 2 !important;
+    font-size: 1.1rem !important;
+    padding: 8px !important;
+  }
+
+  /* Row 2: Pagination */
+  .reg-dev-table-footer {
+    margin-left: 0 !important;
+    flex: 0 0 auto !important;
+    order: 2 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 8px !important;
+    padding: 0 !important;
+    align-items: center !important;
+    width: auto !important;
+    position: static !important;
+    left: 0 !important;
+    top: 0 !important;
+  }
+
+  .reg-dev-pagination-info {
+    position: static !important;
+    left: 0 !important;
+    font-size: 0.85rem !important;
+    white-space: nowrap !important;
+    display: block !important;
+  }
+
+  .reg-dev-pagination-controls {
+    display: flex !important;
+    gap: 4px !important;
+    position: static !important;
+    left: 0 !important;
+  }
+
+  .reg-dev-pagination-controls button {
+    position: static !important;
+    left: 0 !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    padding: 6px 10px !important;
+    font-size: 0.85rem !important;
+  }
+
+  /* Row 3: Table Container */
+  .reg-dev-table-container {
+    margin-left: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin-top: 16px !important;
+    padding: 0 1rem !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    order: 3 !important;
+  }
+
+  .reg-dev-table-container table {
+    min-width: 600px !important;
+    margin-left: 0 !important;
+    width: 100% !important;
+    margin-top: 0 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .th-reg-com,
+  .td-reg-com {
+    padding: 0.5rem !important;
+    font-size: 0.8rem !important;
+  }
+
+  .loading-spinner {
+    width: 80px !important;
+    height: 80px !important;
+    border-width: 12px !important;
+  }
+
+  .loading-text {
+    font-size: 1.2em !important;
+    margin-left: 0 !important;
+  }
+}
+
+/* ============================================
+   MOBILE - 480px and Below
+============================================ */
+
+@media (max-width: 480px) {
+  .reg-dev-header-card {
+    margin: 10px 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 0.75rem 0.5rem !important;
+    gap: 8px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    position: static !important;
+    left: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Row 1: Title - Full Width */
+  .reg-dev-title {
+    font-size: 1.2rem !important;
+    text-align: center !important;
+    width: 100% !important;
+    flex: 1 1 100% !important;
+    order: 1 !important;
+    margin-bottom: 0 !important;
+    position: static !important;
+    left: 0 !important;
+  }
+
+  /* Row 1: Add Button - Full Width Below Title */
+  .reg-dev-add-btn {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    justify-content: center !important;
+    order: 1 !important;
+    padding: 10px 16px !important;
+    font-size: 0.9rem !important;
+    gap: 6px !important;
+    position: static !important;
+    top: 0 !important;
+    left: 0 !important;
+    margin-bottom: 8px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Row 2: Search Bar Container */
+  .reg-dev-search-filter-bar {
+    flex: 1 1 auto !important;
+    max-width: 140px !important;
+    min-width: 100px !important;
+    width: auto !important;
+    order: 2 !important;
+    padding: 0 10px !important;
+    margin-left: 0 !important;
+    position: relative !important;
+    right: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .reg-dev-search-bar {
+    font-size: 0.85rem !important;
+    padding: 8px 28px 8px 8px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .preg-dev-search-icon {
+    position: absolute !important;
+    right: 14px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    font-size: 0.85rem !important;
+    pointer-events: none !important;
+  }
+
+  /* Row 2: Filter Button */
+  .reg-dev-filter-btn {
+    flex: 0 0 auto !important;
+    order: 2 !important;
+    font-size: 1rem !important;
+    padding: 8px !important;
+    position: static !important;
+    left: 0 !important;
+  }
+
+  /* Row 2: Pagination - Compact */
+  .reg-dev-table-footer {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    order: 2 !important;
+    gap: 6px !important;
+    padding: 0 !important;
+    position: static !important;
+    top: 0 !important;
+    left: 0 !important;
+    margin-left: 0 !important;
+    flex-direction: row !important;
+  }
+
+  .reg-dev-pagination-info {
+    font-size: 0.75rem !important;
+    display: block !important;
+    position: static !important;
+    left: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  .reg-dev-pagination-controls {
+    gap: 3px !important;
+    position: static !important;
+    left: 0 !important;
+  }
+
+  .reg-dev-pagination-controls button {
+    height: 28px !important;
+    min-width: 28px !important;
+    padding: 5px 8px !important;
+    font-size: 0.75rem !important;
+    position: static !important;
+    left: 0 !important;
+  }
+
+  .reg-dev-arrow-icon {
+    font-size: 0.8rem !important;
+  }
+
+  /* Row 3: Table Container - Full Width with Scroll */
+  .reg-dev-table-container {
+    padding: 0 0.5rem !important;
+    margin-top: 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    order: 3 !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    box-sizing: border-box !important;
+  }
+
+  .reg-dev-table-container table {
+    min-width: 500px !important;
+    font-size: 0.85rem !important;
+    margin-left: 0 !important;
+    margin-top: 0 !important;
+    width: 100% !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .th-reg-com,
+  .td-reg-com {
+    padding: 0.4rem !important;
+    font-size: 0.75rem !important;
+    white-space: nowrap !important;
+  }
+
+  .loading-spinner {
+    width: 60px !important;
+    height: 60px !important;
+    border-width: 8px !important;
+  }
+
+  .loading-text {
+    font-size: 1em !important;
+    margin-top: 10px !important;
+    margin-left: 0 !important;
+  }
+}
+
+/* ============================================
+   EXTRA SMALL MOBILE - 360px and Below
+============================================ */
+
+@media (max-width: 360px) {
+  .reg-dev-header-card {
+    padding: 0.5rem 0.25rem !important;
+    gap: 6px !important;
+    position: static !important;
+    left: 0 !important;
+  }
+
+  /* Row 1: Title */
+  .reg-dev-title {
+    font-size: 1.1rem !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* Row 1: Add Button */
+  .reg-dev-add-btn {
+    padding: 8px 12px !important;
+    font-size: 0.85rem !important;
+    gap: 4px !important;
+    margin-bottom: 6px !important;
+  }
+
+  /* Row 2: Search Bar - Smaller */
+  .reg-dev-search-filter-bar {
+    max-width: 110px !important;
+    min-width: 90px !important;
+    padding: 0 8px !important;
+  }
+
+  .reg-dev-search-bar {
+    font-size: 0.8rem !important;
+    padding: 7px 26px 7px 6px !important;
+  }
+
+  .preg-dev-search-icon {
+    font-size: 0.8rem !important;
+    right: 12px !important;
+  }
+
+  /* Row 2: Filter Button */
+  .reg-dev-filter-btn {
+    font-size: 0.95rem !important;
+    padding: 6px !important;
+  }
+
+  /* Row 2: Pagination - More Compact */
+  .reg-dev-pagination-info {
+    font-size: 0.7rem !important;
+  }
+
+  .reg-dev-pagination-controls button {
+    height: 26px !important;
+    min-width: 26px !important;
+    padding: 4px 6px !important;
+    font-size: 0.7rem !important;
+  }
+
+  .reg-dev-arrow-icon {
+    font-size: 0.75rem !important;
+  }
+
+  /* Row 3: Table */
+  .reg-dev-table-container {
+    padding: 0 0.25rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .reg-dev-table-container table {
+    min-width: 450px !important;
+  }
+
+  .th-reg-com,
+  .td-reg-com {
+    padding: 0.3rem !important;
+    font-size: 0.7rem !important;
+  }
+}
+
+/* ============================================
+   LANDSCAPE MOBILE ORIENTATION
+============================================ */
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .reg-dev-header-card {
+    padding: 0.75rem 1rem !important;
+    gap: 8px !important;
+    position: static !important;
+    left: 0 !important;
+  }
+
+  /* Row 1: Title and Add Button Side by Side */
+  .reg-dev-title {
+    font-size: 1.2rem !important;
+    text-align: left !important;
+    flex: 1 1 auto !important;
+    margin-bottom: 0 !important;
+  }
+
+  .reg-dev-add-btn {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    font-size: 0.85rem !important;
+    padding: 7px 14px !important;
+  }
+
+  /* Row 2: Search, Filter, Pagination in one row */
+  .reg-dev-search-filter-bar {
+    max-width: 200px !important;
+    min-width: 150px !important;
+    padding: 0 12px !important;
+  }
+
+  .reg-dev-search-bar {
+    font-size: 0.85rem !important;
+  }
+
+  .preg-dev-search-icon {
+    right: 16px !important;
+  }
+
+  .reg-dev-filter-btn {
+    font-size: 1rem !important;
+  }
+
+  .reg-dev-pagination-info {
+    display: block !important;
+    font-size: 0.85rem !important;
+  }
+
+  .reg-dev-pagination-controls button {
+    height: 28px !important;
+  }
+
+  /* Row 3: Table */
+  .reg-dev-table-container {
+    margin-top: 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .th-reg-com,
+  .td-reg-com {
+    padding: 0.4rem !important;
+    font-size: 0.75rem !important;
+  }
+}
+
+/* Small Landscape Phones (480px landscape) */
+@media (max-width: 480px) and (orientation: landscape) {
+  .reg-dev-header-card {
+    padding: 0.5rem 0.75rem !important;
+    position: relative;
+    left: 100px;
+  }
+
+  .reg-dev-title {
+    font-size: 1rem !important;
+  }
+
+  .reg-dev-add-btn {
+    padding: 6px 12px !important;
+    font-size: 0.8rem !important;
+  }
+
+  .reg-dev-search-filter-bar {
+    max-width: 180px !important;
+    min-width: 120px !important;
+  }
+
+  .reg-dev-search-bar {
+    font-size: 0.8rem !important;
+    padding: 6px 28px 6px 8px !important;
+  }
+
+  .preg-dev-search-icon {
+    right: 14px !important;
+  }
+
+  .reg-dev-pagination-info {
+    font-size: 0.8rem !important;
+  }
+
+  .reg-dev-pagination-controls button {
+    height: 26px !important;
+    min-width: 26px !important;
+  }
+
+  .th-reg-com,
+  .td-reg-com {
+    padding: 0.35rem !important;
+    font-size: 0.7rem !important;
+  }
+}
+
+

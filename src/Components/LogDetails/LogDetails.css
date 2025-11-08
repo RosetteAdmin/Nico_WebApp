@@ -1251,11 +1251,24 @@
   }
 
   .graph-section .recharts-responsive-container {
-    width: 350% !important;
+    width: 225% !important;
     height: 300px !important; /* Reduced from 500px */
-    right:210px;
+    right:180px;
     position: relative;
+    top:15px;
   }
+
+  .graph-section .recharts-legend-wrapper {
+   display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-rows: repeat(2, auto) !important;
+    gap: 6px !important;
+    padding: 4px 0 !important;
+    width: 100% !important;
+    justify-items: center !important;
+    align-items: center !important;
+    margin-top: -10px;
+}
 
   .log-details-header {
     padding: 10px;
@@ -1411,15 +1424,23 @@
   }
 }
 
-
 @media (max-width: 425px) and (min-width: 375px) {
   .graph-section .recharts-responsive-container {
     width: 300% !important;
     height: 300px !important; /* Reduced from 500px */
-    right:210px;
+    right:200px;
     position: relative;
   }
 
   
 }
 
+@media (max-width: 375px) and (min-width: 320px) {
+  .graph-section .recharts-responsive-container {
+    width: 230% !important;
+    height: 300px !important; /* Reduced from 500px */
+    right:170px;
+    position: relative;
+  }
+
+}
