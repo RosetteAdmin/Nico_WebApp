@@ -607,7 +607,8 @@
 @media (max-width: 480px) {
   .log-details-container {
     padding: 12px;
-    margin: 70px 5px 0 5px;
+    margin: 70px 5px 0 120px;
+    width:130%;
   }
 
   .header-actions {
@@ -739,3 +740,686 @@
     flex: 1;
   }
 }
+
+
+/* ============================================ */
+/* MOBILE RESPONSIVE  */
+/* ============================================ */
+
+/* Tablets and smaller laptops (1199px and below) */
+@media (max-width: 1199px) {
+  .log-details-container {
+    margin: 90px 20px 0 20px !important;
+    max-width: none !important;
+    min-width: auto !important;
+    padding: 20px;
+  }
+
+  .log-details-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .filter-inputs {
+    flex-direction: column;
+  }
+
+  .filter-group {
+    max-width: none;
+  }
+}
+
+/* Tablets (768px - 1024px) */
+@media (max-width: 1024px) {
+  .log-details-container {
+    margin: 90px 15px 0 15px !important;
+    padding: 18px;
+  }
+
+  .logs-table {
+    font-size: 13px;
+  }
+
+  .logs-table th,
+  .logs-table td {
+    padding: 10px 12px;
+  }
+}
+
+/* Mobile Landscape & Small Tablets (768px and below) */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden !important;
+  }
+
+  .log-details-container {
+    padding: 16px !important;
+    margin: 140px 10px 20px 10px !important;
+    width: calc(100% - 20px) !important;
+    max-width: 100vw !important;
+    min-width: auto !important;
+    box-sizing: border-box;
+  }
+
+  /* Header - Stack vertically */
+  .log-details-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 15px;
+    padding: 15px;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  .header-left {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .back-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 16px;
+    font-size: 15px;
+  }
+
+  .header-titles {
+    width: 100%;
+  }
+
+  .header-titles h2 {
+    font-size: 20px;
+    white-space: normal;
+    word-wrap: break-word;
+  }
+
+  .device-info-text {
+    font-size: 13px;
+  }
+
+  /* Header Actions - Stack vertically */
+  .header-actions {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .filter-btn,
+  .csv-btn,
+  .pdf-btn {
+    width: 100%;
+    justify-content: center;
+    font-size: 14px;
+    padding: 12px 16px;
+  }
+
+  /* Filter Panel */
+  .filter-panel {
+    padding: 15px;
+  }
+
+  .filter-inputs {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .filter-group {
+    min-width: 100%;
+    max-width: 100%;
+  }
+
+  .filter-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .apply-filter-btn,
+  .clear-filter-btn {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 15px;
+  }
+
+  /* Records Info */
+  .records-info {
+    padding: 10px 15px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .records-info p {
+    font-size: 13px;
+  }
+
+  /* Table - Horizontal Scroll */
+  .logs-table-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: calc(100vh - 500px);
+  }
+
+  .logs-table {
+    font-size: 12px;
+    min-width: 700px;
+  }
+
+  .logs-table th,
+  .logs-table td {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .status-badge {
+    font-size: 11px;
+    padding: 3px 10px;
+  }
+
+  /* Pagination - Wrap */
+  .pagination-container {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .pagination-btn {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+
+  .pagination-numbers {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .pagination-number {
+    min-width: 36px;
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  /* Graph Section */
+  .graph-section {
+    padding: 15px;
+  }
+
+  .graph-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .graph-header h3 {
+    font-size: 1.3rem;
+  }
+
+  .graph-controls {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .metric-selector {
+    width: 100%;
+  }
+
+  .graph-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 20px;
+  }
+}
+
+/* Mobile Portrait (480px and below) */
+@media (max-width: 480px) {
+  body {
+    overflow-x: hidden !important;
+  }
+ 
+  
+  
+  .graph-section {
+    padding: 10px !important;
+    margin: 10px 0 !important;
+    border-radius: 6px;
+  }
+
+  .graph-header h3 {
+    font-size: 1.1rem !important;
+  }
+
+  .graph-header h3 span {
+    display: block !important; /* Put subtitle on new line */
+    font-size: 13px !important;
+    margin-top: 4px;
+  }
+
+  .graph-controls label {
+    font-size: 15px;
+  }
+
+  .graph-section .recharts-legend-wrapper {
+   display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-rows: repeat(2, auto) !important;
+    gap: 6px !important;
+    padding: 4px 0 !important;
+    width: 100% !important;
+    justify-items: center !important;
+    align-items: center !important;
+} 
+
+.graph-section .recharts-legend-item {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  width: 100% !important; 
+  position: relative;
+  left:100px;
+  top:-40px;
+}
+
+.graph-section .recharts-legend-item-text {
+  white-space: nowrap !important;
+  word-break: break-word !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  font-size: 10px !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  max-width: 100% !important;
+}
+
+.graph-section .recharts-line-icon {
+  flex-shrink: 0 !important;
+    margin-right: 3px !important;
+    width: 12px !important;
+    height: 12px !important;
+}
+
+  .metric-selector {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  /* Smaller graph on mobile */
+  .graph-section .recharts-responsive-container {
+    width: 220% !important;
+    height: 300px !important; /* Reduced from 500px */
+    right:200px;
+    position: relative;
+  }
+
+  /* Smaller fonts */
+  .recharts-cartesian-axis-tick-value {
+    font-size: 13px !important;
+  }
+
+  .recharts-legend-item-text {
+    font-size: 13px !important;
+
+    
+  }
+
+  /* Reduce tooltip size */
+  .custom-tooltip {
+    padding: 8px !important;
+    font-size: 11px !important;
+  }
+
+  .tooltip-time {
+    font-size: 11px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .custom-tooltip p {
+    font-size: 10px !important;
+    margin: 2px 0 !important;
+  }
+
+  /* Graph button full width */
+  .graph-btn {
+    width: 100% !important;
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+  
+
+  .log-details-container {
+    padding: 12px !important;
+    margin: 120px 8px 15px 20px;
+    width: calc(140% - 16px) !important;
+    max-width: 100vw !important;
+    border-radius: 12px;
+    left:110px;
+    position: relative;
+    top:-90px;
+  }
+
+  /* Header */
+  .log-details-header {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .back-btn {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+
+  .header-titles h2 {
+    font-size: 18px;
+  }
+
+  .device-info-text {
+    font-size: 12px;
+  }
+
+  .filter-btn,
+  .csv-btn,
+  .pdf-btn {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  /* Hide text in export buttons, keep icons only */
+  .csv-btn span:not(.svg-inline--fa):not(.fa),
+  .pdf-btn span:not(.svg-inline--fa):not(.fa) {
+    display: none;
+  }
+
+  /* Filter Panel */
+  .filter-panel {
+    padding: 12px;
+    width: 90%;
+    
+  }
+
+  .filter-group label {
+    font-size: 13px;
+  }
+
+  .date-input {
+    padding: 10px 2px;
+    font-size: 13px;
+  }
+
+  .apply-filter-btn,
+  .clear-filter-btn {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+
+  /* Records Info */
+  .records-info {
+    padding: 10px 12px;
+  }
+
+  .records-info p {
+    font-size: 12px;
+  }
+
+  /* Table */
+  .logs-table-container {
+    max-height: calc(100vh - 350px);
+    border-radius: 6px;
+  }
+
+  .logs-table {
+    font-size: 11px;
+    min-width: 600px;
+  }
+
+  .logs-table th,
+  .logs-table td {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+
+  .logs-table th {
+    font-size: 10px;
+    padding: 8px 8px;
+  }
+
+  .status-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+  }
+
+  /* Pagination */
+  .pagination-container {
+    padding: 3px;
+    gap: 6px;
+  }
+
+  .pagination-btn {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+
+  .pagination-number {
+    min-width: 32px;
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  /* Graph Section */
+  .graph-section {
+    padding: 12px;
+  }
+
+  .graph-header h3 {
+    font-size: 1.2rem;
+  }
+
+  .metric-selector {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .graph-btn {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+
+  /* Loading & Error States */
+  .loading-state,
+  .error-state,
+  .empty-state {
+    padding: 40px 15px;
+    font-size: 14px;
+  }
+}
+
+/* Extra Small Phones (375px and below) */
+@media (max-width: 375px) {
+  .log-details-container {
+    padding: 10px !important;
+    margin: 110px 5px 10px 30px !important;
+    width: calc(150% - 10px) !important;
+  }
+
+  .graph-section .recharts-responsive-container {
+    width: 350% !important;
+    height: 300px !important; /* Reduced from 500px */
+    right:210px;
+    position: relative;
+  }
+
+  .log-details-header {
+    padding: 10px;
+  }
+
+  .header-titles h2 {
+    font-size: 16px;
+  }
+
+  .device-info-text {
+    font-size: 11px;
+  }
+
+  .back-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .filter-btn,
+  .csv-btn,
+  .pdf-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .logs-table {
+    min-width: 550px;
+  }
+
+  .logs-table th,
+  .logs-table td {
+    padding: 5px 6px;
+    font-size: 10px;
+  }
+
+  .status-badge {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  .pagination-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .pagination-number {
+    min-width: 28px;
+    padding: 5px 6px;
+    font-size: 11px;
+  }
+}
+
+/* iPhone SE and smaller (320px) */
+@media (max-width: 320px) {
+  .log-details-container {
+    padding: 8px !important;
+    margin: 120px 5px 10px 5px !important;
+    width: calc(200% - 10px) !important;
+  }
+
+  .log-details-header {
+    padding: 8px;
+  }
+
+  .header-titles h2 {
+    font-size: 15px;
+  }
+
+  .device-info-text {
+    font-size: 10px;
+  }
+
+  .back-btn {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .filter-btn,
+  .csv-btn,
+  .pdf-btn {
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+
+  .filter-panel {
+    padding: 10px;
+  }
+
+  .date-input {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .logs-table {
+    min-width: 500px;
+  }
+
+  .logs-table th,
+  .logs-table td {
+    padding: 4px 5px;
+    font-size: 9px;
+  }
+
+  .status-badge {
+    font-size: 8px;
+    padding: 1px 5px;
+  }
+
+  .pagination-btn {
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+
+  .pagination-number {
+    min-width: 26px;
+    padding: 4px 5px;
+    font-size: 10px;
+  }
+
+  .graph-header h3 {
+    font-size: 1rem;
+  }
+
+  .metric-selector {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .graph-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+
+/* Landscape orientation fixes */
+@media (max-width: 768px) and (orientation: landscape) {
+  .log-details-container {
+    margin-top: 100px !important;
+  }
+
+  .logs-table-container {
+    max-height: calc(100vh - 350px);
+  }
+}
+
+@media (max-width: 480px) and (orientation: landscape) {
+  .log-details-container {
+    margin-top: 80px !important;
+  }
+
+  .logs-table-container {
+    max-height: calc(100vh - 280px);
+  }
+}
+
+
+@media (max-width: 425px) and (min-width: 375px) {
+  .graph-section .recharts-responsive-container {
+    width: 300% !important;
+    height: 300px !important; /* Reduced from 500px */
+    right:210px;
+    position: relative;
+  }
+
+  
+}
+

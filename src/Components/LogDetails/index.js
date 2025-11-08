@@ -951,7 +951,7 @@ const LogDetails = () => {
               ({isSingleDay ? 'Hourly Average' : 'Daily Average'})
             </span>
           </h3>
-          <div className="graph-controls">
+          <div className="graph-controls"> 
             <label>View Metric:</label>
             <select 
               value={selectedMetric} 
