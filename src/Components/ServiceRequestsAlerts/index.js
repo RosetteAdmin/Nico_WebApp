@@ -26,49 +26,49 @@ const ServiceAlerts = () => {
 
   return (
     <>
-      <div className="service-bar-container">
-        <h2 className="service-re-ale-title">Service Requests & Alerts</h2>
+      <div className="sra-bar-container">
+        <h2 className="sra-title">Service Requests & Alerts</h2>
 
         <input
           type="text"
-          className="input-ser-ale-search"
+          className="sra-search-input"
           placeholder="Search"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <span className="service-ale-re-search-icon">
+        <span className="sra-search-icon">
           <FontAwesomeIcon icon={faSearch} />
         </span>
-        <button className="service-req-ale-filter-button">
+        <button className="sra-filter-button">
           <FontAwesomeIcon icon={faSliders} />
         </button>
       </div>
 
-      <div className="service-re-ale-container">
-        <div className="service-re-ale-header"></div>
+      <div className="sra-container">
+        <div className="sra-header"></div>
 
-        <div className="service-re-ale-tabs">
+        <div className="sra-tabs">
           <button
-            className={`service-re-ale-tab left ${activeTab === "User Generated" ? "active" : ""}`}
+            className={`sra-tab left ${activeTab === "User Generated" ? "active" : ""}`}
             onClick={() => setActiveTab("User Generated")}
           >
             User Generated
           </button>
           <button
-            className={`service-re-ale-tab center ${activeTab === "Device Triggered" ? "active" : ""}`}
+            className={`sra-tab center ${activeTab === "Device Triggered" ? "active" : ""}`}
             onClick={() => setActiveTab("Device Triggered")}
           >
             Device Triggered
           </button>
           <button
-            className={`service-re-ale-tab right ${activeTab === "Sensor Alerts" ? "active" : ""}`}
+            className={`sra-tab right ${activeTab === "Sensor Alerts" ? "active" : ""}`}
             onClick={() => setActiveTab("Sensor Alerts")}
           >
             Sensor Alerts
           </button>
         </div>
 
-        <table className="service-re-ale-table">
+        <table className="sra-table">
           <thead>
             <tr>
               <th>Service ID</th>
@@ -87,14 +87,22 @@ const ServiceAlerts = () => {
                   <td>{req.device}</td>
                   <td>{req.sector}</td>
                   <td>
-                    <button className="service-re-ale-edit">Edit</button>
-                    <button className="service-re-ale-deploy">Deploy</button>
+                    <button className="sra-edit">Edit</button>
+                    <button className="sra-deploy">Deploy</button>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="5" style={{ textAlign: "center", padding: "40px", color: "#1a1a1aff",fontWeight:"400" }}>
+                <td
+                  colSpan="5"
+                  style={{
+                    textAlign: "center",
+                    padding: "40px",
+                    color: "#1a1a1aff",
+                    fontWeight: "400",
+                  }}
+                >
                   No Alerts
                 </td>
               </tr>

@@ -1,5 +1,5 @@
 /* Main Container */
-.service-re-ale-container {
+.sra-container {
     margin-top: 113px;
     background: white;
     padding: 5px 20px;
@@ -12,7 +12,7 @@
 }
 
 /* Title Styling */
-.service-re-ale-title {
+.sra-title {
   font-size: 1.7rem;
   font-weight: bold;
   text-align: start;
@@ -22,7 +22,7 @@
   white-space:nowrap;
 }
 
-.service-re-ale-search-bar-container {
+.sra-search-bar-container {
     display: flex;
     align-items: center;
     border: 1px solid #ccc;
@@ -32,7 +32,7 @@
     background-color: #fff;
 }
 
-.service-re-ale-header {
+.sra-header {
     display: flex;
     justify-content: space-between;
     /* Pushes elements to opposite sides */
@@ -42,7 +42,7 @@
 
 }
 
-.input-ser-ale-search {
+.sra-search-input {
     width: 100%;
   padding: 0.5rem 2.5rem 0.5rem 1rem;
   border: 1px solid black;
@@ -52,14 +52,14 @@
   position: relative;
 }
 
-.service-re-ale-actions {
+.sra-actions {
     display: flex;
     align-items: center;
     gap: 10px;
     /* Space between search bar and filter button */
 }
 
-.service-ale-re-search-icon {
+.sra-search-icon {
   position: relative;
   right: 260px; /* Adjusted for better alignment */
   transform: translateY(-50%);
@@ -68,7 +68,7 @@
   top:12px;
 }
 
-.service-req-ale-filter-button {
+.sra-filter-button {
   background: none;
   border: none;
   font-size: 1.2rem;
@@ -79,7 +79,7 @@
 }
 
 /* Tabs Section */
-.service-re-ale-tabs {
+.sra-tabs {
     display: flex;
     border-bottom: 2px solid #ddd;
     justify-content: space-between;
@@ -87,7 +87,7 @@
     padding: 10px 0;
 }
 
-.service-re-ale-tab {
+.sra-tab {
     padding: 10px 20px;
     background: transparent;
     border: none;
@@ -99,7 +99,7 @@
     border-bottom: 3px solid transparent;
 }
 
-.service-re-ale-tab.active {
+.sra-tab.active {
     color:rgb(24, 123, 190); /* White text */
     font-weight: bold;
     border-radius: 4px;
@@ -107,13 +107,13 @@
 
 
 /* Table Styling */
-.service-re-ale-table {
+.sra-table {
     width: 100%;
     border-collapse: collapse;
     background: white;
 }
 
-.service-re-ale-table th {
+.sra-table th {
     background: #f4f4f4;
     text-align: left;
     padding: 12px;
@@ -121,7 +121,7 @@
     color: #555;
 }
 
-.service-re-ale-table td {
+.sra-table td {
     padding: 12px;
     font-size: 14px;
     color: #333;
@@ -129,8 +129,8 @@
 }
 
 /* Action Buttons */
-.service-re-ale-edit,
-.service-re-ale-deploy {
+.sra-edit,
+.sra-deploy {
     padding: 8px 12px;
     border: none;
     border-radius: 5px;
@@ -140,101 +140,101 @@
     margin-right: 5px;
 }
 
-.service-re-ale-edit {
+.sra-edit {
     background: #f0f0f0;
     color: #333;
 }
 
-.service-re-ale-deploy {
+.sra-deploy {
     background: #007bff;
     color: white;
 }
 
-.service-re-ale-edit:hover {
+.sra-edit:hover {
     background: #e0e0e0;
 }
 
-.service-re-ale-deploy:hover {
+.sra-deploy:hover {
     background: #0056b3;
 }
 
 /* Responsive Adjustments */
 @media (max-width: 1024px) {
-    .service-re-ale-container {
+    .sra-container {
         padding: 15px;
     }
 
-    .service-re-ale-title {
+    .sra-title {
         font-size: 20px;
     }
 
-    .service-re-ale-tab {
+    .sra-tab {
         font-size: 14px;
         padding: 8px 15px;
     }
 
-    .service-re-ale-table th,
-    .service-re-ale-table td {
+    .sra-table th,
+    .sra-table td {
         padding: 10px;
         font-size: 13px;
     }
 }
 
 @media (max-width: 768px) {
-    .service-re-ale-tabs {
+    .sra-tabs {
         flex-wrap: wrap;
     }
 
-    .service-re-ale-tab {
+    .sra-tab {
         flex: 1;
         text-align: center;
         font-size: 14px;
         padding: 8px;
     }
 
-    .service-re-ale-table {
+    .sra-table {
         display: block;
         overflow-x: auto;
     }
 
-    .service-re-ale-table th,
-    .service-re-ale-table td {
+    .sra-table th,
+    .sra-table td {
         font-size: 12px;
         padding: 8px;
     }
 
-    .service-re-ale-edit,
-    .service-re-ale-deploy {
+    .sra-edit,
+    .sra-deploy {
         font-size: 12px;
         padding: 6px 10px;
     }
 }
 
 @media (max-width: 480px) {
-    .service-re-ale-title {
+    .sra-title {
         font-size: 18px;
     }
 
-    .service-re-ale-tab {
+    .sra-tab {
         font-size: 12px;
         padding: 6px;
     }
 
-    .service-re-ale-table th,
-    .service-re-ale-table td {
+    .sra-table th,
+    .sra-table td {
         font-size: 11px;
         padding: 6px;
     }
 
-    .service-re-ale-edit,
-    .service-re-ale-deploy {
+    .sra-edit,
+    .sra-deploy {
         font-size: 10px;
         padding: 5px 8px;
     }
 }
 
 
-.service-bar-container {
+.sra-bar-container {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -246,4 +246,173 @@
   left: 680px;
   z-index: 1;
   border:none;
+}
+
+/* Responsive fixes for Service Requests & Alerts page only */
+
+/* Tablet and below: stop right-shift and allow full width */
+@media (max-width: 1200px) {
+  .sra-container {
+    width: 100%;
+    margin-left: 0;
+  }
+  .sra-bar-container {
+    max-width: 100%;
+    left: auto;
+  }
+}
+
+/* Mobile/tablet: lay out the toolbar in a fluid grid (no absolute offsets) */
+@media (max-width: 768px) {
+  .sra-bar-container {
+    position: static;                 
+    top: auto;
+    left: auto;
+    width: 70%;
+    max-width: 100%;
+    display: grid;                   
+    grid-template-columns: 24px 1fr 40px; 
+    align-items: center;
+    gap: 8px;
+    padding-inline: 12px;
+    box-sizing: border-box;
+  }
+
+  .sra-title {
+    grid-column: 1 / -1;
+    right: 0;                        
+    white-space: normal;             
+    margin: 0;
+  }
+
+  .sra-search-icon {
+    position: static;                  
+    right: auto;
+    top: auto;
+    transform: none;
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: start;
+  }
+
+  .sra-search-input {
+    position: static;                  
+    right: 0;
+    grid-column: 2;
+    grid-row: 2;
+    width: 100%;
+  }
+
+  .sra-filter-button {
+    position: static;                  
+    right: 0;
+    grid-column: 3;
+    grid-row: 2;
+    justify-self: end;
+  }
+
+  /* Container padding tweak for small screens */
+  .sra-container {
+    padding: 10px 12px;
+    overflow-x: hidden;                
+  }
+}
+
+/* Very small phones: keep the toolbar readable */
+@media (max-width: 400px) {
+  .sra-bar-container {
+    grid-template-columns: 20px 1fr 36px;
+    gap: 6px;
+  }
+  .sra-title {
+    font-size: 18px;                   
+  }
+}
+
+@media (max-width: 1200px) {
+  .sra-container {
+    width: 85%;
+    margin-left: 0;
+    overflow-x: hidden; 
+  }
+
+  .sra-bar-container {
+    max-width: 100%;
+    left: auto;
+  }
+
+  .sra-title {
+    right: 0;
+    white-space: normal;
+  }
+}
+
+/* Mobile layout for the toolbar: 2 rows using CSS grid */
+@media (max-width: 768px) {
+  .sra-bar-container {
+    position: static;                
+    top: auto;
+    left: auto;
+    width: 80%;
+    max-width: 100%;
+    display: grid;                    /* grid for clean alignment */
+    grid-template-areas:
+      "sra-title sra-title sra-title"
+      "sra-icon  sra-input  sra-filter";
+    grid-template-columns: 24px 1fr 40px; /* icon | input | filter */
+    grid-auto-rows: auto;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    box-sizing: border-box;
+  }
+
+  .sra-title {
+    grid-area: sra-title;
+    margin: 0;
+  }
+
+  /* Put icon left of the input, remove previous offsets */
+  .sra-search-icon {
+    grid-area: sra-icon;
+    position: static;
+    top: auto;
+    right: auto;
+    transform: none;
+    justify-self: center;
+    align-self: center;
+  }
+
+  /* Input spans the middle column */
+  .sra-search-input {
+    grid-area: sra-input;
+    position: static; /* cancel right offset */
+    right: auto;
+    width: 100%;
+  }
+
+  /* Filter button on the right */
+  .sra-filter-button {
+    grid-area: sra-filter;
+    position: static;
+    right: auto;
+    justify-self: end;
+  }
+
+  /* Card padding tweak */
+  .sra-container {
+    padding: 10px 12px;
+  }
+}
+
+/* Very small phones: tighten spacing slightly */
+@media (max-width: 400px) {
+  .sra-bar-container {
+    grid-template-columns: 20px 1fr 36px;
+    gap: 6px;
+  }
+
+  .sra-title {
+    font-size: 18px; /* matches your 480px reduction */
+  }
 }

@@ -38,7 +38,7 @@
 }
 
 /* ============================================
-   DESKTOP STYLES (UNCHANGED)
+   DESKTOP STYLES 
 ============================================ */
 
 .reg-dev-header-card {
@@ -269,9 +269,10 @@
 
 /* ============================================
    MOBILE RESPONSIVE - 768px and Below
-   Row 1: Title + Add Button
-   Row 2: Search + Filter + Pagination
-   Row 3: Table
+   Row 1: Title
+   Row 2: Search Bar
+   Row 3: Add Button + Pagination
+   Row 4: Table
 ============================================ */
 
 @media (max-width: 768px) {
@@ -284,524 +285,34 @@
     flex-wrap: wrap !important;
     align-items: center !important;
     padding: 1rem !important;
-    gap: 10px !important;
+    gap: 0 !important;
     margin-top: 20px !important;
-  }
-
-  /* Row 1: Title */
-  .reg-dev-title {
-    font-size: 1.4rem !important;
-    text-align: left !important;
-    white-space: normal !important;
     position: static !important;
-    left: 0 !important;
-    flex: 1 1 auto !important;
-    order: 1 !important;
-    margin-bottom: 0 !important;
-  }
-
-  /* Row 1: Add Button */
-  .reg-dev-add-btn {
-    flex: 0 0 auto !important;
-    width: auto !important;
-    padding: 8px 16px !important;
-    font-size: 0.9rem !important;
-    position: static !important;
-    left: 0 !important;
-    top: 0 !important;
-    order: 1 !important;
-    white-space: nowrap !important;
-    margin-bottom: 0 !important;
-  }
-
-  /* Row 2: Search Bar */
-  .reg-dev-search-filter-bar {
-    flex: 1 1 auto !important;
-    max-width: 250px !important;
-    min-width: 150px !important;
-    width: auto !important;
-    margin-left: 0 !important;
-    order: 2 !important;
-    position: static !important;
-  }
-
-  .reg-dev-search-bar {
-    font-size: 0.9rem !important;
-    width: 100% !important;
-    min-width: auto !important;
-    padding: 8px 35px 8px 10px !important;
-  }
-
-  /* Row 2: Filter Button */
-  .reg-dev-filter-btn {
-    flex: 0 0 auto !important;
-    position: static !important;
-    left: 0 !important;
-    order: 2 !important;
-    font-size: 1.1rem !important;
-    padding: 8px !important;
-  }
-
-  /* Row 2: Pagination */
-  .reg-dev-table-footer {
-    margin-left: 0 !important;
-    flex: 0 0 auto !important;
-    order: 2 !important;
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 8px !important;
-    padding: 0 !important;
-    align-items: center !important;
-    width: auto !important;
-    position: static !important;
-    left: 0 !important;
-    top: 0 !important;
-  }
-
-  .reg-dev-pagination-info {
-    position: static !important;
-    left: 0 !important;
-    font-size: 0.85rem !important;
-    white-space: nowrap !important;
-    display: block !important;
-  }
-
-  .reg-dev-pagination-controls {
-    display: flex !important;
-    gap: 4px !important;
-    position: static !important;
-    left: 0 !important;
-  }
-
-  .reg-dev-pagination-controls button {
-    position: static !important;
-    left: 0 !important;
-    height: 30px !important;
-    min-width: 30px !important;
-    padding: 6px 10px !important;
-    font-size: 0.85rem !important;
-  }
-
-  /* Row 3: Table */
-  .reg-dev-table-container {
-    margin-left: 0 !important;
-    max-width: 100% !important;
-    width: 100% !important;
-    margin-top: 16px !important;
-    padding: 0 1rem !important;
-    overflow-x: auto !important;
-    order: 3 !important;
-  }
-
-  .reg-dev-table-container table {
-    min-width: 600px !important;
-    margin-left: 0 !important;
-    width: 100% !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
-  }
-
-  .th-reg-com,
-  .td-reg-com {
-    padding: 0.5rem !important;
-    font-size: 0.8rem !important;
-  }
-
-  .loading-spinner {
-    width: 80px !important;
-    height: 80px !important;
-    border-width: 12px !important;
-  }
-
-  .loading-text {
-    font-size: 1.2em !important;
-    margin-left: 0 !important;
-  }
-}
-
-/* ============================================
-   MOBILE - 480px and Below
-  ============================= */
-
-@media (max-width: 480px) {
-  .reg-dev-header-card {
-    margin: 10px 0 !important;
-    margin-left: 0 !important;
-    padding: 0.75rem 0.5rem !important;
-    gap: 8px !important;
-    width: 100% !important;
-    position: relative;
-    left: 100px;
-    
   }
 
   /* Row 1: Title - Full Width */
   .reg-dev-title {
-    font-size: 1.2rem !important;
-    text-align: center !important;
-    width: 100% !important;
-    flex: 1 1 100% !important;
-    order: 1 !important;
-    margin-bottom: 0 !important;
-  }
-
-  /* Row 1: Add Button - Full Width Below Title */
-  .reg-dev-add-btn {
-    flex: 1 1 100% !important;
-    width: 100% !important;
-    justify-content: center !important;
-    order: 1 !important;
-    padding: 10px 16px !important;
-    font-size: 0.9rem !important;
-    gap: 6px !important;
-    position: static !important;
-    top: 0 !important;
-    left: 0 !important;
-    margin-bottom: 8px !important;
-  }
-
-  /* Row 2: Search Bar - Flexible */
-  .reg-dev-search-filter-bar {
-    flex: 1 1 auto !important;
-    max-width: 45% !important;
-    min-width: 120px !important;
-    width: auto !important;
-    order: 2 !important;
-    padding: 0 8px !important;
-    margin-left: 0 !important;
-    position: static !important;
-    right: 0 !important;
-  }
-
-  .reg-dev-search-bar {
-    font-size: 0.85rem !important;
-    padding: 8px 30px 8px 8px !important;
-  }
-
-  .preg-dev-search-icon {
-    right: 10px !important;
-    font-size: 0.9rem !important;
-  }
-
-  /* Row 2: Filter Button */
-  .reg-dev-filter-btn {
-    flex: 0 0 auto !important;
-    order: 2 !important;
-    font-size: 1rem !important;
-    padding: 8px !important;
-    position: static !important;
-    left: 0 !important;
-  }
-
-  /* Row 2: Pagination - Compact */
-  .reg-dev-table-footer {
-    flex: 0 0 auto !important;
-    width: auto !important;
-    order: 2 !important;
-    gap: 6px !important;
-    padding: 0 !important;
-    position: static !important;
-    top: 0 !important;
-    left: 0 !important;
-    margin-left: 0 !important;
-    flex-direction: row !important;
-  }
-
-  .reg-dev-pagination-info {
-    font-size: 0.8rem !important;
-    display: block !important;
-    position: static !important;
-    left: 0 !important;
-  }
-
-  .reg-dev-pagination-controls {
-    gap: 3px !important;
-    position: static !important;
-    left: 0 !important;
-  }
-
-  .reg-dev-pagination-controls button {
-    height: 28px !important;
-    min-width: 28px !important;
-    padding: 5px 8px !important;
-    font-size: 0.8rem !important;
-    position: static !important;
-    left: 0 !important;
-  }
-
-  .reg-dev-arrow-icon {
-    font-size: 0.85rem !important;
-  }
-
-  /* Row 3: Table */
-  .reg-dev-table-container {
-    padding: 0 0.5rem !important;
-    margin-top: 12px !important;
-    width: 100% !important;
-    flex: 1 1 100% !important;
-    margin-left: 0 !important;
-    order: 3 !important;
-  }
-
-  .reg-dev-table-container table {
-    min-width: 500px !important;
-    font-size: 0.85rem !important;
-    margin-left: 0 !important;
-    width: 100% !important;
-  }
-
-  .th-reg-com,
-  .td-reg-com {
-    padding: 0.4rem !important;
-    font-size: 0.75rem !important;
-    white-space: nowrap !important;
-  }
-
-  .loading-spinner {
-    width: 60px !important;
-    height: 60px !important;
-    border-width: 8px !important;
-  }
-
-  .loading-text {
-    font-size: 1em !important;
-    margin-top: 10px !important;
-    margin-left: 0 !important;
-  }
-}
-
-/* ============================================
-   EXTRA SMALL MOBILE - 360px and Below
-============================================ */
-
-@media (max-width: 360px) {
-  .reg-dev-header-card {
-    padding: 0.5rem 0.25rem !important;
-    gap: 6px !important;
-  }
-
-  /* Row 1: Title */
-  .reg-dev-title {
-    font-size: 1.1rem !important;
-    margin-bottom: 0 !important;
-  }
-
-  /* Row 1: Add Button */
-  .reg-dev-add-btn {
-    padding: 8px 12px !important;
-    font-size: 0.85rem !important;
-    gap: 4px !important;
-    margin-bottom: 6px !important;
-  }
-
-  /* Row 2: Search Bar - Smaller */
-  .reg-dev-search-filter-bar {
-    max-width: 40% !important;
-    min-width: 100px !important;
-    padding: 0 6px !important;
-  }
-
-  .reg-dev-search-bar {
-    font-size: 0.8rem !important;
-    padding: 7px 28px 7px 6px !important;
-  }
-
-  .preg-dev-search-icon {
-    font-size: 0.85rem !important;
-    right: 8px !important;
-  }
-
-  /* Row 2: Filter Button */
-  .reg-dev-filter-btn {
-    font-size: 0.95rem !important;
-    padding: 6px !important;
-  }
-
-  /* Row 2: Pagination - More Compact */
-  .reg-dev-pagination-info {
-    font-size: 0.75rem !important;
-  }
-
-  .reg-dev-pagination-controls button {
-    height: 26px !important;
-    min-width: 26px !important;
-    padding: 4px 6px !important;
-    font-size: 0.75rem !important;
-  }
-
-  .reg-dev-arrow-icon {
-    font-size: 0.75rem !important;
-  }
-
-  /* Row 3: Table */
-  .reg-dev-table-container {
-    padding: 0 0.25rem !important;
-  }
-
-  .reg-dev-table-container table {
-    min-width: 450px !important;
-  }
-
-  .th-reg-com,
-  .td-reg-com {
-    padding: 0.3rem !important;
-    font-size: 0.7rem !important;
-  }
-}
-
-/* ============================================
-   LANDSCAPE MOBILE ORIENTATION
-============================================ */
-
-@media (max-width: 768px) and (orientation: landscape) {
-  .reg-dev-header-card {
-    padding: 0.75rem 1rem !important;
-    gap: 8px !important;
-  }
-
-  /* Row 1: Title and Add Button Side by Side */
-  .reg-dev-title {
-    font-size: 1.2rem !important;
-    text-align: left !important;
-    flex: 1 1 auto !important;
-    margin-bottom: 0 !important;
-  }
-
-  .reg-dev-add-btn {
-    flex: 0 0 auto !important;
-    width: auto !important;
-    font-size: 0.85rem !important;
-    padding: 7px 14px !important;
-  }
-
-  /* Row 2: Search, Filter, Pagination in one row */
-  .reg-dev-search-filter-bar {
-    max-width: 200px !important;
-    min-width: 150px !important;
-  }
-
-  .reg-dev-filter-btn {
-    font-size: 1rem !important;
-  }
-
-  .reg-dev-pagination-info {
-    display: block !important;
-    font-size: 0.85rem !important;
-  }
-
-  .reg-dev-pagination-controls button {
-    height: 28px !important;
-  }
-
-  /* Row 3: Table */
-  .reg-dev-table-container {
-    margin-top: 12px !important;
-  }
-
-  .th-reg-com,
-  .td-reg-com {
-    padding: 0.4rem !important;
-    font-size: 0.75rem !important;
-  }
-}
-
-/* Small Landscape Phones (480px landscape) */
-@media (max-width: 480px) and (orientation: landscape) {
-  .reg-dev-header-card {
-    padding: 0.5rem 0.75rem !important;
-  }
-
-  .reg-dev-title {
-    font-size: 1rem !important;
-  }
-
-  .reg-dev-add-btn {
-    padding: 6px 12px !important;
-    font-size: 0.8rem !important;
-  }
-
-  .reg-dev-search-filter-bar {
-    max-width: 180px !important;
-    min-width: 120px !important;
-  }
-
-  .reg-dev-search-bar {
-    font-size: 0.8rem !important;
-    padding: 6px 28px 6px 8px !important;
-  }
-
-  .reg-dev-pagination-info {
-    font-size: 0.8rem !important;
-  }
-
-  .reg-dev-pagination-controls button {
-    height: 26px !important;
-    min-width: 26px !important;
-  }
-
-  .th-reg-com,
-  .td-reg-com {
-    padding: 0.35rem !important;
-    font-size: 0.7rem !important;
-  }
-}
-
-
-/* ============================================
-   MOBILE RESPONSIVE - 768px and Below
-   
-============================================ */
-
-@media (max-width: 768px) {
-  .reg-dev-header-card {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    max-width: 100% !important;
-    width: 100% !important;
-    display: flex !important;
-    flex-wrap: wrap !important;
-    align-items: center !important;
-    padding: 1rem !important;
-    gap: 10px !important;
-    margin-top: 20px !important;
-    position: static !important;
-  }
-
-  /* Row 1: Title */
-  .reg-dev-title {
     font-size: 1.4rem !important;
     text-align: left !important;
     white-space: normal !important;
     position: static !important;
     left: 0 !important;
-    flex: 1 1 auto !important;
+    flex: 1 1 100% !important;
     order: 1 !important;
     margin-bottom: 0 !important;
   }
 
-  /* Row 1: Add Button */
-  .reg-dev-add-btn {
-    flex: 0 0 auto !important;
-    width: auto !important;
-    padding: 8px 16px !important;
-    font-size: 0.9rem !important;
-    position: static !important;
-    left: 0 !important;
-    top: 0 !important;
-    order: 1 !important;
-    white-space: nowrap !important;
-    margin-bottom: 0 !important;
-  }
-
-  /* Row 2: Search Bar Container */
+  /* Row 2: Search Bar - Full Width */
   .reg-dev-search-filter-bar {
-    flex: 1 1 auto !important;
-    max-width: 250px !important;
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
     min-width: 150px !important;
-    width: auto !important;
+    width: 100% !important;
     margin-left: 0 !important;
     order: 2 !important;
     position: relative !important;
     padding: 0 12px !important;
+    margin-bottom: 10px !important;
   }
 
   .reg-dev-search-bar {
@@ -817,9 +328,11 @@
     top: 50% !important;
     transform: translateY(-50%) !important;
     font-size: 0.9rem !important;
+    color: #000;
+    pointer-events: none;
   }
 
-  /* Row 2: Filter Button */
+  /* Row 2: Filter Button - With Search if space, but ordered after */
   .reg-dev-filter-btn {
     flex: 0 0 auto !important;
     position: static !important;
@@ -827,13 +340,32 @@
     order: 2 !important;
     font-size: 1.1rem !important;
     padding: 8px !important;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
   }
 
-  /* Row 2: Pagination */
-  .reg-dev-table-footer {
-    margin-left: 0 !important;
+  /* Row 3: Add Button - Left Side */
+  .reg-dev-add-btn {
     flex: 0 0 auto !important;
-    order: 2 !important;
+    width: auto !important;
+    padding: 8px 16px !important;
+    font-size: 0.9rem !important;
+    position: static !important;
+    left: 0 !important;
+    top: 0 !important;
+    order: 3 !important;
+    white-space: nowrap !important;
+    margin-bottom: 0 !important;
+    justify-content: flex-start !important;
+  }
+
+  /* Row 3: Pagination - Right Side */
+  .reg-dev-table-footer {
+    margin-left: auto !important;
+    flex: 0 0 auto !important;
+    order: 4 !important;
     display: flex !important;
     flex-direction: row !important;
     gap: 8px !important;
@@ -843,6 +375,8 @@
     position: static !important;
     left: 0 !important;
     top: 0 !important;
+    justify-content: flex-end !important;
+    margin-bottom: 0 !important;
   }
 
   .reg-dev-pagination-info {
@@ -851,6 +385,7 @@
     font-size: 0.85rem !important;
     white-space: nowrap !important;
     display: block !important;
+    color: #fff;
   }
 
   .reg-dev-pagination-controls {
@@ -858,6 +393,7 @@
     gap: 4px !important;
     position: static !important;
     left: 0 !important;
+    align-items: center;
   }
 
   .reg-dev-pagination-controls button {
@@ -867,9 +403,30 @@
     min-width: 30px !important;
     padding: 6px 10px !important;
     font-size: 0.85rem !important;
+    border: none;
+    background-color: #f8f8f8;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 5px;
   }
 
-  /* Row 3: Table Container */
+  .reg-dev-pagination-controls button + button {
+    margin-left: -4px;
+  }
+
+  .reg-dev-pagination-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .reg-dev-arrow-icon {
+    font-size: 1rem;
+  }
+
+  /* Row 4: Table */
   .reg-dev-table-container {
     margin-left: 0 !important;
     max-width: 100% !important;
@@ -878,32 +435,52 @@
     padding: 0 1rem !important;
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch !important;
-    order: 3 !important;
+    display: block !important;
+    text-align: center !important;
+    order: 5 !important;
   }
 
   .reg-dev-table-container table {
     min-width: 600px !important;
-    margin-left: 0 !important;
-    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: fit-content !important;
     margin-top: 0 !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    transition: all 0.3s ease;
+    background-color: white;
+    position: static !important;
   }
 
   .th-reg-com,
   .td-reg-com {
     padding: 0.5rem !important;
     font-size: 0.8rem !important;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .th-reg-com {
+    background-color: #ffffff;
+    font-weight: 600;
   }
 
   .loading-spinner {
     width: 80px !important;
     height: 80px !important;
     border-width: 12px !important;
+    border: 12px solid #f3f3f3;
+    border-top: 12px solid #3498db;
+    border-radius: 50%;
+    animation: spin 2s linear infinite;
   }
 
   .loading-text {
     font-size: 1.2em !important;
     margin-left: 0 !important;
+    color: white;
+    font-weight: bold;
+    margin-top: 15px;
   }
 }
 
@@ -917,12 +494,16 @@
     margin-left: 0 !important;
     margin-right: 0 !important;
     padding: 0.75rem 0.5rem !important;
-    gap: 8px !important;
+    gap: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
     position: static !important;
     left: 0 !important;
     box-sizing: border-box !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
   }
 
   /* Row 1: Title - Full Width */
@@ -932,40 +513,33 @@
     width: 100% !important;
     flex: 1 1 100% !important;
     order: 1 !important;
-    margin-bottom: 0 !important;
-    position: static !important;
-    left: 0 !important;
-  }
-
-  /* Row 1: Add Button - Full Width Below Title */
-  .reg-dev-add-btn {
-    flex: 1 1 100% !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    justify-content: center !important;
-    order: 1 !important;
-    padding: 10px 16px !important;
-    font-size: 0.9rem !important;
-    gap: 6px !important;
-    position: static !important;
-    top: 0 !important;
-    left: 0 !important;
     margin-bottom: 8px !important;
-    box-sizing: border-box !important;
+    position: static !important;
+    left: 0 !important;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1;
+    white-space: nowrap;
+    
   }
 
-  /* Row 2: Search Bar Container */
+  /* Row 2: Search Bar - Full Width */
   .reg-dev-search-filter-bar {
-    flex: 1 1 auto !important;
-    max-width: 140px !important;
-    min-width: 100px !important;
-    width: auto !important;
+    flex: 1 1 100% !important;
+    min-width: 200px !important;
+    max-width: 90% !important;
+    width: 100% !important;
     order: 2 !important;
     padding: 0 10px !important;
     margin-left: 0 !important;
     position: relative !important;
     right: 0 !important;
     box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center;
+    background: #fff;
+    border-radius: 2rem;
+    margin-bottom: 8px !important;
   }
 
   .reg-dev-search-bar {
@@ -973,6 +547,10 @@
     padding: 8px 28px 8px 8px !important;
     width: 100% !important;
     box-sizing: border-box !important;
+    border: none;
+    outline: none;
+    background: transparent;
+    border-radius: 2rem;
   }
 
   .preg-dev-search-icon {
@@ -982,9 +560,10 @@
     transform: translateY(-50%) !important;
     font-size: 0.85rem !important;
     pointer-events: none !important;
+    color: #000;
   }
 
-  /* Row 2: Filter Button */
+  /* Row 2: Filter Button - With Search */
   .reg-dev-filter-btn {
     flex: 0 0 auto !important;
     order: 2 !important;
@@ -992,20 +571,58 @@
     padding: 8px !important;
     position: static !important;
     left: 0 !important;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    flex-shrink: 0;
+    white-space: nowrap;
   }
 
-  /* Row 2: Pagination - Compact */
-  .reg-dev-table-footer {
+  /* Row 3: Add Button - Left Side */
+  .reg-dev-add-btn {
     flex: 0 0 auto !important;
     width: auto !important;
-    order: 2 !important;
+    max-width: none !important;
+    justify-content: flex-start !important;
+    order: 3 !important;
+    padding: 10px 16px !important;
+    font-size: 0.9rem !important;
     gap: 6px !important;
-    padding: 0 !important;
     position: static !important;
     top: 0 !important;
     left: 0 !important;
-    margin-left: 0 !important;
+    margin-bottom: 0 !important;
+    box-sizing: border-box !important;
+    background: #fff; 
+    color: #0C5890;
+    font-weight: 600;
+    border: none;
+    border-radius: 2rem;
+    display: flex !important;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(10, 75, 176, 0.08);
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Row 3: Pagination - Right Side */
+  .reg-dev-table-footer {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    order: 4 !important;
+    gap: 6px !important;
+    padding: 0 !important;
+    position: relative !important;
+    top: 0 !important;
+    left: -40px !important;
+    margin-left: auto !important;
     flex-direction: row !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    margin-bottom: 0 !important;
   }
 
   .reg-dev-pagination-info {
@@ -1014,12 +631,16 @@
     position: static !important;
     left: 0 !important;
     white-space: nowrap !important;
+    color: #fff;
+    flex-shrink: 0;
   }
 
   .reg-dev-pagination-controls {
-    gap: 3px !important;
+    gap: 5px !important;
     position: static !important;
     left: 0 !important;
+    display: flex !important;
+    align-items: center !important;
   }
 
   .reg-dev-pagination-controls button {
@@ -1029,34 +650,58 @@
     font-size: 0.75rem !important;
     position: static !important;
     left: 0 !important;
+    border: none;
+    background-color: #f8f8f8;
+    color: #333;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 5px;
+    flex-shrink: 0;
+  }
+
+  .reg-dev-pagination-controls button + button {
+    margin-left: -4px;
+  }
+
+  .reg-dev-pagination-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
   .reg-dev-arrow-icon {
     font-size: 0.8rem !important;
   }
 
-  /* Row 3: Table Container - Full Width with Scroll */
+  /* Row 4: Table - Full width with scroll */
   .reg-dev-table-container {
     padding: 0 0.5rem !important;
     margin-top: 12px !important;
     width: 100% !important;
-    max-width: 100% !important;
+    max-width: 90% !important;
     flex: 1 1 100% !important;
     margin-left: 0 !important;
     margin-right: 0 !important;
-    order: 3 !important;
+    order: 5 !important;
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch !important;
     box-sizing: border-box !important;
+    display: block !important;
+    text-align: center !important;
   }
 
   .reg-dev-table-container table {
     min-width: 500px !important;
     font-size: 0.85rem !important;
-    margin-left: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     margin-top: 0 !important;
-    width: 100% !important;
+    width: fit-content !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    transition: all 0.3s ease;
+    background-color: white;
+    position: static !important;
   }
 
   .th-reg-com,
@@ -1064,18 +709,30 @@
     padding: 0.4rem !important;
     font-size: 0.75rem !important;
     white-space: nowrap !important;
+    text-align: left;
+  }
+
+  .th-reg-com {
+    background-color: #ffffff;
+    font-weight: 600;
   }
 
   .loading-spinner {
     width: 60px !important;
     height: 60px !important;
     border-width: 8px !important;
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    animation: spin 2s linear infinite;
   }
 
   .loading-text {
     font-size: 1em !important;
     margin-top: 10px !important;
     margin-left: 0 !important;
+    color: white;
+    font-weight: bold;
   }
 }
 
@@ -1086,51 +743,151 @@
 @media (max-width: 360px) {
   .reg-dev-header-card {
     padding: 0.5rem 0.25rem !important;
-    gap: 6px !important;
+    gap: 0 !important;
     position: static !important;
     left: 0 !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    box-sizing: border-box !important;
   }
 
-  /* Row 1: Title */
+  /* Row 1: Title - Full Width */
   .reg-dev-title {
     font-size: 1.1rem !important;
-    margin-bottom: 0 !important;
+    text-align: center !important;
+    width: 100% !important;
+    flex: 1 1 100% !important;
+    order: 1 !important;
+    margin-bottom: 8px !important;
+    position: static !important;
+    left: 0 !important;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1;
+    white-space: nowrap;
   }
 
-  /* Row 1: Add Button */
-  .reg-dev-add-btn {
-    padding: 8px 12px !important;
-    font-size: 0.85rem !important;
-    gap: 4px !important;
-    margin-bottom: 6px !important;
-  }
-
-  /* Row 2: Search Bar - Smaller */
+  /* Row 2: Search Bar - Full Width */
   .reg-dev-search-filter-bar {
-    max-width: 110px !important;
-    min-width: 90px !important;
+    flex: 1 1 100% !important;
+    max-width: 90% !important;
+    min-width: 150px !important;
+    width: 100% !important;
+    order: 2 !important;
     padding: 0 8px !important;
+    margin-left: 0 !important;
+    position: relative !important;
+    right: 0 !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center;
+    background: #fff;
+    border-radius: 2rem;
+    margin-bottom: 6px !important;
   }
 
   .reg-dev-search-bar {
     font-size: 0.8rem !important;
     padding: 7px 26px 7px 6px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    border: none;
+    outline: none;
+    background: transparent;
+    border-radius: 2rem;
   }
 
   .preg-dev-search-icon {
     font-size: 0.8rem !important;
     right: 12px !important;
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    pointer-events: none !important;
+    color: #000;
   }
 
-  /* Row 2: Filter Button */
+  /* Row 2: Filter Button - With Search */
   .reg-dev-filter-btn {
+    flex: 0 0 auto !important;
+    order: 2 !important;
     font-size: 0.95rem !important;
     padding: 6px !important;
+    position: static !important;
+    left: 0 !important;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    flex-shrink: 0;
+    white-space: nowrap;
   }
 
-  /* Row 2: Pagination - More Compact */
+  /* Row 3: Add Button - Left Side */
+  .reg-dev-add-btn {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    max-width: none !important;
+    justify-content: flex-start !important;
+    order: 3 !important;
+    padding: 8px 12px !important;
+    font-size: 0.85rem !important;
+    gap: 4px !important;
+    position: static !important;
+    top: 0 !important;
+    left: 0 !important;
+    margin-bottom: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+    background: #fff; 
+    color: #0C5890;
+    font-weight: 600;
+    border: none;
+    border-radius: 2rem;
+    display: flex !important;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(10, 75, 176, 0.08);
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Row 3: Pagination - Right Side */
+  .reg-dev-table-footer {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    order: 4 !important;
+    gap: 3px !important;
+    padding: 0 !important;
+    position: relative !important;
+    top: 0 !important;
+    left: -40px !important;
+    margin-left: auto !important;
+    flex-direction: row !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    margin-bottom: 0 !important;
+  }
+
   .reg-dev-pagination-info {
-    font-size: 0.7rem !important;
+    font-size: 0.9rem !important;
+    display: block !important;
+    position: static !important;
+    left: 0 !important;
+    white-space: nowrap !important;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .reg-dev-pagination-controls {
+    gap: 5px !important;
+    position: static !important;
+    left: 0 !important;
+    display: flex !important;
+    align-items: center !important;
   }
 
   .reg-dev-pagination-controls button {
@@ -1138,28 +895,73 @@
     min-width: 26px !important;
     padding: 4px 6px !important;
     font-size: 0.7rem !important;
+    position: static !important;
+    left: 0 !important;
+    border: none;
+    background-color: #f8f8f8;
+    color: #333;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 5px;
+    flex-shrink: 0;
+  }
+
+  .reg-dev-pagination-controls button + button {
+    margin-left: -4px;
+  }
+
+  .reg-dev-pagination-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
   .reg-dev-arrow-icon {
     font-size: 0.75rem !important;
   }
 
-  /* Row 3: Table */
+  /* Row 4: Table - Full width with scroll */
   .reg-dev-table-container {
     padding: 0 0.25rem !important;
+    margin-top: 12px !important;
     width: 100% !important;
-    max-width: 100% !important;
+    max-width: 90% !important;
+    flex: 1 1 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    order: 5 !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
     box-sizing: border-box !important;
+    display: block !important;
+    text-align: center !important;
   }
 
   .reg-dev-table-container table {
     min-width: 450px !important;
+    font-size: 0.85rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 0 !important;
+    width: fit-content !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    transition: all 0.3s ease;
+    background-color: white;
+    position: static !important;
   }
 
   .th-reg-com,
   .td-reg-com {
     padding: 0.3rem !important;
     font-size: 0.7rem !important;
+    white-space: nowrap !important;
+    text-align: left;
+  }
+
+  .th-reg-com {
+    background-color: #ffffff;
+    font-weight: 600;
   }
 }
 
@@ -1170,65 +972,210 @@
 @media (max-width: 768px) and (orientation: landscape) {
   .reg-dev-header-card {
     padding: 0.75rem 1rem !important;
-    gap: 8px !important;
+    gap: 0 !important;
     position: static !important;
     left: 0 !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
   }
 
-  /* Row 1: Title and Add Button Side by Side */
+  /* Row 1: Title - Full Width */
   .reg-dev-title {
     font-size: 1.2rem !important;
     text-align: left !important;
-    flex: 1 1 auto !important;
+    flex: 1 1 100% !important;
     margin-bottom: 0 !important;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1;
+    white-space: nowrap;
+    order: 1 !important;
   }
 
+  /* Row 2: Search Bar - Full Width */
+  .reg-dev-search-filter-bar {
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
+    min-width: 150px !important;
+    width: 100% !important;
+    padding: 0 12px !important;
+    margin-left: 0 !important;
+    order: 2 !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: center;
+    background: #fff;
+    border-radius: 2rem;
+    margin-bottom: 8px !important;
+  }
+
+  .reg-dev-search-bar {
+    font-size: 0.85rem !important;
+    width: 100% !important;
+    min-width: auto !important;
+    padding: 8px 30px 8px 10px !important;
+    border: none;
+    outline: none;
+    background: transparent;
+    border-radius: 2rem;
+  }
+
+  .preg-dev-search-icon {
+    right: 16px !important;
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    font-size: 0.9rem !important;
+    color: #000;
+    pointer-events: none;
+  }
+
+  /* Row 2: Filter Button - With Search */
+  .reg-dev-filter-btn {
+    font-size: 1rem !important;
+    flex: 0 0 auto !important;
+    position: static !important;
+    left: 0 !important;
+    order: 2 !important;
+    padding: 8px !important;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  /* Row 3: Add Button - Left Side */
   .reg-dev-add-btn {
     flex: 0 0 auto !important;
     width: auto !important;
     font-size: 0.85rem !important;
     padding: 7px 14px !important;
+    background: #fff; 
+    color: #0C5890;
+    font-weight: 600;
+    border: none;
+    border-radius: 2rem;
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(10, 75, 176, 0.08);
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    position: static !important;
+    left: 0 !important;
+    top: 0 !important;
+    justify-content: flex-start !important;
+    order: 3 !important;
+    margin-bottom: 0 !important;
   }
 
-  /* Row 2: Search, Filter, Pagination in one row */
-  .reg-dev-search-filter-bar {
-    max-width: 200px !important;
-    min-width: 150px !important;
-    padding: 0 12px !important;
-  }
-
-  .reg-dev-search-bar {
-    font-size: 0.85rem !important;
-  }
-
-  .preg-dev-search-icon {
-    right: 16px !important;
-  }
-
-  .reg-dev-filter-btn {
-    font-size: 1rem !important;
+  /* Row 3: Pagination - Right Side */
+  .reg-dev-table-footer {
+    margin-left: auto !important;
+    flex: 0 0 auto !important;
+    order: 4 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 8px !important;
+    padding: 0 !important;
+    align-items: center !important;
+    width: auto !important;
+    position: static !important;
+    left: 0 !important;
+    top: 0 !important;
+    justify-content: flex-end !important;
+    margin-bottom: 0 !important;
   }
 
   .reg-dev-pagination-info {
     display: block !important;
     font-size: 0.85rem !important;
+    position: static !important;
+    left: 0 !important;
+    white-space: nowrap !important;
+    color: #fff;
+  }
+
+  .reg-dev-pagination-controls {
+    display: flex !important;
+    gap: 4px !important;
+    position: static !important;
+    left: 0 !important;
+    align-items: center;
   }
 
   .reg-dev-pagination-controls button {
     height: 28px !important;
+    position: static !important;
+    left: 0 !important;
+    min-width: 30px !important;
+    padding: 6px 10px !important;
+    font-size: 0.85rem !important;
+    border: none;
+    background-color: #f8f8f8;
+    color: #333;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 5px;
   }
 
-  /* Row 3: Table */
+  .reg-dev-pagination-controls button + button {
+    margin-left: -4px;
+  }
+
+  .reg-dev-pagination-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .reg-dev-arrow-icon {
+    font-size: 1rem;
+  }
+
+  /* Row 4: Table */
   .reg-dev-table-container {
     margin-top: 12px !important;
     width: 100% !important;
     max-width: 100% !important;
+    margin-left: 0 !important;
+    padding: 0 1rem !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    display: block !important;
+    text-align: center !important;
+    order: 5 !important;
+    box-sizing: border-box !important;
+  }
+
+  .reg-dev-table-container table {
+    min-width: 600px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: fit-content !important;
+    margin-top: 0 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    transition: all 0.3s ease;
+    background-color: white;
+    position: static !important;
   }
 
   .th-reg-com,
   .td-reg-com {
     padding: 0.4rem !important;
     font-size: 0.75rem !important;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .th-reg-com {
+    background-color: #ffffff;
+    font-weight: 600;
   }
 }
 
@@ -1236,47 +1183,306 @@
 @media (max-width: 480px) and (orientation: landscape) {
   .reg-dev-header-card {
     padding: 0.5rem 0.75rem !important;
-    position: relative;
-    left: 100px;
+    gap: 0 !important;
+    position: relative !important;
+    left: 100px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
   }
 
+  /* Row 1: Title - Full Width */
   .reg-dev-title {
     font-size: 1rem !important;
+    text-align: center !important;
+    width: 100% !important;
+    flex: 1 1 100% !important;
+    order: 1 !important;
+    margin-bottom: 8px !important;
+    position: static !important;
+    left: 0 !important;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1;
+    white-space: nowrap;
   }
 
-  .reg-dev-add-btn {
-    padding: 6px 12px !important;
-    font-size: 0.8rem !important;
-  }
-
+  /* Row 2: Search Bar - Full Width */
   .reg-dev-search-filter-bar {
-    max-width: 180px !important;
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
     min-width: 120px !important;
+    width: 100% !important;
+    order: 2 !important;
+    padding: 0 10px !important;
+    margin-left: 0 !important;
+    position: relative !important;
+    right: 0 !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center;
+    background: #fff;
+    border-radius: 2rem;
+    margin-bottom: 8px !important;
   }
 
   .reg-dev-search-bar {
     font-size: 0.8rem !important;
     padding: 6px 28px 6px 8px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    border: none;
+    outline: none;
+    background: transparent;
+    border-radius: 2rem;
   }
 
   .preg-dev-search-icon {
     right: 14px !important;
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    font-size: 0.85rem !important;
+    pointer-events: none !important;
+    color: #000;
+  }
+
+  /* Row 2: Filter Button - With Search */
+  .reg-dev-filter-btn {
+    font-size: 1rem !important;
+    padding: 8px !important;
+    flex: 0 0 auto !important;
+    order: 2 !important;
+    position: static !important;
+    left: 0 !important;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  /* Row 3: Add Button - Left Side */
+  .reg-dev-add-btn {
+    padding: 6px 12px !important;
+    font-size: 0.8rem !important;
+    flex: 0 0 auto !important;
+    width: auto !important;
+    max-width: none !important;
+    justify-content: flex-start !important;
+    order: 3 !important;
+    gap: 6px !important;
+    position: static !important;
+    top: 0 !important;
+    left: 0 !important;
+    margin-bottom: 0 !important;
+    box-sizing: border-box !important;
+    background: #fff; 
+    color: #0C5890;
+    font-weight: 600;
+    border: none;
+    border-radius: 2rem;
+    display: flex !important;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(10, 75, 176, 0.08);
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Row 3: Pagination - Right Side */
+  .reg-dev-table-footer {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    order: 4 !important;
+    gap: 6px !important;
+    padding: 0 !important;
+    position: static !important;
+    top: 0 !important;
+    left: 0 !important;
+    margin-left: auto !important;
+    flex-direction: row !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    margin-bottom: 0 !important;
   }
 
   .reg-dev-pagination-info {
     font-size: 0.8rem !important;
+    display: block !important;
+    position: static !important;
+    left: 0 !important;
+    white-space: nowrap !important;
+    color: #fff;
+  }
+
+  .reg-dev-pagination-controls {
+    gap: 3px !important;
+    position: static !important;
+    left: 0 !important;
+    display: flex !important;
+    align-items: center !important;
   }
 
   .reg-dev-pagination-controls button {
     height: 26px !important;
     min-width: 26px !important;
+    padding: 5px 8px !important;
+    font-size: 0.75rem !important;
+    position: static !important;
+    left: 0 !important;
+    border: none;
+    background-color: #f8f8f8;
+    color: #333;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .reg-dev-pagination-controls button + button {
+    margin-left: -4px;
+  }
+
+  .reg-dev-pagination-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .reg-dev-arrow-icon {
+    font-size: 0.8rem !important;
+  }
+
+  /* Row 4: Table - Full width with scroll */
+  .reg-dev-table-container {
+    padding: 0 0.5rem !important;
+    margin-top: 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    order: 5 !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    text-align: center !important;
+  }
+
+  .reg-dev-table-container table {
+    min-width: 500px !important;
+    font-size: 0.85rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 0 !important;
+    width: fit-content !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    transition: all 0.3s ease;
+    background-color: white;
+    position: static !important;
   }
 
   .th-reg-com,
   .td-reg-com {
     padding: 0.35rem !important;
     font-size: 0.7rem !important;
+    white-space: nowrap !important;
+    text-align: left;
+  }
+
+  .th-reg-com {
+    background-color: #ffffff;
+    font-weight: 600;
+  }
+
+  .loading-spinner {
+    width: 60px !important;
+    height: 60px !important;
+    border-width: 8px !important;
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    animation: spin 2s linear infinite;
+  }
+
+  .loading-text {
+    font-size: 1em !important;
+    margin-top: 10px !important;
+    margin-left: 0 !important;
+    color: white;
+    font-weight: bold;
   }
 }
 
 
+@media (max-width:480px){
+    .reg-dev-table-container {
+    padding: 0 0.5rem !important;
+    margin-top: 12px !important;
+    width: 100% !important;
+    max-width: 85% !important;
+    flex: 1 1 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    order: 5 !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    text-align: center !important;
+          }
+
+          .reg-dev-search-filter-bar {
+    flex: 1 1 100% !important;
+    min-width: 200px !important;
+    max-width: 85% !important;
+    width: 100% !important;
+    order: 2 !important;
+    padding: 0 10px !important;
+    margin-left: 0 !important;
+    position: relative !important;
+    right: 0 !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center;
+    background: #fff;
+    border-radius: 2rem;
+    margin-bottom: 8px !important;
+  }
+  .reg-dev-table-footer {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    order: 4 !important;
+    gap: 6px !important;
+    padding: 0 !important;
+    position: relative !important;
+    top: 0 !important;
+    left: -60px !important;
+    margin-left: auto !important;
+    flex-direction: row !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    margin-bottom: 0 !important;
+  }
+
+   .reg-dev-title {
+    font-size: 1.5rem !important;
+    text-align: center !important;
+    width: 100% !important;
+    flex: 1 1 100% !important;
+    order: 1 !important;
+    margin-bottom: 8px !important;
+    position: relative !important;
+    left: -15px !important;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1;
+    white-space: nowrap;
+    
+  }
+}

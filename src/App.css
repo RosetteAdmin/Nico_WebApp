@@ -57,38 +57,38 @@ body {
 }
 
 .blue-band-bg {
-    position: absolute;
-    top: 70px;
-    left: -30px;
-    height: 200px;
-    width: 150%;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center top;
-    z-index: 0;
-    border-bottom-left-radius: 40px;
-    border-bottom-right-radius: 40px;
+  position: absolute;
+  top: 70px;
+  left: -30px;
+  height: 200px;
+  width: 150%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center top;
+  z-index: 0;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
 }
 
 /* Dashboard Layout Styling */
 .app-container {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Changed from 100% to 100vh to ensure full viewport height */
+  height: 100vh;
   background-color: white !important;
 }
 
 .main-content {
   display: flex;
   flex: 1;
-  margin-top: 60px; /* Adjusted margin to ensure header does not overlap content */
+  margin-top: 60px;
 }
 
 .content-area {
   flex: 1;
   margin-right: 300px;
   margin-left: -100px;
-  min-height: 629px; /* Make space for sidebar */
+  min-height: 629px;
 }
 
 /* Header Styling */
@@ -134,10 +134,10 @@ body {
   background-color: #ffffff;
   border-right: 1px solid #ddd;
   padding: 1rem;
-  position: fixed; /* Fix sidebar to the left */
-  top: 60px; /* Adjust for header */
+  position: fixed;
+  top: 60px;
   left: 0;
-  height: calc(100vh - 60px); /* Make sidebar take full height minus header */
+  height: calc(100vh - 60px);
   z-index: 500;
 }
 
@@ -161,17 +161,33 @@ body {
   color: #007bff;
   font-weight: bold;
 }
+
 /* ✅ Mobile Responsive Case */
 @media (max-width: 768px) {
   .blue-band-bg {
     position: absolute;
     top: 110px;
     left: -5%;
-    width: 110vw; /* ✅ full viewport width */
+    width: 110vw;
     height: 200px;
     border-radius: 0;
     background-size: cover;
     background-position: center;
   }
-}
 
+  .main-content {
+    margin-left: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .content-area {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 12px;
+  }
+
+  .sidenav-container {
+    display: none;
+  }
+}

@@ -280,6 +280,7 @@
     overflow-x: auto;
     overflow-y: visible;
     margin-top: 0;
+    margin-left: 0;
     padding: 10px 0;
     z-index: 1000;
   }
@@ -430,13 +431,17 @@
 @media (max-width: 480px) {
   .side-nav {
     top: 57px;
-    padding: 0px 0 0px 0;
+    padding: 0;
     height: auto;
-    margin-left: -12px;
+    margin-left: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .nav-list {
-    padding: 0 0px 0 0px;
+    padding: 0 5px;
   }
 
   .main-link {
@@ -497,6 +502,19 @@
 
 /* EXTRA SMALL PHONES (up to 375px)*/
 @media (max-width: 375px) {
+  .side-nav {
+    margin-left: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .nav-list {
+    padding: 0 3px;
+  }
+
   .main-link {
     padding: 8px 10px;
     min-width: 65px;
@@ -519,28 +537,24 @@
   .sub-text {
     font-size: 12px;
   }
-  
 }
 
-@media (max-width: 480px) and (min-width: 376px) {
-  .side-nav {
-    margin-left: -2px;
-    column-gap:50px;  }
-}
-
+/* PHONES (376px - 480px) */
 @media (min-width: 376px) and (max-width: 480px) {
   .side-nav {
-    margin-left: 0 !important;   /* reset previous negative margin */
+    margin-left: 0;
     padding: 0 8px;
-    width: 100vw !important;     /* full viewport width */
-    max-width: 100% !important;  /* prevent overflow */
+    width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
-    gap: 60px;
     left: 0;
     right: 0;
-   }
-   .nav-list {
-    justify-content: space-between; /* spread evenly if needed */
+  }
+  
+  .nav-list {
+    justify-content: space-between;
     width: 100%;
   }
 }
+
+

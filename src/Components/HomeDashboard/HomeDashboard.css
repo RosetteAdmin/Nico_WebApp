@@ -1,7 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
-
-
-
 .mobile-app-container {
     font-family: 'Montserrat', sans-serif;
 }
@@ -18,11 +14,9 @@
     gap: 10px;
     margin-top: 40px;
     left: 250px;
-    flex-wrap: wrap;
     justify-content: flex-start;
-    width:70%;
+    width: 70%;
     position: relative;
-    /* margin-left: -60px; */
 }
 
 .arrow-icons {
@@ -43,6 +37,13 @@
     gap: 10px;
     width: 248px;
     height: 100px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
 }
 
 .stat-card.new-users {
@@ -73,104 +74,107 @@
     display: flex;
     flex-wrap: wrap;
 }
+
 .bottom-section {
-  display: flex;
-  justify-content: center;  align-items: flex-start;
-  margin-top: 40px;
-  gap: 20px;
-  width: 80%;
-  padding: 0 200px;
-  margin-left: 3%;
-  box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 40px;
+    gap: 20px;
+    width: 80%;
+    padding: 0 200px;
+    margin-left: 3%;
+    box-sizing: border-box;
 }
 
 /* Left Vertical Cards */
 .left-vertical-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  width: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 30%;
 }
 
 .info-card {
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  padding: 16px 20px;
-  height: 100px; /* Rectangle shape (wide sides, short top/bottom) */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    padding: 16px 20px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .info-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .info-card h3 {
-  font-size: 16px;
-  margin-bottom: 6px;
-  color: #333;
+    font-size: 16px;
+    margin-bottom: 6px;
+    color: #333;
 }
 
 .info-card p {
-  font-size: 13px;
-  color: #666;
-  margin: 0;
+    font-size: 13px;
+    color: #666;
+    margin: 0;
 }
 
 /* Right Placeholder */
 .right-map-placeholder {
-  width: 65%;
-  height: 600px;
-  background-color: #f2f4f8;
-  border: 2px dashed #ccc;
-  border-radius: 10px;
-  position: relative;
-  overflow: hidden;
+    width: 65%;
+    height: 600px;
+    background-color: #f2f4f8;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
 }
 
-/* make the MapView fill the container */
 .right-map-placeholder .map-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .map-loading, .map-error {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  font-size: 14px;
-  color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 14px;
+    color: #666;
 }
 
 .map-container {
-  height: 100%;
-  border-radius: 8px;
+    height: 100%;
+    border-radius: 8px;
 }
-#map { height: 180px; }
 
-/* FIXED - Text overflow issue */
+#map { 
+    height: 180px; 
+}
+
 .head {
     margin-top: 50px;
     margin-left: 90px;
     font-weight: normal;
     color: white;
     font-size: 15px;
-    width: calc(100vw - 150px); /* Changed to viewport-based width */
-    max-width: calc(100% - 120px); /* Added max-width constraint */
+    width: calc(100vw - 150px);
+    max-width: calc(100% - 120px);
     word-wrap: break-word;
     overflow-wrap: break-word;
     line-height: 1.4;
     position: relative;
-    margin-right: 30px; /* Reduced from 400px */
-    box-sizing: border-box; /* Added for proper width calculation */
+    margin-right: 30px;
+    box-sizing: border-box;
 }
 
 .head h1 {
@@ -218,7 +222,6 @@
 .stat-card p {
     top: 20px;
     font-size: 15px;
-    
     color: gray;
     margin: 0;
     position: relative;
@@ -358,277 +361,10 @@
     align-items: center;
     top: 3px;
 }
-     .slider-controls{
-        display: none;
-    }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .statss-cards {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-        position: relative; /* Reset positioning */
-        margin-right: 40%;
-    }
-
-    .heading  {
-        margin:0px 220px 0 0;
-    }
-
-    .stat-card,
-    .stat-card.new-users {
-        width: 40%; /* Two cards per row */
-        max-width: 300px; /* Prevent overstretching */
-    }
-
-    .blue-band-bg {
-        margin-left: 5%;
-        width: 160%; /* Fit to container */
-        height: 250px; /* Adjust height for text */
-    }
-
-    /* FIXED - Responsive text overflow */
-    .head {
-        width: calc(100vw - 280px);
-        max-width: calc(100% - 100px);
-        margin-left: 60px;
-        margin-right: 20px;
-        font-size: 14px;
-    }
-
-    .push-notification-container {
-        width: 70%;
-    }
-
+.slider-controls {
+    display: none;
 }
-
-@media (max-width: 768px) {
-    .statss-cards {
-        flex-wrap: wrap; /* Still allow wrapping */
-        justify-content: center;
-        right: inherit; /* Remove any hardcoded positioning */
-    }
-
-    .statss-cards {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    column-gap: 50px;
-    margin-top: 50px !important;
-    left: 155px;
-    width: 100%;
-    padding: 0 10px !important;
-  }
-  
-    .stat-card,
-    .stat-card.new-users {
-        width: 90%; /* Larger width for smaller screens */
-        max-width: 350px;
-        flex-wrap: wrap;
-    }
-
-    .blue-band-bg {
-        left:-285px;
-        width: 190%;
-        height: 300px; /* Increase height for content */
-    }
-   
-
-    /* FIXED - Mobile text overflow */
-    .head {
-        width: calc(100vw - 160px);
-        max-width: calc(100% - 80px);
-        margin-left: 40px;
-        margin-right: 20px;
-        font-size: 13px;
-        bottom: 30px;
-        position: relative;
-    }
-
-    .head h1 {
-        font-size: 20px; /* Adjust heading size */
-    }
-
-    .quick-statistics-section {
-        padding-left: 0; /* Remove hardcoded padding */
-    }
-
-    .push-notification-container {
-        width: 90%;
-        padding: 15px;
-    }
-
-    .push-title h2 {
-        font-size: 18px;
-    }
-
-    .notif-icon {
-        font-size: 22px;
-    }
-
-    .add-icon {
-        font-size: 13px;
-    }
-
-    .notification-card {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-
-    .notification-card h4 {
-        font-size: 15px;
-    }
-
-    .notification-card p {
-        font-size: 12px;
-    }
-
-    .notification-menu {
-        align-self: flex-end;
-        font-size: 13px;
-    }
-}
-
-@media (max-width: 480px) {
-     
-  
-   .head{
-    font-size: 12px !important;
-    margin-left: -60px !important;
-    width: calc(150vw - 10px) !important;
-    max-width: calc(70% ) !important;
-    margin-right: 5px !important;
-    bottom: 40px !important;
-}
-  .head h1 {
-    font-size: 20px !important;
-    margin-bottom: -15px;
-  }
-
-  /* Fix overlapping content below */
-  .statss-cards {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    column-gap: 50px;
-    margin-top: 50px !important;
-    left: 155px;
-    width: 110%;
-    padding: 0 10px !important;
-  }
-
-  .stat-card p{
-    font-size: 10px;
-    top: -60px;
-    left:23px;
-    margin-left: 25px;
-  }
-   
-  .stat-card h3{
-    font-size: 14px !important;
-    top: -60px;
-    left:35px;
-    margin-left: 25px;
-  }
-  
-  .statss-cards img{
-    width: 90px !important;
-    height: 80px !important;
-    object-fit: cover;
-    margin-left: -25px;
-    position: relative;
-    top:-5px;
-  }
-
-  /* Always show every card on mobile */
- 
-  /* Card fits its grid cell (no oversizing, no manual offset) */
-  
-
-  /* Reset the icon's desktop offset */
-  .ellipse {
-    width: 64px;
-    height: 64px;
-    left: 0 !important;
-    margin: 0;
-  }
-
-  .arrow-icons {
-    font-size: 20px;
-  }
-
- 
-
-  /* Show all cards - override hidden-card class */
-  .stat-card-link {
-    display: block !important;
-    width: 100%;
-    opacity: 1 !important;
-    transform: scale(1) !important;
-  }
-
-  .stat-card-link.hidden-card {
-    display: block !important;
-  }
-
-  .stat-card-link.active {
-    display: block !important;
-  }
-
-  /* Card styling */
-  /* .stat-card {
-    width: 110% !important;
-    height: 60px;
-    padding: 10px;
-  } */
-
-  .ellipse {
-    width: 70px;
-    height: 70px;
-    margin-left: 0;
-  }
-
-  .arrow-icons {
-    font-size: 20px;
-  }
-
-  /* Bottom Section stacked vertically */
-  .bottom-section {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin-top: 50%;
-    padding: 0 20px;
-    margin-left: 78%;
-  }
-
-  .left-vertical-cards {
-    width: 150%;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .info-card {
-    width: 100%;
-  }
-
-  /* Map below cards */
-  .right-map-placeholder {
-    width: 250%;
-    height: 300px;
-    margin-top: 20px;
-    border: 2px dashed #ccc;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-left: 120%;
-    margin-top:-30px;   
-    margin-bottom: 0px;
-
-  }
-}
-/* ---------------------------------------- */
 
 .progress-circle {
     position: relative;
@@ -686,130 +422,62 @@ circle.progress {
     margin: 4px 0 0;
 }
 
-
 .stat-card-link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
+    text-decoration: none;
+    color: inherit;
+    display: block;
 }
 
-.stat-card {
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;}
-
-.stat-card:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+html, body {
+    width: 100%;
+    overflow-x: hidden;
 }
 
-
-
-
-  @media (max-width: 480px) {
-  .stat-card {
-    width: 150% !important;
-    height: 50px;
-    padding: 10px;
-    column-gap: 80px;
-  }
-  
+/* ============================================ */
+/* RESPONSIVE - TABLET (1024px) */
+/* ============================================ */
+@media (max-width: 1024px) {
     .statss-cards {
-        column-gap:80px;
-        margin-left: -30px;
-    }
-    
-}
-
-
-/* For 375px screens */
-
-
-/* For 320px screens */
-@media (max-width: 320px) {
-  .stat-card {
-    width: 110% !important;
-    height: 60px;
-    padding: 10px;
-  
-  }
-  .statss-cards {
-        column-gap:80px;
-        margin-left: -5px;
-        column-gap:50px;
-    }
-}
-
-@media (max-width: 480px) and (min-width: 376px) {
-  .stat-card {
-    width: 150% !important;
-    height: 60px;
-    padding: 10px;
-    
-  }
-  .statss-cards {
-        margin-left: -30px;
-        column-gap:90px;
-        top: -30px;
-    }
-    .right-map-placeholder {
-  width: 150%;
-  height: 400px;
-  background-color: #f2f4f8;
-  border: 2px dashed #ccc;
-  border-radius: 10px;
-  position: relative;
-  overflow: hidden;
-    margin-right: 180%;
-    margin-top: -130px;
-}
-}
-
-@media (min-width: 325px) and (max-width: 425px) {
-    .right-map-placeholder {
-  width: 170%;
-  height: 350px;
-  background-color: #f2f4f8;
-  border: 2px dashed #ccc;
-  border-radius: 10px;
-  position: relative;
-  overflow: hidden;
-    margin-right: 150%;
-    margin-top: -80px;
-}
-
-.statss-cards {
-        margin-left: -30px;
-        column-gap:80px;
-        top: -10px;
-    }
-    }   
-
-    @media (min-width: 425px) and (max-width: 480px) {
-
-.right-map-placeholder {
-  width: 160%;
-  height: 350px;
-  background-color: #f2f4f8;
-  border: 2px dashed #ccc;
-  border-radius: 10px;
-  position: relative;
-  overflow: hidden;
-  margin:-90px 100px 10px 10px;
-}
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        position: relative;
+        margin-right: 40%;
     }
 
-    html, body {
-  width: 100%;
-  overflow-x: hidden; /* ✅ Prevent horizontal scroll */
-}
+    .heading {
+        margin: 0px 220px 0 0;
+    }
 
+    .stat-card,
+    .stat-card.new-users {
+        width: 40%;
+        max-width: 300px;
+    }
+
+    .blue-band-bg {
+        margin-left: 5%;
+        width: 160%;
+        height: 250px;
+    }
+
+    .head {
+        width: calc(100vw - 280px);
+        max-width: calc(100% - 100px);
+        margin-left: 60px;
+        margin-right: 20px;
+        font-size: 14px;
+    }
+
+    .push-notification-container {
+        width: 70%;
+    }
+}
 
 /* ============================================ */
-/* MOBILE OVERFLOW FIX - NO CLIPPING */
+/* RESPONSIVE - MOBILE (768px) */
 /* ============================================ */
-
 @media (max-width: 768px) {
-    /* Wrapper approach - contains without clipping */
     .quick-statistics-section {
         position: relative;
         width: 100vw;
@@ -817,28 +485,24 @@ circle.progress {
         padding-top: 90px;
     }
     
-    /* Create a contained wrapper for stats cards */
     .quick-statistics {
         position: relative;
         width: 100%;
         overflow: visible;
     }
     
-    /* Rest of your existing 768px styles... */
-    .statss-cards {
-        flex-wrap: wrap;
-        justify-content: center;
-        right: inherit;
-    }
-
     .statss-cards {
         display: grid !important;
         grid-template-columns: repeat(2, 1fr) !important;
         column-gap: 50px;
         margin-top: 50px !important;
-        left: 155px;
+        left: 0;
         width: 100%;
         padding: 0 10px !important;
+        flex-wrap: wrap;
+        justify-content: center;
+        right: inherit;
+        margin-left: 0;
     }
   
     .stat-card,
@@ -849,7 +513,7 @@ circle.progress {
     }
 
     .blue-band-bg {
-        left:-285px;
+        left: -285px;
         width: 190%;
         height: 300px;
     }
@@ -866,10 +530,6 @@ circle.progress {
 
     .head h1 {
         font-size: 20px;
-    }
-
-    .quick-statistics-section {
-        padding-left: 0;
     }
 
     .push-notification-container {
@@ -907,30 +567,24 @@ circle.progress {
         align-self: flex-end;
         font-size: 13px;
     }
+
+    .bottom-section {
+        margin-bottom: 0;
+    }
 }
 
+/* ============================================ */
+/* RESPONSIVE - MOBILE (480px) - CONSOLIDATED */
+/* ============================================ */
 @media (max-width: 480px) {
-    /* Prevent body scroll but allow content to be visible */
-    body {
+    html, body {
+        overflow-x: hidden !important;
+        max-width: 100vw;
         position: relative;
         width: 100vw;
     }
     
-    /* Wrapper for bottom section to scale content */
-    .bottom-section {
-        position: relative;
-        transform-origin: left top;
-        transform: scale(0.65); /* Scale down to fit */
-        width: 154%; /* Compensate for scale */
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-start;
-        margin-top: 30%;
-        padding: 0;
-        margin-left: 0;
-        margin-bottom: -100px; /* Adjust spacing after scale */
-    }
-
+    /* Header and text styles */
     .head {
         font-size: 12px !important;
         margin-left: -60px !important;
@@ -945,277 +599,37 @@ circle.progress {
         margin-bottom: -15px;
     }
 
+    /* Stats cards grid */
     .statss-cards {
         display: grid !important;
         grid-template-columns: repeat(2, 1fr) !important;
         column-gap: 50px;
         margin-top: 50px !important;
-        left: 155px;
+        left: 0;
         width: 110%;
         padding: 0 10px !important;
-    }
-
-    .stat-card p {
-        font-size: 10px;
-        top: -60px;
-        left:23px;
-        margin-left: 25px;
-    }
-   
-    .stat-card h3 {
-        font-size: 14px !important;
-        top: -60px;
-        left:35px;
-        margin-left: 25px;
-    }
-  
-    .statss-cards img {
-        width: 90px !important;
-        height: 80px !important;
-        object-fit: cover;
-        margin-left: -25px;
-        position: relative;
-        top:-5px;
-    }
-
-    .ellipse {
-        width: 64px;
-        height: 64px;
-        left: 0 !important;
-        margin: 0;
-    }
-
-    .arrow-icons {
-        font-size: 20px;
-    }
-
-    .stat-card-link {
-        display: block !important;
-        width: 100%;
-        opacity: 1 !important;
-        transform: scale(1) !important;
-    }
-
-    .stat-card-link.hidden-card {
-        display: block !important;
-    }
-
-    .stat-card-link.active {
-        display: block !important;
-    }
-
-    .ellipse {
-        width: 70px;
-        height: 70px;
         margin-left: 0;
     }
 
-    .arrow-icons {
-        font-size: 20px;
-    }
-
-    .left-vertical-cards {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .info-card {
-        width: 100%;
-    }
-
-    .right-map-placeholder {
-        width: 100%;
-        height: 300px;
-        margin: 20px 0;
-        border: 2px dashed #ccc;
-        border-radius: 10px;
-        overflow: hidden;
-    }
-}
-
-@media (max-width: 425px) {
+    /* Stat card styling */
     .stat-card {
         width: 150% !important;
         height: 50px;
         padding: 10px;
         column-gap: 80px;
     }
-  
-    .statss-cards {
-        column-gap:80px;
-        margin-left: -30px;
-    }
-    
-    /* Scale bottom section to fit */
-    .bottom-section {
-        transform: scale(0.58);
-        width: 172%;
-    }
-}
-
-@media (max-width: 320px) {
-    .stat-card {
-        width: 110% !important;
-        height: 60px;
-        padding: 10px;
-    }
-
-    .statss-cards {
-        column-gap:80px;
-        margin-left: -5px;
-        column-gap:50px;
-    }
-    
-    /* Scale bottom section to fit */
-    .bottom-section {
-        transform: scale(0.5);
-        width: 200%;
-    }
-}
-
-@media (max-width: 480px) and (min-width: 376px) {
-    .stat-card {
-        width: 150% !important;
-        height: 60px;
-        padding: 10px;
-    }
-
-    .statss-cards {
-        margin-left: -30px;
-        column-gap:90px;
-        top: -30px;
-    }
-
-    /* Scale map to fit viewport */
-    .right-map-placeholder {
-        transform: scale(0.67);
-        transform-origin: left top;
-        width: 150%;
-        height: 400px;
-        background-color: #f2f4f8;
-        border: 2px dashed #ccc;
-        border-radius: 10px;
-        position: relative;
-        overflow: hidden;
-        margin: 0;
-        margin-bottom: -150px; /* Compensate for scale */
-    }
-}
-
-@media (min-width: 325px) and (max-width: 425px) {
-    /* Scale map to fit viewport */
-    .right-map-placeholder {
-        transform: scale(0.59);
-        transform-origin: left top;
-        width: 170%;
-        height: 350px;
-        background-color: #f2f4f8;
-        border: 2px dashed #ccc;
-        border-radius: 10px;
-        position: relative;
-        overflow: hidden;
-        margin: 0;
-        margin-bottom: -120px; /* Compensate for scale */
-    }
-
-    .statss-cards {
-        margin-left: -30px;
-        column-gap:80px;
-        top: -10px;
-    }
-}   
-
-@media (min-width: 425px) and (max-width: 480px) {
-    /* Scale map to fit viewport */
-    .right-map-placeholder {
-        transform: scale(0.63);
-        transform-origin: left top;
-        width: 160%;
-        height: 350px;
-        background-color: #f2f4f8;
-        border: 2px dashed #ccc;
-        border-radius: 10px;
-        position: relative;
-        overflow: hidden;
-        margin: 0;
-        margin-bottom: -110px; /* Compensate for scale */
-    }
-}
-
-/* Add this at the very end to prevent horizontal scroll */
-@media (max-width: 480px) {
-    html {
-        overflow-x: hidden !important;
-        max-width: 100vw;
-    }
-    
-    body {
-        overflow-x: hidden !important;
-        max-width: 100vw;
-    }
-}
-
-/* ============================================ */
-/* MOBILE OVERFLOW FIX - KEEP MAP VISIBLE */
-/* ============================================ */
-
-@media (max-width: 480px) {
-    /* Prevent body scroll but allow content to be visible */
-    body {
-        position: relative;
-        width: 100vw;
-    }
-    
-    /* Bottom section wrapper - ADJUSTED */
-    .bottom-section {
-        position: relative;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-start;
-        width: 100%;
-        margin-top: 30%;
-        padding: 0 15px;
-        margin-left: 0;
-        box-sizing: border-box;
-    }
-
-    .head {
-        font-size: 12px !important;
-        margin-left: -60px !important;
-        width: calc(150vw - 10px) !important;
-        max-width: calc(70%) !important;
-        margin-right: 5px !important;
-        bottom: 40px !important;
-    }
-
-    .head h1 {
-        font-size: 20px !important;
-        margin-bottom: -15px;
-    }
-
-    .statss-cards {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        column-gap: 50px;
-        margin-top: 50px !important;
-        left: 155px;
-        width: 110%;
-        padding: 0 10px !important;
-    }
 
     .stat-card p {
         font-size: 10px;
         top: -60px;
-        left:23px;
+        left: 23px;
         margin-left: 25px;
     }
    
     .stat-card h3 {
         font-size: 14px !important;
         top: -60px;
-        left:35px;
+        left: 35px;
         margin-left: 25px;
     }
   
@@ -1225,12 +639,13 @@ circle.progress {
         object-fit: cover;
         margin-left: -25px;
         position: relative;
-        top:-5px;
+        top: -5px;
     }
 
+    /* Icons and controls */
     .ellipse {
-        width: 64px;
-        height: 64px;
+        width: 70px;
+        height: 70px;
         left: 0 !important;
         margin: 0;
     }
@@ -1239,32 +654,33 @@ circle.progress {
         font-size: 20px;
     }
 
-    .stat-card-link {
+    /* Card visibility */
+    .stat-card-link,
+    .stat-card-link.hidden-card,
+    .stat-card-link.active {
         display: block !important;
         width: 100%;
         opacity: 1 !important;
         transform: scale(1) !important;
     }
 
-    .stat-card-link.hidden-card {
-        display: block !important;
-    }
-
-    .stat-card-link.active {
-        display: block !important;
-    }
-
-    .ellipse {
-        width: 70px;
-        height: 70px;
+    /* Bottom Section */
+    .bottom-section {
+        position: relative;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        width: 100%;
+        margin-top: 10px;
+        padding: 0 15px;
         margin-left: 0;
+        box-sizing: border-box;
+        transform-origin: left top;
+        transform: none;
+        width: 100%;
+        margin-bottom: 0;
     }
 
-    .arrow-icons {
-        font-size: 20px;
-    }
-
-    /* Left cards - FIXED */
     .left-vertical-cards {
         width: 100%;
         max-width: 100%;
@@ -1279,22 +695,28 @@ circle.progress {
         max-width: 100%;
     }
 
-    /* Map - FIXED TO BE VISIBLE */
+    /* Map placeholder */
     .right-map-placeholder {
-        width: 100% !important;
-        max-width: 100% !important;
+        width: 90% !important;
+        max-width: 90% !important;
         height: 300px !important;
-        margin: 20px 0 !important;
+        margin: 20px auto !important;
         margin-left: 0 !important;
         margin-right: 0 !important;
         border: 2px dashed #ccc;
         border-radius: 10px;
         overflow: hidden;
         position: relative;
-        transform: none !important; /* Remove any transform */
+        transform: none !important;
+        left: 0;
+        top: 0;
+        margin-bottom: 0;
     }
 }
 
+/* ============================================ */
+/* RESPONSIVE - MOBILE (425px) - CONSOLIDATED */
+/* ============================================ */
 @media (max-width: 425px) {
     .stat-card {
         width: 150% !important;
@@ -1304,18 +726,27 @@ circle.progress {
     }
   
     .statss-cards {
-        column-gap:80px;
-        margin-left: -30px;
+        column-gap: 80px;
+        margin-left: 0;
     }
     
-    /* Map stays visible */
+    .bottom-section {
+        transform: none;
+        width: 100%;
+        margin-bottom: 0;
+    }
+    
     .right-map-placeholder {
         width: 100% !important;
         max-width: 100% !important;
         height: 280px !important;
-        margin: 20px 0 !important;
-        left: 150px;
+        margin: 20px auto !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
         transform: none !important;
+        left: 0;
+        top: 0;
+        margin-bottom: 0;
     }
     
     .left-vertical-cards {
@@ -1324,6 +755,9 @@ circle.progress {
     }
 }
 
+/* ============================================ */
+/* RESPONSIVE - MOBILE (320px) - CONSOLIDATED */
+/* ============================================ */
 @media (max-width: 320px) {
     .stat-card {
         width: 110% !important;
@@ -1332,19 +766,26 @@ circle.progress {
     }
 
     .statss-cards {
-        column-gap:80px;
-        margin-left: -58px;
-        column-gap:50px;
+        column-gap: 50px;
+        margin-left: 0;
     }
     
-    /* Map stays visible */
+    .bottom-section {
+        transform: none;
+        width: 100%;
+        margin-bottom: 0;
+    }
+    
     .right-map-placeholder {
         width: 100% !important;
         max-width: 100% !important;
-        height: 250px !important;
-        margin: 15px 0 !important;
+        height: 500px !important;
+        margin: 15px auto !important;
         margin-left: 0 !important;
+        left: 0;
         transform: none !important;
+        top: 0;
+        margin-bottom: 0;
     }
     
     .left-vertical-cards {
@@ -1353,7 +794,10 @@ circle.progress {
     }
 }
 
-@media (max-width: 480px) and (min-width: 376px) {
+/* ============================================ */
+/* RESPONSIVE - MOBILE RANGES - CONSOLIDATED */
+/* ============================================ */
+@media (min-width: 376px) and (max-width: 480px) {
     .stat-card {
         width: 150% !important;
         height: 60px;
@@ -1361,25 +805,26 @@ circle.progress {
     }
 
     .statss-cards {
-        margin-left: -50px;
-        column-gap:90px;
+        margin-left: 0;
+        column-gap: 90px;
         top: -30px;
     }
 
-    /* Map visible and properly sized */
     .right-map-placeholder {
         width: 100% !important;
         max-width: 100% !important;
-        height: 350px !important;
+        height: 500px !important;
         background-color: #f2f4f8;
         border: 2px dashed #ccc;
         border-radius: 10px;
         position: relative;
         overflow: hidden;
-        margin: 20px 0 !important;
-        margin-left: 0 !important;
+        margin: 20px auto !important;
+        left: 0;
+        top: 0;
         margin-right: 0 !important;
         transform: none !important;
+        margin-bottom: 0;
     }
     
     .left-vertical-cards {
@@ -1391,29 +836,68 @@ circle.progress {
         width: 100% !important;
         padding: 0 15px !important;
         margin-left: 0 !important;
+        margin-bottom: 0;
     }
 }
 
-@media (min-width: 320px) and (max-width: 425px) {
-    /* Map visible and properly sized */
+@media (min-width: 320px) and (max-width: 376px) {
     .right-map-placeholder {
         width: 100% !important;
         max-width: 100% !important;
-        height: 320px !important;
+        height: 400px !important;
         background-color: #f2f4f8;
         border: 2px dashed #ccc;
         border-radius: 10px;
         position: relative;
         overflow: hidden;
-        margin: 20px 0 !important;
-        margin-left: 0 !important;
-        margin-right: 800px;
+        margin: 20px auto !important;
+        left: 0;
+        top: 0;
+        margin-right: 0 !important;
         transform: none !important;
+        margin-bottom: 0;
     }
 
     .statss-cards {
-        margin-left: -65px;
-        column-gap:80px;
+        margin-left: 0;
+        column-gap: 60px;
+    }
+
+    .stat-card {
+        width: 135% !important;
+    }
+
+    .stat-card p {
+        font-size: 9px;
+    }
+
+    .bottom-section {
+        margin-bottom: 0;
+    }
+}
+
+@media (min-width: 325px) and (max-width: 425px) {
+    .right-map-placeholder {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 500px !important;
+        background-color: #f2f4f8;      
+        border: 2px dashed #ccc;
+        border-radius: 10px;
+        position: relative;
+        overflow: hidden;
+        margin: 20px auto !important;
+        transform: none !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        left: 0;
+        top: 0;
+        margin-bottom: 0;
+    }
+
+    .statss-cards {
+        margin-left: 0;
+        column-gap: 80px;
         top: -10px;
     }
     
@@ -1426,24 +910,27 @@ circle.progress {
         width: 100% !important;
         padding: 0 15px !important;
         margin-left: 0 !important;
+        margin-bottom: 0;
     }
-}   
+}
 
 @media (min-width: 425px) and (max-width: 480px) {
-    /* Map visible and properly sized */
     .right-map-placeholder {
         width: 100% !important;
         max-width: 100% !important;
-        height: 340px !important;
+        height: 400px !important;
         background-color: #f2f4f8;
         border: 2px dashed #ccc;
         border-radius: 10px;
         position: relative;
         overflow: hidden;
-        margin: 20px 0 !important;
+        margin: 20px auto !important;
         margin-left: 0 !important;
         margin-right: 0 !important;
         transform: none !important;
+        left: 0;
+        top: 0;
+        margin-bottom: 0;
     }
     
     .left-vertical-cards {
@@ -1455,163 +942,80 @@ circle.progress {
         width: 100% !important;
         padding: 0 15px !important;
         margin-left: 0 !important;
+        margin-bottom: 0;
     }
 }
 
-/* Prevent horizontal scroll - ONLY on html/body */
-@media (max-width: 480px) {
-    html {
-        overflow-x: hidden !important;
-        max-width: 100vw;
-    }
-    
-    body {
-        overflow-x: hidden !important;
-        max-width: 100vw;
-    }
-}
-
-
-/* ============================================ */
-/* MAP CENTERING FIX - ONLY THESE CHANGES */
-/* ============================================ */
 
 @media (max-width: 480px) {
-    /* ... all your existing styles stay the same ... */
+.right-map-placeholder {
+    width: 98% !important;
+    max-width: 100% !important;
+    height: 280px !important;
+    margin: 20px auto !important;
+    margin-left: -13px !important;
 
-    /* Map - ONLY CHANGE: margin 0 → auto */
-    .right-map-placeholder {
-        width: 100% !important;
+}
+
+.statss-cards {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* Two equal columns */
+        width: calc(100% - 20px) !important; /* Full width minus padding */
         max-width: 100% !important;
-        height: 300px !important;
-        margin: 20px auto !important; /* ← CHANGED: was "20px 0" */
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        border: 2px dashed #ccc;
-        border-radius: 10px;
-        overflow: hidden;
-        position: relative;
-        transform: none !important;
-    }
-}
-
-@media (max-width: 425px) {
-    /* ... all your existing styles stay the same ... */
-    
-    /* Map - REMOVE left:150px, ADD margin auto */
-    .right-map-placeholder {
-        width: 100% !important;
-        max-width: 100% !important;
-        height: 280px !important;
-        margin: 20px auto !important; /* ← CHANGED: was "20px 0" */
-        /* left: 150px; ← REMOVE THIS LINE */
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        transform: none !important;
-    }
-}
-
-@media (max-width: 320px) {
-    /* ... all your existing styles stay the same ... */
-    
-    /* Map - ONLY CHANGE: margin 0 → auto */
-    .right-map-placeholder {
-        width: 190% !important;
-        max-width: 250% !important;
-        height: 500px !important;
-        margin: 15px auto !important; /* ← CHANGED: was "15px 0" */
-        margin-left: 0 !important;
-        left: 220px;
-        transform: none !important;
-        top:-90px;
-    }
-}
-
-@media (max-width: 480px) and (min-width: 376px) {
-    /* ... all your existing styles stay the same ... */
-
-    /* Map - ONLY CHANGE: margin 0 → auto */
-    .right-map-placeholder {
-        width: 170% !important;
-        max-width: 200% !important;
-        height: 500px !important;
-        background-color: #f2f4f8;
-        border: 2px dashed #ccc;
-        border-radius: 10px;
-        position: relative;
-        overflow: hidden;
-        margin: 20px auto !important; /* ← CHANGED: was "20px 0" */
-        left: 180px;
-        top:-200px;
-        margin-right: 0 !important;
-        transform: none !important;
-    }
-}
-
-@media (min-width: 320px) and (max-width: 425px) {
-    /* ... all your existing styles stay the same ... */
-
-    /* Map - REMOVE margin-right:800px, ADD margin auto */
-    .right-map-placeholder {
-        width: 90% ;
-        max-width: 150% ;
-        height: 500px !important;
-        background-color: #f2f4f8;
-        border: 2px dashed #ccc;
-        border-radius: 10px;
-        position: relative;
-        overflow: hidden;
-        margin: 20px auto !important; /* ← CHANGED: was "20px 0" */
-        transform: none !important;
-    }
-}   
-
-@media (min-width: 425px) and (max-width: 480px) {
-    /* ... all your existing styles stay the same ... */
-
-    /* Map - ONLY CHANGE: margin 0 → auto */
-    .right-map-placeholder {
-        width: 140% !important;
-        max-width: 190% !important;
-        height: 400px !important;
-        background-color: #f2f4f8;
-        border: 2px dashed #ccc;
-        border-radius: 10px;
-        position: relative;
-        overflow: hidden;
-        margin: 20px auto !important; /* ← CHANGED: was "20px 0" */
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        transform: none !important;
-    }
-}
-
-
-@media (min-width: 320px) and (max-width: 376px) {
-    .right-map-placeholder {
-        width: 160% !important;
-        max-width: 190% !important;
-        height: 400px !important;
-        background-color: #f2f4f8;
-        border: 2px dashed #ccc;
-        border-radius: 10px;
-        position: relative;
-        overflow: hidden;
-        margin: 20px auto !important; /* ← CHANGED: was "20px 0" */
-        left: 180px;
-        top:-150px;
-        margin-right: 0 !important;
-        transform: none !important;
+        column-gap: 1px !important; /* Space between cards */
+        padding: 0 10px !important;
+        margin: 40px auto 0 auto !important; /* Center horizontally */
+        justify-items: stretch !important; /* Stretch items to fill grid cells */
+        left: -15px !important; /* Remove any offset */
     }
 
-    .statss-cards{
-        margin-left: -6 0px; 
-        column-gap:60px;
-    }
     .stat-card {
-        width: 135% !important;
+        width: 90% !important; /* Fill entire grid cell */
+        max-width: none !important; /* Remove max-width constraint */
+        min-width: 0 !important; /* Allow shrinking */
+        height: 70px !important;
+        min-height: 10px !important; /* Minimum height for consistency */
+        padding: 10px !important;
+        box-sizing: border-box !important;
+        margin: 0 !important; /* Remove any margins */
     }
     .stat-card p {
-        font-size: 9px;
+        font-size: 0.75rem !important;
+        
+    }
+    .head {
+        width: calc(100vw - 40px) !important;
+        max-width: 100% !important;
+        margin: 0 150px 0 -170px!important;
+        font-size: clamp(0.75rem, 3vw, 0.875rem) !important; /* 12px to 14px */
+    }
+
+    .head h1 {
+        font-size: clamp(1.125rem, 5vw, 1.375rem) !important; /* 18px to 22px */
+        
+
+    }
+
+    .heading {
+     margin-top:25px;
+        font-size: clamp(1rem, 4.5vw, 1.25rem) !important; /* 16px to 20px */
+    }
+    .heading h1{
+        justify-self: center;
+    }
+}
+
+@media (max-width: 380px) {
+.stat-card p {
+        font-size: 0.6rem !important;
+        
+    }
+}
+
+
+@media (max-width: 340px) {
+.stat-card p {
+        font-size: 0.54rem !important;
+        
     }
 }

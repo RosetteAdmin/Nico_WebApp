@@ -5,31 +5,12 @@ body {
   line-height: 1.5;
 }
 
-.device-dashboard{
+.device-dashboard {
   padding: 2rem;
   background-color: #ffffff;
   transition: all 0.3s ease;
   margin-top: 25px;
 }
-
-@media (max-width: 1024px) {
-  .device-dashboard {
-    padding: 1.5rem; /* Adjust padding for medium screens */
-  }
-}
-
-@media (max-width: 768px) {
-  .device-dashboard {
-    padding: 1rem; /* Adjust padding for smaller screens */
-  }
-}
-
-@media (max-width: 480px) {
-  .device-dashboard {
-    padding: 0.5rem; /* Compact padding for very small screens */
-  }
-}
-
 
 /* Dashboard Controls */
 .dashboard-controls {
@@ -47,22 +28,20 @@ body {
 
 .search-bar {
   width: 100%;
-    border:none;
-
-  padding: 0.5rem 2.5rem 0.5rem 1rem; /* Reserve space for the icon on the right */
-  border-radius: 20px; /* Rounded corners */
+  border: none;
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
+  border-radius: 20px;
   outline: none;
 }
 
 .dev-search-icon {
   position: absolute;
   top: 50%;
-  right: -20%; /* Align the icon inside the search bar */
+  right: -20%;
   transform: translateY(-50%);
-  color: rgb(0, 0, 0); /* Optional: Style the icon */
-  pointer-events: none; /* Makes the icon unclickable */
+  color: rgb(0, 0, 0);
+  pointer-events: none;
 }
-
 
 .filter-button {
   background-color: transparent;
@@ -72,14 +51,7 @@ body {
 }
 
 .filter-button:hover {
-  color: #007bff; /* Optional: Add hover effect for the button */
-}
-
-.filter-button {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
+  color: #007bff;
 }
 
 /* Device Table */
@@ -106,39 +78,6 @@ body {
   background-color: #ffffff;
 }
 
-@media (max-width: 1024px) {
-  .device-table th,
-  .device-table td {
-    font-size: 1rem;
-    padding: 0.6rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .device-table-wrapper {
-    display: block;
-  }
-
-  .device-table {
-    display: block; /* Allows horizontal scrolling */
-    width: 100%; /* Keeps the table responsive */
-  }
-
-  .device-table th,
-  .device-table td {
-    font-size: 0.875rem;
-    padding: 0.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .device-table th,
-  .device-table td {
-    font-size: 0.75rem;
-    padding: 0.4rem;
-  }
-}
-
 /* More Button */
 .more-button {
   background: none;
@@ -154,18 +93,17 @@ body {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem; /* Adds spacing between items */
+  gap: 1rem;
 }
 
 /* Pagination Controls */
 .pagination-controls {
   display: flex;
-  gap: 0.5rem; /* Adds spacing between buttons */
+  gap: 0.5rem;
 }
 
 .pagination-controls button {
   background: none;
-  
   border: 1px solid #ccc;
   padding: 0.5rem;
   border-radius: 5px;
@@ -181,7 +119,6 @@ body {
 .hidden {
   display: none;
 }
-
 
 .loading-backdrop {
   position: fixed;
@@ -218,39 +155,24 @@ body {
   100% { transform: rotate(360deg); }
 }
 
-
-/* css for registered device */
-/* css for registered device */
-/* css for registered device */
-/* css for registered device */
-/* css for registered device */
-
-
-/* General Styles */
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  line-height: 1.5;
-}
-
-/* Device Dashboard */
+/* Device Dashboard Registered */
 .device-dashboard-reg {
   padding: 1rem;
   background-color: #ffffff;
   transition: all 0.3s ease;
-  width: 61%; 
-  margin: 30px 10px 10px 280px; 
+  width: 61%;
+  margin: 30px 10px 10px 280px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Header Section */
-.dashboard-title-reg{
+.dashboard-title-reg {
   font-size: 1.7rem;
   text-align: start;
   color: rgb(255, 255, 255);
   position: relative;
-  right: 480px; /* Adjusted to align with sidebar width */
-  white-space: nowrap; /* Prevent text wrapping */
+  right: 480px;
+  white-space: nowrap;
 }
 
 .device-table-reg th,
@@ -258,6 +180,7 @@ body {
   padding: 0.75rem 1rem;
   text-align: left;
 }
+
 .device-dashboard-reg .header-controls {
   display: flex;
   justify-content: space-between;
@@ -292,9 +215,8 @@ body {
   padding: 0.5rem 2rem 0.5rem 1rem;
   border-radius: 4px;
   font-size: 14px;
-  border:none;
+  border: none;
   outline: none;
-  
 }
 
 .dev-search-icon-reg {
@@ -306,14 +228,12 @@ body {
   pointer-events: none;
 }
 
-/* Device Table */
+/* Device Table Registered */
 .device-table-reg {
   width: 100%;
   border-collapse: collapse;
   table-layout: auto;
   background-color: #fff;
-  
-
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow: hidden;
@@ -321,35 +241,18 @@ body {
   font-size: 0.9rem;
 }
 
-
-
 .device-table-reg th,
-.device-table-reg td
- {
+.device-table-reg td {
   text-align: left;
   border-bottom: 1px solid #e0e0e0;
   word-wrap: break-word;
   font-size: 0.9rem;
-  
 }
-.device-table-reg th{
+
+.device-table-reg th {
   background-color: #ffffff;
   font-weight: 600;
   color: #333;
-}
-
-/* .device-table-reg th::after {
-  position: absolute;
-  right: 0.5rem;
-  font-size: 0.8rem;
-  color: #495057;
-} */
-
-.device-table-reg td {
-  padding: 0.75rem;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-  word-wrap: break-word;
 }
 
 .device-table-reg tr:hover {
@@ -357,11 +260,34 @@ body {
 }
 
 /* Status Indicators */
-.device-table-reg td:nth-child(5) { 
-  font-weight: bold;
+.status-indicator {
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: white;
+  display: inline-block;
 }
 
+.status-info { background-color: #00b7eb; }
+.status-warning { background-color: #ff9800; }
+.status-dark { background-color: #616161; }
+.status-light { background-color: #bdbdbd; }
+.status-secondary { background-color: #757575; }
+.status-success { background-color: #4caf50; }
+.status-danger { background-color: #f44336; }
 
+.status-indicator.status-connected {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.status-indicator.status-disconnected {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
 
 /* More Button */
 .filter-button-reg {
@@ -406,454 +332,384 @@ body {
   opacity: 0.6;
 }
 
-/* Loading Spinner */
-.loading-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.loading-spinner {
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3498db;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-}
-
-.loading-text {
-  margin-top: 1rem;
-  color: #666;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .device-dashboard-reg {
-    width: calc(100% - 200px);
-    margin-left: 200px;
-  }
-  .device-table-reg th,
-  .device-table-reg td {
-    padding: 0.5rem;
-    font-size: 0.875rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .device-dashboard-reg {
-    width: 100%;
-    margin-left: 0;
-  }
-  .header-controls {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .search-bar-container-reg {
-    width: 100%;
-  }
-  .device-table-reg th,
-  .device-table-reg td {
-    font-size: 0.75rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .device-table-reg th,
-  .device-table-reg td {
-    font-size: 0.7rem;
-    padding: 0.4rem;
-  }
-}
-
 .pagination-info {
   color: #ffffff;
   font-size: 1rem;
-  font-weight: 600;   
-  position: relative; 
-  white-space: nowrap; /* Prevent text wrapping */
+  font-weight: 600;
+  position: relative;
+  white-space: nowrap;
 }
-
-.status-indicator {
-  padding: 0.3rem 0.8rem;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: white;
-  display: inline-block;
-  
-}
-
-.status-info {
-  background-color: #00b7eb;
-}
-
-.status-warning {
-  background-color: #ff9800;
-}
-
-.status-dark {
-  background-color: #616161;
-}
-
-.status-light {
-  background-color: #bdbdbd;
-}
-
-.status-secondary {
-  background-color: #757575;
-}
-
-.status-success {
-  background-color: #4caf50;
-}
-
-.status-danger {
-  background-color: #f44336;
-}
-
-
-/* Remove bold from table data */
-.device-table-reg tbody td {
-  font-weight: normal;
-}
-
-/* Status indicator styling */
-.status-indicator {
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 13px;
-  font-weight: 500;
-  display: inline-block;
-}
-
-.status-indicator.status-connected {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
-}
-
-.status-indicator.status-disconnected {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-}
-
-
 
 /* ============================================ */
-/* MOBILE  RESPONSIVENESS  */
+/* COMPREHENSIVE MOBILE RESPONSIVENESS (ADD-ON) */
+/* Only adds/overrides for mobile – desktop stays unchanged */
 /* ============================================ */
 
-/* Tablets (768px and below) */
+/* Tablets and down */
 @media (max-width: 768px) {
-  /* Move main dashboard container */
-  .device-dashboard {
-    margin-left: 50% !important;
-    width: 100% !important;
-    padding: 1rem;
+  /* Make main containers fluid and centered */
+  .device-dashboard,
+  .device-dashboard-reg {
+    width: calc(100% - 20px) !important;
+    margin: 10px auto !important;
+    padding: clamp(0.75rem, 2vw, 1rem);
+    box-sizing: border-box;
   }
 
- 
-  /* Move device table wrapper */
+  /* Reset large desktop offsets on mobile */
+  .dashboard-title-reg {
+    position: static !important;
+    right: auto !important;
+    text-align: center !important;
+    white-space: normal !important;
+  }
+
+  /* Search bars: full width, aligned icons */
+  .search-bar-container,
+  .search-bar-container-reg {
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .dev-search-icon,
+  .dev-search-icon-reg {
+    right: 12px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+  }
+
+  /* Tables: keep full width with horizontal scroll if needed */
   .device-table-wrapper {
     width: 100% !important;
+    max-width: 100% !important;
     overflow-x: auto !important;
     -webkit-overflow-scrolling: touch;
-    margin: 0 !important;
   }
 
-  /* Device Table */
-  .device-table {
-    width: auto !important;
-    min-width: 100% !important;
-    max-width: max-content !important;
-    display: table !important;
-    border-collapse: collapse;
+  .device-table,
+  .device-table-reg {
+    min-width: 600px !important; /* prevent squishing on small screens */
   }
 
   .device-table th,
-  .device-table td {
-    white-space: nowrap;
-    padding: 0.5rem;
-  }
-
-  /* Scrollbar styling */
-  .device-table-wrapper::-webkit-scrollbar {
-    height: 8px;
-  }
-
-  .device-table-wrapper::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 4px;
-  }
-
-  .device-table-wrapper::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
-  }
-
-  .device-table-wrapper::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-
-  /* Move registered dashboard container */
-  .device-dashboard-reg {
-    margin-left: 50% !important;
-    width: 100% !important;
-  }
-
-  /* Registered Device Table */
-  .device-table-reg {
-    width: auto !important;
-    min-width: 200% !important;
-    max-width: max-content !important;
-    display: block !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .device-table-reg thead,
-  .device-table-reg tbody {
-    display: table !important;
-    width: auto !important;
-    min-width: 200% !important;
-  }
-
+  .device-table td,
   .device-table-reg th,
   .device-table-reg td {
-    white-space: nowrap;
+    font-size: clamp(0.7rem, 2vw, 0.875rem);
+    padding: clamp(0.4rem, 1.5vw, 0.5rem);
+    white-space: nowrap; /* maintain readable cells */
   }
 
-  /* Registered table scrollbar */
-  .device-table-reg::-webkit-scrollbar {
-    height: 8px;
-  }
-
-  .device-table-reg::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 4px;
-  }
-
-  .device-table-reg::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
-  }
-
-  .device-table-reg::-webkit-scrollbar-thumb:hover {
-    background: #555;
+  /* Footer stacks nicely */
+  .table-footer,
+  .table-footer-reg {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
   }
 }
 
-/* All Phones (480px and below) */
+/* Phones */
 @media (max-width: 480px) {
-  /* Move main dashboard container */
-  .device-dashboard {
-    margin-left: 50% !important;
-    width: 100% !important;
-    padding: 0.5rem;
+  .device-dashboard,
+  .device-dashboard-reg {
+    width: calc(90% - 10px) !important;
+    margin: 6px auto !important;
+    padding: clamp(0.5rem, 2vw, 0.75rem);
+    right: 30px;
+    position: relative;
   }
 
+  /* Ensure no leftover negative margins or half-width tables */
+  .device-table-reg {
+    width: 100% !important;
+    margin: 6px auto !important; /* overrides any negative/4-value margins */
+  }
 
   .dashboard-title-reg {
-  font-size: 1.7rem;
-  text-align: start;
-  color: rgb(255, 255, 255);
-  position: relative;
-  right: 630px; /* Adjusted to align with sidebar width */
-  white-space: nowrap; /* Prevent text wrapping */
-  top:-20px;
-}
-
-  .device-table-wrapper {
-    width: 100% !important;
-    overflow-x: scroll !important;
+    font-size: clamp(1rem, 4vw, 1.5rem) !important;
+    margin-bottom: 0.5rem;
   }
 
-  .device-table {
-    width: auto !important;
-    min-width: 150% !important;
+  .search-bar,
+  .search-bar-reg {
+    width: 100% !important;
+    padding: clamp(0.4rem, 2vw, 0.5rem) 2rem clamp(0.4rem, 2vw, 0.5rem) 1rem !important;
+    font-size: clamp(0.75rem, 3vw, 0.875rem) !important;
+  }
+
+  .device-table,
+  .device-table-reg {
+    min-width: 500px !important; /* keep readable columns */
+    font-size: clamp(0.65rem, 2vw, 0.75rem) !important;
   }
 
   .device-table th,
-  .device-table td {
-    padding: 0.4rem 0.3rem;
-    font-size: 0.75rem;
+  .device-table td,
+  .device-table-reg th,
+  .device-table-reg td {
+    padding: clamp(0.3rem, 1.5vw, 0.4rem) !important;
   }
 
-  /* Move registered dashboard container */
-  .device-dashboard-reg {
-    margin-left: 50% !important;
-    width: 120% !important;
-        border-radius: 10px;
+  .pagination-controls button,
+  .pagination-controls-reg button {
+    padding: clamp(0.3rem, 1.5vw, 0.5rem) clamp(0.5rem, 2vw, 0.75rem);
+    font-size: clamp(0.7rem, 2.5vw, 0.8rem);
+  }
 
+  .status-indicator {
+    padding: clamp(0.2rem, 1vw, 0.3rem) clamp(0.4rem, 2vw, 0.6rem);
+    font-size: clamp(0.6rem, 2vw, 0.7rem);
+  }
+}
+
+/* Small phones */
+@media (max-width: 375px) {
+  .device-dashboard,
+  .device-dashboard-reg {
+    width: calc(100% - 8px) !important;
+    margin: 4px auto !important;
+    padding: clamp(0.35rem, 1.5vw, 0.5rem);
+  }
+
+  .device-table,
+  .device-table-reg {
+    min-width: 400px !important;
+  }
+
+  .device-table th,
+  .device-table td,
+  .device-table-reg th,
+  .device-table-reg td {
+    font-size: clamp(0.55rem, 1.6vw, 0.65rem) !important;
+    padding: clamp(0.2rem, 1vw, 0.3rem) !important;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 320px) {
+  .device-dashboard,
+  .device-dashboard-reg {
+    width: calc(100% - 6px) !important;
+    margin: 3px auto !important;
+    padding: clamp(0.3rem, 1.2vw, 0.4rem);
+  }
+
+  .device-table,
+  .device-table-reg {
+    min-width: 350px !important;
+  }
+
+  .device-table th,
+  .device-table td,
+  .device-table-reg th,
+  .device-table-reg td {
+    font-size: clamp(0.5rem, 1.5vw, 0.6rem) !important;
+    padding: clamp(0.15rem, 0.8vw, 0.25rem) !important;
+  }
+
+  .pagination-controls button,
+  .pagination-controls-reg button {
+    min-width: 26px;
+    font-size: clamp(0.6rem, 2vw, 0.7rem);
+  }
+}
+
+/* Landscape tweaks */
+@media (max-width: 768px) and (orientation: landscape) {
+  .device-table,
+  .device-table-reg {
+    min-width: 600px !important;
+  }
+}
+
+/* Smoother text on high-DPI in mobile */
+@media (max-width: 480px) and (-webkit-min-device-pixel-ratio: 2),
+       (max-width: 480px) and (min-resolution: 192dpi) {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+
+/* ============================================ */
+/* MOBILE RESPONSIVENESS ADD-ONS (SAFE OVERRIDES) */
+/* ============================================ */
+
+/* Tablets and down */
+@media (max-width: 768px) {
+  /* Make main panels fluid and centered */
+  .device-dashboard-reg {
+    width: calc(100% - 20px) !important;
+    margin: 10px auto !important;
+    box-sizing: border-box;
+  }
+
+  /* Stack and center controls */
+  .search-bar-container {
+    right: 0 !important;
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto; /* input + filter button */
+    gap: 10px;
+    align-items: center;
+  }
+
+  .dashboard-title-reg {
+    grid-column: 1 / -1;
+    text-align: center !important;
+    position: static !important;
+    right: auto !important;
+    white-space: normal !important;
+    margin: 0 0 6px 0 !important;
+    font-size: clamp(1rem, 4vw, 1.3rem) !important;
+  }
+
+  .search-bar {
+    width: 100% !important;
+    padding: clamp(0.45rem, 2vw, 0.6rem) 2rem clamp(0.45rem, 2vw, 0.6rem) 0.9rem !important;
+    font-size: clamp(0.8rem, 3vw, 0.95rem) !important;
+  }
+
+  .dev-search-icon {
+    right: 10px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    font-size: clamp(0.9rem, 3vw, 1.1rem) !important;
+  }
+
+  .filter-button {
+    font-size: clamp(1.1rem, 4vw, 1.3rem) !important;
+    padding: 8px !important;
+  }
+
+  /* Table: keep readable, scroll horizontally inside the panel */
+  .device-dashboard-reg {
+    overflow-x: auto !important;      /* horizontal scroll only inside panel */
+    -webkit-overflow-scrolling: touch;
   }
 
   .device-table-reg {
-    width: auto !important;
-    min-width: 100% !important;
+    min-width: 560px !important;      /* don’t let columns squish */
+    width: max-content !important;     /* shrink-to-content behavior */
   }
 
   .device-table-reg th,
   .device-table-reg td {
-    padding: 0.4rem 0.3rem;
+    white-space: nowrap !important;    /* horizontal scroll instead of wrapping */
+    padding: clamp(0.35rem, 1.6vw, 0.5rem) !important;
+    font-size: clamp(0.7rem, 2.2vw, 0.85rem) !important;
   }
 
-  /* Smaller scrollbar for phones */
-  .device-table-wrapper::-webkit-scrollbar,
-  .device-table-reg::-webkit-scrollbar {
-    height: 6px;
+  /* Keep header visible while scrolling vertically inside wrapper */
+  .device-table-reg thead th {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 1;
+  }
+
+  /* Handle long IDs gracefully */
+  .device-table-reg td:first-child {
+    max-width: 240px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Footer/pagination stack */
+  .table-footer {
+    grid-column: 1 / -1;
+    display: grid !important;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pagination-controls button {
+    min-width: 36px;
+    min-height: 36px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+  }
+
+  /* Status chips a bit tighter */
+  .status-indicator {
+    padding: 0.25rem 0.6rem !important;
+    font-size: 0.7rem !important;
+    border-radius: 10px !important;
+  }
+
+  /* Loading overlay size on mobile */
+  .loading-spinner {
+    width: 70px !important;
+    height: 70px !important;
+    border-width: 8px !important;
+  }
+
+  .loading-text {
+    font-size: 1rem !important;
+    margin-left: 0 !important;
+    margin-top: 10px !important;
+  }
+
+  /* Avoid horizontal scroll on page itself */
+  html, body {
+    overflow-x: hidden;
+  }
+}
+
+/* Phones (<= 480px) refinements */
+@media (max-width: 480px) {
+  .device-dashboard-reg {
+    width: calc(95% - 12px) !important;
+    margin: 6px auto 5px 25px !important;
+    padding: clamp(0.4rem, 2vw, 0.6rem);
+    
   }
 
   .search-bar-container {
-    position: relative;
-    flex: 1 !important; /* ✅ CHANGED: Allow it to grow */
-    width: 100% !important; /* ✅ Full width */
-    max-width: 100% !important; /* ✅ Don't exceed container */
-    min-width: 0 !important; /* ✅ Reset min-width */
-    right: 0 !important; /* ✅ CHANGED: Reset right position */
-    margin: 0 !important; /* ✅ Reset margins */
+    grid-template-columns: 1fr auto; /* input full width + button */
+    gap: 8px;
+  }
+  
+
+  .device-table-reg {
+    min-width: 500px !important;
   }
 
-.search-bar {
-  width: 900%;
-    border:none;
-    position: relative;
-  right:600px;  border-radius: 20px; /* Rounded corners */
-  outline: none;
+  .device-table-reg th,
+  .device-table-reg td {
+    font-size: clamp(0.65rem, 2.4vw, 0.8rem) !important;
+    padding: clamp(0.3rem, 1.4vw, 0.4rem) !important;
+  }
+
+  .pagination-controls button {
+    min-width: 34px;
+    min-height: 34px;
+  }
 }
 
-.dev-search-icon {
-  position: absolute;
-  left:900px;
-  position: relative;
-  transform: translateY(-50%);
-  color: rgb(0, 0, 0); /* Optional: Style the icon */
-  pointer-events: none; /* Makes the icon unclickable */
-}
-}
-
-/* Small Phones (375px and below) */
+/* Small phones (<= 375px) */
 @media (max-width: 375px) {
-  /* Move main dashboard container */
-  .device-dashboard {
-    margin-left: 50% !important;
-    width: 50% !important;
+  .device-table-reg {
+    min-width: 420px !important;
   }
-
-  .dashboard-title-reg {
-  font-size: 1.2rem;
-  text-align: start;
-  color: rgb(255, 255, 255);
-  position: relative;
-  right: 630px; /* Adjusted to align with sidebar width */
-  white-space: nowrap; /* Prevent text wrapping */
-}
-
-  .device-table th,
-  .device-table td {
-    padding: 0.35rem 0.25rem;
-    font-size: 0.7rem;
-  }
-
-  /* Move registered dashboard container */
-  .device-dashboard-reg {
-    margin-left: 70% !important;
-    width: 140% !important;
-    border-radius: 10px;
-  }
-
   .device-table-reg th,
   .device-table-reg td {
-    padding: 0.35rem 0.25rem;
-    font-size: 0.65rem;
+    font-size: clamp(0.6rem, 2.2vw, 0.7rem) !important;
   }
 }
 
-/* Extra Small Phones (320px and below) */
+/* Extra-small phones (<= 320px) */
 @media (max-width: 320px) {
-  /* Move main dashboard container */
-  .device-dashboard {
-    margin-left: 50% !important;
-    width: 50% !important;
+  .device-table-reg {
+    min-width: 380px !important;
   }
-
-.dashboard-title-reg {
-  font-size: 1.7rem;
-  text-align: start;
-  color: rgb(255, 255, 255);
-  position: relative;
-  right: 630px; /* Adjusted to align with sidebar width */
-  white-space: nowrap; /* Prevent text wrapping */
-  top:-20px;
-}
-
-  .device-table th,
-  .device-table td {
-    padding: 0.3rem 0.2rem;
-    font-size: 0.65rem;
-  }
-
-  /* Move registered dashboard container */
-  .device-dashboard-reg {
-    margin-left: 80% !important;
-    width: 160% !important;
-    border-radius: 10px;
-  }
-
   .device-table-reg th,
   .device-table-reg td {
-    padding: 0.3rem 0.2rem;
-    font-size: 0.7rem;
+    font-size: clamp(0.55rem, 2vw, 0.65rem) !important;
   }
-
-  /* Even smaller scrollbar */
-  .device-table-wrapper::-webkit-scrollbar,
-  .device-table-reg::-webkit-scrollbar {
-    height: 5px;
-  }
-
-
-  .search-bar-container {
-    position: relative;
-    flex: 1 !important; /* ✅ CHANGED: Allow it to grow */
-    width: 100% !important; /* ✅ Full width */
-    max-width: 100% !important; /* ✅ Don't exceed container */
-    min-width: 0 !important; /* ✅ Reset min-width */
-    right: 0 !important; /* ✅ CHANGED: Reset right position */
-    margin: 0 !important; /* ✅ Reset margins */
-  }
-
-.search-bar {
-  width: 150%;
-    border:none;
-    position: relative;
-  right:800px;
-  margin-top:20px;
-  padding: 0.5rem 2.5rem 0.5rem 1rem; /* Reserve space for the icon on the right */
-  border-radius: 20px; /* Rounded corners */
-  outline: none;
-}
-
-.dev-search-icon {
-  position: absolute;
-  top: 50%;
-  right: -20%; /* Align the icon inside the search bar */
-  transform: translateY(-50%);
-  color: rgb(0, 0, 0); /* Optional: Style the icon */
-  pointer-events: none; /* Makes the icon unclickable */
-}
-
 }
