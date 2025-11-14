@@ -142,14 +142,14 @@ const Customers = () => {
             setCurrentPage(1);
           }}
         />
-        <span className="dev-search-icon">
+        <span className="op-search-icon">
           <FontAwesomeIcon icon={faSearch} />
         </span>
         <button className="filter-button">
           <FontAwesomeIcon icon={faSliders} />
         </button>
         <button
-                    className="add-user-btn"
+                    className="add-operator-btn"
                     onClick={() => navigate("/addoperatorinfo")}
                   >
                     <FontAwesomeIcon icon={faPlus} /> Add Operator
