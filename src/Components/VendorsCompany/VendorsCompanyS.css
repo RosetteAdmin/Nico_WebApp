@@ -1,328 +1,397 @@
-/* styles.css */
-.div-ven-com-container {
-  margin-top: 120px;
-    max-width: 1500px;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    /* margin-left: 315px; */
- margin-left: 300px;
-  margin-right: auto;
-  position: relative;
-  width: 60%;
-}
+/* ============================================
+   LOADING SPINNER
+============================================ */
 
-.div-ven-com-header {
+.loading-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
-  justify-content: space-between;
-  /* Pushes elements to opposite sides */
+  justify-content: center;
   align-items: center;
-  /* width: 100%; */
-  padding: 10px 20px;
+  z-index: 1000;
 }
 
-.h1-ven-com-title {
-  font-size: 22px;
+.loading-spinner {
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #3498db;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+.loading-text {
+  color: white;
   font-weight: bold;
-  color: #333;
-  margin-bottom: 15px;
+  margin-top: 15px;
+  margin-left: 40px;
+  font-size: 1.5em;
 }
 
-.vendor-ven-com-search-bar-container {
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ============================================
+   DESKTOP STYLES 
+============================================ */
+
+.local-admin-header-card {
   display: flex;
   align-items: center;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  overflow: hidden;
-  background-color: #fff;
+  justify-content: flex-start;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0 0 24px 0;
+  margin: 50px auto;
+  max-width: 1200px;
+  width: 100%;
+  gap: 20px;
+  position: relative;
+  margin-left: 280px;
+  flex-wrap: nowrap;
 }
 
-.ven-com-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.local-admin-title {
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+  flex-shrink: 0;
+  line-height: 1;
+  white-space: nowrap;
 }
 
-.input-ven-com-search {
+.local-admin-add-btn {
+  background: #fff; 
+  color: #0C5890;
+  font-weight: 600;
   border: none;
-  padding: 8px 12px;
-  outline: none;
-  width: 200px;
+  border-radius: 2rem;
+  padding: 10px 28px;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(10, 75, 176, 0.08);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  position: relative;
+  right:50px;
 }
 
-.vendor-ven-com-search-icon {
-  padding: 8px;
+.local-admin-search-filter-bar {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 2rem;
+  padding: 0 12px;
+  min-width: 300px;
+  max-width: 450px;
+  position: relative;
+  flex: 1;
+  margin-left: 200px;
+}
+
+.local-admin-search-bar {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1rem;
+  padding: 10px 0 10px 12px;
+  width: 120%;
+  min-width: 200px;
+  border-radius: 2rem;
+  max-width: 500px;
+}
+
+.local-admin-search-icon {
+  color: #000;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.local-admin-filter-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  left: 250px;
+  position: relative;
+}
+
+.local-admin-th,
+.local-admin-td {
+  text-align: left;
+  padding: 0.75rem;
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+.local-admin-th {
+  background-color: #ffffff;
+  font-weight: 600;
+}
+
+.local-admin-table-container table {
+  width: 63%;
+  transition: all 0.3s ease;
   background-color: white;
-  /* Background for icon */
+  margin-top: -45px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  position: relative;
+  margin-left: 280px;
+}
+
+.local-admin-table-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+  flex-shrink: 0;
+  right:70px;
+  position: relative;
+}
+
+.local-admin-pagination-info {
+  color: #fff;
+  font-size: 1rem;
+  right: 8px;
+  white-space: nowrap;
+  position: relative;
+  left: 100px;
+}
+
+.local-admin-pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.local-admin-pagination-controls button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #f8f8f8;
+  color: #333;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-}
-
-.vendor-ven-com-filter-button {
-  border: none;
-  background-color: white;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-}
-
-/* Grant Access Button */
-.grant-access-btn {
-  background-color: #0c5890;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  font-size: 14px;
   border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.ven-com-filter-button:hover {
-  color: #0056b3;
-}
-
-.table-ven-com-list {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-}
-
-.table-ven-com-list th,
-.table-ven-com-list td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #ddd; /* Keeps only horizontal lines */
-  border-left: none;  /* Removes left borders */
-  border-right: none; /* Removes right borders */
-}
-
-.table-ven-com-list th:first-child,
-.table-ven-com-list td:first-child {
-  border-left: none; /* Ensures no left border */
-}
-
-.table-ven-com-list th:last-child,
-.table-ven-com-list td:last-child {
-  border-right: none; /* Ensures no right border */
-}
-
-/* Keep the table header with a background color */
-.table-ven-com-list th {
-  background-color: #f4f4f4; /* Keeps the header background */
-}
-
-/* Remove background color from table rows */
-.table-ven-com-list tr {
-  background-color: transparent !important;
-}
-
-/* Ensure table cells also have no background */
-.table-ven-com-list td {
-  background-color: transparent !important;
-}
-
-
-.label-ven-com-switch {
   position: relative;
-  display: inline-block;
-  width: 34px;
-  height: 20px;
+  left: 100px;
 }
 
-.input-ven-com-toggle {
-  opacity: 0;
-  width: 0;
-  height: 0;
+.local-admin-pagination-controls button + button {
+  margin-left: -4px;
 }
 
-.span-ven-com-slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 20px;
+.local-admin-pagination-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-.span-ven-com-slider:before {
-  position: absolute;
-  content: "";
-  height: 14px;
-  width: 14px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 0.4s;
-  border-radius: 50%;
-}
-
-.input-ven-com-toggle:checked+.span-reg-com-slider {
-  background-color: #007bff;
-}
-
-.input-ven-com-toggle:checked+.span-reg-com-slider:before {
-  transform: translateX(14px);
-}
-
-.button-ven-com-more {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 1.2rem;
-}
-
-.div-ven-com-pagination {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.button-ven-com-pagination {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.button-ven-com-pagination:hover {
-  background-color: #0056b3;
-}
-
-.span-ven-com-pagination {
+.local-admin-arrow-icon {
   font-size: 1rem;
 }
 
+/* ============================================
+   RESPONSIVE STYLES
+============================================ */
+
 @media (max-width: 1024px) {
-  .div-ven-com-search-bar {
-    flex-direction: row;
-  }
-
-  .div-ven-com-container {
-    width: 95%;
-    max-width: 800px;
-    padding: 15px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .h1-ven-com-header {
-    font-size: medium;
-    position: relative;
-    left: 9%;
-  }
-
-  .search-bar-container {
-    position: relative;
-    right: 30%;
-  }
-
-  .input-ven-com-search {
-    width: 100%;
-  }
-
-  .vendor-search-icon {
-    right: 5px;
-  }
-
-  .filter-button {
-    position: relative;
-    right: 10%;
-  }
-
-  .table-ven-com-list {
-    width: 80%;
-    position: relative;
-    left: 9%;
-    font-size: 0.9rem;
-  }
-
-  .table-ven-com-list th,
-  .table-ven-com-list td {
-    padding: 6px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-
-  .div-ven-com-pagination {
-    position: relative;
-    left: 10%;
-    width: 78%;
-  }
+  .local-admin-header-card { margin-left: 70px; max-width: calc(100% - 400px); gap: 15px; }
+  .local-admin-title { font-size: 1.2rem; left: 120px; position: relative; }
+  .local-admin-add-btn { left: 150px; padding: 8px 20px; font-size: 1rem; }
+  .local-admin-search-filter-bar { margin-left: 150px; max-width: 300px; min-width: 250px; }
+  .local-admin-search-bar { width: 100%; min-width: 180px; }
+  .local-admin-filter-btn { left: 60px; font-size: 1.1rem; }
+  .local-admin-pagination-info { left: 60px; font-size: 0.95rem; }
+  .local-admin-pagination-controls button { left: 60px; height: 25px; }
+  .local-admin-table-container table { margin-left: 70px; width: calc(100% - 450px); }
+  .local-admin-th, .local-admin-td { padding: 0.6rem; font-size: 0.85rem; }
 }
 
 @media (max-width: 768px) {
-  .h1-ven-com-header {
-    font-size: medium;
-    position: relative;
-    left: 23%;
+  .local-admin-header-card { margin-left: 0 !important; margin-right: 0 !important; max-width: 100% !important; width: 100% !important; display: flex !important; flex-wrap: wrap !important; align-items: center !important; padding: 1rem !important; gap: 0 !important; margin-top: 20px !important; position: static !important; }
+  .local-admin-title { font-size: 1.4rem !important; text-align: left !important; white-space: normal !important; position: static !important; left: 0 !important; flex: 1 1 100% !important; order: 1 !important; margin-bottom: 0 !important; }
+  .local-admin-search-filter-bar { flex: 1 1 100% !important; max-width: 100% !important; min-width: 150px !important; width: 100% !important; margin-left: 0 !important; order: 2 !important; position: relative !important; padding: 0 12px !important; margin-bottom: 10px !important; }
+  .local-admin-search-bar { font-size: 0.9rem !important; width: 100% !important; min-width: auto !important; padding: 8px 30px 8px 10px !important; }
+  .local-admin-search-icon { position: absolute !important; right: 16px !important; top: 50% !important; transform: translateY(-50%) !important; font-size: 0.9rem !important; color: #000; pointer-events: none; }
+  .local-admin-filter-btn { flex: 0 0 auto !important; position: static !important; left: 0 !important; order: 2 !important; font-size: 1.1rem !important; padding: 8px !important; background: none; border: none; color: white; cursor: pointer; }
+  .local-admin-add-btn { flex: 0 0 auto !important; width: auto !important; padding: 8px 16px !important; font-size: 0.9rem !important; position: static !important; left: 0 !important; top: 0 !important; order: 3 !important; white-space: nowrap !important; margin-bottom: 0 !important; justify-content: flex-start !important; }
+  .local-admin-table-footer { margin-left: auto !important; flex: 0 0 auto !important; order: 4 !important; display: flex !important; flex-direction: row !important; gap: 8px !important; padding: 0 !important; align-items: center !important; width: auto !important; position: static !important; left: 0 !important; top: 0 !important; justify-content: flex-end !important; margin-bottom: 0 !important; }
+  .local-admin-pagination-info { position: static !important; left: 0 !important; font-size: 0.85rem !important; white-space: nowrap !important; display: block !important; color: #fff; }
+  .local-admin-pagination-controls { display: flex !important; gap: 4px !important; position: static !important; left: 0 !important; align-items: center; }
+  .local-admin-pagination-controls button { position: static !important; left: 0 !important; height: 30px !important; min-width: 30px !important; padding: 6px 10px !important; font-size: 0.85rem !important; }
+  .local-admin-arrow-icon { font-size: 1rem; }
+  .local-admin-table-container { margin-left: 0 !important; max-width: 100% !important; width: 100% !important; margin-top: 16px !important; padding: 0 1rem !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; display: block !important; text-align: center !important; order: 5 !important; }
+  .local-admin-table-container table { min-width: 600px !important; margin-left: auto !important; margin-right: auto !important; width: fit-content !important; margin-top: 0 !important; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important; position: static !important; }
+  .local-admin-th, .local-admin-td { padding: 0.5rem !important; font-size: 0.8rem !important; }
+  .loading-spinner { width: 80px !important; height: 80px !important; border-width: 12px !important; border-top: 12px solid #3498db; }
+  .loading-text { font-size: 1.2em !important; margin-left: 0 !important; }
+}
+
+@media (max-width: 480px) {
+  .local-admin-header-card { 
+    margin: 10px 0 !important; 
+    padding: 0.75rem 0.5rem !important; 
+    justify-content: space-between !important; 
   }
-
-  .div-ven-com-container {
-    width: 100%;
-    max-width: 600px;
-    padding: 15px;
-    margin-left: auto;
-    margin-right: auto;
+  
+  .local-admin-title { 
+    font-size: 1.5rem !important; 
+    text-align: center !important; 
+    width: 100% !important; 
+    margin-bottom: 8px !important; 
+    left: 0 !important;
+    position: static !important;
   }
-
-
-  .search-bar-container {
-    position: relative;
-    right: 20%;
+  
+  .local-admin-search-filter-bar { 
+    max-width: 80% !important; 
+    padding: 0 10px !important; 
+    margin-bottom: 8px !important; 
   }
-
-  .input-ven-com-search {
-    width: 60%;
+  
+  .local-admin-search-bar { 
+    font-size: 0.85rem !important; 
+    padding: 8px 28px 8px 8px !important; 
   }
-
-  .vendor-search-icon {
-    right: 45%;
+  
+  .local-admin-search-icon { 
+    right: 14px !important; 
+    font-size: 0.85rem !important; 
   }
-
-  .filter-button {
-    position: relative;
-    right: 25%;
+  
+  .local-admin-filter-btn { 
+    font-size: 1rem !important; 
+    padding: 8px !important; 
   }
-
-  .table-ven-com-list {
-    width: 50%;
-    position: relative;
-    left: 25%;
-    font-size: 0.9rem;
+  
+  .local-admin-add-btn { 
+    padding: 10px 16px !important; 
+    font-size: 0.9rem !important; 
+    gap: 6px !important; 
   }
-
-  .table-ven-com-list th,
-  .table-ven-com-list td {
-    padding: 6px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+  
+  .local-admin-table-footer { 
+    gap: 6px !important; 
+    left: 0 !important;
+    position: static !important;
+    margin-left: 0 !important;
+    transform: translateX(-80px) !important;
   }
-
-  .div-ven-com-pagination {
-    position: relative;
-    left: 24%;
-    width: 50%;
+  
+  .local-admin-pagination-info { 
+    font-size: 0.75rem !important; 
+    left: 0 !important;
+    position: static !important;
+  }
+  
+  .local-admin-pagination-controls { 
+    left: 0 !important;
+    position: static !important;
+  }
+  
+  .local-admin-pagination-controls button { 
+    height: 28px !important; 
+    min-width: 28px !important; 
+    padding: 5px 8px !important; 
+    font-size: 0.75rem !important; 
+    left: 0 !important;
+    position: static !important;
+  }
+  
+  .local-admin-arrow-icon { 
+    font-size: 0.8rem !important; 
+  }
+  
+  .local-admin-table-container { 
+    padding: 0 0.5rem !important; 
+    margin-top: 12px !important; 
+    max-width: 80% !important; 
+  }
+  
+  .local-admin-table-container table { 
+    min-width: 500px !important; 
+  }
+  
+  .local-admin-th, .local-admin-td { 
+    padding: 0.4rem !important; 
+    font-size: 0.75rem !important; 
+  }
+  
+  .loading-spinner { 
+    width: 60px !important; 
+    height: 60px !important; 
+    border-width: 8px !important; 
+    border-top: 8px solid #3498db; 
+  }
+  
+  .loading-text { 
+    font-size: 1em !important; 
+    margin-top: 10px !important; 
   }
 }
 
-.add-user-btn {
- 
+@media (max-width: 360px) {
+  .local-admin-header-card { padding: 0.5rem 0.25rem !important; }
+  .local-admin-title { font-size: 1.1rem !important; }
+  .local-admin-search-filter-bar { max-width: 80% !important; padding: 0 8px !important; margin-bottom: 6px !important; }
+  .local-admin-search-bar { font-size: 0.8rem !important; padding: 7px 26px 7px 6px !important; }
+  .local-admin-search-icon { font-size: 0.8rem !important; right: 12px !important; }
+  .local-admin-filter-btn { font-size: 0.95rem !important; padding: 6px !important; }
+  .local-admin-add-btn { padding: 8px 12px !important; font-size: 0.85rem !important; gap: 4px !important; }
+  .local-admin-table-footer { gap: 3px !important; left: 0 !important; transform: translateX(-60px) !important; }
+  .local-admin-pagination-info { font-size: 0.9rem !important; }
+  .local-admin-pagination-controls { gap: 5px !important; }
+  .local-admin-pagination-controls button { height: 26px !important; min-width: 26px !important; padding: 4px 6px !important; font-size: 0.7rem !important; }
+  .local-admin-arrow-icon { font-size: 0.75rem !important; }
+  .local-admin-table-container { padding: 0 0.25rem !important; max-width: 83% !important; }
+  .local-admin-table-container table { min-width: 450px !important; }
+  .local-admin-th, .local-admin-td { padding: 0.3rem !important; font-size: 0.7rem !important; }
+}
 
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.3s ease;
-  margin-left: -50px; /* Pushes button to the right */
+@media (max-width: 768px) and (orientation: landscape) {
+  .local-admin-header-card { padding: 0.75rem 1rem !important; }
+  .local-admin-title { font-size: 1.2rem !important; margin-bottom: 0 !important; }
+  .local-admin-search-filter-bar { margin-bottom: 8px !important; }
+  .local-admin-search-bar { font-size: 0.85rem !important; }
+  .local-admin-search-icon { font-size: 0.9rem !important; }
+  .local-admin-filter-btn { font-size: 1rem !important; }
+  .local-admin-add-btn { font-size: 0.85rem !important; padding: 7px 14px !important; }
+  .local-admin-table-footer { gap: 8px !important; }
+  .local-admin-pagination-info { font-size: 0.85rem !important; }
+  .local-admin-pagination-controls button { height: 28px !important; }
+  .local-admin-arrow-icon { font-size: 1rem; }
+  .local-admin-table-container { padding: 0 1rem !important; }
+  .local-admin-th, .local-admin-td { padding: 0.4rem !important; font-size: 0.75rem !important; }
+}
+
+@media (max-width: 480px) and (orientation: landscape) {
+  .local-admin-header-card { padding: 0.5rem 0.75rem !important; left: 0 !important; }
+  .local-admin-title { font-size: 1rem !important; }
+  .local-admin-search-bar { font-size: 0.8rem !important; padding: 6px 28px 6px 8px !important; }
+  .local-admin-search-icon { right: 14px !important; font-size: 0.85rem !important; }
+  .local-admin-add-btn { padding: 6px 12px !important; font-size: 0.8rem !important; }
+  .local-admin-table-footer { gap: 6px !important; }
+  .local-admin-pagination-info { font-size: 0.8rem !important; }
+  .local-admin-pagination-controls button { height: 26px !important; }
+  .local-admin-arrow-icon { font-size: 0.8rem !important; }
+  .local-admin-table-container { padding: 0 0.5rem !important; }
+  .local-admin-th, .local-admin-td { padding: 0.35rem !important; font-size: 0.7rem !important; }
 }

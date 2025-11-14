@@ -128,11 +128,18 @@ body {
   gap: 0.5rem;
 }
 .pagination-controls button {
-  background: none;
-  border: 1px solid #ccc;
-  padding: 0.5rem;
-  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #f8f8f8;
+  color: #333;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  border-radius: 5px;
+  position: relative;
+  
 }
 .pagination-controls button:disabled {
   cursor: not-allowed;
@@ -559,7 +566,7 @@ body {
     margin-right: 0 !important;
     padding: 0.75rem 0.5rem !important;
     gap: 0 !important;
-    width: 100% !important;
+    width: 80% !important;
     max-width: 100% !important;
     position: static !important;
     right: auto !important;
@@ -1380,11 +1387,11 @@ body {
           .search-bar {
     flex: 1 1 100% !important;
     min-width: 200px !important;
-    max-width: 85% !important;
+    max-width: 80% !important;
     width: 100% !important;
     order: 2 !important;
     padding: 0 10px !important;
-    margin-left: 0 !important;
+    margin-left: 10px !important;
     position: relative !important;
     right: 0 !important;
     box-sizing: border-box !important;
@@ -1394,7 +1401,7 @@ body {
     border-radius: 2rem;
     margin-bottom: 8px !important;
   }
-  .table-footer {
+  .device-footer {
     display: flex !important;
     align-items: center !important;
     gap: 12px !important;
@@ -1406,12 +1413,10 @@ body {
     gap: 6px !important;
     padding: 0 !important;
     position: relative !important;
-    top: 0 !important;
+    top: 1px !important;  /* Change from 0 to 10px to move down */
     left: -60px !important;
     flex-direction: row !important;
     justify-content: flex-end !important;
-    margin-bottom: 0 !important;
-    margin-top: 10px;
   }
 
    .dashboard-title-reg {
@@ -1435,5 +1440,52 @@ body {
 @media (max-width: 768px) {
   html, body {
     overflow-x: hidden;
+  }
+}
+
+/* ============================================
+   DESKTOP FIX - Only applies above 768px
+============================================ */
+@media (min-width: 769px) {
+  .search-bar-container {
+    background: transparent !important;
+    position: relative !important;
+    right: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    margin: 50px auto 20px 280px !important;
+    max-width: 800px !important;
+  }
+
+  .dashboard-title-reg {
+    position: static !important;
+    right: auto !important;
+    color: #fff !important;
+    margin-right: auto !important;
+  }
+
+  .dev-search-icon {
+    left: 950px !important;
+    color: #000 !important;
+  }
+
+  .search-bar {
+    background: #fff !important;
+    border: 1px solid #ddd !important;
+    position: relative;
+    left: 400px;
+  }
+  .device-footer{
+    position: relative !important;
+    top: 0 !important;
+    left: 450px !important;
+    display: flex !important;
+    gap:10px;
+  }
+  .filter-button{
+    color: #fff !important;
+    position: relative;
+    left:450px !important;
   }
 }

@@ -136,7 +136,7 @@ const DeviceDashboard = () => {
           <FontAwesomeIcon icon={faSliders} />
         </button>
 
-        <div className="table-footer">
+        <div className="device-footer">
           <span className="pagination-info">
             {Math.min(startIndex + rowsPerPage, totalRows)} of {totalRows}
           </span>
