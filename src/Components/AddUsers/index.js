@@ -226,9 +226,270 @@
 // };
 
 // export default Userinfo;
+
+
+
+// import React, { useState, useEffect } from "react";
+// import { useParams, useNavigate } from "react-router-dom";
+// import "./AddUser.css";
+
+// const Userinfo = () => {
+//   const [permissions, setPermissions] = useState({
+//     nbGenerator: false,
+//     ozoneGenerator1: false,
+//     ozoneGenerator2: false,
+//   });
+
+//   const [userInfo, setUserInfo] = useState({
+//     name: "",
+//     email: "",
+//     password: "",
+//     phone_number: "", // Changed from 'phone' to 'phone_number'
+//     sector: ""
+//   });
+
+//   const [loading, setLoading] = useState(false);
+//   const { id } = useParams();
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     // If we have an associate ID, we could fetch their existing info here
+//     if (id) {
+//       // You could add logic here to fetch existing associate data if needed
+//     }
+//   }, [id]);
+
+//   const togglePermission = (key) => {
+//     setPermissions((prevPermissions) => ({
+//       ...prevPermissions,
+//       [key]: !prevPermissions[key],
+//     }));
+//   };
+
+//   const handleInputChange = (field, value) => {
+//     setUserInfo(prev => ({
+//       ...prev,
+//       [field]: value
+//     }));
+//   };
+
+//   const handleGrantAccess = async () => {
+//     // Validate required fields
+//     if (!userInfo.email || !userInfo.password) {
+//       alert("Please fill in both email and password fields");
+//       return;
+//     }
+
+//     // Validate email format
+//     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//     if (!emailRegex.test(userInfo.email)) {
+//       alert("Please enter a valid email address");
+//       return;
+//     }
+
+//     // Validate password length
+//     if (userInfo.password.length < 6) {
+//       alert("Password must be at least 6 characters long");
+//       return;
+//     }
+
+//     const confirmCreate = window.confirm(
+//       `Are you sure you want to create a new Company Associate with email: ${userInfo.email}?`
+//     );
+    
+//     if (!confirmCreate) return;
+
+//     setLoading(true);
+
+//     try {
+//       // Prepare data to send - include all fields
+//       const requestData = {
+//         email: userInfo.email,
+//         password: userInfo.password,
+//         name: userInfo.name || null,
+//         phone_number: userInfo.phone_number || null,
+//         sector: userInfo.sector || null
+//       };
+
+//       console.log("Sending data:", requestData); // Debug log
+
+//       const response = await fetch(`${process.env.REACT_APP_EP}/data/createcompanyassociate`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(requestData),
+//       });
+
+//       const result = await response.json();
+//       console.log("Response:", result); // Debug log
+
+//       if (result.status === "success") {
+//         alert("Company Associate created successfully!");
+//         // Clear the form
+//         setUserInfo({
+//           name: "",
+//           email: "",
+//           password: "",
+//           phone_number: "",
+//           sector: ""
+//         });
+        
+//          setTimeout(() => {
+//           navigate(-1); // Go back to previous page
+//         }, 500);
+        
+//       } else {
+//         alert(`Failed to create Company Associate: ${result.message}`);
+//       }
+//     } catch (error) {
+//       console.error("Error creating Company Associate:", error);
+//       alert("Failed to create Company Associate. Please try again.");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   return (
+//     <>
+//       {loading && (
+//         <div className="loading-backdrop">
+//           <div className="loading-spinner"></div>
+//           <div className="loading-text">Creating Company Associate...</div>
+//         </div>
+//       )}
+
+//       <div className="grant-access-headerr">
+//         <h1 className="vendor-title">Grant Access Permission</h1>
+//         <button 
+//           className="add-vendor-btn" 
+//           onClick={handleGrantAccess}
+//           disabled={loading}
+//         >
+//           {loading ? "Creating..." : "Grant Access"}
+//         </button>
+//       </div>
+
+//       <div className="vendor-management-container">
+//         {/* Content Section with Flexbox */}
+//         <div className="vendor-content-wrapper">
+//           {/* Left Side - Add Company Associate */}
+//           <div className="form-container">
+//             <h2>Add Company Associate:</h2>
+
+//             {/* Name Field */}
+//             <div className="form-group">
+//               <label>Associate Name</label>
+//               <input 
+//                 type="text" 
+//                 placeholder="Enter full name" 
+//                 value={userInfo.name}
+//                 onChange={(e) => handleInputChange("name", e.target.value)}
+//               />
+//             </div>
+
+//             {/* Email and Password Row */}
+//             <div className="form-row two-col">
+//               <div className="form-group">
+//                 <label>Email ID *</label>
+//                 <input 
+//                   type="email" 
+//                   placeholder="email@email.com" 
+//                   value={userInfo.email}
+//                   onChange={(e) => handleInputChange("email", e.target.value)}
+//                   required
+//                 />
+//               </div>
+//               <div className="form-group">
+//                 <label>Password *</label>
+//                 <input 
+//                   type="text" 
+//                   placeholder="Enter password (min 6 chars)" 
+//                   value={userInfo.password}
+//                   onChange={(e) => handleInputChange("password", e.target.value)}
+//                   required
+//                 />
+//               </div>
+//             </div>
+
+//             {/* Phone Number and Sector Row */}
+//             <div className="form-row two-col">
+//               <div className="form-group">
+//                 <label>Phone Number</label>
+//                 <input 
+//                   type="tel" 
+//                   placeholder="1234567890" 
+//                   value={userInfo.phone_number}
+//                   onChange={(e) => handleInputChange("phone_number", e.target.value)}
+//                 />
+//               </div>
+//               <div className="form-group">
+//                 <label>Sector</label>
+//                 <input 
+//                   type="text" 
+//                   placeholder="Enter sector" 
+//                   value={userInfo.sector}
+//                   onChange={(e) => handleInputChange("sector", e.target.value)}
+//                 />
+//               </div>
+//             </div>
+
+//             <div style={{ marginTop: '10px', color: '#666', fontSize: '14px' }}>
+//               {/* <small>* Required fields</small> */}
+//             </div>
+//           </div>
+
+//           {/* Right Side - Device Power Access Permissions (Optional - currently commented) */}
+//           {/* <div className="permissions-container">
+//             <h3>Device Power Access Permission:</h3>
+//             <div className="toggle-group">
+//               <div>
+//                 <span>NB Generator</span>
+//                 <label className="switch">
+//                   <input
+//                     type="checkbox"
+//                     checked={permissions.nbGenerator}
+//                     onChange={() => togglePermission("nbGenerator")}
+//                   />
+//                   <span className="slider"></span>
+//                 </label>
+//               </div>
+//               <div>
+//                 <span>Ozone Generator 1</span>
+//                 <label className="switch">
+//                   <input
+//                     type="checkbox"
+//                     checked={permissions.ozoneGenerator1}
+//                     onChange={() => togglePermission("ozoneGenerator1")}
+//                   />
+//                   <span className="slider"></span>
+//                 </label>
+//               </div>
+//               <div>
+//                 <span>Ozone Generator 2</span>
+//                 <label className="switch">
+//                   <input
+//                     type="checkbox"
+//                     checked={permissions.ozoneGenerator2}
+//                     onChange={() => togglePermission("ozoneGenerator2")}
+//                   />
+//                   <span className="slider"></span>
+//                 </label>
+//               </div>
+//             </div>
+//           </div> */}
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default Userinfo;
+
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./AddUser.css";
+// The CSS import has been updated to the new file name
+import "./AddUser.css"; 
 
 const Userinfo = () => {
   const [permissions, setPermissions] = useState({
@@ -241,7 +502,7 @@ const Userinfo = () => {
     name: "",
     email: "",
     password: "",
-    phone_number: "", // Changed from 'phone' to 'phone_number'
+    phone_number: "",
     sector: ""
   });
 
@@ -250,9 +511,8 @@ const Userinfo = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // If we have an associate ID, we could fetch their existing info here
     if (id) {
-      // You could add logic here to fetch existing associate data if needed
+      // Logic to fetch existing associate data could be added here
     }
   }, [id]);
 
@@ -271,20 +531,15 @@ const Userinfo = () => {
   };
 
   const handleGrantAccess = async () => {
-    // Validate required fields
     if (!userInfo.email || !userInfo.password) {
       alert("Please fill in both email and password fields");
       return;
     }
-
-    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(userInfo.email)) {
       alert("Please enter a valid email address");
       return;
     }
-
-    // Validate password length
     if (userInfo.password.length < 6) {
       alert("Password must be at least 6 characters long");
       return;
@@ -299,7 +554,6 @@ const Userinfo = () => {
     setLoading(true);
 
     try {
-      // Prepare data to send - include all fields
       const requestData = {
         email: userInfo.email,
         password: userInfo.password,
@@ -308,34 +562,18 @@ const Userinfo = () => {
         sector: userInfo.sector || null
       };
 
-      console.log("Sending data:", requestData); // Debug log
-
       const response = await fetch(`${process.env.REACT_APP_EP}/data/createcompanyassociate`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(requestData),
       });
 
       const result = await response.json();
-      console.log("Response:", result); // Debug log
 
       if (result.status === "success") {
         alert("Company Associate created successfully!");
-        // Clear the form
-        setUserInfo({
-          name: "",
-          email: "",
-          password: "",
-          phone_number: "",
-          sector: ""
-        });
-        
-         setTimeout(() => {
-          navigate(-1); // Go back to previous page
-        }, 500);
-        
+        setUserInfo({ name: "", email: "", password: "", phone_number: "", sector: "" });
+         setTimeout(() => navigate(-1), 500);
       } else {
         alert(`Failed to create Company Associate: ${result.message}`);
       }
@@ -350,16 +588,16 @@ const Userinfo = () => {
   return (
     <>
       {loading && (
-        <div className="loading-backdrop">
-          <div className="loading-spinner"></div>
-          <div className="loading-text">Creating Company Associate...</div>
+        <div className="create-associate-loading-backdrop">
+          <div className="create-associate-loading-spinner"></div>
+          <div className="create-associate-loading-text">Creating Company Associate...</div>
         </div>
       )}
 
-      <div className="grant-access-headerr">
-        <h1 className="vendor-title">Grant Access Permission</h1>
+      <div className="create-associate-header">
+        <h1 className="create-associate-title">Grant Access Permission</h1>
         <button 
-          className="add-vendor-btn" 
+          className="create-associate-action-btn" 
           onClick={handleGrantAccess}
           disabled={loading}
         >
@@ -367,15 +605,12 @@ const Userinfo = () => {
         </button>
       </div>
 
-      <div className="vendor-management-container">
-        {/* Content Section with Flexbox */}
-        <div className="vendor-content-wrapper">
-          {/* Left Side - Add Company Associate */}
-          <div className="form-container">
+      <div className="create-associate-page-container">
+        <div className="create-associate-content-card">
+          <div className="create-associate-form-wrapper">
             <h2>Add Company Associate:</h2>
 
-            {/* Name Field */}
-            <div className="form-group">
+            <div className="create-associate-form-group">
               <label>Associate Name</label>
               <input 
                 type="text" 
@@ -385,9 +620,8 @@ const Userinfo = () => {
               />
             </div>
 
-            {/* Email and Password Row */}
-            <div className="form-row two-col">
-              <div className="form-group">
+            <div className="create-associate-form-row create-associate-two-col">
+              <div className="create-associate-form-group">
                 <label>Email ID *</label>
                 <input 
                   type="email" 
@@ -397,7 +631,7 @@ const Userinfo = () => {
                   required
                 />
               </div>
-              <div className="form-group">
+              <div className="create-associate-form-group">
                 <label>Password *</label>
                 <input 
                   type="text" 
@@ -409,9 +643,8 @@ const Userinfo = () => {
               </div>
             </div>
 
-            {/* Phone Number and Sector Row */}
-            <div className="form-row two-col">
-              <div className="form-group">
+            <div className="create-associate-form-row create-associate-two-col">
+              <div className="create-associate-form-group">
                 <label>Phone Number</label>
                 <input 
                   type="tel" 
@@ -420,7 +653,7 @@ const Userinfo = () => {
                   onChange={(e) => handleInputChange("phone_number", e.target.value)}
                 />
               </div>
-              <div className="form-group">
+              <div className="create-associate-form-group">
                 <label>Sector</label>
                 <input 
                   type="text" 
@@ -430,51 +663,15 @@ const Userinfo = () => {
                 />
               </div>
             </div>
-
+            
             <div style={{ marginTop: '10px', color: '#666', fontSize: '14px' }}>
-              {/* <small>* Required fields</small> */}
+              <small>* Required fields</small>
             </div>
+
           </div>
 
-          {/* Right Side - Device Power Access Permissions (Optional - currently commented) */}
-          {/* <div className="permissions-container">
-            <h3>Device Power Access Permission:</h3>
-            <div className="toggle-group">
-              <div>
-                <span>NB Generator</span>
-                <label className="switch">
-                  <input
-                    type="checkbox"
-                    checked={permissions.nbGenerator}
-                    onChange={() => togglePermission("nbGenerator")}
-                  />
-                  <span className="slider"></span>
-                </label>
-              </div>
-              <div>
-                <span>Ozone Generator 1</span>
-                <label className="switch">
-                  <input
-                    type="checkbox"
-                    checked={permissions.ozoneGenerator1}
-                    onChange={() => togglePermission("ozoneGenerator1")}
-                  />
-                  <span className="slider"></span>
-                </label>
-              </div>
-              <div>
-                <span>Ozone Generator 2</span>
-                <label className="switch">
-                  <input
-                    type="checkbox"
-                    checked={permissions.ozoneGenerator2}
-                    onChange={() => togglePermission("ozoneGenerator2")}
-                  />
-                  <span className="slider"></span>
-                </label>
-              </div>
-            </div>
-          </div> */}
+          {/* This part is commented out in your original code, but styles are provided for it below */}
+          {/* <div className="create-associate-permissions-container"> ... </div> */}
         </div>
       </div>
     </>

@@ -1,160 +1,310 @@
-/* Access Management Container */
-.access-management-container {
+/* ============================================
+   LOADING SPINNER
+============================================ */
+.create-associate-loading-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  padding: 20px;
-  background-color: #ffffff; /* Add background for better visibility */
-  border-radius: 8px;
-  position:relative;
-  top:-8px;
-  height:806px;
-  width:1215px;
-}
-
-/* Grant Access Header Styling */
-.grant-access-header {
-  display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  background-color: #ffffff;
-  padding: 15px 20px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  position:relative;
-  top:33px;
+  z-index: 2000;
+  color: white;
 }
 
-/* Content Wrapper to align details & permissions side by side */
-.content-wrapper {
+.create-associate-loading-spinner {
+  border: 12px solid #f3f3f3;
+  border-top: 12px solid #3498db;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 1.5s linear infinite;
+}
+
+.create-associate-loading-text {
+  margin-top: 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ============================================
+   DESKTOP STYLES (Web Resolution)
+============================================ */
+
+/* Page Header: Contains Title and Action Button */
+.create-associate-header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  width: calc(63% - 150px); /* Aligns with content card width */
+  position: absolute;
+  top: 60px;
+  left: 180px;
+  z-index: 10;
+}
+
+.create-associate-title {
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.create-associate-action-btn {
+  background: #fff;
+  color: #0C5890;
+  font-weight: 600;
+  border: none;
+  border-radius: 2rem;
+  padding: 10px 28px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.create-associate-action-btn:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  transform: translateY(-1px);
+}
+
+.create-associate-action-btn:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+/* Main Page Container */
+.create-associate-page-container {
+  display: flex;
+  position: relative;
+  margin: 120px 10px 10px 280px; /* Top margin provides space for the absolute header */
+  width: 63%;
+}
+
+/* White Content Card */
+.create-associate-content-card {
+  display: flex; /* Allows form and permissions to sit side-by-side */
+  gap: 2rem;
   width: 100%;
-  position:relative;
- top:41px;
-}
-
-/* Form container */
-.form-container {
-  flex: 1;
-  background: #fff;
-  padding: 20px;
+  background-color: #ffffff;
+  padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  padding-right:49px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Permissions container */
-.permissions-container {
-  flex: 1;
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  height: 240px;
+/* Form Section */
+.create-associate-form-wrapper {
+  flex: 2; /* Takes up 2/3 of the space */
 }
 
-/* Input fields styling */
-.form-group {
-  margin-bottom: 15px;
+.create-associate-form-wrapper h2 {
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 1.4rem;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.5rem;
 }
 
-.form-group label {
+.create-associate-form-row {
+  margin-bottom: 1.5rem;
+}
+
+/* Two-Column Layout for Forms */
+.create-associate-form-row.create-associate-two-col {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.create-associate-form-row.create-associate-two-col .create-associate-form-group {
+  flex: 1; /* Each group takes half the space */
+  margin-bottom: 0;
+}
+
+.create-associate-form-group label {
   display: block;
   font-weight: 600;
-  margin-bottom: 5px;
+  color: #34495e;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
 }
 
-.form-group input {
+.create-associate-form-group input {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
+  padding: 12px;
+  border: 1px solid #bdc3c7;
   border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box; /* Important for consistent sizing */
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-/* Toggle Switch Styling */
-.toggle-group div {
+.create-associate-form-group input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* Permissions Section (Styles for the commented out part) */
+.create-associate-permissions-container {
+  flex: 1; /* Takes up 1/3 of the space */
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.create-associate-permissions-container h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: #343a40;
+}
+
+.create-associate-toggle-group div {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
 }
 
-.switch {
+.create-associate-switch {
   position: relative;
   display: inline-block;
   width: 40px;
   height: 20px;
 }
 
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+.create-associate-switch input { opacity: 0; width: 0; height: 0; }
+
+.create-associate-slider {
+  position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc; transition: .4s; border-radius: 20px;
 }
 
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 20px;
+.create-associate-slider:before {
+  position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px;
+  background-color: white; transition: .4s; border-radius: 50%;
 }
 
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 14px;
-  width: 14px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 0.4s;
-  border-radius: 50%;
+input:checked + .create-associate-slider { background-color: #28a745; }
+input:checked + .create-associate-slider:before { transform: translateX(20px); }
+
+/* ============================================
+   TABLET RESPONSIVE STYLES
+============================================ */
+@media (max-width: 1024px) {
+  .create-associate-header {
+    width: auto;
+    left: 80px; /* Adjust for smaller sidebar */
+    right: 20px;
+  }
+  .create-associate-page-container {
+    margin-left: 80px; /* Adjust for smaller sidebar */
+    width: auto;
+    margin-right: 20px;
+  }
+  .create-associate-title {
+    font-size: 1.5rem;
+  }
 }
 
-input:checked + .slider {
-  background-color: #007bff;
-}
-
-input:checked + .slider:before {
-  transform: translateX(20px);
-}
-
-/* Grant Access Button */
-.grant-access-btn {
-  background-color: #0c5890;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  font-size: 14px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.grant-access-btn:hover {
-  background-color: #0056b3;
-}
-
-/* Heading Styling */
-h2 {
-  color: #2c3e50;
-  font-weight: 500;
-  font-size: 19px;
-}
-
-@media (max-width: 1250px) {
-  .content-wrapper {
+/* ============================================
+   MOBILE RESPONSIVE STYLES
+============================================ */
+@media (max-width: 768px) {
+  .create-associate-header {
+    position: static; /* Let header flow in the document */
     flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 20px 15px 0 15px;
   }
-  .form-container, .permissions-container {
+
+  .create-associate-title {
+    text-align: center;
+    color: #fff; /* Title color for dark background */
+    font-size: 1.6rem;
+    order: 1; /* Title first */
+  }
+
+  .create-associate-action-btn {
     width: 100%;
+    justify-content: center;
+    padding: 12px;
+    font-size: 1rem;
+    order: 2; /* Button second */
   }
+  
+  .create-associate-page-container {
+    margin: 20px 15px; /* Adjust margin for mobile view */
+    width: auto;
+  }
+
+  .create-associate-content-card {
+    flex-direction: column; /* Stack form and permissions vertically */
+    padding: 1.5rem;
+  }
+
+  .create-associate-form-row.create-associate-two-col {
+    flex-direction: column; /* Stack form fields vertically */
+    gap: 1.5rem;
+  }
+}
+
+/* ============================================
+   EXTRA-SMALL MOBILE STYLES
+============================================ */
+@media (max-width: 480px) {
+  .create-associate-header {
+    padding: 15px 10px 0 10px;
+  }
+
+  .create-associate-page-container {
+    margin: 15px 10px;
+  }
+
+  .create-associate-content-card {
+    padding: 1rem;
+    box-shadow: none; /* Simpler style for small screens */
+    border: 1px solid #eee;
+  }
+
+  .create-associate-form-wrapper h2 {
+    font-size: 1.2rem;
+  }
+  
+  .create-associate-form-group input {
+    padding: 10px;
+  }
+  .create-associate-action-btn {
+  width:80%;
+  margin-left: 20px;
+}
+.create-associate-page-container {
+  display: flex;
+  position: relative;
+  width: 85%;
+}
+
+.create-associate-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-right: 70px;
+}
 }

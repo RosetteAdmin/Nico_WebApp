@@ -1,4 +1,197 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
+// import './AddNewDevice.css';
+
+// const AddNewDevice = () => {
+//     const [deviceId, setDeviceId] = useState('');
+//     const [deviceName, setDeviceName] = useState('');
+//     const [sector, setSector] = useState('');
+//     const [status, setStatus] = useState('NS03');
+//     const [mode, setMode] = useState('Premium');
+//     const [alerts, setAlerts] = useState('Device Owner');
+//     const [emailId, setEmailId] = useState('');
+//     const [deviceOwner, setDeviceOwner] = useState('');
+//     const [phoneNumber, setPhoneNumber] = useState('');
+//     const [loading, setLoading] = useState(false);
+
+//     const handleSubmit = async (e) => {
+//         e.preventDefault();
+//         setLoading(true);
+
+//         const newDevice = {
+//             device_name: deviceName,
+//             device_id: deviceId,
+//             owner_name: deviceOwner, // Updated to match the form field
+//             email: emailId, // Updated to match the form field
+//             phone: phoneNumber, // Updated to match the form field
+//             location: sector, // Updated to match the form field
+//             device_type: status, // Updated to match the form field
+//             subscription: mode, // Updated to match the form field
+//             monitory: alerts, // Updated to match the form field
+//         };
+
+//         try {
+//             const response = await fetch(`${process.env.REACT_APP_EP}/data/newdevice`, {
+//                 method: 'POST',
+//                 headers: { 'Content-Type': 'application/json' },
+//                 body: JSON.stringify(newDevice),
+//             });
+
+//             const data = await response.json();
+//             if (response.ok) {
+//                 alert('Device added successfully!');
+//                 // Reset form fields
+//                 setDeviceId('');
+//                 setDeviceName('');
+//                 setDeviceOwner('');
+//                 setEmailId('');
+//                 setPhoneNumber('');
+//                 setSector('');
+//                 setStatus('NS03');
+//                 setMode('Premium');
+//                 setAlerts('Device Owner');
+//             } else {
+//                 alert(`Failed to add device!\nEnsure Phone Number and Device ID are unique and valid!`);
+//             }
+//         } catch (error) {
+//             alert('Failed to add device. Please try again.');
+//         } finally {
+//             setLoading(false);
+//         }
+//     };
+
+//     return (
+//         <div className="add-device">
+//             <div className="add-device-headerDiv">
+//                 <h1 className="add-device-andHeader">Create New Device</h1>
+//                 <button className="add-device-button" form="addDeviceForm" type="submit">{loading ? 'Creating...' : 'Create'}</button>
+//             </div>
+//             <div className="add-device-formDiv">
+
+//                 <form id="addDeviceForm" className="add-device-andForm" onSubmit={handleSubmit}>
+
+//                     <div>
+//                         <label className="add-device-andLabel" htmlFor="deviceName">Device Name:</label>
+//                         <input
+//                             placeholder="Name"
+//                             type="text"
+//                             id="deviceName"
+//                             className='add-device-input'
+//                             value={deviceName}
+//                             onChange={(e) => setDeviceName(e.target.value)}
+//                             required
+//                         />
+//                     </div>
+//                     <div>
+//                         <label className="add-device-andLabel" htmlFor="deviceId">Device ID:</label>
+//                         <input
+//                             placeholder="ID"
+//                             type="text"
+//                             id="deviceId"
+//                             className='add-device-input'
+//                             value={deviceId}
+//                             onChange={(e) => setDeviceId(e.target.value)}
+//                             required
+//                         />
+//                     </div>
+//                     <div>
+//                         <label className="add-device-andLabel" htmlFor="emailId">Email ID:</label>
+//                         <input
+//                             placeholder="example@gmail.com"
+//                             type="email"
+//                             id="emailId"
+//                             className='add-device-input'
+//                             value={emailId}
+//                             onChange={(e) => setEmailId(e.target.value)}
+//                             required
+//                         />
+//                     </div>
+//                     <div>
+//                         <label className="add-device-andLabel" htmlFor="deviceOwner">Device Owner:</label>
+//                         <input
+//                             placeholder="Owner Name"
+//                             type="text"
+//                             id="deviceOwner"
+//                             className='add-device-input'
+//                             value={deviceOwner}
+//                             onChange={(e) => setDeviceOwner(e.target.value)}
+//                             required
+//                         />
+//                     </div>
+                    
+//                     <div>
+//                         <label className="add-device-andLabel" htmlFor="phoneNumber">Phone Number:</label>
+//                         <input
+//                             placeholder="Contact Number"
+//                             type="tel"
+//                             id="phoneNumber"
+//                             className='add-device-input'
+//                             value={phoneNumber}
+//                             onChange={(e) => setPhoneNumber(e.target.value)}
+//                             required
+//                         />
+//                     </div>
+//                     <div>
+//                         <label className="add-device-andLabel" htmlFor="sector">Location:</label>
+//                         <input
+//                             placeholder="Place"
+//                             type="text"
+//                             id="sector"
+//                             className='add-device-input'
+//                             value={sector}
+//                             onChange={(e) => setSector(e.target.value)}
+//                             required
+//                         />
+//                     </div>
+//                     <div>
+//                         <label className="add-device-andLabel" htmlFor="status">Device Type:</label>
+//                         <select
+//                             id="status"
+//                             value={status}
+//                             className='add-device-select'
+//                             onChange={(e) => setStatus(e.target.value)}
+//                         >
+//                             <option value="NS03">NS03</option>
+//                             <option value="NS04">NS04</option>
+//                             <option value="NS05">NS05</option>
+//                         </select>
+//                     </div>
+//                     <div>
+//                         <label className="add-device-andLabel" htmlFor="mode">Subscription Type:</label>
+//                         <select
+//                             id="mode"
+//                             value={mode}
+//                             className='add-device-select'
+//                             onChange={(e) => setMode(e.target.value)}
+//                         >
+//                             <option value="Premium">Premium</option>
+//                             <option value="Freemium">Freemium</option>
+//                             <option value="Trial Variant">Trial Variant</option>
+//                         </select>
+//                     </div>
+//                     <div>
+//                         <label className="add-device-andLabel" htmlFor="alerts">Monitory Type:</label>
+//                         <select
+//                             id="alerts"
+//                             className='add-device-select'
+//                             value={alerts}
+//                             onChange={(e) => setAlerts(e.target.value)}
+//                         >
+//                             <option value="Device Owner">Device Owner</option>
+//                             <option value="Third Party Vendors">Third Party Vendors</option>
+//                             <option value="Source Company">Source Company</option>
+//                         </select>
+//                     </div>
+//                 </form>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default AddNewDevice;
+
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+// The CSS import has been updated to the new file name
 import './AddNewDevice.css';
 
 const AddNewDevice = () => {
@@ -12,6 +205,7 @@ const AddNewDevice = () => {
     const [deviceOwner, setDeviceOwner] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,13 +214,13 @@ const AddNewDevice = () => {
         const newDevice = {
             device_name: deviceName,
             device_id: deviceId,
-            owner_name: deviceOwner, // Updated to match the form field
-            email: emailId, // Updated to match the form field
-            phone: phoneNumber, // Updated to match the form field
-            location: sector, // Updated to match the form field
-            device_type: status, // Updated to match the form field
-            subscription: mode, // Updated to match the form field
-            monitory: alerts, // Updated to match the form field
+            owner_name: deviceOwner,
+            email: emailId,
+            phone: phoneNumber,
+            location: sector,
+            device_type: status,
+            subscription: mode,
+            monitory: alerts,
         };
 
         try {
@@ -36,10 +230,8 @@ const AddNewDevice = () => {
                 body: JSON.stringify(newDevice),
             });
 
-            const data = await response.json();
             if (response.ok) {
                 alert('Device added successfully!');
-                // Reset form fields
                 setDeviceId('');
                 setDeviceName('');
                 setDeviceOwner('');
@@ -49,6 +241,7 @@ const AddNewDevice = () => {
                 setStatus('NS03');
                 setMode('Premium');
                 setAlerts('Device Owner');
+                navigate('/registered-devices'); // Optional: redirect after success
             } else {
                 alert(`Failed to add device!\nEnsure Phone Number and Device ID are unique and valid!`);
             }
@@ -60,94 +253,93 @@ const AddNewDevice = () => {
     };
 
     return (
-        <div className="add-device">
-            <div className="add-device-headerDiv">
-                <h1 className="add-device-andHeader">Create New Device</h1>
-                <button className="add-device-button" form="addDeviceForm" type="submit">{loading ? 'Creating...' : 'Create'}</button>
+        <div className="create-device-page-container">
+            <div className="create-device-header">
+                <h1 className="create-device-title">Create New Device</h1>
+                <button className="create-device-action-btn" form="createDeviceForm" type="submit" disabled={loading}>
+                    {loading ? 'Creating...' : 'Create'}
+                </button>
             </div>
-            <div className="add-device-formDiv">
-
-                <form id="addDeviceForm" className="add-device-andForm" onSubmit={handleSubmit}>
-
-                    <div>
-                        <label className="add-device-andLabel" htmlFor="deviceName">Device Name:</label>
+            <div className="create-device-form-wrapper">
+                <form id="createDeviceForm" className="create-device-form" onSubmit={handleSubmit}>
+                    <div className="create-device-form-group">
+                        <label className="create-device-label" htmlFor="deviceName">Device Name:</label>
                         <input
                             placeholder="Name"
                             type="text"
                             id="deviceName"
-                            className='add-device-input'
+                            className='create-device-input'
                             value={deviceName}
                             onChange={(e) => setDeviceName(e.target.value)}
                             required
                         />
                     </div>
-                    <div>
-                        <label className="add-device-andLabel" htmlFor="deviceId">Device ID:</label>
+                    <div className="create-device-form-group">
+                        <label className="create-device-label" htmlFor="deviceId">Device ID:</label>
                         <input
                             placeholder="ID"
                             type="text"
                             id="deviceId"
-                            className='add-device-input'
+                            className='create-device-input'
                             value={deviceId}
                             onChange={(e) => setDeviceId(e.target.value)}
                             required
                         />
                     </div>
-                    <div>
-                        <label className="add-device-andLabel" htmlFor="emailId">Email ID:</label>
-                        <input
-                            placeholder="example@gmail.com"
-                            type="email"
-                            id="emailId"
-                            className='add-device-input'
-                            value={emailId}
-                            onChange={(e) => setEmailId(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label className="add-device-andLabel" htmlFor="deviceOwner">Device Owner:</label>
+                    <div className="create-device-form-group">
+                        <label className="create-device-label" htmlFor="deviceOwner">Device Owner:</label>
                         <input
                             placeholder="Owner Name"
                             type="text"
                             id="deviceOwner"
-                            className='add-device-input'
+                            className='create-device-input'
                             value={deviceOwner}
                             onChange={(e) => setDeviceOwner(e.target.value)}
                             required
                         />
                     </div>
-                    
-                    <div>
-                        <label className="add-device-andLabel" htmlFor="phoneNumber">Phone Number:</label>
+                    <div className="create-device-form-group">
+                        <label className="create-device-label" htmlFor="emailId">Email ID:</label>
+                        <input
+                            placeholder="example@gmail.com"
+                            type="email"
+                            id="emailId"
+                            className='create-device-input'
+                            value={emailId}
+                            onChange={(e) => setEmailId(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="create-device-form-group">
+                        <label className="create-device-label" htmlFor="phoneNumber">Phone Number:</label>
                         <input
                             placeholder="Contact Number"
                             type="tel"
                             id="phoneNumber"
-                            className='add-device-input'
+                            className='create-device-input'
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
                             required
                         />
                     </div>
-                    <div>
-                        <label className="add-device-andLabel" htmlFor="sector">Location:</label>
+                    <div className="create-device-form-group">
+                        <label className="create-device-label" htmlFor="sector">Location:</label>
                         <input
                             placeholder="Place"
                             type="text"
                             id="sector"
-                            className='add-device-input'
+                            className='create-device-input'
                             value={sector}
                             onChange={(e) => setSector(e.target.value)}
                             required
                         />
                     </div>
-                    <div>
-                        <label className="add-device-andLabel" htmlFor="status">Device Type:</label>
+                    <div className="create-device-form-group">
+                        <label className="create-device-label" htmlFor="status">Device Type:</label>
                         <select
                             id="status"
                             value={status}
-                            className='add-device-select'
+                            className='create-device-select'
                             onChange={(e) => setStatus(e.target.value)}
                         >
                             <option value="NS03">NS03</option>
@@ -155,12 +347,12 @@ const AddNewDevice = () => {
                             <option value="NS05">NS05</option>
                         </select>
                     </div>
-                    <div>
-                        <label className="add-device-andLabel" htmlFor="mode">Subscription Type:</label>
+                    <div className="create-device-form-group">
+                        <label className="create-device-label" htmlFor="mode">Subscription Type:</label>
                         <select
                             id="mode"
                             value={mode}
-                            className='add-device-select'
+                            className='create-device-select'
                             onChange={(e) => setMode(e.target.value)}
                         >
                             <option value="Premium">Premium</option>
@@ -168,11 +360,11 @@ const AddNewDevice = () => {
                             <option value="Trial Variant">Trial Variant</option>
                         </select>
                     </div>
-                    <div>
-                        <label className="add-device-andLabel" htmlFor="alerts">Monitory Type:</label>
+                    <div className="create-device-form-group">
+                        <label className="create-device-label" htmlFor="alerts">Monitory Type:</label>
                         <select
                             id="alerts"
-                            className='add-device-select'
+                            className='create-device-select'
                             value={alerts}
                             onChange={(e) => setAlerts(e.target.value)}
                         >

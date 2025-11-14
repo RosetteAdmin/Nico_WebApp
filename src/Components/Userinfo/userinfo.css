@@ -1,215 +1,279 @@
-/* Access Management Container */
-.vendor-management-container {
-  display: flex;
-  position:relative;
-  margin: 120px 10px 10px 280px;
-  
-  transition: all 0.3s ease;
-  width: 63%;
-}
-
-/* Grant Access Header Styling */
-.grant-access-headerr {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-  max-width: 40%;
-  flex-wrap: nowrap;
-  position: absolute;
-  top: 30px;
-  left: 660px;
-  z-index: 1;
-  border:none;
-}
-
-.vendor-title{
-  font-size: 1.7rem;
-  font-weight: bold;
-  text-align: start;
-  color: rgb(255, 255, 255);
-  position: relative;
-  right: 480px;
-}
-
-/* Content Wrapper to align details & permissions side by side */
-.vendor-content-wrapper {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  width: 100%;
-  position:relative;
-  border-collapse: collapse;
-  table-layout: auto;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-  padding: 1rem;
-  background-color: #ffffff;
-}
-
-/* Form container */
-
-
-/* Permissions container */
-.permissions-container {
-  flex: 1;
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  height: 240px;
-}
-
-/* Input fields styling */
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 5px;
-}
-
-.form-group input {
-  width: 100%;
-  max-width: 50%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-/* Toggle Switch Styling */
-.toggle-group div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 40px;
-  height: 20px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
+/* ============================================
+   LOADING SPINNER
+============================================ */
+.associate-details-loading-backdrop {
+  position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 20px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 14px;
-  width: 14px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 0.4s;
-  border-radius: 50%;
-}
-
-input:checked + .slider {
-  background-color: #007bff;
-}
-
-input:checked + .slider:before {
-  transform: translateX(20px);
-}
-
-/* Grant Access Button */
-.grant-access-btn {
-  background-color: #0c5890;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
   color: white;
-  border: none;
-  padding: 10px 15px;
-  font-size: 14px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s;
 }
 
-.grant-access-btn:hover {
-  background-color: #0056b3;
+.associate-details-loading-spinner {
+  border: 12px solid #f3f3f3;
+  border-top: 12px solid #3498db;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 1.5s linear infinite;
 }
 
-/* Heading Styling */
-h2 {
-  color: #2c3e50;
-  font-weight: 500;
-  font-size: 19px;
+.associate-details-loading-text {
+  margin-top: 20px;
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
-@media (max-width: 1250px) {
-  .content-wrapper {
-    flex-direction: column;
-  }
-  
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
+/* ============================================
+   DESKTOP STYLES (Web Resolution)
+============================================ */
+.associate-details-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(63% - 40px); /* Match container width */
+  position: absolute;
+  top: 60px;
+  left: 290px; /* Aligns with container */
+  z-index: 10;
+}
 
-.add-vendor-btn {
-  background: #fff; 
+.associate-details-title {
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #ffffff;
+  position: relative;
+  right:100px;
+}
+
+.associate-details-action-btn {
+  background: #fff;
   color: #0C5890;
   font-weight: 600;
   border: none;
   border-radius: 2rem;
   padding: 10px 28px;
-  font-size: 1.1rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 2px 8px rgba(10, 75, 176, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   white-space: nowrap;
-  flex-shrink: 0;
+  transition: background-color 0.3s, transform 0.2s;
   position: relative;
-  left: 300px;
-  top: 15px;
+  right:200px;
 }
 
+.associate-details-action-btn:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  transform: translateY(-1px);
+}
 
-/* Row for two columns */
-.form-row.two-col {
+.associate-details-action-btn:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.associate-details-page-container {
   display: flex;
-  gap: 20px;
-  align-items: flex-start;
-  flex-wrap: wrap; /* lets it wrap on small screens */
+  position: relative;
+  margin: 120px 10px 10px 280px;
+  width: 63%;
 }
 
-/* Make both fields share the row evenly */
-.form-row.two-col .form-group {
-  flex: 1 1 300px; /* grow, shrink, min width */
+.associate-details-content-card {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.associate-details-form-wrapper h2 {
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 1.4rem;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.5rem;
+}
+
+.associate-details-form-row {
+  margin-bottom: 1.5rem;
+}
+
+.associate-details-form-row.associate-details-two-col {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.associate-details-form-row.associate-details-two-col .associate-details-form-group {
+  flex: 1; /* Each takes half the space */
   margin-bottom: 0;
 }
 
-/* Ensure inputs use full width inside their column */
-.form-row.two-col .form-group input {
-  width: 100%;
-  max-width: 100%;
+.associate-details-form-group label {
+  display: block;
+  font-weight: 600;
+  color: #34495e;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
 }
 
-/* If you keep this global rule elsewhere, remove or override it:
-.form-group input { max-width: 50%; }
-*/
+.associate-details-form-group input {
+  width: 80%;
+  padding: 12px;
+  border: 1px solid #bdc3c7;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
 
-/* Stack on small screens */
-@media (max-width: 768px) {
-  .form-row.two-col {
-    flex-direction: column;
+.associate-details-form-group input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.associate-details-form-group input:disabled:not(.associate-details-readonly-field) {
+  background-color: #f8f9fa;
+}
+
+.associate-details-readonly-field {
+  background-color: #ecf0f1;
+  color: #7f8c8d;
+  cursor: not-allowed;
+  border-style: dashed;
+}
+
+
+/* ============================================
+   TABLET RESPONSIVE STYLES
+============================================ */
+@media (max-width: 1024px) {
+  .associate-details-header {
+    width: auto;
+    left: 80px; /* Adjust for smaller sidebar */
+    right: 20px;
   }
+  .associate-details-page-container {
+    margin-left: 80px; /* Adjust for smaller sidebar */
+    width: auto;
+    margin-right: 20px;
+  }
+  .associate-details-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* ============================================
+   MOBILE RESPONSIVE STYLES
+============================================ */
+@media (max-width: 768px) {
+  .associate-details-header {
+    /* Stack header items and position them within page flow */
+    position: static;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 20px 15px 0 15px; /* Add padding */
+  }
+
+  .associate-details-title {
+    text-align: center;
+    color: #fff; /* Assuming dark page background */
+    font-size: 1.6rem;
+    order: 1; /* Title first */
+  }
+
+  .associate-details-action-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+    font-size: 1rem;
+    order: 2; /* Button second */
+  }
+  
+  .associate-details-page-container {
+    /* Remove sidebar margin and use full width */
+    margin: 20px 15px;
+    width: auto;
+  }
+
+  .associate-details-content-card {
+    padding: 1.5rem;
+  }
+
+  .associate-details-form-row.associate-details-two-col {
+    /* Stack columns vertically on mobile */
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+
+/* ============================================
+   EXTRA-SMALL MOBILE STYLES
+============================================ */
+@media (max-width: 480px) {
+  .associate-details-header {
+    padding: 15px 10px 0 10px;
+  }
+
+  .associate-details-page-container {
+    margin: 15px 10px;
+  }
+
+  .associate-details-content-card {
+    padding: 1rem;
+    box-shadow: none;
+    border: 1px solid #eee;
+  }
+
+  .associate-details-form-wrapper h2 {
+    font-size: 1.2rem;
+  }
+  
+  .associate-details-form-group input {
+    padding: 10px;
+  }
+  .associate-details-title {
+    text-align: center;
+    color: #fff; /* Assuming dark page background */
+    font-size: 1.6rem;
+    order: 1; /* Title first */
+    position: relative;
+    right:10px;
+}
+  .associate-details-action-btn {
+    width: 80%;
+    justify-content: center;
+    padding: 12px;
+    font-size: 1rem;
+    order: 2; /* Button second */
+    position: relative;
+    left:10px;
+  }
+
+  .associate-details-page-container {
+  display: flex;
+  position: relative;
+  width: 80%;
+}
+
 }

@@ -1,0 +1,265 @@
+/* ============================================
+   LOADING SPINNER
+============================================ */
+.edit-operator-loading-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  color: white;
+}
+
+.edit-operator-loading-spinner {
+  border: 12px solid #f3f3f3;
+  border-top: 12px solid #3498db;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 1.5s linear infinite;
+}
+
+.edit-operator-loading-text {
+  margin-top: 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ============================================
+   DESKTOP STYLES (Web Resolution)
+============================================ */
+.edit-operator-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(63% - 150px); /* Match container width with padding */
+  position: absolute;
+  top: 60px;
+  left: 180px; /* Aligns with container's left margin */
+  z-index: 10;
+}
+
+.edit-operator-title {
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.edit-operator-action-btn {
+  background: #fff;
+  color: #0C5890;
+  font-weight: 600;
+  border: none;
+  border-radius: 2rem;
+  padding: 10px 28px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.edit-operator-action-btn:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  transform: translateY(-1px);
+}
+
+.edit-operator-action-btn:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.edit-operator-page-container {
+  display: flex;
+  position: relative;
+  margin: 120px 10px 10px 280px;
+  width: 63%;
+}
+
+.edit-operator-content-card {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.edit-operator-form-wrapper h2 {
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 1.4rem;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.5rem;
+}
+
+.edit-operator-form-row {
+  margin-bottom: 1.5rem;
+}
+
+.edit-operator-form-row.edit-operator-two-col {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.edit-operator-form-row.edit-operator-two-col .edit-operator-form-group {
+  flex: 1; /* Each takes half the space */
+  margin-bottom: 0;
+}
+
+.edit-operator-form-group label {
+  display: block;
+  font-weight: 600;
+  color: #34495e;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.edit-operator-form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #bdc3c7;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box; /* Ensures padding is included in width */
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.edit-operator-form-group input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.edit-operator-form-group input:disabled:not(.edit-operator-readonly-field) {
+  background-color: #f8f9fa; /* Lighter grey for disabled but editable fields */
+}
+
+.edit-operator-readonly-field {
+  background-color: #ecf0f1;
+  color: #7f8c8d;
+  cursor: not-allowed;
+  border-style: dashed;
+}
+
+/* ============================================
+   TABLET RESPONSIVE STYLES
+============================================ */
+@media (max-width: 1024px) {
+  .edit-operator-header {
+    width: auto;
+    left: 80px; /* Adjust for smaller sidebar */
+    right: 20px;
+  }
+  .edit-operator-page-container {
+    margin-left: 80px; /* Adjust for smaller sidebar */
+    width: auto;
+    margin-right: 20px;
+  }
+  .edit-operator-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* ============================================
+   MOBILE RESPONSIVE STYLES
+============================================ */
+@media (max-width: 768px) {
+  .edit-operator-header {
+    position: static;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 20px 15px 0 15px; /* Add padding for spacing */
+  }
+
+  .edit-operator-title {
+    text-align: center;
+    color: #fff; /* Assuming a dark page background */
+    font-size: 1.6rem;
+    order: 1; /* Title appears first */
+  }
+
+  .edit-operator-action-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+    font-size: 1rem;
+    order: 2; /* Button appears second */
+  }
+  
+  .edit-operator-page-container {
+    margin: 20px 15px;
+    width: auto;
+  }
+
+  .edit-operator-content-card {
+    padding: 1.5rem;
+  }
+
+  .edit-operator-form-row.edit-operator-two-col {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+
+/* ============================================
+   EXTRA-SMALL MOBILE STYLES
+============================================ */
+@media (max-width: 480px) {
+  .edit-operator-header {
+    padding: 15px 10px 0 10px;
+  }
+
+  .edit-operator-page-container {
+    margin: 15px 10px;
+  }
+
+  .edit-operator-content-card {
+    padding: 1rem;
+    box-shadow: none; /* Simplify for small screens */
+    border: 1px solid #eee;
+  }
+
+  .edit-operator-form-wrapper h2 {
+    font-size: 1.2rem;
+  }
+  
+  .edit-operator-form-group input {
+    padding: 10px;
+  }
+  .edit-operator-page-container {
+  display: flex;
+  position: relative;
+  width:85%;
+}
+.edit-operator-action-btn {
+  width:80%;
+    margin-left: 20px;
+
+}
+.edit-operator-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-right: 30px;
+
+}
+}

@@ -1,0 +1,260 @@
+/* ============================================
+   LOADING SPINNER
+============================================ */
+.create-operator-loading-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  color: white;
+}
+
+.create-operator-loading-spinner {
+  border: 12px solid #f3f3f3;
+  border-top: 12px solid #3498db;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 1.5s linear infinite;
+}
+
+.create-operator-loading-text {
+  margin-top: 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ============================================
+   DESKTOP STYLES (Web Resolution)
+============================================ */
+
+/* Page Header: Contains Title and Action Button */
+.create-operator-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(63% - 150px); /* Aligns with content card's horizontal space */
+  position: absolute;
+  top: 60px;
+  left: 180px;
+  z-index: 10;
+}
+
+.create-operator-title {
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.create-operator-action-btn {
+  background: #fff;
+  color: #0C5890;
+  font-weight: 600;
+  border: none;
+  border-radius: 2rem;
+  padding: 10px 28px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.create-operator-action-btn:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  transform: translateY(-1px);
+}
+
+.create-operator-action-btn:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+/* Main Page Container */
+.create-operator-page-container {
+  display: flex;
+  position: relative;
+  margin: 120px 10px 10px 280px; /* Top margin creates space for the absolute header */
+  width: 63%;
+}
+
+/* White Content Card */
+.create-operator-content-card {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Section */
+.create-operator-form-wrapper {
+  width: 100%;
+}
+
+.create-operator-form-wrapper h2 {
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 1.4rem;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.5rem;
+}
+
+.create-operator-form-row {
+  margin-bottom: 1.5rem;
+}
+
+/* Two-Column Layout for Forms */
+.create-operator-form-row.create-operator-two-col {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.create-operator-form-row.create-operator-two-col .create-operator-form-group {
+  flex: 1; /* Each group takes half the space */
+  margin-bottom: 0;
+}
+
+.create-operator-form-group label {
+  display: block;
+  font-weight: 600;
+  color: #34495e;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.create-operator-form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #bdc3c7;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box; /* Ensures padding is included in width */
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.create-operator-form-group input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* ============================================
+   TABLET RESPONSIVE STYLES
+============================================ */
+@media (max-width: 1024px) {
+  .create-operator-header {
+    width: auto;
+    left: 80px; /* Adjust for smaller sidebar */
+    right: 20px;
+  }
+  .create-operator-page-container {
+    margin-left: 80px; /* Adjust for smaller sidebar */
+    width: auto;
+    margin-right: 20px;
+  }
+  .create-operator-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* ============================================
+   MOBILE RESPONSIVE STYLES
+============================================ */
+@media (max-width: 768px) {
+  .create-operator-header {
+    position: static; /* Let header flow naturally in the document */
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 20px 15px 0 15px;
+  }
+
+  .create-operator-title {
+    text-align: center;
+    color: #fff; /* Title color for dark background */
+    font-size: 1.6rem;
+    order: 1; /* Title first */
+  }
+
+  .create-operator-action-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+    font-size: 1rem;
+    order: 2; /* Button second */
+  }
+  
+  .create-operator-page-container {
+    margin: 20px 15px; /* Adjust margin for mobile view */
+    width: auto;
+  }
+
+  .create-operator-content-card {
+    padding: 1.5rem;
+  }
+
+  .create-operator-form-row.create-operator-two-col {
+    flex-direction: column; /* Stack form fields vertically */
+    gap: 1.5rem;
+  }
+}
+
+/* ============================================
+   EXTRA-SMALL MOBILE STYLES
+============================================ */
+@media (max-width: 480px) {
+  .create-operator-header {
+    padding: 15px 10px 0 10px;
+  }
+
+  .create-operator-page-container {
+    margin: 15px 10px;
+  }
+
+  .create-operator-content-card {
+    padding: 1rem;
+    box-shadow: none; /* Simpler style for small screens */
+    border: 1px solid #eee;
+  }
+
+  .create-operator-form-wrapper h2 {
+    font-size: 1.2rem;
+  }
+  
+  .create-operator-form-group input {
+    padding: 10px;
+  }
+  .create-operator-page-container {
+  display: flex;
+  position: relative;
+  width: 85%;
+}
+.create-operator-action-btn {
+  width:80%;   
+      margin-left: 20px;     
+}
+.create-operator-title {
+  font-size: 1.5rem; 
+  margin-right: 50px;   
+}
+}

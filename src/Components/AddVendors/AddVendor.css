@@ -1,215 +1,263 @@
-/* Access Management Container */
-.vendor-management-container {
-  display: flex;
-  position:relative;
-  margin: 120px 10px 10px 280px;
-  
-  transition: all 0.3s ease;
-  width: 63%;
-}
-
-/* Grant Access Header Styling */
-.grant-access-headerr {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-  max-width: 40%;
-  flex-wrap: nowrap;
-  position: absolute;
-  top: 30px;
-  left: 660px;
-  z-index: 1;
-  border:none;
-}
-
-.vendor-title{
-  font-size: 1.7rem;
-  font-weight: bold;
-  text-align: start;
-  color: rgb(255, 255, 255);
-  position: relative;
-  right: 480px;
-}
-
-/* Content Wrapper to align details & permissions side by side */
-.vendor-content-wrapper {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  width: 100%;
-  position:relative;
-  border-collapse: collapse;
-  table-layout: auto;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-  padding: 1rem;
-  background-color: #ffffff;
-}
-
-/* Form container */
-
-
-/* Permissions container */
-.permissions-container {
-  flex: 1;
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  height: 240px;
-}
-
-/* Input fields styling */
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 5px;
-}
-
-.form-group input {
-  width: 100%;
-  max-width: 50%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-/* Toggle Switch Styling */
-.toggle-group div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 40px;
-  height: 20px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
+/* ============================================
+   LOADING SPINNER
+============================================ */
+.create-local-admin-loading-backdrop {
+  position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 20px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 14px;
-  width: 14px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 0.4s;
-  border-radius: 50%;
-}
-
-input:checked + .slider {
-  background-color: #007bff;
-}
-
-input:checked + .slider:before {
-  transform: translateX(20px);
-}
-
-/* Grant Access Button */
-.grant-access-btn {
-  background-color: #0c5890;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
   color: white;
-  border: none;
-  padding: 10px 15px;
-  font-size: 14px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s;
 }
 
-.grant-access-btn:hover {
-  background-color: #0056b3;
+.create-local-admin-loading-spinner {
+  border: 12px solid #f3f3f3;
+  border-top: 12px solid #3498db;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 1.5s linear infinite;
 }
 
-/* Heading Styling */
-h2 {
-  color: #2c3e50;
-  font-weight: 500;
-  font-size: 19px;
+.create-local-admin-loading-text {
+  margin-top: 20px;
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
-@media (max-width: 1250px) {
-  .content-wrapper {
-    flex-direction: column;
-  }
-  
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
+/* ============================================
+   DESKTOP STYLES (Web Resolution)
+============================================ */
 
-.add-vendor-btn {
-  background: #fff; 
+/* Page Header: Contains Title and Action Button */
+.create-local-admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(63% - 150px); /* Aligns with content card's horizontal space */
+  position: absolute;
+  top: 60px;
+  left: 180px;
+  z-index: 10;
+}
+
+.create-local-admin-title {
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.create-local-admin-action-btn {
+  background: #fff;
   color: #0C5890;
   font-weight: 600;
   border: none;
   border-radius: 2rem;
   padding: 10px 28px;
-  font-size: 1.1rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 2px 8px rgba(10, 75, 176, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   white-space: nowrap;
-  flex-shrink: 0;
-  position: relative;
-  left: 300px;
-  top: 15px;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
+.create-local-admin-action-btn:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  transform: translateY(-1px);
+}
 
-/* Row for two columns */
-.form-row.two-col {
+.create-local-admin-action-btn:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+/* Main Page Container */
+.create-local-admin-page-container {
   display: flex;
-  gap: 20px;
-  align-items: flex-start;
-  flex-wrap: wrap; /* lets it wrap on small screens */
+  position: relative;
+  margin: 120px 10px 10px 280px; /* Top margin creates space for the absolute header */
+  width: 63%;
 }
 
-/* Make both fields share the row evenly */
-.form-row.two-col .form-group {
-  flex: 1 1 300px; /* grow, shrink, min width */
+/* White Content Card */
+.create-local-admin-content-card {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Section */
+.create-local-admin-form-wrapper {
+  width: 100%;
+}
+
+.create-local-admin-form-wrapper h2 {
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 1.4rem;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.5rem;
+}
+
+.create-local-admin-form-row {
+  margin-bottom: 1.5rem;
+}
+
+/* Two-Column Layout for Forms */
+.create-local-admin-form-row.create-local-admin-two-col {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.create-local-admin-form-row.create-local-admin-two-col .create-local-admin-form-group {
+  flex: 1; /* Each group takes half the space */
   margin-bottom: 0;
 }
 
-/* Ensure inputs use full width inside their column */
-.form-row.two-col .form-group input {
-  width: 100%;
-  max-width: 100%;
+.create-local-admin-form-group label {
+  display: block;
+  font-weight: 600;
+  color: #34495e;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
 }
 
-/* If you keep this global rule elsewhere, remove or override it:
-.form-group input { max-width: 50%; }
-*/
+.create-local-admin-form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #bdc3c7;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box; /* Ensures padding is included in width */
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
 
-/* Stack on small screens */
+.create-local-admin-form-group input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* ============================================
+   TABLET RESPONSIVE STYLES
+============================================ */
+@media (max-width: 1024px) {
+  .create-local-admin-header {
+    width: auto;
+    left: 80px; /* Adjust for smaller sidebar */
+    right: 20px;
+  }
+  .create-local-admin-page-container {
+    margin-left: 80px; /* Adjust for smaller sidebar */
+    width: auto;
+    margin-right: 20px;
+  }
+  .create-local-admin-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* ============================================
+   MOBILE RESPONSIVE STYLES
+============================================ */
 @media (max-width: 768px) {
-  .form-row.two-col {
+  .create-local-admin-header {
+    position: static; /* Let header flow naturally in the document */
     flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 20px 15px 0 15px; /* Add padding for spacing */
+  }
+
+  .create-local-admin-title {
+    text-align: center;
+    color: #fff; /* Title color for dark background */
+    font-size: 1.6rem;
+    order: 1; /* Title first */
+  }
+
+  .create-local-admin-action-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+    font-size: 1rem;
+    order: 2; /* Button second */
+  }
+  
+  .create-local-admin-page-container {
+    margin: 20px 15px; /* Adjust margin for mobile view */
+    width: auto;
+  }
+
+  .create-local-admin-content-card {
+    padding: 1.5rem;
+  }
+
+  .create-local-admin-form-row.create-local-admin-two-col {
+    flex-direction: column; /* Stack form fields vertically */
+    gap: 1.5rem;
+  }
+}
+
+/* ============================================
+   EXTRA-SMALL MOBILE STYLES
+============================================ */
+@media (max-width: 480px) {
+  .create-local-admin-header {
+    padding: 15px 10px 0 10px;
+  }
+
+  .create-local-admin-page-container {
+    margin: 15px 10px;
+  }
+
+  .create-local-admin-content-card {
+    padding: 1rem;
+    box-shadow: none; /* Simpler style for small screens */
+    border: 1px solid #eee;
+  }
+
+  .create-local-admin-form-wrapper h2 {
+    font-size: 1.2rem;
+  }
+  
+  .create-local-admin-form-group input {
+    padding: 10px;
+  }
+  .create-local-admin-action-btn {
+  width:80%;
+  margin-left: 10px;
+}
+.create-local-admin-page-container {
+  display: flex;
+  position: relative;
+  width: 85%;
+}
+.create-local-admin-title {
+    text-align: center;
+    color: #fff; /* Title color for dark background */
+    font-size: 1.5rem;
+    order: 1; /* Title first */
+    margin-right: 40px;
   }
 }

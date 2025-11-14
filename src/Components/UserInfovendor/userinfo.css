@@ -1,279 +1,267 @@
-/* Access Management Container */
-.access-management-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  max-width: calc(100vw - 320px); /* Responsive width accounting for sidebar */
-  min-width: 300px;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  position: relative;
-  margin: 0 auto;
-  box-sizing: border-box;
-  overflow-x: hidden;
-}
-
-/* Grant Access Header Styling */
-.grant-access-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #ffffff;
-  padding: 15px 20px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  box-sizing: border-box;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.grant-access-header h1 {
-  margin: 0;
-  font-size: 1.5rem;
-  word-wrap: break-word;
-  flex: 1;
-  min-width: 200px;
-}
-
-/* Content Wrapper to align details & permissions side by side */
-.content-wrapper {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  width: 100%;
-  box-sizing: border-box;
-  flex-wrap: wrap;
-}
-
-/* Form container */
-.form-container {
-  flex: 1;
-  min-width: 300px;
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
-}
-
-/* Permissions container */
-.permissions-container {
-  flex: 1;
-  min-width: 300px;
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
-  height: fit-content;
-}
-
-/* Input fields styling */
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 5px;
-  word-wrap: break-word;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
-  font-size: 14px;
-}
-
-/* Toggle Switch Styling */
-.toggle-group {
-  width: 100%;
-}
-
-.toggle-group div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 15px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.toggle-group span {
-  flex: 1;
-  margin-right: 15px;
-  word-wrap: break-word;
-  font-weight: 500;
-}
-
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 40px;
-  height: 20px;
-  flex-shrink: 0;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
+/* ============================================
+   LOADING SPINNER
+============================================ */
+.edit-local-admin-loading-backdrop {
+  position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 20px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 14px;
-  width: 14px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 0.4s;
-  border-radius: 50%;
-}
-
-input:checked + .slider {
-  background-color: #007bff;
-}
-
-input:checked + .slider:before {
-  transform: translateX(20px);
-}
-
-/* Grant Access Button */
-.grant-access-btn {
-  background-color: #0c5890;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
   color: white;
+}
+
+.edit-local-admin-loading-spinner {
+  border: 12px solid #f3f3f3;
+  border-top: 12px solid #3498db;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 1.5s linear infinite;
+}
+
+.edit-local-admin-loading-text {
+  margin-top: 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ============================================
+   DESKTOP STYLES (Web Resolution)
+============================================ */
+.edit-local-admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(63% - 150px); /* Match container width with padding */
+  position: absolute;
+  top: 60px;
+  left: 180px; /* Aligns with container's left margin */
+  z-index: 10;
+}
+
+.edit-local-admin-title {
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.edit-local-admin-action-btn {
+  background: #fff;
+  color: #0C5890;
+  font-weight: 600;
   border: none;
-  padding: 10px 15px;
-  font-size: 14px;
-  border-radius: 5px;
+  border-radius: 2rem;
+  padding: 10px 28px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   cursor: pointer;
-  transition: 0.3s;
   white-space: nowrap;
-  flex-shrink: 0;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
-.grant-access-btn:hover {
-  background-color: #0056b3;
+.edit-local-admin-action-btn:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  transform: translateY(-1px);
 }
 
-/* Heading Styling */
-h2 {
+.edit-local-admin-action-btn:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.edit-local-admin-page-container {
+  display: flex;
+  position: relative;
+  margin: 120px 10px 10px 280px;
+  width: 63%;
+}
+
+.edit-local-admin-content-card {
+  width: 100%;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.edit-local-admin-form-wrapper h2 {
   color: #2c3e50;
-  font-weight: 500;
-  font-size: 19px;
+  font-weight: 600;
+  font-size: 1.4rem;
   margin-top: 0;
-  word-wrap: break-word;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.5rem;
 }
 
-h3 {
-  color: #2c3e50;
-  font-weight: 500;
-  font-size: 16px;
-  margin-top: 0;
-  margin-bottom: 20px;
-  word-wrap: break-word;
+.edit-local-admin-form-row {
+  margin-bottom: 1.5rem;
 }
 
-/* Responsive Design */
-@media (max-width: 1400px) {
-  .access-management-container {
-    max-width: calc(100vw - 280px);
-  }
+.edit-local-admin-form-row.edit-local-admin-two-col {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
 }
 
-@media (max-width: 1200px) {
-  .access-management-container {
-    max-width: calc(100vw - 60px);
-    margin: 0 30px;
-  }
+.edit-local-admin-form-row.edit-local-admin-two-col .edit-local-admin-form-group {
+  flex: 1; /* Each takes half the space */
+  margin-bottom: 0;
 }
 
+.edit-local-admin-form-group label {
+  display: block;
+  font-weight: 600;
+  color: #34495e;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.edit-local-admin-form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #bdc3c7;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box; /* Ensures padding is included in width */
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.edit-local-admin-form-group input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.edit-local-admin-form-group input:disabled:not(.edit-local-admin-readonly-field) {
+  background-color: #f8f9fa; /* Lighter grey for disabled but editable fields */
+}
+
+.edit-local-admin-readonly-field {
+  background-color: #ecf0f1;
+  color: #7f8c8d;
+  cursor: not-allowed;
+  border-style: dashed;
+}
+
+
+/* ============================================
+   TABLET RESPONSIVE STYLES
+============================================ */
 @media (max-width: 1024px) {
-  .content-wrapper {
-    flex-direction: column;
+  .edit-local-admin-header {
+    width: auto;
+    left: 80px; /* Adjust for smaller sidebar */
+    right: 20px;
   }
-  
-  .form-container, 
-  .permissions-container {
-    width: 100%;
-    min-width: auto;
+  .edit-local-admin-page-container {
+    margin-left: 80px; /* Adjust for smaller sidebar */
+    width: auto;
+    margin-right: 20px;
   }
-  
-  .access-management-container {
-    max-width: calc(100vw - 40px);
-    margin: 0 20px;
-    padding: 15px;
+  .edit-local-admin-title {
+    font-size: 1.5rem;
   }
 }
 
+/* ============================================
+   MOBILE RESPONSIVE STYLES
+============================================ */
 @media (max-width: 768px) {
-  .grant-access-header {
+  .edit-local-admin-header {
+    /* Stack header items and position them in the normal page flow */
+    position: static;
     flex-direction: column;
     align-items: stretch;
+    gap: 1rem;
+    padding: 20px 15px 0 15px; /* Add padding for spacing */
+  }
+
+  .edit-local-admin-title {
     text-align: center;
+    color: #fff; /* Assuming a dark page background */
+    font-size: 1.6rem;
+    order: 1; /* Title appears first */
+  }
+
+  .edit-local-admin-action-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+    font-size: 1rem;
+    order: 2; /* Button appears second */
   }
   
-  .grant-access-header h1 {
-    font-size: 1.3rem;
-    margin-bottom: 10px;
+  .edit-local-admin-page-container {
+    /* Remove sidebar margin and use full width */
+    margin: 20px 15px;
+    width: auto;
+  }
+
+  .edit-local-admin-content-card {
+    padding: 1.5rem;
+  }
+
+  .edit-local-admin-form-row.edit-local-admin-two-col {
+    /* Stack two-column layouts vertically on mobile */
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+
+/* ============================================
+   EXTRA-SMALL MOBILE STYLES
+============================================ */
+@media (max-width: 480px) {
+  .edit-local-admin-header {
+    padding: 15px 10px 0 10px;
+  }
+
+  .edit-local-admin-page-container {
+    margin: 15px 10px;
+  }
+
+  .edit-local-admin-content-card {
+    padding: 1rem;
+    box-shadow: none; /* Simplify for small screens */
+    border: 1px solid #eee;
+  }
+
+  .edit-local-admin-form-wrapper h2 {
+    font-size: 1.2rem;
   }
   
-  .access-management-container {
-    max-width: calc(100vw - 20px);
-    margin: 0 10px;
+  .edit-local-admin-form-group input {
     padding: 10px;
   }
-  
-  .form-container,
-  .permissions-container {
-    padding: 15px;
-  }
+  .edit-local-admin-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-right: 30px;
 }
-
-@media (max-width: 480px) {
-  .grant-access-header h1 {
-    font-size: 1.1rem;
-  }
-  
-  .grant-access-btn {
-    width: 100%;
-    padding: 12px;
-  }
-  
-  .toggle-group div {
-    flex-direction: column;
-    align-items: stretch;
-    text-align: center;
-    gap: 10px;
-  }
-  
-  .toggle-group span {
-    margin-right: 0;
-    margin-bottom: 5px;
-  }
-  
-  .switch {
-    align-self: center;
-  }
+.edit-local-admin-action-btn {
+  width:80%;
+  margin-left: 20px;
+}
+.edit-local-admin-page-container {
+  display: flex;
+  position: relative;
+    width: 85%;
+}
 }
