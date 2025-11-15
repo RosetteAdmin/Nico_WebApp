@@ -1602,7 +1602,7 @@ h2 {
 
   /* Main Container */
   .device-detail-container {
-    width: 85% !important;
+    width: 80% !important;
     max-width: 100vw !important;
     margin: -50px 10px 20px 10px !important;
     padding: 10px !important;
@@ -2248,6 +2248,37 @@ h2 {
     display: inline-block;
     animation: spin 1s linear infinite;
     font-size: 1rem !important;
+  }
+  /* Hide the extra power status banner on mobile */
+  .device-power-status-banner {
+    display: none !important;
+  }
+
+  /* Also hide any duplicate power badges if they exist */
+  .power-badge {
+    display: none !important;
+  }
+
+  .power-label {
+    display: none !important;
+  }
+
+  /* Keep only the main banner visible */
+  .device-details-banner {
+    height: auto !important;
+    width: 100% !important;
+    padding: 15px !important;
+    margin: 0 !important;
+    position: relative;
+  }
+
+  /* Ensure the main header status elements stay visible */
+  .device-details-header .connection-badge,
+  .device-details-header .connection-label,
+  .device-details-status .connection-badge,
+  .device-details-status .connection-label {
+    display: flex !important; /* Keep these visible in header */
+    color: white !important;
   }
 }
 

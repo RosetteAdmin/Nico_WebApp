@@ -641,3 +641,255 @@
   border-top: 2px solid #e0e0e0;
   margin: 0 0 16px 0;
 }
+
+/* Responsive Design - Enhanced for Mobile */
+@media (max-width: 768px) {
+  .charts-container {
+    margin: 15px 0;
+  }
+
+  .chart-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .chart-title {
+    font-size: 13px;
+  }
+
+  .chart-value {
+    font-size: 14px;
+  }
+
+  /* Make chart container take full width */
+  .chart-responsive-container {
+    width: 100% !important;
+    height: 250px !important;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Smaller x-axis font */
+  .chart-responsive-container .recharts-cartesian-axis-tick text {
+    font-size: 8px !important;
+  }
+
+  .carousel-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 24px;
+  }
+
+  .carousel-wrapper {
+    gap: 8px;
+  }
+
+  .time-range-select {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  .carousel-indicators {
+    gap: 8px;
+  }
+
+  .carousel-dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .carousel-dot.active {
+    width: 24px;
+  }
+
+  /* Ensure carousel slides properly */
+  .carousel-slide {
+    width: 100% !important;
+    min-width: 100% !important;
+  }
+
+  .charts-carousel {
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .device-info-card {
+    padding: 15px;
+  }
+
+  .chart-container {
+    padding: 12px !important;
+    margin-bottom: 15px !important;
+  }
+
+  /* Optimize chart dimensions for small mobile screens */
+  .chart-responsive-container {
+    width: 130% !important;
+    height: 220px !important;
+    min-height: 220px !important;
+    overflow: hidden !important;
+    position: relative;
+    left: -30%;
+
+  }
+
+  /* Even smaller x-axis font for mobile */
+  .chart-responsive-container .recharts-cartesian-axis-tick text {
+    font-size: 7px !important;
+  }
+
+  /* Smaller y-axis font too */
+  .chart-responsive-container .recharts-yAxis .recharts-cartesian-axis-tick text {
+    font-size: 8px !important;
+  }
+
+  .carousel-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+  }
+
+  .chart-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .chart-title {
+    font-size: 12px !important;
+    width: 100%;
+  }
+
+  .chart-value {
+    font-size: 13px !important;
+  }
+
+  .chart-controls {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .time-range-select {
+    font-size: 11px !important;
+    padding: 4px 8px !important;
+    width: auto;
+  }
+
+  /* Carousel wrapper adjustments */
+  .carousel-wrapper {
+    gap: 6px;
+    margin-bottom: 15px;
+  }
+
+  /* Ensure full width carousel */
+  .charts-carousel {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .charts-carousel-track {
+    display: flex;
+    width: 100%;
+  }
+
+  .carousel-slide {
+    min-width: 100% !important;
+    width: 100% !important;
+    flex-shrink: 0;
+    box-sizing: border-box;
+  }
+
+  /* Section title adjustments */
+  .charts-section-title {
+    font-size: 1rem !important;
+    margin-bottom: 15px !important;
+  }
+
+  /* Sensor header responsive */
+  .sensor-header {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 10px;
+  }
+
+  .sensor-header h2 {
+    font-size: 16px !important;
+  }
+
+  .view-logs-btn {
+    padding: 6px 12px !important;
+    font-size: 12px !important;
+    width: 100%;
+  }
+
+  /* Indicators adjustments */
+  .carousel-indicators {
+    gap: 6px;
+    margin-top: 10px;
+    padding: 8px 0;
+  }
+
+  .carousel-dot {
+    width: 7px;
+    height: 7px;
+  }
+
+  .carousel-dot.active {
+    width: 20px;
+  }
+}
+
+/* Extra small screens (iPhone SE, small Android phones) */
+@media (max-width: 375px) {
+  .chart-responsive-container {
+    height: 200px !important;
+    min-height: 200px !important;
+  }
+
+  /* Extra small font for x-axis on very small screens */
+  .chart-responsive-container .recharts-cartesian-axis-tick text {
+    font-size: 6px !important;
+  }
+
+  .chart-responsive-container .recharts-yAxis .recharts-cartesian-axis-tick text {
+    font-size: 7px !important;
+  }
+
+  .chart-container {
+    padding: 10px !important;
+  }
+
+  .chart-title {
+    font-size: 11px !important;
+  }
+
+  .chart-value {
+    font-size: 12px !important;
+  }
+
+  .carousel-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+  }
+
+  .time-range-select {
+    font-size: 10px !important;
+    padding: 3px 6px !important;
+  }
+}
+@media (max-width: 415px) {
+   .chart-responsive-container {
+    width: 150% !important;
+    height: 220px !important;
+    min-height: 220px !important;
+    overflow: hidden !important;
+    position: relative;
+    left:-35%;
+  }
+}
