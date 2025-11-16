@@ -1,5 +1,7 @@
 // import React, { useState, useEffect } from 'react';
-// import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+// import { useNavigate } from 'react-router-dom';
+// import {faEllipsisV  } from "@fortawesome/free-solid-svg-icons";
+// import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 // import "./DataChart.css";
 
 // const DataChart = ({ deviceId }) => {
@@ -12,6 +14,7 @@
 //   const [selectedTimeRange, setSelectedTimeRange] = useState('Hour');
 //   const [selectedGenerator, setSelectedGenerator] = useState('nb');
 //   const [currentSlide, setCurrentSlide] = useState(0);
+//   const navigate = useNavigate();
 
 //   const totalCharts = 4; // Flow Rate, Pressure, Total Water Outlet, Total Running Hours
 
@@ -28,7 +31,8 @@
 //           throw new Error('Invalid device ID provided.');
 //         }
 
-//         const apiUrl = `${process.env.REACT_APP_EP}/data/devices/${deviceId}/generator-logs?ts=${Date.now()}`;
+//         // Add timeRange parameter to API call
+//         const apiUrl = `${process.env.REACT_APP_EP}/data/devices/${deviceId}/generator-logs?timeRange=${selectedTimeRange}&ts=${Date.now()}`;
 //         console.log('Fetching real data from:', apiUrl);
 
 //         const response = await fetch(apiUrl, {
@@ -77,7 +81,7 @@
 //     } else {
 //       setError('No device ID provided');
 //     }
-//   }, [deviceId]);
+//   }, [deviceId, selectedTimeRange]); // Added selectedTimeRange to dependencies
 
 //   const processRealHistoricalData = (historyData) => {
 //     if (!Array.isArray(historyData) || historyData.length === 0) {
@@ -95,15 +99,57 @@
 
 //     const generateTimePoints = () => {
 //       const now = new Date();
-//       const startTime = new Date(now.getTime() - 60 * 60 * 1000); // 60 minutes before to end at "now"
+//       let startTime, interval, pointsCount;
+
+//       // Configure based on selected time range
+//       switch (selectedTimeRange) {
+//         case 'Hour':
+//           startTime = new Date(now.getTime() - 60 * 60 * 1000); // 60 minutes ago
+//           interval = 10 * 60 * 1000; // 10 minutes
+//           pointsCount = 7;
+//           break;
+//         case 'Day':
+//           startTime = new Date(now.getTime() - 24 * 60 * 60 * 1000); // 24 hours ago
+//           interval = 4 * 60 * 60 * 1000; // 4 hours
+//           pointsCount = 7;
+//           break;
+//         case 'Week':
+//           startTime = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000); // 7 days ago
+//           interval = 24 * 60 * 60 * 1000; // 1 day
+//           pointsCount = 8;
+//           break;
+//         default:
+//           startTime = new Date(now.getTime() - 60 * 60 * 1000);
+//           interval = 10 * 60 * 1000;
+//           pointsCount = 7;
+//       }
+
 //       const timeLabels = [];
-//       for (let i = 0; i < 7; i++) {
-//         const timePoint = new Date(startTime.getTime() + i * 10 * 60 * 1000);
-//         timeLabels.push(timePoint.toLocaleTimeString('en-US', {
-//           hour: '2-digit',
-//           minute: '2-digit',
-//           hour12: false
-//         }));
+//       for (let i = 0; i < pointsCount; i++) {
+//         const timePoint = new Date(startTime.getTime() + i * interval);
+        
+//         // Format based on time range
+//         let formattedTime;
+//         if (selectedTimeRange === 'Hour') {
+//           formattedTime = timePoint.toLocaleTimeString('en-US', {
+//             hour: '2-digit',
+//             minute: '2-digit',
+//             hour12: false
+//           });
+//         } else if (selectedTimeRange === 'Day') {
+//           formattedTime = timePoint.toLocaleTimeString('en-US', {
+//             hour: '2-digit',
+//             minute: '2-digit',
+//             hour12: false
+//           });
+//         } else { // Week
+//           formattedTime = timePoint.toLocaleDateString('en-US', {
+//             month: 'short',
+//             day: 'numeric'
+//           });
+//         }
+        
+//         timeLabels.push(formattedTime);
 //       }
 //       return timeLabels;
 //     };
@@ -135,9 +181,10 @@
 //     });
 
 //     Object.keys(generators).forEach(type => {
+//       const pointsCount = selectedTimeRange === 'Week' ? 8 : 7;
 //       generators[type] = generators[type]
 //         .sort((a, b) => a.timestamp - b.timestamp)
-//         .slice(-7)
+//         .slice(-pointsCount)
 //         .map((point, index) => ({
 //           ...point,
 //           time: timePoints[index] || timePoints[timePoints.length - 1]
@@ -304,15 +351,13 @@
 //               tick={{ fontSize: 12 }}
 //               axisLine={{ stroke: '#e0e0e0' }}
 //               interval={0}
+//               angle={selectedTimeRange === 'Day' ? -45 : 0}
+//               textAnchor={selectedTimeRange === 'Day' ? 'end' : 'middle'}
+//               height={selectedTimeRange === 'Day' ? 60 : 30}
 //             />
-//             {/* <YAxis
-//               domain={getYAxisDomain(metric)}
-//               ticks={getYAxisTicks(metric)}
-//               tick={{ fontSize: 12 }}
-//               axisLine={{ stroke: '#e0e0e0' }}
-//             /> */}
 //             <YAxis
 //               domain={getYAxisDomain(metric)}
+//               ticks={getYAxisTicks(metric)}
 //               tick={{ fontSize: 12 }}
 //               axisLine={{ stroke: '#e0e0e0' }}
 //             />
@@ -347,9 +392,18 @@
 //   return (
 //     <div className="device-info-card charts-container">
 //       <div>
-//         <h3 className="section-title charts-section-title">
-//           Sensor Data:
-//         </h3>
+//       <div className="sensor-header">
+//   <h2>Sensor Data:</h2>
+//   <button 
+//     className="view-logs-btn"
+//     onClick={() => navigate(`/device/${deviceId}/logdetails`)}
+//   >
+//     View All Sensor Logs
+//   </button>
+// </div>
+// <hr className="sensor-divider" />
+
+
 
 //         {error && (
 //           <div className="error-container" style={{
@@ -432,16 +486,14 @@
 //           ))}
 //         </div>
 //       </div>
+     
 //     </div>
 //   );
 // };
 
 // export default DataChart;
-
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {faEllipsisV  } from "@fortawesome/free-solid-svg-icons";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import "./DataChart.css";
 
@@ -457,7 +509,7 @@ const DataChart = ({ deviceId }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const navigate = useNavigate();
 
-  const totalCharts = 4; // Flow Rate, Pressure, Total Water Outlet, Total Running Hours
+  const totalCharts = 6; // Flow Rate, Pressure, Total Water Outlet, Total Running Hours, Pump Motor Frequency, Pump Motor Current
 
   useEffect(() => {
     const fetchChartData = async () => {
@@ -522,7 +574,7 @@ const DataChart = ({ deviceId }) => {
     } else {
       setError('No device ID provided');
     }
-  }, [deviceId, selectedTimeRange]); // Added selectedTimeRange to dependencies
+  }, [deviceId, selectedTimeRange]);
 
   const processRealHistoricalData = (historyData) => {
     if (!Array.isArray(historyData) || historyData.length === 0) {
@@ -542,21 +594,20 @@ const DataChart = ({ deviceId }) => {
       const now = new Date();
       let startTime, interval, pointsCount;
 
-      // Configure based on selected time range
       switch (selectedTimeRange) {
         case 'Hour':
-          startTime = new Date(now.getTime() - 60 * 60 * 1000); // 60 minutes ago
-          interval = 10 * 60 * 1000; // 10 minutes
+          startTime = new Date(now.getTime() - 60 * 60 * 1000);
+          interval = 10 * 60 * 1000;
           pointsCount = 7;
           break;
         case 'Day':
-          startTime = new Date(now.getTime() - 24 * 60 * 60 * 1000); // 24 hours ago
-          interval = 4 * 60 * 60 * 1000; // 4 hours
+          startTime = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+          interval = 4 * 60 * 60 * 1000;
           pointsCount = 7;
           break;
         case 'Week':
-          startTime = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000); // 7 days ago
-          interval = 24 * 60 * 60 * 1000; // 1 day
+          startTime = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+          interval = 24 * 60 * 60 * 1000;
           pointsCount = 8;
           break;
         default:
@@ -569,7 +620,6 @@ const DataChart = ({ deviceId }) => {
       for (let i = 0; i < pointsCount; i++) {
         const timePoint = new Date(startTime.getTime() + i * interval);
         
-        // Format based on time range
         let formattedTime;
         if (selectedTimeRange === 'Hour') {
           formattedTime = timePoint.toLocaleTimeString('en-US', {
@@ -583,7 +633,7 @@ const DataChart = ({ deviceId }) => {
             minute: '2-digit',
             hour12: false
           });
-        } else { // Week
+        } else {
           formattedTime = timePoint.toLocaleDateString('en-US', {
             month: 'short',
             day: 'numeric'
@@ -603,17 +653,31 @@ const DataChart = ({ deviceId }) => {
         const timeStr = timePoints[timeIndex];
 
         const dataPoint = {
-          time: timeStr,
-          timeValue: timeStr,
-          flowRate: parseFloat(record.waterFlow) || 0,
-          pressure: parseFloat(record.waterPressure) || 0,
-          waterTemperature: 0,
-          systemTemperature: 0,
-          totalWaterOutlet: parseFloat(record.totalWaterOutlet) || 0,
-          totalRunningHours: parseFloat(record.totalRunningHours) || 0,
-          powerStatus: null,
-          timestamp: new Date(record.timestamp)
-        };
+  time: timeStr,
+  timeValue: timeStr,
+  flowRate: parseFloat(record.waterFlow) || 0,
+  pressure: parseFloat(record.waterPressure) || 0,
+  waterTemperature: 0,
+  systemTemperature: 0,
+  totalWaterOutlet: parseFloat(record.totalWaterOutlet) || 0,
+  totalRunningHours: parseFloat(record.totalRunningHours) || 0,
+  pumpMotorFrequency: parseFloat(record.pumpMotorFrequency) || 0,
+  pumpMotorCurrent: parseFloat(record.pumpMotorCurrent) || 0,
+  powerStatus: null,
+  timestamp: new Date(record.timestamp)
+};
+
+console.log(`Record ${index} - Pump Motor Data:`, {
+  frequency: dataPoint.pumpMotorFrequency,
+  current: dataPoint.pumpMotorCurrent,
+  rawRecord: record
+});
+
+        console.log(`Record ${index} - Pump Motor Data:`, {
+          frequency: dataPoint.pumpMotorFrequency,
+          current: dataPoint.pumpMotorCurrent,
+          rawRecord: record
+        });
 
         generators.nb.push(dataPoint);
       } catch (recordError) {
@@ -635,7 +699,8 @@ const DataChart = ({ deviceId }) => {
     console.log('Processed real data summary:', {
       nb: generators.nb.length,
       ozone: generators.ozone.length,
-      oxygen: generators.oxygen.length
+      oxygen: generators.oxygen.length,
+      sampleData: generators.nb[0]
     });
 
     return generators;
@@ -651,6 +716,10 @@ const DataChart = ({ deviceId }) => {
         return 'Total Water Outlet';
       case 'totalRunningHours':
         return 'Total Running Hours';
+      case 'pumpMotorFrequency':
+        return 'Pump Motor Frequency';
+      case 'pumpMotorCurrent':
+        return 'Pump Motor Current';
       default:
         return metric;
     }
@@ -666,6 +735,10 @@ const DataChart = ({ deviceId }) => {
         return 'L';
       case 'totalRunningHours':
         return 'hrs';
+      case 'pumpMotorFrequency':
+        return 'Hz';
+      case 'pumpMotorCurrent':
+        return 'A';
       default:
         return '';
     }
@@ -685,33 +758,53 @@ const DataChart = ({ deviceId }) => {
   };
 
   const getYAxisDomain = (metric) => {
-    switch (metric) {
-      case 'flowRate':
-        return [0, 50];
-      case 'pressure':
-        return [0, 10];
-      case 'totalWaterOutlet':
-        return [0, 1000];
-      case 'totalRunningHours':
-        return [0, 100];
-      default:
-        return [0, 50];
+    const data = chartData[selectedGenerator] || [];
+    
+    if (data.length === 0) {
+      // Default domains when no data
+      switch (metric) {
+        case 'flowRate':
+          return [0, 50];
+        case 'pressure':
+          return [0, 10];
+        case 'totalWaterOutlet':
+          return [0, 1000];
+        case 'totalRunningHours':
+          return [0, 100];
+        case 'pumpMotorFrequency':
+          return [0, 60];
+        case 'pumpMotorCurrent':
+          return [0, 20];
+        default:
+          return [0, 50];
+      }
     }
+
+    // Dynamic domain based on actual data
+    const values = data.map(d => d[metric] || 0);
+    const maxValue = Math.max(...values);
+    const minValue = Math.min(...values);
+    
+    // Add 10% padding to max
+    const paddedMax = Math.ceil(maxValue * 1.1);
+    const paddedMin = Math.max(0, Math.floor(minValue * 0.9));
+    
+    return [paddedMin, paddedMax || 10];
   };
 
   const getYAxisTicks = (metric) => {
-    switch (metric) {
-      case 'flowRate':
-        return [0, 10, 20, 30, 40, 50];
-      case 'pressure':
-        return [0, 2, 4, 6, 8, 10];
-      case 'totalWaterOutlet':
-        return [0, 200, 400, 600, 800, 1000];
-      case 'totalRunningHours':
-        return [0, 20, 40, 60, 80, 100];
-      default:
-        return [0, 10, 20, 30, 40, 50];
+    const domain = getYAxisDomain(metric);
+    const [min, max] = domain;
+    const range = max - min;
+    const tickCount = 6;
+    const step = Math.ceil(range / (tickCount - 1));
+    
+    const ticks = [];
+    for (let i = 0; i < tickCount; i++) {
+      ticks.push(min + (step * i));
     }
+    
+    return ticks;
   };
 
   const handlePrevSlide = () => {
@@ -756,13 +849,15 @@ const DataChart = ({ deviceId }) => {
       );
     }
 
+    const currentValue = data.length > 0 ? data[data.length - 1][metric] : 0;
+
     return (
       <div className="chart-container">
         <div className="chart-header">
           <h4 className="chart-title">
             {getGeneratorLabel(selectedGenerator)} {title}:
             <span className="chart-value">
-              {data.length > 0 ? data[data.length - 1][metric]?.toFixed(1) : 0} {unit}
+              {currentValue !== undefined && currentValue !== null ? currentValue.toFixed(1) : '0.0'} {unit}
             </span>
           </h4>
           <div className="chart-controls">
@@ -833,18 +928,16 @@ const DataChart = ({ deviceId }) => {
   return (
     <div className="device-info-card charts-container">
       <div>
-      <div className="sensor-header">
-  <h2>Sensor Data:</h2>
-  <button 
-    className="view-logs-btn"
-    onClick={() => navigate(`/device/${deviceId}/logdetails`)}
-  >
-    View All Sensor Logs
-  </button>
-</div>
-<hr className="sensor-divider" />
-
-
+        <div className="sensor-header">
+          <h2>Sensor Data:</h2>
+          <button 
+            className="view-logs-btn"
+            onClick={() => navigate(`/device/${deviceId}/logdetails`)}
+          >
+            View All Sensor Logs
+          </button>
+        </div>
+        <hr className="sensor-divider" />
 
         {error && (
           <div className="error-container" style={{
@@ -907,6 +1000,16 @@ const DataChart = ({ deviceId }) => {
               <div className="carousel-slide">
                 {renderChart('totalRunningHours')}
               </div>
+
+              {/* Slide 5: Pump Motor Frequency */}
+              <div className="carousel-slide">
+                {renderChart('pumpMotorFrequency')}
+              </div>
+
+              {/* Slide 6: Pump Motor Current */}
+              <div className="carousel-slide">
+                {renderChart('pumpMotorCurrent')}
+              </div>
             </div>
           </div>
 
@@ -927,7 +1030,6 @@ const DataChart = ({ deviceId }) => {
           ))}
         </div>
       </div>
-     
     </div>
   );
 };

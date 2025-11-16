@@ -116,6 +116,67 @@
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
+/* Metric Checkboxes */
+.metric-checkboxes {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.metric-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  user-select: none;
+}
+
+.metric-checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #0d6efd;
+}
+
+.metric-checkbox-label span {
+  font-weight: 600;
+}
+
+.metric-checkbox-label:hover {
+  opacity: 0.8;
+}
+
+/* Graph Controls */
+.graph-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.graph-controls label:not(.metric-checkbox-label) {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .metric-checkboxes {
+    gap: 12px;
+  }
+  
+  .metric-checkbox-label {
+    font-size: 12px;
+  }
+  
+  .metric-checkbox-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+  }
+}
+
 /* For ultra-wide screens (2K, 4K monitors) */
 @media (min-width: 1920px) {
   .log-details-container {

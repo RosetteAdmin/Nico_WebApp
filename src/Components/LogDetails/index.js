@@ -421,7 +421,12 @@ const LogDetails = () => {
   const [showGraph, setShowGraph] = useState(false);
   const [graphData, setGraphData] = useState([]);
   const [graphLoading, setGraphLoading] = useState(false);
-  const [selectedMetric, setSelectedMetric] = useState('all');
+  const [selectedMetrics, setSelectedMetrics] = useState({
+  waterFlow: true,
+  waterPressure: true,
+  runningHours: true,
+  waterOutlet: true
+});
 
   // Metric configurations
   const metrics = {
@@ -932,175 +937,232 @@ const LogDetails = () => {
   };
 
   // Render graph based on selected metric
-  const renderGraph = () => {
-    if (graphData.length === 0) return null;
+  // Render graph based on selected metrics
+const renderGraph = () => {
+  if (graphData.length === 0) return null;
 
-    const dateRange = getDateRangeInDays();
-    const isSingleDay = dateRange <= 1;
+  const dateRange = getDateRangeInDays();
+  const isSingleDay = dateRange <= 1;
 
-    const metricsToShow = selectedMetric === 'all' 
-      ? Object.values(metrics)
-      : [Object.values(metrics).find(m => m.yAxisId === selectedMetric)];
+  // Filter metrics based on checkbox selection
+  const metricsToShow = Object.values(metrics).filter(
+    metric => selectedMetrics[metric.yAxisId]
+  );
 
+  // If no metrics selected, show message
+  if (metricsToShow.length === 0) {
     return (
       <div className="graph-section">
         <div className="graph-header">
           <h3>
             <FontAwesomeIcon icon={faChartLine} /> Sensor Data Graph
-            <span style={{ fontSize: '14px', fontWeight: 'normal', marginLeft: '10px' }}>
-              ({isSingleDay ? 'Hourly Average' : 'Daily Average'})
-            </span>
           </h3>
-          <div className="graph-controls"> 
-            <label>View Metric:</label>
-            <select 
-              value={selectedMetric} 
-              onChange={(e) => setSelectedMetric(e.target.value)}
-              className="metric-selector"
-            >
-              <option value="all">All Metrics</option>
-              <option value="waterFlow">Water Flow Only</option>
-              <option value="waterPressure">Water Pressure Only</option>
-              <option value="runningHours">Running Hours Only</option>
-              <option value="waterOutlet">Water Outlet Only</option>
-            </select>
+          <div className="graph-controls metric-checkboxes">
+            <label className="metric-checkbox-label">
+              <input
+                type="checkbox"
+                checked={selectedMetrics.waterFlow}
+                onChange={(e) => setSelectedMetrics(prev => ({
+                  ...prev,
+                  waterFlow: e.target.checked
+                }))}
+              />
+              <span style={{ color: metrics.waterFlow.color }}>Water Flow</span>
+            </label>
+            <label className="metric-checkbox-label">
+              <input
+                type="checkbox"
+                checked={selectedMetrics.waterPressure}
+                onChange={(e) => setSelectedMetrics(prev => ({
+                  ...prev,
+                  waterPressure: e.target.checked
+                }))}
+              />
+              <span style={{ color: metrics.waterPressure.color }}>Water Pressure</span>
+            </label>
+            <label className="metric-checkbox-label">
+              <input
+                type="checkbox"
+                checked={selectedMetrics.runningHours}
+                onChange={(e) => setSelectedMetrics(prev => ({
+                  ...prev,
+                  runningHours: e.target.checked
+                }))}
+              />
+              <span style={{ color: metrics.runningHours.color }}>Running Hours</span>
+            </label>
+            <label className="metric-checkbox-label">
+              <input
+                type="checkbox"
+                checked={selectedMetrics.waterOutlet}
+                onChange={(e) => setSelectedMetrics(prev => ({
+                  ...prev,
+                  waterOutlet: e.target.checked
+                }))}
+              />
+              <span style={{ color: metrics.waterOutlet.color }}>Water Outlet</span>
+            </label>
           </div>
         </div>
-
-        <ResponsiveContainer width="100%" height={500}>
-          <LineChart 
-            data={graphData} 
-            margin={{ top: 20, right: 80, left: 80, bottom: 80 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis 
-              dataKey="displayTime" 
-              angle={-45}
-              textAnchor="end"
-              height={80}
-              interval={Math.ceil(graphData.length / 15)}
-              tick={{ fontSize: 11 }}
-              label={{ 
-                value: isSingleDay ? 'Hour of Day' : 'Date', 
-                position: 'insideBottom', 
-                offset: -10,
-                style: { fontSize: 12, fontWeight: 'bold' }
-              }}
-            />
-            
-            {selectedMetric === 'all' ? (
-              <>
-                {/* All 4 Y-axes for all metrics */}
-                <YAxis 
-                  yAxisId="waterFlow" 
-                  orientation="left"
-                  stroke={metrics.waterFlow.color}
-                  tick={{ fontSize: 9 }}
-                  width={70}
-                  // label={{ 
-                  //   value: `Flow (${metrics.waterFlow.unit})`, 
-                  //   angle: -90, 
-                  //   position: 'insideLeft',
-                  //   style: { fontSize: 10 }
-                  // }}
-                />
-                <YAxis 
-                  yAxisId="waterPressure" 
-                  orientation="right"
-                  stroke={metrics.waterPressure.color}
-                  tick={{ fontSize: 9 }}
-                  width={70}
-                  // label={{ 
-                  //   value: `Pressure (${metrics.waterPressure.unit})`, 
-                  //   angle: 90, 
-                  //   position: 'insideRight',
-                  //   style: { fontSize: 10 }
-                  // }}
-                />
-                <YAxis 
-                  yAxisId="runningHours" 
-                  orientation="left"
-                  stroke={metrics.runningHours.color}
-                  tick={{ fontSize: 9 }}
-                  width={70}
-                  // label={{ 
-                  //   value: `Hours (${metrics.runningHours.unit})`, 
-                  //   angle: -90, 
-                  //   position: 'insideLeft',
-                  //   offset: 60,
-                  //   style: { fontSize: 10 }
-                  // }}
-                />
-                <YAxis 
-                  yAxisId="waterOutlet" 
-                  orientation="right"
-                  stroke={metrics.waterOutlet.color}
-                  tick={{ fontSize: 9 }}
-                  width={70}
-                  // label={{ 
-                  //   value: `Outlet (${metrics.waterOutlet.unit})`, 
-                  //   angle: 90, 
-                  //   position: 'insideRight',
-                  //   offset: 60,
-                  //   style: { fontSize: 10 }
-                  // }}
-                />
-
-                {metricsToShow.map((metric) => (
-                  <Line
-                    key={metric.yAxisId}
-                    type="monotone"
-                    dataKey={metric.key}
-                    stroke={metric.color}
-                    name={metric.name}
-                    yAxisId={metric.yAxisId}
-                    unit={` ${metric.unit}`}
-                    dot={isSingleDay ? { r: 3 } : false}
-                    strokeWidth={2}
-                    activeDot={{ r: 5 }}
-                  />
-                ))}
-              </>
-            ) : (
-              <>
-                <YAxis 
-                  yAxisId={metricsToShow[0].yAxisId}
-                  stroke={metricsToShow[0].color}
-                  tick={{ fontSize: 10 }}
-                  width={70}
-                  label={{ 
-                    value: `${metricsToShow[0].name} (${metricsToShow[0].unit})`, 
-                    angle: -90, 
-                    position: 'insideLeft',
-                    style: { fontSize: 11 }
-                  }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey={metricsToShow[0].key}
-                  stroke={metricsToShow[0].color}
-                  name={metricsToShow[0].name}
-                  yAxisId={metricsToShow[0].yAxisId}
-                  unit={` ${metricsToShow[0].unit}`}
-                  dot={{ r: 3 }}
-                  strokeWidth={2}
-                  activeDot={{ r: 6 }}
-                />
-              </>
-            )}
-
-            <Tooltip content={<CustomTooltip />} />
-            <Legend 
-              verticalAlign="top"
-              height={36}
-              iconType="line"
-              wrapperStyle={{ paddingBottom: '10px' }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        <div style={{ 
+          padding: '40px', 
+          textAlign: 'center', 
+          backgroundColor: '#f8f9fa',
+          borderRadius: '8px',
+          margin: '20px 0'
+        }}>
+          <p style={{ fontSize: '16px', color: '#666' }}>
+            Please select at least one metric to display the graph
+          </p>
+        </div>
       </div>
     );
-  };
+  }
+
+  return (
+    <div className="graph-section">
+      <div className="graph-header">
+        <h3>
+          <FontAwesomeIcon icon={faChartLine} /> Sensor Data Graph
+          <span style={{ fontSize: '14px', fontWeight: 'normal', marginLeft: '10px' }}>
+            ({isSingleDay ? 'Hourly Average' : 'Daily Average'})
+          </span>
+        </h3>
+        <div className="graph-controls metric-checkboxes">
+          <label className="metric-checkbox-label">
+            <input
+              type="checkbox"
+              checked={selectedMetrics.waterFlow}
+              onChange={(e) => setSelectedMetrics(prev => ({
+                ...prev,
+                waterFlow: e.target.checked
+              }))}
+            />
+            <span style={{ color: metrics.waterFlow.color }}>Water Flow</span>
+          </label>
+          <label className="metric-checkbox-label">
+            <input
+              type="checkbox"
+              checked={selectedMetrics.waterPressure}
+              onChange={(e) => setSelectedMetrics(prev => ({
+                ...prev,
+                waterPressure: e.target.checked
+              }))}
+            />
+            <span style={{ color: metrics.waterPressure.color }}>Water Pressure</span>
+          </label>
+          <label className="metric-checkbox-label">
+            <input
+              type="checkbox"
+              checked={selectedMetrics.runningHours}
+              onChange={(e) => setSelectedMetrics(prev => ({
+                ...prev,
+                runningHours: e.target.checked
+              }))}
+            />
+            <span style={{ color: metrics.runningHours.color }}>Running Hours</span>
+          </label>
+          <label className="metric-checkbox-label">
+            <input
+              type="checkbox"
+              checked={selectedMetrics.waterOutlet}
+              onChange={(e) => setSelectedMetrics(prev => ({
+                ...prev,
+                waterOutlet: e.target.checked
+              }))}
+            />
+            <span style={{ color: metrics.waterOutlet.color }}>Water Outlet</span>
+          </label>
+        </div>
+      </div>
+
+      <ResponsiveContainer width="100%" height={500}>
+        <LineChart 
+          data={graphData} 
+          margin={{ top: 20, right: 80, left: 80, bottom: 80 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis 
+            dataKey="displayTime" 
+            angle={-45}
+            textAnchor="end"
+            height={80}
+            interval={Math.ceil(graphData.length / 15)}
+            tick={{ fontSize: 11 }}
+            label={{ 
+              value: isSingleDay ? 'Hour of Day' : 'Date', 
+              position: 'insideBottom', 
+              offset: -10,
+              style: { fontSize: 12, fontWeight: 'bold' }
+            }}
+          />
+          
+          {/* Render Y-axes only for selected metrics */}
+          {selectedMetrics.waterFlow && (
+            <YAxis 
+              yAxisId="waterFlow" 
+              orientation="left"
+              stroke={metrics.waterFlow.color}
+              tick={{ fontSize: 9 }}
+              width={70}
+            />
+          )}
+          {selectedMetrics.waterPressure && (
+            <YAxis 
+              yAxisId="waterPressure" 
+              orientation="right"
+              stroke={metrics.waterPressure.color}
+              tick={{ fontSize: 9 }}
+              width={70}
+            />
+          )}
+          {selectedMetrics.runningHours && (
+            <YAxis 
+              yAxisId="runningHours" 
+              orientation="left"
+              stroke={metrics.runningHours.color}
+              tick={{ fontSize: 9 }}
+              width={70}
+            />
+          )}
+          {selectedMetrics.waterOutlet && (
+            <YAxis 
+              yAxisId="waterOutlet" 
+              orientation="right"
+              stroke={metrics.waterOutlet.color}
+              tick={{ fontSize: 9 }}
+              width={70}
+            />
+          )}
+
+          {/* Render lines only for selected metrics */}
+          {metricsToShow.map((metric) => (
+            <Line
+              key={metric.yAxisId}
+              type="monotone"
+              dataKey={metric.key}
+              stroke={metric.color}
+              name={metric.name}
+              yAxisId={metric.yAxisId}
+              unit={` ${metric.unit}`}
+              dot={isSingleDay ? { r: 3 } : false}
+              strokeWidth={2}
+              activeDot={{ r: 5 }}
+            />
+          ))}
+
+          <Tooltip content={<CustomTooltip />} />
+          <Legend 
+            verticalAlign="top"
+            height={36}
+            iconType="line"
+            wrapperStyle={{ paddingBottom: '10px' }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  );
+};
 
   // Render pagination
   const renderPagination = () => {
@@ -1242,6 +1304,8 @@ const LogDetails = () => {
                 <th>Time</th>
                 <th>Water Flow<br/>(L/min)</th>
                 <th>Water Pressure<br/>(bar)</th>
+                <th>Pump Motor Frequency</th>
+                <th>Pump Motor Current</th>
                 <th>Total Running Hours<br/>(H)</th>
                 <th>Total Water Outlet<br/>(L)</th>
               </tr>
@@ -1253,6 +1317,8 @@ const LogDetails = () => {
                   <td>{log.time}</td>
                   <td>{(log.water_flow || 0).toFixed(2)}</td>
                   <td>{(log.water_pressure || 0).toFixed(2)}</td>
+                  <td>{log.pump_motor_frequency || 0}</td>
+                  <td>{log.pump_motor_current || 0}</td>
                   <td>{(log.total_running_hours || 0).toFixed(2)}</td>
                   <td>{log.total_water_outlet || 0}</td>
                 </tr>

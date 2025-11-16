@@ -10,8 +10,54 @@ html, body {
   overflow-y: auto;
 }
 
+/* Headings row specific styling */
+.headings-row {
+  margin-bottom: -20px; /* Reduce gap between headings and first row */
+  margin-top: -30px;
+}
 
-/* Main container */
+.headings-row .config-item-left {
+  visibility: hidden; /* Hide left side completely in headings row */
+}
+
+.headings-row .config-item-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.config-headings {
+  display: flex;
+  gap: 8px; /* Match the gap between inputs */
+  align-items: center;
+  padding-left: 0;
+}
+
+.config-heading {
+  font-size: 11px; /* Smaller font size */
+  font-weight: 600;
+  color: #666;
+  text-align: center;
+  width: 100px; /* Match input box width - adjust as needed */
+}
+
+.config-heading-spacer {
+  width: 45px; /* Match button width to align headings with inputs */
+}
+
+/* Ensure editable fields align properly */
+.editable-field {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.config-input {
+  width: 100px; /* Match heading width */
+  text-align: center;
+  font-size: 12px;
+}
+
+
 
 
 .device-details-header {
