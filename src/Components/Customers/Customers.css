@@ -15,6 +15,71 @@
   z-index: 1000;
 }
 
+/* ======================================
+   MAIN TABLE CONTAINER
+   Clean, modern, elevated style
+====================================== */
+
+.operator-table-container table {
+  width: 63%;
+  background: #ffffff;
+  margin-top: -30px;
+  margin-left: 280px;
+
+  border-radius: 14px;
+  overflow: hidden; /* Rounded corners for table rows */
+  border-collapse: separate;
+  border-spacing: 0;
+
+  box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+/* Table header */
+.operator-table-container thead th {
+  background: #b1b4b7;
+  color: black;
+  text-align: left;
+  padding: 14px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Table rows */
+.operator-table-container tbody td {
+  padding: 14px 18px;
+  font-size: 14px;
+  border-bottom: 1px solid #e8e8e8;
+  color: #333;
+}
+
+/* Row hover effect */
+.operator-table-container tbody tr:hover {
+  background-color: #f5faff;
+  transition: background 0.2s ease;
+  cursor: pointer;
+}
+
+/* Last row – remove border */
+.operator-table-container tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Action column adjustments */
+.operator-table-container td .ellipsis-icon {
+  font-size: 18px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.operator-table-container td .ellipsis-icon:hover {
+  background: #f0f0f0;
+}
+
+
 .loading-spinner {
   border: 16px solid #f3f3f3;
   border-top: 16px solid #3498db;

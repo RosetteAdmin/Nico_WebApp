@@ -8,6 +8,19 @@
 // import leftside from "./../../Images/LoginScreen/leftside.svg";
 // import { useNavigate } from "react-router-dom";
 
+// const ROLE_LABELS = {
+//   0: "Admin",
+//   1: "Associate",
+//   2: "Local Admin",
+//   3: "Operator",
+// };
+
+// // Safe helper that turns any role-ish value into a label
+// const roleToLabel = (roleValue) => {
+//   const num = Number(roleValue);
+//   return ROLE_LABELS.hasOwnProperty(num) ? ROLE_LABELS[num] : String(roleValue ?? "");
+// };
+
 // const LoginScreen = ({ handleLogin }) => {
 //   const [email, setEmail] = useState("");
 //   const [otp, setOtp] = useState("");
@@ -16,7 +29,7 @@
 //   const [error, setError] = useState("");
 //   const [errorPopup, setErrorPopup] = useState(false);
 //   const [isLoggedIn, setIsLoggedIn] = useState(false);
-//   const [role, setRole] = useState("");
+//   const [role, setRole] = useState(""); // This is DISPLAY LABEL only
 //   const [user, setUser] = useState(null);
 //   const [otpGenerated, setOtpGenerated] = useState(false);
 //   const [agreedToTerms, setAgreedToTerms] = useState(false);
@@ -25,11 +38,7 @@
 //   const [otpMessage, setOtpMessage] = useState("");
 //   const [messageType, setMessageType] = useState("");
 //   const [cooldownTime, setCooldownTime] = useState(0); // Cooldown timer
- 
-//   // Temporary credentials for testing
-//   const TEMP_EMAIL = "tempuser@nico.com";
-//   const TEMP_PASSWORD = "TempPass123";
-//   const TEMP_ROLE = "Admin";
+
 
 //   const togglePasswordVisibility = () => {
 //     setPasswordVisible((prev) => !prev);
@@ -65,16 +74,6 @@
 //       return false;
 //     }
 
-//     // Check for temporary credentials
-//     if (email === TEMP_EMAIL && password === TEMP_PASSWORD) {
-//       const tempUser = { email: TEMP_EMAIL, role: TEMP_ROLE };
-//       localStorage.setItem("authToken", "temp-token");
-//       localStorage.setItem("user", JSON.stringify(tempUser));
-//       setUser(tempUser);
-//       setRole(TEMP_ROLE);
-//       setIsLoggedIn(true);
-//       return true;
-//     }
 
 //     const headersList = {
 //       Accept: "*/*",
@@ -100,9 +99,10 @@
 
 //       const data = await response.json();
 
+//       // Expecting backend to return numeric "role" matching DB
 //       if (email === data.user.email && password === data.user.password) {
-//         setUser(data.user);
-//         setRole(data.user.role);
+//         setUser(data.user); // keep original numeric role in user
+//         setRole(roleToLabel(data.user.role)); // show human label
 //         setCredentialsValidated(true);
 //         setError("");
 //         setErrorPopup(false);
@@ -165,7 +165,7 @@
 //         setOtpGenerated(true);
 //         setError("");
 //         setErrorPopup(false);
-        
+
 //         // Handle different response types from backend with colors
 //         if (otpData.otpExists) {
 //           setOtpMessage("OTP already sent. Please check your email or wait for expiry.");
@@ -182,7 +182,7 @@
 //         // Handle specific error cases with red color
 //         if (otpResponse.status === 429) {
 //           // Extract wait time from error message if available
-//           const waitTimeMatch = otpData.message.match(/(\d+) seconds/);
+//           const waitTimeMatch = otpData.message && otpData.message.match(/(\d+) seconds/);
 //           if (waitTimeMatch) {
 //             const waitTime = parseInt(waitTimeMatch[1]);
 //             startCooldownTimer(waitTime);
@@ -249,13 +249,14 @@
 
 //       if (verifyResponse.ok) {
 //         localStorage.setItem("authToken", verifyData.token || "mock-token");
+//         // Preserve numeric role for the rest of the app; display label via `role` state
 //         localStorage.setItem("user", JSON.stringify(user));
 //         setIsLoggedIn(true);
 //       } else {
 //         setError(verifyData.message || "Invalid OTP. Please try again.");
 //         setErrorPopup(true);
 //         setIsLoggedIn(false);
-        
+
 //         // Reset OTP state if OTP expired - allow regeneration
 //         if (verifyData.message && verifyData.message.includes("expired")) {
 //           setOtpGenerated(false);
@@ -442,10 +443,6 @@
 // };
 
 // export default LoginScreen;
-
-
-
-
 import React, { useState } from "react";
 import "./LoginScreen.css";
 import NICOCompany from "./../../Images/LoginScreen/NICOCompany.svg";
@@ -485,32 +482,13 @@ const LoginScreen = ({ handleLogin }) => {
   const [credentialsValidated, setCredentialsValidated] = useState(false);
   const [otpMessage, setOtpMessage] = useState("");
   const [messageType, setMessageType] = useState("");
-  const [cooldownTime, setCooldownTime] = useState(0); // Cooldown timer
-
-  // Temporary credentials for testing (numeric role preserved in storage)
-  const TEMP_EMAIL = "tempuser@nico.com";
-  const TEMP_PASSWORD = "TempPass123";
-  const TEMP_NUMERIC_ROLE = 0; // Admin
+  const [lastOtpGeneratedTime, setLastOtpGeneratedTime] = useState(null); // Track last OTP generation time
 
   const togglePasswordVisibility = () => {
     setPasswordVisible((prev) => !prev);
   };
 
   const navigate = useNavigate();
-
-  // Function to start cooldown timer
-  const startCooldownTimer = (seconds) => {
-    setCooldownTime(seconds);
-    const timer = setInterval(() => {
-      setCooldownTime((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-  };
 
   // Separate function for validating credentials
   const validateCredentials = async () => {
@@ -524,17 +502,6 @@ const LoginScreen = ({ handleLogin }) => {
       setError("Please enter both email and password!");
       setErrorPopup(true);
       return false;
-    }
-
-    // Check for temporary credentials
-    if (email === TEMP_EMAIL && password === TEMP_PASSWORD) {
-      const tempUser = { email: TEMP_EMAIL, role: TEMP_NUMERIC_ROLE, password: TEMP_PASSWORD };
-      localStorage.setItem("authToken", "temp-token");
-      localStorage.setItem("user", JSON.stringify(tempUser)); // preserve numeric role for the rest of app
-      setUser(tempUser);
-      setRole(roleToLabel(TEMP_NUMERIC_ROLE)); // display label only
-      setIsLoggedIn(true);
-      return true;
     }
 
     const headersList = {
@@ -584,13 +551,20 @@ const LoginScreen = ({ handleLogin }) => {
     }
   };
 
-  // Updated handleGenerateOtp function
+  // Updated handleGenerateOtp function - No timer, check on click
   const handleGenerateOtp = async () => {
-    // Check cooldown first
-    if (cooldownTime > 0) {
-      setOtpMessage(`Please wait ${cooldownTime} seconds before requesting a new OTP.`);
-      setMessageType("warning");
-      return;
+    // Check if cooldown period has passed (1 minute = 60000ms)
+    if (lastOtpGeneratedTime) {
+      const currentTime = Date.now();
+      const timeSinceLastOtp = currentTime - lastOtpGeneratedTime;
+      const cooldownPeriod = 60000; // 1 minute in milliseconds
+
+      if (timeSinceLastOtp < cooldownPeriod) {
+        // Still in cooldown period
+        setOtpMessage("Please wait 1 minute before requesting a new OTP.");
+        setMessageType("warning");
+        return;
+      }
     }
 
     // Validate credentials first if not already validated
@@ -630,34 +604,30 @@ const LoginScreen = ({ handleLogin }) => {
 
         // Handle different response types from backend with colors
         if (otpData.otpExists) {
-          setOtpMessage("OTP already sent. Please check your email or wait for expiry.");
+          // OTP already exists - show 1 minute wait message
+          setOtpMessage("OTP already sent to your email. Please wait 1 minute before requesting a new OTP.");
           setMessageType("warning"); // Yellow/orange color
-          // Start a shorter cooldown for existing OTP
-          startCooldownTimer(10); // 10 seconds cooldown
         } else {
+          // New OTP generated successfully
           setOtpMessage("OTP sent successfully. Please check your email.");
           setMessageType("success"); // Green color
-          // Start normal cooldown for new OTP
-          startCooldownTimer(30); // 30 seconds cooldown
+          // Record the time when OTP was generated
+          setLastOtpGeneratedTime(Date.now());
         }
       } else {
-        // Handle specific error cases with red color
+        // Handle specific error cases
         if (otpResponse.status === 429) {
-          // Extract wait time from error message if available
-          const waitTimeMatch = otpData.message && otpData.message.match(/(\d+) seconds/);
-          if (waitTimeMatch) {
-            const waitTime = parseInt(waitTimeMatch[1]);
-            startCooldownTimer(waitTime);
-          } else {
-            startCooldownTimer(30); // Default 30 seconds
-          }
-          setOtpMessage(otpData.message || "Please wait before requesting a new OTP.");
-          setMessageType("error"); // Red color
+          setOtpMessage(otpData.message || "Please wait 1 minute before requesting a new OTP.");
+          setMessageType("warning"); // Yellow color for cooldown
         } else {
           setOtpMessage(otpData.message || "Failed to send OTP. Please try again.");
           setMessageType("error"); // Red color
         }
-        setOtpGenerated(false);
+        
+        // Don't set otpGenerated to false if OTP already exists
+        if (!otpData.otpExists) {
+          setOtpGenerated(false);
+        }
       }
     } catch (error) {
       setOtpMessage(error.message || "Failed to send OTP. Please try again.");
@@ -675,21 +645,25 @@ const LoginScreen = ({ handleLogin }) => {
     await validateCredentials();
   };
 
+  // handleVerifyOtp - Shows inline errors instead of popup
   const handleVerifyOtp = async () => {
     if (!otpGenerated) {
-      setError("Please generate an OTP first.");
-      setErrorPopup(true);
+      setOtpMessage("Please generate an OTP first.");
+      setMessageType("error");
       return;
     }
 
     if (!otp) {
-      setError("Please enter the OTP.");
-      setErrorPopup(true);
+      setOtpMessage("Please enter the OTP.");
+      setMessageType("error");
       return;
     }
 
+    // Clear any previous messages
     setError("");
     setErrorPopup(false);
+    setOtpMessage("");
+    setMessageType("");
 
     const headersList = {
       Accept: "*/*",
@@ -715,21 +689,26 @@ const LoginScreen = ({ handleLogin }) => {
         localStorage.setItem("user", JSON.stringify(user));
         setIsLoggedIn(true);
       } else {
-        setError(verifyData.message || "Invalid OTP. Please try again.");
-        setErrorPopup(true);
+        // Show inline error instead of popup
+        setOtpMessage(verifyData.message || "Invalid OTP. Please try again.");
+        setMessageType("error");
         setIsLoggedIn(false);
+        
+        // Clear the wrong OTP input
+        setOtp("");
 
         // Reset OTP state if OTP expired - allow regeneration
         if (verifyData.message && verifyData.message.includes("expired")) {
           setOtpGenerated(false);
-          setOtpMessage("OTP has expired. You can generate a new one.");
+          setOtpMessage("OTP has expired. Please generate a new one.");
           setMessageType("warning");
-          setCooldownTime(0); // Reset cooldown to allow immediate regeneration
+          setLastOtpGeneratedTime(null); // Reset time to allow immediate regeneration
         }
       }
     } catch (error) {
-      setError(error.message || "An error occurred during OTP verification. Please try again.");
-      setErrorPopup(true);
+      // Show inline error for network errors
+      setOtpMessage(error.message || "An error occurred during OTP verification. Please try again.");
+      setMessageType("error");
       console.error("Error during OTP verification:", error);
     }
   };
@@ -753,7 +732,7 @@ const LoginScreen = ({ handleLogin }) => {
     setIsGeneratingOtp(false);
     setOtpMessage(""); // Reset OTP message
     setMessageType(""); // Reset message type
-    setCooldownTime(0); // Reset cooldown
+    setLastOtpGeneratedTime(null); // Reset last generation time
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
   };
@@ -783,7 +762,7 @@ const LoginScreen = ({ handleLogin }) => {
             <div className="confirmation-content">
               <h2>Error</h2>
               {/* Error popup with red styling */}
-              <div>
+              <div className="error-message">
                 {error}
               </div>
               <button onClick={handleLoginAgain} className="login-again-button">
@@ -799,15 +778,10 @@ const LoginScreen = ({ handleLogin }) => {
               Nanububbles India Co.
             </p>
 
-            {/* Updated message display with dynamic colors */}
+            {/* Message display - NO TIMER */}
             {otpMessage && (
               <div className={`${messageType}-message`}>
                 {otpMessage}
-                {cooldownTime > 0 && (
-                  <div style={{ marginTop: '5px', fontSize: '14px' }}>
-                    {/* Cooldown: {cooldownTime} seconds */}
-                  </div>
-                )}
               </div>
             )}
 
@@ -859,12 +833,12 @@ const LoginScreen = ({ handleLogin }) => {
                 </div>
               </div>
 
-              {/* Button always shows "Generate OTP" and is disabled only during generation or cooldown */}
+              {/* Button is ALWAYS enabled - NO TIMER, NO DISABLED STATE */}
               <button 
                 type="button" 
                 className="login-button"
                 onClick={handleGenerateOtp}
-                disabled={isGeneratingOtp || cooldownTime > 0}
+                disabled={isGeneratingOtp}
               >
                 {isGeneratingOtp ? "Generating..." : "Generate OTP"}
               </button>

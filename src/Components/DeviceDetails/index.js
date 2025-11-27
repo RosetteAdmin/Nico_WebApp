@@ -1743,50 +1743,103 @@ const DeviceDetails = () => {
     }
   }, [conn]);
 
+  // const handlePowerToggle = async () => {
+  //   const desired = !isPowerOn;
+
+  //   setNbWaiting(true);
+
+  //   if (!conn) {
+  //     setNbWaiting(false);
+  //     return;
+  //   }
+
+  //   setIsPowerOn(desired);
+
+  //   try {
+  //     const response = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/toggle/nb`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ action: desired ? "on" : "off" }),
+  //     });
+
+  //     if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      
+  //     await response.json();
+  //     console.log(`Toggle command sent: ${desired ? 'ON' : 'OFF'}`);
+      
+  //     setTimeout(async () => {
+  //       await fetchDeviceData();
+  //       await fetchPowerStatusHistory();
+  //       setNbWaiting(false);
+  //     }, 3000);
+      
+  //   } catch (err) {
+  //     console.error("Error updating power status:", err);
+  //     setIsPowerOn(!desired);
+  //     setNbWaiting(false);
+  //     alert("Error updating power status. Please try again.");
+  //   }
+  // };
+
   const handlePowerToggle = async () => {
-    const desired = !isPowerOn;
+  const desired = !isPowerOn;
+  console.log('🔌 [handlePowerToggle] Starting, desired state:', desired ? 'ON' : 'OFF');
 
-    setNbWaiting(true);
+  setNbWaiting(true);
 
-    if (!conn) {
-      setNbWaiting(false);
-      return;
+  if (!conn) {
+    console.warn('⚠️ [handlePowerToggle] Device not connected');
+    setNbWaiting(false);
+    return;
+  }
+
+  setIsPowerOn(desired);
+
+  try {
+    const url = `${process.env.REACT_APP_EP}/api/devices/${id}/toggle/nb`;
+    const body = { action: desired ? "on" : "off" };
+    
+    console.log('📡 [handlePowerToggle] Sending request to:', url);
+    console.log('📡 [handlePowerToggle] Request body:', body);
+    
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    console.log('📡 [handlePowerToggle] Response status:', response.status);
+    
+    const data = await response.json();
+    console.log('📡 [handlePowerToggle] Response data:', data);
+
+    if (!response.ok) {
+      throw new Error(data.error || `HTTP ${response.status}`);
     }
-
-    setIsPowerOn(desired);
-
-    try {
-      const response = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/toggle/nb`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: desired ? "on" : "off" }),
-      });
-
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      
-      await response.json();
-      console.log(`Toggle command sent: ${desired ? 'ON' : 'OFF'}`);
-      
-      setTimeout(async () => {
-        await fetchDeviceData();
-        await fetchPowerStatusHistory();
-        setNbWaiting(false);
-      }, 3000);
-      
-    } catch (err) {
-      console.error("Error updating power status:", err);
-      setIsPowerOn(!desired);
+    
+    console.log('✅ [handlePowerToggle] Toggle command sent successfully');
+    
+    setTimeout(async () => {
+      await fetchDeviceData();
+      await fetchPowerStatusHistory();
       setNbWaiting(false);
-      alert("Error updating power status. Please try again.");
-    }
-  };
+    }, 3000);
+    
+  } catch (err) {
+    console.error("❌ [handlePowerToggle] Error:", err);
+    console.error("❌ [handlePowerToggle] Error message:", err.message);
+    setIsPowerOn(!desired);
+    setNbWaiting(false);
+    alert("Error updating power status. Please try again.");
+  }
+};
 
   const handleAutoModeToggle = async () => {
   const desired = !autoMode;
   
   setAutoWaiting(true);
 
-  if (!conn || !isPowerOn) {
+  if (!conn) {
     setAutoWaiting(false);
     return;
   }
@@ -2240,7 +2293,7 @@ const DeviceDetails = () => {
                 type="checkbox"
                 checked={autoMode}
                 onChange={() => !autoWaiting && handleAutoModeToggle()}
-                disabled={autoWaiting || !conn || !isPowerOn}
+                disabled={autoWaiting || !conn}
               />
               <span className="auto-mode-slider"></span>
             </label>
@@ -2292,18 +2345,58 @@ const DeviceDetails = () => {
             </div>
           )}
 
-          <div className="device-info-card">
-            <div>
-              <h3 className="section-title">Device Alert and Info History:</h3>
-              <table>
-                <tbody>
-                  <tr>
-                    <td>No Alerts to show!</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+{/* Device Alert and Info History - UPDATED */}
+<div className="device-info-card">
+  <div>
+    <h3 className="section-title">Device Alert and Info History:</h3>
+    <div className="alert-status-info">
+      <p><strong>Alert Status Value:</strong> {deviceData.nbGenerator.alert_status || 0}</p>
+      <p><strong>Binary Representation:</strong> {(deviceData.nbGenerator.alert_status || 0).toString(2).padStart(16, '0')}</p>
+    </div>
+    <div className="table-wrapper">
+      <table className="alert-info-table">
+        <thead>
+          <tr>
+            <th>Auto_Mode_FBK</th>
+            <th>Manual_Mode_FBK</th>
+            <th>VFD_Trip_FBK</th>
+            <th>Pump_On_FBK</th>
+            <th>Solenoid_Valve_On_FBK</th>  
+            <th>Oxygen_On_FBK</th>
+            <th>LOW_OXYGEN_FLOW_ALARM</th>
+            <th>HIGH_OXYGEN_FLOW_ALARM</th>
+            <th>Spare 1</th>
+            <th>Spare 2</th>
+            <th>Spare 3</th>
+            <th>Spare 4</th>
+            <th>Spare 5</th>
+            <th>Spare 6</th>
+            <th>Spare 7</th>
+            <th>Spare 8</th>
+          </tr>
+          
+        </thead>
+        <tbody>
+          <tr>
+            {(() => {
+              const alertStatus = deviceData.nbGenerator.alert_status || 0;
+              const bits = [];
+              for (let i = 0; i < 16; i++) {
+                const bitValue = (alertStatus >> i) & 1;
+                bits.push(
+                  <td key={i} className={`bit-value ${bitValue === 1 ? 'bit-on' : 'bit-off'}`}>
+                    {bitValue}
+                  </td>
+                );
+              }
+              return bits;
+            })()}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
         </div>
       )}
     </>
