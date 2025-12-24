@@ -47,7 +47,7 @@ const DeviceDetails = () => {
   };
 
   /**
-   * ✅ Helper function to check 9th bit from right (bit index 8) of alert_status for Auto Mode
+   * ✅ Helper function to check 9th bit from right (bit index 8) of alert_status for Auto mode
    * Bit positions: ...bit15 bit14 ... bit8 bit7 bit6 bit5 bit4 bit3 bit2 bit1 bit0
    * We check bit at index 8 (9th from right)
    * @param {number} statusValue - The alert_status value

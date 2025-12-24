@@ -961,7 +961,7 @@ const groupByDay = (logs) => {
           <button
             className="pagination-btn"
             onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
+            disabled={currentPage === 1} 
           >
             <FontAwesomeIcon icon={faChevronLeft} /> Previous
           </button>
