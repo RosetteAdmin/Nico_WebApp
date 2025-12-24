@@ -2468,3 +2468,22 @@ h2 {
 
 
 
+
+
+.auto-mode-status {
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-right: 10px;
+  font-size: 12px;
+}
+
+.auto-mode-status.on {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.auto-mode-status.off {
+  background-color: #f8d7da;
+  color: #721c24;
+} 

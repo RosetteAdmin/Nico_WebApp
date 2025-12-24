@@ -946,7 +946,9 @@ const groupByDay = (logs) => {
                   <td>{log.pump_motor_frequency || 0}</td>
                   <td>{log.pump_motor_current || 0}</td>
                   <td>{(log.total_running_hours || 0).toFixed(2)}</td>
-                  <td>{log.total_water_outlet || 0}</td>
+                  <td>{
+                  // log.total_water_outlet || 
+                  0}</td>
                 </tr>
               ))}
             </tbody>

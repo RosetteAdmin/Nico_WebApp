@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
@@ -11,14 +12,22 @@ import axios from "axios";
 const DeviceDetails = () => {
   const { id } = useParams();
   
-  // ✅ Ref to track if we're waiting for a toggle command
-  // This prevents polling from reverting optimistic UI updates
+  // ✅ Ref to track if we're waiting for a power toggle command
   const isWaitingRef = useRef(false);
+  
+  // ✅ Ref to track if we're waiting for an auto mode toggle command
+  const isAutoWaitingRef = useRef(false);
+  
+  // ✅ NEW: Ref to track when auto mode was last toggled (for cooldown protection)
+  const autoModeToggleTimeRef = useRef(0);
+  
+  // ✅ NEW: Ref to track when power was last toggled (for cooldown protection)
+  const powerToggleTimeRef = useRef(0);
 
   /**
    * Helper function to check 4th bit from right (bit index 3) of alert_status
    * Bit positions: ...bit7 bit6 bit5 bit4 bit3 bit2 bit1 bit0
-   * We check bit at index 3 (4th from right)
+   * We check bit at index 3 (4th from right) for Pump_On_FBK (Power Status)
    * @param {number} statusValue - The alert_status value
    * @returns {boolean} - true if 4th bit is 1 (ON), false if 0 (OFF)
    */
@@ -29,12 +38,34 @@ const DeviceDetails = () => {
     
     console.log(`🔌 Power Status Bit Check:`, {
       statusValue,
-      binary: statusValue.toString(2).padStart(8, '0'),
+      binary: statusValue.toString(2).padStart(16, '0'),
       fourthBitFromRight: fourthBit,
       powerStatus: isOn ? 'ON' : 'OFF'
     });
     
     return isOn;
+  };
+
+  /**
+   * ✅ Helper function to check 9th bit from right (bit index 8) of alert_status for Auto Mode
+   * Bit positions: ...bit15 bit14 ... bit8 bit7 bit6 bit5 bit4 bit3 bit2 bit1 bit0
+   * We check bit at index 8 (9th from right)
+   * @param {number} statusValue - The alert_status value
+   * @returns {boolean} - true if 9th bit is 1 (Auto ON), false if 0 (Auto OFF)
+   */
+  const checkAutoModeFromBit = (statusValue) => {
+    if (statusValue === null || statusValue === undefined) return false;
+    const ninthBit = (statusValue >> 8) & 1;
+    const isAutoOn = ninthBit === 1;
+    
+    console.log(`🔄 Auto Mode Bit Check:`, {
+      statusValue,
+      binary: statusValue.toString(2).padStart(16, '0'),
+      ninthBitFromRight: ninthBit,
+      autoMode: isAutoOn ? 'ON' : 'OFF'
+    });
+    
+    return isAutoOn;
   };
 
   // State declarations
@@ -126,6 +157,10 @@ const DeviceDetails = () => {
   const [counter, setCounter] = useState("");
   const [isPowerOn, setIsPowerOn] = useState(false);
 
+  // ✅ Cooldown constants (in milliseconds)
+  const POWER_COOLDOWN_MS = 10000;  // 10 seconds cooldown for power toggle
+  const AUTO_MODE_COOLDOWN_MS = 10000;  // 10 seconds cooldown for auto mode toggle
+
   // Fetch power status history
   const fetchPowerStatusHistory = async () => {
     if (!conn) return;
@@ -150,7 +185,7 @@ const DeviceDetails = () => {
     }
   };
 
-  // ✅ UPDATED: Fetch device data from database and automatically update power status
+  // ✅ UPDATED: Fetch device data from database with cooldown protection for both power and auto mode
   const fetchDeviceData = async () => {
     try {
       console.log('📊 [fetchDeviceData] Fetching telemetry from database...');
@@ -188,21 +223,48 @@ const DeviceDetails = () => {
         oxygenGenerator: { ...data.oxygenGenerator },
       });
 
-      // ✅ Update power status from database alert_status (4th bit check)
-      // Only update if NOT waiting for a toggle command to complete
+      const alertStatus = data.nbGenerator?.alert_status;
+
+      // ✅ FIXED: Update power status with cooldown protection
       if (!isWaitingRef.current) {
-        const alertStatus = data.nbGenerator?.alert_status;
-        const newPowerStatus = checkPowerStatusFromBit(alertStatus);
+        const timeSincePowerToggle = Date.now() - powerToggleTimeRef.current;
         
-        setIsPowerOn(prevStatus => {
-          if (prevStatus !== newPowerStatus) {
-            console.log(`🔌 [fetchDeviceData] Power status changed: ${prevStatus ? 'ON' : 'OFF'} → ${newPowerStatus ? 'ON' : 'OFF'}`);
-            return newPowerStatus;
-          }
-          return prevStatus;
-        });
+        if (timeSincePowerToggle > POWER_COOLDOWN_MS) {
+          const newPowerStatus = checkPowerStatusFromBit(alertStatus);
+          
+          setIsPowerOn(prevStatus => {
+            if (prevStatus !== newPowerStatus) {
+              console.log(`🔌 [fetchDeviceData] Power status changed: ${prevStatus ? 'ON' : 'OFF'} → ${newPowerStatus ? 'ON' : 'OFF'}`);
+              return newPowerStatus;
+            }
+            return prevStatus;
+          });
+        } else {
+          console.log(`⏳ [fetchDeviceData] Skipping power update - cooldown active (${Math.round((POWER_COOLDOWN_MS - timeSincePowerToggle) / 1000)}s remaining)`);
+        }
       } else {
         console.log('⏳ [fetchDeviceData] Skipping power update - waiting for toggle response');
+      }
+
+      // ✅ FIXED: Update auto mode status with cooldown protection
+      if (!isAutoWaitingRef.current) {
+        const timeSinceAutoToggle = Date.now() - autoModeToggleTimeRef.current;
+        
+        if (timeSinceAutoToggle > AUTO_MODE_COOLDOWN_MS) {
+          const newAutoMode = checkAutoModeFromBit(alertStatus);
+          
+          setAutoMode(prevMode => {
+            if (prevMode !== newAutoMode) {
+              console.log(`🔄 [fetchDeviceData] Auto mode changed: ${prevMode ? 'ON' : 'OFF'} → ${newAutoMode ? 'ON' : 'OFF'}`);
+              return newAutoMode;
+            }
+            return prevMode;
+          });
+        } else {
+          console.log(`⏳ [fetchDeviceData] Skipping auto mode update - cooldown active (${Math.round((AUTO_MODE_COOLDOWN_MS - timeSinceAutoToggle) / 1000)}s remaining)`);
+        }
+      } else {
+        console.log('⏳ [fetchDeviceData] Skipping auto mode update - waiting for toggle response');
       }
 
       if (nbWaiting) {
@@ -252,6 +314,8 @@ const DeviceDetails = () => {
             break;
           case 'auto_sequence_off':
             setOffTime('');
+            break;
+          default:
             break;
         }
         
@@ -405,7 +469,7 @@ const DeviceDetails = () => {
     };
   }, [id]);
 
-  // ✅ UPDATED: Initial connection status and data fetch
+  // ✅ Initial connection status and data fetch
   useEffect(() => {
     const fetchInitialStatus = async () => {
       try {
@@ -418,7 +482,7 @@ const DeviceDetails = () => {
         setConn(isConnected);
         
         if (isConnected) {
-          // ✅ Fetch telemetry from database and derive power status
+          // Fetch telemetry from database and derive power status & auto mode
           const telemetryRes = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}`);
           if (telemetryRes.ok) {
             const data = await telemetryRes.json();
@@ -444,10 +508,17 @@ const DeviceDetails = () => {
               oxygenGenerator: { ...data.oxygenGenerator },
             });
             
+            const alertStatus = data.nbGenerator?.alert_status;
+            
             // ✅ Set initial power status from database (4th bit of alert_status)
-            const powerStatus = checkPowerStatusFromBit(data.nbGenerator?.alert_status);
+            const powerStatus = checkPowerStatusFromBit(alertStatus);
             setIsPowerOn(powerStatus);
             console.log(`🔌 Initial power status from DB: ${powerStatus ? 'ON' : 'OFF'}`);
+            
+            // ✅ Set initial auto mode status from database (9th bit of alert_status)
+            const autoModeStatus = checkAutoModeFromBit(alertStatus);
+            setAutoMode(autoModeStatus);
+            console.log(`🔄 Initial auto mode from DB: ${autoModeStatus ? 'ON' : 'OFF'}`);
           }
         }
         
@@ -456,6 +527,7 @@ const DeviceDetails = () => {
         console.error("Error fetching initial status:", error);
         setConn(false);
         setIsPowerOn(false);
+        setAutoMode(false);
         setLoading(false);
       }
     };
@@ -463,7 +535,7 @@ const DeviceDetails = () => {
     fetchInitialStatus();
   }, [id]);
 
-  // ✅ UPDATED: Single polling effect - automatically updates power status
+  // ✅ Single polling effect - automatically updates power status & auto mode
   useEffect(() => {
     if (!conn) return;
     
@@ -472,7 +544,7 @@ const DeviceDetails = () => {
     // Initial fetches
     fetchPowerStatusHistory();
     
-    // Poll device data every 5 seconds - this will automatically update power status
+    // Poll device data every 5 seconds - this will automatically update power status & auto mode
     const dataInterval = setInterval(() => {
       console.log('🔄 [DeviceDetails] Polling device data...');
       fetchDeviceData();
@@ -491,22 +563,24 @@ const DeviceDetails = () => {
     };
   }, [conn, id]);
 
-  // ✅ UPDATED: Handle power toggle with waiting ref to prevent polling conflicts
+  // ✅ FIXED: Handle power toggle with cooldown protection
   const handlePowerToggle = async () => {
     const desired = !isPowerOn;
     console.log('🔌 [handlePowerToggle] Toggling to:', desired ? 'ON' : 'OFF');
 
     setNbWaiting(true);
-    isWaitingRef.current = true; // ✅ Prevent polling from overriding optimistic update
+    isWaitingRef.current = true;
+    powerToggleTimeRef.current = Date.now(); // ✅ Record toggle time for cooldown
 
     if (!conn) {
       console.warn('⚠️ [handlePowerToggle] Device not connected');
       setNbWaiting(false);
       isWaitingRef.current = false;
+      powerToggleTimeRef.current = 0;
       return;
     }
 
-    setIsPowerOn(desired); // ✅ Optimistic update
+    setIsPowerOn(desired); // Optimistic update
 
     try {
       const url = `${process.env.REACT_APP_EP}/api/devices/${id}/toggle/nb`;
@@ -515,7 +589,7 @@ const DeviceDetails = () => {
       const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body: JSON.stringify(body),   
       });
 
       const data = await response.json();
@@ -526,34 +600,42 @@ const DeviceDetails = () => {
       
       console.log('✅ [handlePowerToggle] Toggle command sent successfully');
       
-      // ✅ Wait for device to process, then allow polling to update from database
+      // ✅ FIXED: Wait longer and don't immediately fetch - let cooldown protect the optimistic update
       setTimeout(async () => {
-        isWaitingRef.current = false; // Allow polling to update power status
+        isWaitingRef.current = false;
         setNbWaiting(false);
-        await fetchDeviceData();
+        // Fetch power status history after the cooldown allows updates
         await fetchPowerStatusHistory();
-      }, 3000);
+      }, 5000);
       
     } catch (err) {
       console.error("❌ [handlePowerToggle] Error:", err);
       setIsPowerOn(!desired); // Revert optimistic update
       setNbWaiting(false);
       isWaitingRef.current = false;
+      powerToggleTimeRef.current = 0; // ✅ Clear toggle time on error
       alert("Error updating power status. Please try again.");
     }
   };
 
+  // ✅ FIXED: Handle auto mode toggle with cooldown protection
   const handleAutoModeToggle = async () => {
     const desired = !autoMode;
+    console.log('🔄 [handleAutoModeToggle] Toggling to:', desired ? 'ON' : 'OFF');
     
     setAutoWaiting(true);
+    isAutoWaitingRef.current = true;
+    autoModeToggleTimeRef.current = Date.now(); // ✅ Record toggle time for cooldown
 
     if (!conn) {
+      console.warn('⚠️ [handleAutoModeToggle] Device not connected');
       setAutoWaiting(false);
+      isAutoWaitingRef.current = false;
+      autoModeToggleTimeRef.current = 0;
       return;
     }
 
-    setAutoMode(desired);
+    setAutoMode(desired); // ✅ Optimistic update
 
     try {
       const response = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/toggle/auto`, {
@@ -567,16 +649,22 @@ const DeviceDetails = () => {
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       
       const data = await response.json();
-      console.log(`Auto mode toggle: ${desired ? 'ON' : 'OFF'}`, data);
+      console.log(`✅ [handleAutoModeToggle] Auto mode toggle: ${desired ? 'ON' : 'OFF'}`, data);
       
-      setTimeout(async () => {
+      // ✅ FIXED: Wait for device to process, then clear waiting state
+      // The cooldown will protect the optimistic update from being overwritten
+      setTimeout(() => {
+        isAutoWaitingRef.current = false;
         setAutoWaiting(false);
-      }, 3000);
+        // Don't immediately fetch - let the regular polling handle it after cooldown expires
+      }, 5000);
       
     } catch (err) {
-      console.error("Error toggling auto mode:", err);
-      setAutoMode(!desired);
+      console.error("❌ [handleAutoModeToggle] Error toggling auto mode:", err);
+      setAutoMode(!desired); // Revert optimistic update
       setAutoWaiting(false);
+      isAutoWaitingRef.current = false;
+      autoModeToggleTimeRef.current = 0; // ✅ Clear toggle time on error
       alert("Error toggling auto mode. Please try again.");
     }
   };
@@ -695,12 +783,11 @@ const DeviceDetails = () => {
             </div>
           </div>
 
-          {/* ✅ UPDATED: Connection + Power section - REMOVED "Check Latest Status" button */}
+          {/* Connection + Power section */}
           <div className="device-info-card">
             <div>
               <div className="device-info-header">
                 <h3 className="section-title">Device Connection Status and Power:</h3>
-                {/* ✅ REMOVED: Check Latest Status button - status now auto-updates from database */}
               </div>
 
               <div className="power-status-layout">
@@ -961,7 +1048,7 @@ const DeviceDetails = () => {
                   </div>
                 </div>
 
-                {/* Fourth Row */}
+                {/* Fourth Row - Auto Mode with status display */}
                 <div className="config-row">
                   <div className="config-item">
                     <label>Total Water Outlet Qty:</label>
@@ -972,6 +1059,9 @@ const DeviceDetails = () => {
                   <div className="config-item">
                     <label>Auto Mode:</label>
                     <div className="auto-mode-toggle-container">
+                      <span className={`auto-mode-status ${autoMode ? 'on' : 'off'}`}>
+                        {autoWaiting ? 'Switching...' : (autoMode ? 'ON' : 'OFF')}
+                      </span>
                       <label className={`auto-mode-switch ${autoWaiting ? "auto-mode-waiting" : ""}`}>
                         <input
                           type="checkbox"
@@ -1043,7 +1133,7 @@ const DeviceDetails = () => {
                       <th>Oxygen_On_FBK</th>
                       <th>LOW_OXYGEN_FLOW_ALARM</th>
                       <th>HIGH_OXYGEN_FLOW_ALARM</th>
-                      <th>Spare 1</th>
+                      <th>Auto Sequence Status</th>
                       <th>Spare 2</th>
                       <th>Spare 3</th>
                       <th>Spare 4</th>
@@ -1081,3 +1171,4 @@ const DeviceDetails = () => {
 };
 
 export default DeviceDetails;
+
