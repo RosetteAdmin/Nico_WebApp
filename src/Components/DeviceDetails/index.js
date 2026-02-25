@@ -2438,16 +2438,34 @@ const ALERT_BIT_KEYS = [
 const DeviceDetails = () => {
   const { id } = useParams();
 
-  // ===== GET USER ID =====
-  const getUserId = () => {
-    try { const user = JSON.parse(localStorage.getItem('user') || '{}'); if (user.id) return user.id; } catch (e) {}
-    try { const userId = localStorage.getItem('userId') || localStorage.getItem('user_id'); if (userId) return userId; } catch (e) {}
-    try { const token = localStorage.getItem('token') || localStorage.getItem('authToken');
-      if (token) { const payload = JSON.parse(atob(token.split('.')[1])); return payload.id || payload.userId || payload.sub; }
+    // ===== GET USER EMAIL FOR LABELS =====
+  const getUserEmail = () => {
+    // Try parsing stored user object
+    try { 
+      const user = JSON.parse(localStorage.getItem('user') || '{}'); 
+      if (user.email) return user.email; 
     } catch (e) {}
+    
+    // Try direct email key
+    try { 
+      const email = localStorage.getItem('email') || localStorage.getItem('userEmail') || localStorage.getItem('user_email'); 
+      if (email) return email; 
+    } catch (e) {}
+    
+    // Try JWT token
+    try { 
+      const token = localStorage.getItem('token') || localStorage.getItem('authToken');
+      if (token) { 
+        const payload = JSON.parse(atob(token.split('.')[1])); 
+        if (payload.email) return payload.email;
+      }
+    } catch (e) {}
+    
     return null;
   };
-  const currentUserId = getUserId();
+  const currentUserEmail = getUserEmail();
+  
+  console.log('🔑 Current User Email:', currentUserEmail);
   
   const isWaitingRef = useRef(false);
   const isAutoWaitingRef = useRef(false);
@@ -2586,51 +2604,96 @@ const DeviceDetails = () => {
   }, [attributeLabels, defaultLabels]);
 
   const fetchLabels = useCallback(async () => {
-    if (!currentUserId) { setLabelsLoaded(true); return; }
+    if (!currentUserEmail) { 
+      console.warn('No user email available, using default labels');
+      setLabelsLoaded(true); 
+      return; 
+    }
     try {
-      const response = await fetch(`${process.env.REACT_APP_EP}/data/users/${currentUserId}/devices/${id}/labels`);
-      if (!response.ok) { setLabelsLoaded(true); return; }
+      const url = `${process.env.REACT_APP_EP}/data/users/${encodeURIComponent(currentUserEmail)}/devices/${id}/labels`;
+      console.log('📋 Fetching labels from:', url);
+      
+      const response = await fetch(url);
+      console.log('📋 Labels response status:', response.status);
+      
+      if (!response.ok) { 
+        console.warn('Labels endpoint returned', response.status);
+        setLabelsLoaded(true); 
+        return; 
+      }
+      
       const data = await response.json();
+      console.log('📋 Labels data received:', data);
+      
       if (data.status === 'success' && data.data) {
         setAttributeLabels(data.data.labels || {});
         setCustomizedKeys(data.data.customized || {});
         setDefaultLabels(data.data.defaults || {});
       }
-    } catch (error) { console.error('Error fetching labels:', error); }
+    } catch (error) { 
+      console.error('❌ Error fetching labels:', error); 
+    }
     finally { setLabelsLoaded(true); }
-  }, [currentUserId, id]);
+  }, [currentUserEmail, id]);
 
   const saveLabel = useCallback(async (attributeKey, customLabel) => {
-    if (!currentUserId) return;
-    const response = await fetch(`${process.env.REACT_APP_EP}/data/users/${currentUserId}/devices/${id}/labels`, {
-      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+    if (!currentUserEmail) {
+      console.warn('No user email, cannot save label');
+      return;
+    }
+    
+    const url = `${process.env.REACT_APP_EP}/data/users/${encodeURIComponent(currentUserEmail)}/devices/${id}/labels`;
+    console.log('💾 Saving label:', { url, attributeKey, customLabel });
+    
+    const response = await fetch(url, {
+      method: 'PUT', 
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ labels: { [attributeKey]: customLabel } })
     });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    
+    console.log('💾 Save response status:', response.status);
+    
+    if (!response.ok) {
+      const text = await response.text();
+      console.error('❌ Save failed:', response.status, text);
+      throw new Error(`HTTP ${response.status}: ${text}`);
+    }
+    
     const data = await response.json();
+    
     if (data.status === 'success' && data.data) {
       setAttributeLabels(data.data.labels || {});
       setCustomizedKeys(data.data.customized || {});
+      console.log('✅ Label saved successfully');
+    } else {
+      throw new Error(data.message || 'Server returned error');
     }
-  }, [currentUserId, id]);
+  }, [currentUserEmail, id]);
 
   const resetLabel = useCallback(async (attributeKey) => {
-    if (!currentUserId) return;
-    const response = await fetch(`${process.env.REACT_APP_EP}/data/users/${currentUserId}/devices/${id}/labels/${attributeKey}`, { method: 'DELETE' });
+    if (!currentUserEmail) return;
+    
+    const url = `${process.env.REACT_APP_EP}/data/users/${encodeURIComponent(currentUserEmail)}/devices/${id}/labels/${attributeKey}`;
+    const response = await fetch(url, { method: 'DELETE' });
+    
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     await fetchLabels();
-  }, [currentUserId, id, fetchLabels]);
+  }, [currentUserEmail, id, fetchLabels]);
 
   const resetAllLabels = useCallback(async () => {
-    if (!currentUserId || !window.confirm('Reset all custom names to defaults?')) return;
-    const response = await fetch(`${process.env.REACT_APP_EP}/data/users/${currentUserId}/devices/${id}/labels`, { method: 'DELETE' });
+    if (!currentUserEmail || !window.confirm('Reset all custom names to defaults?')) return;
+    
+    const url = `${process.env.REACT_APP_EP}/data/users/${encodeURIComponent(currentUserEmail)}/devices/${id}/labels`;
+    const response = await fetch(url, { method: 'DELETE' });
+    
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    
     const data = await response.json();
     if (data.status === 'success' && data.data) {
       setAttributeLabels(data.data.labels || {});
       setCustomizedKeys({});
     }
-  }, [currentUserId, id]);
+  }, [currentUserEmail, id]);
 
   const fetchPowerStatusHistory = async () => {
     if (!conn) return;
