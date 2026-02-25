@@ -3247,3 +3247,160 @@ h2 {
     font-size: 12px;
   }
 }
+
+/* ==================== EDITABLE LABEL STYLES ==================== */
+.editable-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.editable-label .label-text {
+  cursor: pointer;
+  padding: 1px 3px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.editable-label .label-text:hover {
+  background-color: rgba(59, 130, 246, 0.06);
+  border-color: rgba(59, 130, 246, 0.15);
+}
+
+.editable-label .label-text.customized {
+  color: #1d4ed8;
+}
+
+.editable-label .custom-indicator {
+  font-size: 10px;
+  margin-left: 2px;
+  opacity: 0.5;
+  color: #3b82f6;
+}
+
+.editable-label .label-edit-trigger {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.editable-label:hover .label-edit-trigger {
+  opacity: 0.6;
+}
+
+.label-edit-input {
+  font-size: inherit;
+  font-weight: inherit;
+  font-family: inherit;
+  padding: 2px 6px;
+  border: 2px solid #3b82f6;
+  border-radius: 4px;
+  outline: none;
+  background: #f0f7ff;
+  color: #1e293b;
+  min-width: 100px;
+  max-width: 220px;
+}
+
+.label-edit-input:focus {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+  background: #fff;
+}
+
+.label-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 10px;
+  transition: all 0.15s ease;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.label-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.label-edit-trigger {
+  background: transparent;
+  color: #64748b;
+  font-size: 9px;
+}
+
+.label-save-btn {
+  background: #10b981;
+  color: white;
+}
+
+.label-save-btn:hover:not(:disabled) {
+  background: #059669;
+}
+
+.label-cancel-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.label-cancel-btn:hover:not(:disabled) {
+  background: #dc2626;
+}
+
+.label-reset-btn {
+  background: #f59e0b;
+  color: white;
+}
+
+.label-reset-btn:hover:not(:disabled) {
+  background: #d97706;
+}
+
+.config-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.reset-all-labels-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #fefce8;
+  color: #92400e;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reset-all-labels-btn:hover {
+  background: #fef3c7;
+  border-color: #fbbf24;
+}
+
+.alert-info-table th .editable-label {
+  font-size: 11px;
+}
+
+.alert-info-table th .label-edit-input {
+  font-size: 10px;
+  min-width: 70px;
+  max-width: 130px;
+  padding: 1px 4px;
+}
+
+.alert-info-table th .label-btn {
+  width: 18px;
+  height: 18px;
+  font-size: 8px;
+}
