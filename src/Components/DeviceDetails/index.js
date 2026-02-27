@@ -1,14 +1,71 @@
-// import React, { useEffect, useState, useRef } from "react";
+// import React, { useEffect, useState, useRef, useCallback } from "react";
+
 // import { useParams } from "react-router-dom";
 // import { useNavigate } from 'react-router-dom';
 // import "./DeviceDetails.css";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import DeviceCharts from "../DataChart";
-// import { faLink, faPencil, faCheck, faSave } from "@fortawesome/free-solid-svg-icons";
+// import { faLink, faPencil, faCheck, faSave, faTimes, faRotateLeft } from "@fortawesome/free-solid-svg-icons";
 // import { faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 // import axios from "axios";
 
-// // ==================== GAUGE COMPONENT ====================
+// // ==================== EDITABLE LABEL COMPONENT ====================
+// const EditableLabel = ({ attributeKey, currentLabel, defaultLabel, isCustomized, onSave, onReset }) => {
+//   const [isEditing, setIsEditing] = useState(false);
+//   const [editValue, setEditValue] = useState(currentLabel);
+//   const [isSaving, setIsSaving] = useState(false);
+//   const inputRef = useRef(null);
+//   const containerRef = useRef(null);
+
+//   useEffect(() => { setEditValue(currentLabel); }, [currentLabel]);
+//   useEffect(() => { if (isEditing && inputRef.current) { inputRef.current.focus(); inputRef.current.select(); } }, [isEditing]);
+
+//   const handleSave = async () => {
+//     const trimmed = editValue.trim();
+//     if (!trimmed || trimmed === currentLabel) { setEditValue(currentLabel); setIsEditing(false); return; }
+//     setIsSaving(true);
+//     try { await onSave(attributeKey, trimmed); setIsEditing(false); }
+//     catch (err) { setEditValue(currentLabel); }
+//     finally { setIsSaving(false); }
+//   };
+
+//   const handleReset = async () => {
+//     setIsSaving(true);
+//     try { await onReset(attributeKey); setEditValue(defaultLabel); setIsEditing(false); }
+//     catch (err) { console.error('Failed to reset:', err); }
+//     finally { setIsSaving(false); }
+//   };
+
+//   const handleKeyDown = (e) => {
+//     if (e.key === 'Enter') handleSave();
+//     else if (e.key === 'Escape') { setEditValue(currentLabel); setIsEditing(false); }
+//   };
+
+//   if (isEditing) {
+//     return (
+//       <span className="editable-label editing" ref={containerRef}>
+//         <input ref={inputRef} type="text" value={editValue} onChange={(e) => setEditValue(e.target.value)}
+//           onKeyDown={handleKeyDown}
+//           onBlur={() => { setTimeout(() => { if (containerRef.current && containerRef.current.contains(document.activeElement)) return; handleSave(); }, 200); }}
+//           className="label-edit-input" disabled={isSaving} maxLength={50} />
+//         <button className="label-btn label-save-btn" onClick={handleSave} disabled={isSaving} title="Save"><FontAwesomeIcon icon={faCheck} /></button>
+//         <button className="label-btn label-cancel-btn" onClick={() => { setEditValue(currentLabel); setIsEditing(false); }} disabled={isSaving} title="Cancel"><FontAwesomeIcon icon={faTimes} /></button>
+//         {isCustomized && <button className="label-btn label-reset-btn" onClick={handleReset} disabled={isSaving} title={`Reset to: "${defaultLabel}"`}><FontAwesomeIcon icon={faRotateLeft} /></button>}
+//       </span>
+//     );
+//   }
+
+//   return (
+//     <span className="editable-label">
+//       <span className={`label-text ${isCustomized ? 'customized' : ''}`} onClick={() => setIsEditing(true)}
+//         title={isCustomized ? `Custom (default: "${defaultLabel}"). Click to edit.` : 'Click to rename'}>
+//         {currentLabel}{isCustomized && <span className="custom-indicator">✎</span>}
+//       </span>
+//       <button className="label-btn label-edit-trigger" onClick={() => setIsEditing(true)} title="Rename"><FontAwesomeIcon icon={faPencil} /></button>
+//     </span>
+//   );
+// };
+
 // // ==================== PREMIUM GAUGE COMPONENT ====================
 // const GaugeChart = React.memo(({ value, min, max, unit, label, colorStops, icon }) => {
 //   const canvasRef = useRef(null);
@@ -450,7 +507,8 @@
 //   return (
 //     prevProps.value === nextProps.value &&
 //     prevProps.min === nextProps.min &&
-//     prevProps.max === nextProps.max
+//     prevProps.max === nextProps.max &&
+//     prevProps.label === nextProps.label
 //   );
 // });
 
@@ -459,6 +517,7 @@
 //   {
 //     key: 'flowRate',
 //     dataField: 'flowRate',
+//     labelKey: 'gauge_flow_rate',
 //     label: 'Water Flow Rate',
 //     unit: 'L/min',
 //     min: 0,
@@ -474,6 +533,7 @@
 //   {
 //     key: 'pressure',
 //     dataField: 'pressure',
+//     labelKey: 'gauge_pressure',
 //     label: 'Water Pressure',
 //     unit: 'bar',
 //     min: 0,
@@ -489,6 +549,7 @@
 //   {
 //     key: 'pumpMotorFrequency',
 //     dataField: 'pump_motor_frequency',
+//     labelKey: 'gauge_motor_frequency',
 //     label: 'Motor Frequency',
 //     unit: 'Hz',
 //     min: 0,
@@ -504,6 +565,7 @@
 //   {
 //     key: 'pumpMotorCurrent',
 //     dataField: 'pump_motor_current',
+//     labelKey: 'gauge_motor_current',
 //     label: 'Motor Current',
 //     unit: 'A',
 //     min: 0,
@@ -518,9 +580,47 @@
 //   }
 // ];
 
+// // ==================== ALERT BIT KEYS ====================
+// const ALERT_BIT_KEYS = [
+//   'alert_auto_mode_fbk', 'alert_manual_mode_fbk', 'alert_vfd_trip_fbk',
+//   'alert_pump_on_fbk', 'alert_solenoid_valve_on_fbk', 'alert_oxygen_on_fbk',
+//   'alert_low_oxygen_flow', 'alert_high_oxygen_flow', 'alert_auto_sequence_status',
+//   'alert_spare_2', 'alert_spare_3', 'alert_spare_4',
+//   'alert_spare_5', 'alert_spare_6', 'alert_spare_7', 'alert_spare_8',
+// ];
+
 // // ==================== MAIN COMPONENT ====================
 // const DeviceDetails = () => {
 //   const { id } = useParams();
+
+//     // ===== GET USER EMAIL FOR LABELS =====
+//   const getUserEmail = () => {
+//     // Try parsing stored user object
+//     try { 
+//       const user = JSON.parse(localStorage.getItem('user') || '{}'); 
+//       if (user.email) return user.email; 
+//     } catch (e) {}
+    
+//     // Try direct email key
+//     try { 
+//       const email = localStorage.getItem('email') || localStorage.getItem('userEmail') || localStorage.getItem('user_email'); 
+//       if (email) return email; 
+//     } catch (e) {}
+    
+//     // Try JWT token
+//     try { 
+//       const token = localStorage.getItem('token') || localStorage.getItem('authToken');
+//       if (token) { 
+//         const payload = JSON.parse(atob(token.split('.')[1])); 
+//         if (payload.email) return payload.email;
+//       }
+//     } catch (e) {}
+    
+//     return null;
+//   };
+//   const currentUserEmail = getUserEmail();
+  
+//   console.log('🔑 Current User Email:', currentUserEmail);
   
 //   const isWaitingRef = useRef(false);
 //   const isAutoWaitingRef = useRef(false);
@@ -556,6 +656,12 @@
     
 //     return isAutoOn;
 //   };
+
+//   // ===== LABEL STATE =====
+//   const [attributeLabels, setAttributeLabels] = useState({});
+//   const [customizedKeys, setCustomizedKeys] = useState({});
+//   const [defaultLabels, setDefaultLabels] = useState({});
+//   const [labelsLoaded, setLabelsLoaded] = useState(false);
 
 //   const [powerStatusHistory, setPowerStatusHistory] = useState([]);
 //   const [loadingHistory, setLoadingHistory] = useState(false);
@@ -646,6 +752,103 @@
 
 //   const POWER_COOLDOWN_MS = 10000;
 //   const AUTO_MODE_COOLDOWN_MS = 10000;
+
+//   // ===== LABEL FUNCTIONS =====
+//   const getLabel = useCallback((key) => {
+//     return attributeLabels[key] || defaultLabels[key] || key;
+//   }, [attributeLabels, defaultLabels]);
+
+//   const fetchLabels = useCallback(async () => {
+//     if (!currentUserEmail) { 
+//       console.warn('No user email available, using default labels');
+//       setLabelsLoaded(true); 
+//       return; 
+//     }
+//     try {
+//       const url = `${process.env.REACT_APP_EP}/data/users/${encodeURIComponent(currentUserEmail)}/devices/${id}/labels`;
+//       console.log('📋 Fetching labels from:', url);
+      
+//       const response = await fetch(url);
+//       console.log('📋 Labels response status:', response.status);
+      
+//       if (!response.ok) { 
+//         console.warn('Labels endpoint returned', response.status);
+//         setLabelsLoaded(true); 
+//         return; 
+//       }
+      
+//       const data = await response.json();
+//       console.log('📋 Labels data received:', data);
+      
+//       if (data.status === 'success' && data.data) {
+//         setAttributeLabels(data.data.labels || {});
+//         setCustomizedKeys(data.data.customized || {});
+//         setDefaultLabels(data.data.defaults || {});
+//       }
+//     } catch (error) { 
+//       console.error('❌ Error fetching labels:', error); 
+//     }
+//     finally { setLabelsLoaded(true); }
+//   }, [currentUserEmail, id]);
+
+//   const saveLabel = useCallback(async (attributeKey, customLabel) => {
+//     if (!currentUserEmail) {
+//       console.warn('No user email, cannot save label');
+//       return;
+//     }
+    
+//     const url = `${process.env.REACT_APP_EP}/data/users/${encodeURIComponent(currentUserEmail)}/devices/${id}/labels`;
+//     console.log('💾 Saving label:', { url, attributeKey, customLabel });
+    
+//     const response = await fetch(url, {
+//       method: 'PUT', 
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify({ labels: { [attributeKey]: customLabel } })
+//     });
+    
+//     console.log('💾 Save response status:', response.status);
+    
+//     if (!response.ok) {
+//       const text = await response.text();
+//       console.error('❌ Save failed:', response.status, text);
+//       throw new Error(`HTTP ${response.status}: ${text}`);
+//     }
+    
+//     const data = await response.json();
+    
+//     if (data.status === 'success' && data.data) {
+//       setAttributeLabels(data.data.labels || {});
+//       setCustomizedKeys(data.data.customized || {});
+//       console.log('✅ Label saved successfully');
+//     } else {
+//       throw new Error(data.message || 'Server returned error');
+//     }
+//   }, [currentUserEmail, id]);
+
+//   const resetLabel = useCallback(async (attributeKey) => {
+//     if (!currentUserEmail) return;
+    
+//     const url = `${process.env.REACT_APP_EP}/data/users/${encodeURIComponent(currentUserEmail)}/devices/${id}/labels/${attributeKey}`;
+//     const response = await fetch(url, { method: 'DELETE' });
+    
+//     if (!response.ok) throw new Error(`HTTP ${response.status}`);
+//     await fetchLabels();
+//   }, [currentUserEmail, id, fetchLabels]);
+
+//   const resetAllLabels = useCallback(async () => {
+//     if (!currentUserEmail || !window.confirm('Reset all custom names to defaults?')) return;
+    
+//     const url = `${process.env.REACT_APP_EP}/data/users/${encodeURIComponent(currentUserEmail)}/devices/${id}/labels`;
+//     const response = await fetch(url, { method: 'DELETE' });
+    
+//     if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    
+//     const data = await response.json();
+//     if (data.status === 'success' && data.data) {
+//       setAttributeLabels(data.data.labels || {});
+//       setCustomizedKeys({});
+//     }
+//   }, [currentUserEmail, id]);
 
 //   const fetchPowerStatusHistory = async () => {
 //     if (!conn) return;
@@ -892,51 +1095,44 @@
 //     }));
 //   };
 
-//   // useEffect(() => {
-//   //   fetch(`${process.env.REACT_APP_EP}/data/devices/${id}/info`)
-//   //     .then((r) => {
-//   //       if (!r.ok) throw new Error("Failed to fetch device info");
-//   //       return r.json();
-//   //     })
-//   //     .then((resp) => {
-//   //       if (resp.status === "success" && resp.data) {
-//   //         const { owner_name, phone_number, email_id, location } = resp.data;
-//   //         const info = {
-//   //           owner_name: owner_name || "N/A",
-//   //           phone_number: phone_number || "N/A",
-//   //           email_id: email_id || "N/A",
-//   //           location: location || "N/A",
-//   //         };
-//   //         setDeviceInfo(info);
-//   //         setEditableInfo(info);
-//   //       } else {
-//   //         throw new Error("Invalid data structure from API");
-//   //       }
-//   //     })
-//   //     .catch(() => {
-//   //       setDeviceName("Error");
-//   //       const errorInfo = {
-//   //         owner_name: "N/A",
-//   //         phone_number: "N/A",
-//   //         email_id: "N/A",
-//   //         location: "N/A",
-//   //       };
-//   //       setDeviceInfo(errorInfo);
-//   //       setEditableInfo(errorInfo);
-//   //     });
-//   // }, [id]);
+//   // ===== FETCH LABELS ON MOUNT =====
+//   useEffect(() => { fetchLabels(); }, [fetchLabels]);
 
-// // Replace your first useEffect (device info fetch) with this:
-// useEffect(() => {
-//   const fetchDeviceInfo = async () => {
-//     try {
-//       const response = await fetch(
-//         `${process.env.REACT_APP_EP}/data/devices/${id}/info`
-//       );
+//   useEffect(() => {
+//     const fetchDeviceInfo = async () => {
+//       try {
+//         const response = await fetch(
+//           `${process.env.REACT_APP_EP}/data/devices/${id}/info`
+//         );
 
-//       // ✅ Handle 404 gracefully instead of crashing
-//       if (!response.ok) {
-//         console.warn(`⚠️ Device info endpoint returned ${response.status}`);
+//         if (!response.ok) {
+//           console.warn(`⚠️ Device info endpoint returned ${response.status}`);
+//           const fallbackInfo = {
+//             owner_name: "N/A",
+//             phone_number: "N/A",
+//             email_id: "N/A",
+//             location: "N/A",
+//           };
+//           setDeviceInfo(fallbackInfo);
+//           setEditableInfo(fallbackInfo);
+//           return;
+//         }
+
+//         const resp = await response.json();
+
+//         if (resp.status === "success" && resp.data) {
+//           const { owner_name, phone_number, email_id, location } = resp.data;
+//           const info = {
+//             owner_name: owner_name || "N/A",
+//             phone_number: phone_number || "N/A",
+//             email_id: email_id || "N/A",
+//             location: location || "N/A",
+//           };
+//           setDeviceInfo(info);
+//           setEditableInfo(info);
+//         }
+//       } catch (error) {
+//         console.error("Error fetching device info:", error);
 //         const fallbackInfo = {
 //           owner_name: "N/A",
 //           phone_number: "N/A",
@@ -945,38 +1141,11 @@
 //         };
 //         setDeviceInfo(fallbackInfo);
 //         setEditableInfo(fallbackInfo);
-//         return;
 //       }
+//     };
 
-//       const resp = await response.json();
-
-//       if (resp.status === "success" && resp.data) {
-//         const { owner_name, phone_number, email_id, location } = resp.data;
-//         const info = {
-//           owner_name: owner_name || "N/A",
-//           phone_number: phone_number || "N/A",
-//           email_id: email_id || "N/A",
-//           location: location || "N/A",
-//         };
-//         setDeviceInfo(info);
-//         setEditableInfo(info);
-//       }
-//     } catch (error) {
-//       console.error("Error fetching device info:", error);
-//       const fallbackInfo = {
-//         owner_name: "N/A",
-//         phone_number: "N/A",
-//         email_id: "N/A",
-//         location: "N/A",
-//       };
-//       setDeviceInfo(fallbackInfo);
-//       setEditableInfo(fallbackInfo);
-//     }
-//   };
-
-//   fetchDeviceInfo();
-// }, [id]);
-
+//     fetchDeviceInfo();
+//   }, [id]);
 
 //   useEffect(() => {
 //     let cancelled = false;
@@ -998,156 +1167,82 @@
 //     };
 //   }, [id]);
 
-//   // useEffect(() => {
-//   //   const fetchInitialStatus = async () => {
-//   //     try {
-//   //       const statusRes = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/status`);
-//   //       if (!statusRes.ok) throw new Error(`HTTP ${statusRes.status}`);
-//   //       const statusData = await statusRes.json();
-        
-//   //       const isConnected = statusData.status === "Connected";
-//   //       setConn(isConnected);
-        
-//   //       if (isConnected) {
-//   //         const telemetryRes = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}`);
-//   //         if (telemetryRes.ok) {
-//   //           const data = await telemetryRes.json();
-            
-//   //           setDeviceData({
-//   //             nbGenerator: { 
-//   //               ...data.nbGenerator,
-//   //               pump_motor_frequency: data.nbGenerator?.pump_motor_frequency ?? 0,
-//   //               pump_motor_current: data.nbGenerator?.pump_motor_current ?? 0,
-//   //               total_running_hours: data.nbGenerator?.total_running_hours ?? 0,
-//   //               auto_sequence_on_time: data.nbGenerator?.auto_sequence_on_time ?? 0,
-//   //               auto_sequence_off_time: data.nbGenerator?.auto_sequence_off_time ?? 0,
-//   //               auto_sequence_counter: data.nbGenerator?.auto_sequence_counter ?? 0,
-//   //               auto_sequence_on_write: data.nbGenerator?.auto_sequence_on_write ?? 0,      
-//   //               auto_sequence_off_write: data.nbGenerator?.auto_sequence_off_write ?? 0,    
-//   //               auto_sequence_counter_write: data.nbGenerator?.auto_sequence_counter_write ?? 0,
-//   //               oxygen_flow: data.nbGenerator?.oxygen_flow ?? 0,
-//   //               spare_1: data.nbGenerator?.spare_1 ?? 0,
-//   //               alert_status: data.nbGenerator?.alert_status ?? 0
-//   //             },
-//   //             ozoneGenerator: { ...data.ozoneGenerator },
-//   //             oxygenGenerator: { ...data.oxygenGenerator },
-//   //           });
-            
-//   //           const alertStatus = data.nbGenerator?.alert_status;
-            
-//   //           const powerStatus = checkPowerStatusFromBit(alertStatus);
-//   //           setIsPowerOn(powerStatus);
-//   //           console.log(`🔌 Initial power status from DB: ${powerStatus ? 'ON' : 'OFF'}`);
-            
-//   //           const autoModeStatus = checkAutoModeFromBit(alertStatus);
-//   //           setAutoMode(autoModeStatus);
-//   //           console.log(`🔄 Initial auto mode from DB: ${autoModeStatus ? 'ON' : 'OFF'}`);
-//   //         }
-//   //       }
-        
-//   //       setLoading(false);
-//   //     } catch (error) {
-//   //       console.error("Error fetching initial status:", error);
-//   //       setConn(false);
-//   //       setIsPowerOn(false);
-//   //       setAutoMode(false);
-//   //       setLoading(false);
-//   //     }
-//   //   };
+//   useEffect(() => {
+//     const fetchInitialStatus = async () => {
+//       try {
+//         const statusRes = await fetch(
+//           `${process.env.REACT_APP_EP}/api/devices/${id}/status`
+//         );
 
-//   //   fetchInitialStatus();
-//   // }, [id]);
-
-
-// // Replace your third useEffect (fetchInitialStatus) with this:
-// useEffect(() => {
-//   const fetchInitialStatus = async () => {
-//     try {
-//       const statusRes = await fetch(
-//         `${process.env.REACT_APP_EP}/api/devices/${id}/status`
-//       );
-
-//       if (!statusRes.ok) {
-//         console.warn(`⚠️ Status endpoint returned ${statusRes.status}`);
-//         setConn(false);
-//         setLoading(false); // ✅ Always stop loading
-//         return;
-//       }
-
-//       const statusData = await statusRes.json();
-//       const isConnected = statusData.status === "Connected";
-//       setConn(isConnected);
-
-//       if (isConnected) {
-//         try {
-//           const telemetryRes = await fetch(
-//             `${process.env.REACT_APP_EP}/api/devices/${id}`
-//           );
-//           if (telemetryRes.ok) {
-//             const data = await telemetryRes.json();
-
-//             setDeviceData({
-//               nbGenerator: {
-//                 ...data.nbGenerator,
-//                 pump_motor_frequency:
-//                   data.nbGenerator?.pump_motor_frequency ?? 0,
-//                 pump_motor_current:
-//                   data.nbGenerator?.pump_motor_current ?? 0,
-//                 total_running_hours:
-//                   data.nbGenerator?.total_running_hours ?? 0,
-//                 auto_sequence_on_time:
-//                   data.nbGenerator?.auto_sequence_on_time ?? 0,
-//                 auto_sequence_off_time:
-//                   data.nbGenerator?.auto_sequence_off_time ?? 0,
-//                 auto_sequence_counter:
-//                   data.nbGenerator?.auto_sequence_counter ?? 0,
-//                 auto_sequence_on_write:
-//                   data.nbGenerator?.auto_sequence_on_write ?? 0,
-//                 auto_sequence_off_write:
-//                   data.nbGenerator?.auto_sequence_off_write ?? 0,
-//                 auto_sequence_counter_write:
-//                   data.nbGenerator?.auto_sequence_counter_write ?? 0,
-//                 oxygen_flow: data.nbGenerator?.oxygen_flow ?? 0,
-//                 spare_1: data.nbGenerator?.spare_1 ?? 0,
-//                 alert_status: data.nbGenerator?.alert_status ?? 0,
-//               },
-//               ozoneGenerator: { ...data.ozoneGenerator },
-//               oxygenGenerator: { ...data.oxygenGenerator },
-//             });
-
-//             const alertStatus = data.nbGenerator?.alert_status;
-//             setIsPowerOn(checkPowerStatusFromBit(alertStatus));
-//             setAutoMode(checkAutoModeFromBit(alertStatus));
-//           }
-//         } catch (telemetryError) {
-//           console.error("Telemetry fetch failed:", telemetryError);
+//         if (!statusRes.ok) {
+//           console.warn(`⚠️ Status endpoint returned ${statusRes.status}`);
+//           setConn(false);
+//           setLoading(false);
+//           return;
 //         }
+
+//         const statusData = await statusRes.json();
+//         const isConnected = statusData.status === "Connected";
+//         setConn(isConnected);
+
+//         if (isConnected) {
+//           try {
+//             const telemetryRes = await fetch(
+//               `${process.env.REACT_APP_EP}/api/devices/${id}`
+//             );
+//             if (telemetryRes.ok) {
+//               const data = await telemetryRes.json();
+
+//               setDeviceData({
+//                 nbGenerator: {
+//                   ...data.nbGenerator,
+//                   pump_motor_frequency: data.nbGenerator?.pump_motor_frequency ?? 0,
+//                   pump_motor_current: data.nbGenerator?.pump_motor_current ?? 0,
+//                   total_running_hours: data.nbGenerator?.total_running_hours ?? 0,
+//                   auto_sequence_on_time: data.nbGenerator?.auto_sequence_on_time ?? 0,
+//                   auto_sequence_off_time: data.nbGenerator?.auto_sequence_off_time ?? 0,
+//                   auto_sequence_counter: data.nbGenerator?.auto_sequence_counter ?? 0,
+//                   auto_sequence_on_write: data.nbGenerator?.auto_sequence_on_write ?? 0,
+//                   auto_sequence_off_write: data.nbGenerator?.auto_sequence_off_write ?? 0,
+//                   auto_sequence_counter_write: data.nbGenerator?.auto_sequence_counter_write ?? 0,
+//                   oxygen_flow: data.nbGenerator?.oxygen_flow ?? 0,
+//                   spare_1: data.nbGenerator?.spare_1 ?? 0,
+//                   alert_status: data.nbGenerator?.alert_status ?? 0,
+//                 },
+//                 ozoneGenerator: { ...data.ozoneGenerator },
+//                 oxygenGenerator: { ...data.oxygenGenerator },
+//               });
+
+//               const alertStatus = data.nbGenerator?.alert_status;
+//               setIsPowerOn(checkPowerStatusFromBit(alertStatus));
+//               setAutoMode(checkAutoModeFromBit(alertStatus));
+//             }
+//           } catch (telemetryError) {
+//             console.error("Telemetry fetch failed:", telemetryError);
+//           }
+//         }
+//       } catch (error) {
+//         console.error("Error fetching initial status:", error);
+//         setConn(false);
+//       } finally {
+//         setLoading(false);
 //       }
-//     } catch (error) {
-//       console.error("Error fetching initial status:", error);
-//       setConn(false);
-//     } finally {
-//       // ✅ ALWAYS stop loading, no matter what happens
-//       setLoading(false);
-//     }
-//   };
+//     };
 
-//   fetchInitialStatus();
+//     fetchInitialStatus();
 
-//   // ✅ Safety net: force loading off after 8 seconds
-//   const safetyTimer = setTimeout(() => {
-//     setLoading((prev) => {
-//       if (prev) {
-//         console.warn("⚠️ Safety timeout: forcing loading to false");
-//         return false;
-//       }
-//       return prev;
-//     });
-//   }, 8000);
+//     const safetyTimer = setTimeout(() => {
+//       setLoading((prev) => {
+//         if (prev) {
+//           console.warn("⚠️ Safety timeout: forcing loading to false");
+//           return false;
+//         }
+//         return prev;
+//       });
+//     }, 8000);
 
-//   return () => clearTimeout(safetyTimer);
-// }, [id]);
-
+//     return () => clearTimeout(safetyTimer);
+//   }, [id]);
 
 //   useEffect(() => {
 //     if (!conn) return;
@@ -1278,51 +1373,40 @@
 //     return "";
 //   };
 
-//   // Helper to get gauge value from device data
-// // Helper to get gauge value from device data
-// const getGaugeValue = (dataField) => {
-//   const val = deviceData.nbGenerator[dataField];
-  
-//   // Debug log - remove after fixing
-//   console.log(`📊 Gauge [${dataField}]:`, { raw: val, type: typeof val });
-  
-//   // Handle null/undefined/empty
-//   if (val === null || val === undefined || val === '') {
-//     return 0;
-//   }
-  
-//   // If it's already a valid number
-//   if (typeof val === 'number') {
-//     return isFinite(val) ? val : 0;
-//   }
-  
-//   // If it's an object with a value property (some APIs return {value: 500})
-//   if (typeof val === 'object' && val !== null) {
-//     const innerVal = val.value ?? val.Value ?? val.v ?? 0;
-//     const num = Number(innerVal);
-//     return isFinite(num) ? num : 0;
-//   }
-  
-//   // If it's a string, extract the numeric part
-//   if (typeof val === 'string') {
-//     // Try direct conversion first
-//     let num = Number(val);
-//     if (isFinite(num)) {
-//       return num;
+//   const getGaugeValue = (dataField) => {
+//     const val = deviceData.nbGenerator[dataField];
+    
+//     console.log(`📊 Gauge [${dataField}]:`, { raw: val, type: typeof val });
+    
+//     if (val === null || val === undefined || val === '') {
+//       return 0;
 //     }
     
-//     // Extract numbers from string like "500 L/min" or "500.5 bar"
-//     const match = val.match(/[-+]?[0-9]*\.?[0-9]+/);
-//     if (match) {
-//       num = parseFloat(match[0]);
+//     if (typeof val === 'number') {
+//       return isFinite(val) ? val : 0;
+//     }
+    
+//     if (typeof val === 'object' && val !== null) {
+//       const innerVal = val.value ?? val.Value ?? val.v ?? 0;
+//       const num = Number(innerVal);
 //       return isFinite(num) ? num : 0;
 //     }
-//   }
-  
-//   return 0;
-// };
-
-
+    
+//     if (typeof val === 'string') {
+//       let num = Number(val);
+//       if (isFinite(num)) {
+//         return num;
+//       }
+      
+//       const match = val.match(/[-+]?[0-9]*\.?[0-9]+/);
+//       if (match) {
+//         num = parseFloat(match[0]);
+//         return isFinite(num) ? num : 0;
+//       }
+//     }
+    
+//     return 0;
+//   };
 
 //   return (
 //     <>
@@ -1518,7 +1602,14 @@
 //           {/* Device Configuration & Alerts */}
 //           <div className="device-info-card device-power-status">
 //             <div>
-//               <h3 className="section-title">Device Configuration & Alerts:</h3>
+//               <div className="config-section-header">
+//                 <h3 className="section-title">Device Configuration & Alerts:</h3>
+//                 {Object.keys(customizedKeys).length > 0 && (
+//                   <button className="reset-all-labels-btn" onClick={resetAllLabels} title="Reset all custom names to defaults">
+//                     <FontAwesomeIcon icon={faRotateLeft} /> Reset All Names
+//                   </button>
+//                 )}
+//               </div>
 
 //               <div className="device-config-container">
 //                 {/* Headings Row */}
@@ -1537,13 +1628,17 @@
 //                 {/* First Row */}
 //                 <div className="config-row">
 //                   <div className="config-item">
-//                     <label>Pump Motor Frequency:</label>
+//                     <label>
+//                       <EditableLabel attributeKey="pump_motor_frequency" currentLabel={getLabel('pump_motor_frequency')} defaultLabel={defaultLabels.pump_motor_frequency || 'Pump Motor Frequency'} isCustomized={!!customizedKeys.pump_motor_frequency} onSave={saveLabel} onReset={resetLabel} />:
+//                     </label>
 //                     <span className="config-value">
 //                       {deviceData.nbGenerator.pump_motor_frequency || 0} Hz
 //                     </span>
 //                   </div>
 //                   <div className="config-item">
-//                     <label>Auto Sequence Counter:</label>
+//                     <label>
+//                       <EditableLabel attributeKey="auto_sequence_counter" currentLabel={getLabel('auto_sequence_counter')} defaultLabel={defaultLabels.auto_sequence_counter || 'Auto Sequence Counter'} isCustomized={!!customizedKeys.auto_sequence_counter} onSave={saveLabel} onReset={resetLabel} />:
+//                     </label>
 //                     <div className="editable-field">
 //                       <input
 //                         type="number"
@@ -1590,13 +1685,17 @@
 //                 {/* Second Row */}
 //                 <div className="config-row">
 //                   <div className="config-item">
-//                     <label>Pump Motor Current:</label>
+//                     <label>
+//                       <EditableLabel attributeKey="pump_motor_current" currentLabel={getLabel('pump_motor_current')} defaultLabel={defaultLabels.pump_motor_current || 'Pump Motor Current'} isCustomized={!!customizedKeys.pump_motor_current} onSave={saveLabel} onReset={resetLabel} />:
+//                     </label>
 //                     <span className="config-value">
 //                       {Number(deviceData.nbGenerator.pump_motor_current || 0).toFixed(2)} A
 //                     </span>
 //                   </div>
 //                   <div className="config-item">
-//                     <label>Auto Sequence OFF Time:</label>
+//                     <label>
+//                       <EditableLabel attributeKey="auto_sequence_off_time" currentLabel={getLabel('auto_sequence_off_time')} defaultLabel={defaultLabels.auto_sequence_off_time || 'Auto Sequence OFF Time'} isCustomized={!!customizedKeys.auto_sequence_off_time} onSave={saveLabel} onReset={resetLabel} />:
+//                     </label>
 //                     <div className="editable-field">
 //                       <input
 //                         type="number"
@@ -1643,13 +1742,17 @@
 //                 {/* Third Row */}
 //                 <div className="config-row">
 //                   <div className="config-item">
-//                     <label>Total Running Hours:</label>
+//                     <label>
+//                       <EditableLabel attributeKey="total_running_hours" currentLabel={getLabel('total_running_hours')} defaultLabel={defaultLabels.total_running_hours || 'Total Running Hours'} isCustomized={!!customizedKeys.total_running_hours} onSave={saveLabel} onReset={resetLabel} />:
+//                     </label>
 //                     <span className="config-value">
 //                       {deviceData.nbGenerator.total_running_hours || 0} H
 //                     </span>
 //                   </div>
 //                   <div className="config-item">
-//                     <label>Auto Sequence ON Time:</label>
+//                     <label>
+//                       <EditableLabel attributeKey="auto_sequence_on_time" currentLabel={getLabel('auto_sequence_on_time')} defaultLabel={defaultLabels.auto_sequence_on_time || 'Auto Sequence ON Time'} isCustomized={!!customizedKeys.auto_sequence_on_time} onSave={saveLabel} onReset={resetLabel} />:
+//                     </label>
 //                     <div className="editable-field">
 //                       <input
 //                         type="number"
@@ -1696,13 +1799,17 @@
 //                 {/* Fourth Row */}
 //                 <div className="config-row">
 //                   <div className="config-item">
-//                     <label>Total Water Outlet Qty:</label>
+//                     <label>
+//                       <EditableLabel attributeKey="total_water_outlet" currentLabel={getLabel('total_water_outlet')} defaultLabel={defaultLabels.total_water_outlet || 'Total Water Outlet Qty'} isCustomized={!!customizedKeys.total_water_outlet} onSave={saveLabel} onReset={resetLabel} />:
+//                     </label>
 //                     <span className="config-value">
 //                       {deviceData.nbGenerator.totalWaterOutlet || 0} L
 //                     </span>
 //                   </div>
 //                   <div className="config-item">
-//                     <label>Auto Mode:</label>
+//                     <label>
+//                       <EditableLabel attributeKey="auto_mode" currentLabel={getLabel('auto_mode')} defaultLabel={defaultLabels.auto_mode || 'Auto Mode'} isCustomized={!!customizedKeys.auto_mode} onSave={saveLabel} onReset={resetLabel} />:
+//                     </label>
 //                     <div className="auto-mode-toggle-container">
 //                       <span className={`auto-mode-status ${autoMode ? 'on' : 'off'}`}>
 //                         {autoWaiting ? 'Switching...' : (autoMode ? 'ON' : 'OFF')}
@@ -1723,13 +1830,17 @@
 //                 {/* Fifth Row */}
 //                 <div className="config-row">
 //                   <div className="config-item">
-//                     <label>Water Flow Rate:</label>
+//                     <label>
+//                       <EditableLabel attributeKey="water_flow_rate" currentLabel={getLabel('water_flow_rate')} defaultLabel={defaultLabels.water_flow_rate || 'Water Flow Rate'} isCustomized={!!customizedKeys.water_flow_rate} onSave={saveLabel} onReset={resetLabel} />:
+//                     </label>
 //                     <span className="config-value">
 //                       {deviceData.nbGenerator.flowRate || 0}
 //                     </span>
 //                   </div>
 //                   <div className="config-item">
-//                     <label>Oxygen Flow:</label>
+//                     <label>
+//                       <EditableLabel attributeKey="oxygen_flow" currentLabel={getLabel('oxygen_flow')} defaultLabel={defaultLabels.oxygen_flow || 'Oxygen Flow'} isCustomized={!!customizedKeys.oxygen_flow} onSave={saveLabel} onReset={resetLabel} />:
+//                     </label>
 //                     <span className="config-value">
 //                       {deviceData.nbGenerator.oxygen_flow || 0} L/min
 //                     </span>
@@ -1739,13 +1850,17 @@
 //                 {/* Sixth Row */}
 //                 <div className="config-row">
 //                   <div className="config-item">
-//                     <label>Water Pressure:</label>
+//                     <label>
+//                       <EditableLabel attributeKey="water_pressure" currentLabel={getLabel('water_pressure')} defaultLabel={defaultLabels.water_pressure || 'Water Pressure'} isCustomized={!!customizedKeys.water_pressure} onSave={saveLabel} onReset={resetLabel} />:
+//                     </label>
 //                     <span className="config-value">
 //                       {deviceData.nbGenerator.pressure || 0} 
 //                     </span>
 //                   </div>
 //                   <div className="config-item">
-//                     <label>Spare 1:</label>
+//                     <label>
+//                       <EditableLabel attributeKey="spare_1" currentLabel={getLabel('spare_1')} defaultLabel={defaultLabels.spare_1 || 'Spare 1'} isCustomized={!!customizedKeys.spare_1} onSave={saveLabel} onReset={resetLabel} />:
+//                     </label>
 //                     <span className="config-value">
 //                       {deviceData.nbGenerator.spare_1 || 0} L/min
 //                     </span>
@@ -1772,7 +1887,7 @@
 //                         min={config.min}
 //                         max={config.max}
 //                         unit={config.unit}
-//                         label={config.label}
+//                         label={getLabel(config.labelKey)}
 //                         icon={config.icon}
 //                         colorStops={config.colorStops}
 //                       />
@@ -1798,22 +1913,18 @@
 //                 <table className="alert-info-table">
 //                   <thead>
 //                     <tr>
-//                       <th>Auto_Mode_FBK</th>
-//                       <th>Manual_Mode_FBK</th>
-//                       <th>VFD_Trip_FBK</th>
-//                       <th>Pump_On_FBK</th>
-//                       <th>Solenoid_Valve_On_FBK</th>  
-//                       <th>Oxygen_On_FBK</th>
-//                       <th>LOW_OXYGEN_FLOW_ALARM</th>
-//                       <th>HIGH_OXYGEN_FLOW_ALARM</th>
-//                       <th>Auto Sequence Status</th>
-//                       <th>Spare 2</th>
-//                       <th>Spare 3</th>
-//                       <th>Spare 4</th>
-//                       <th>Spare 5</th>
-//                       <th>Spare 6</th>
-//                       <th>Spare 7</th>
-//                       <th>Spare 8</th>
+//                       {ALERT_BIT_KEYS.map((key) => (
+//                         <th key={key}>
+//                           <EditableLabel
+//                             attributeKey={key}
+//                             currentLabel={getLabel(key)}
+//                             defaultLabel={defaultLabels[key] || key}
+//                             isCustomized={!!customizedKeys[key]}
+//                             onSave={saveLabel}
+//                             onReset={resetLabel}
+//                           />
+//                         </th>
+//                       ))}
 //                     </tr>
 //                   </thead>
 //                   <tbody>
@@ -1844,6 +1955,8 @@
 // };
 
 // export default DeviceDetails;
+
+
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
@@ -1911,20 +2024,116 @@ const EditableLabel = ({ attributeKey, currentLabel, defaultLabel, isCustomized,
   );
 };
 
+// ==================== EDITABLE MAX VALUE COMPONENT ====================
+const EditableMaxValue = ({ gaugeKey, currentMax, defaultMax, isCustomized, onSave, onReset }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editValue, setEditValue] = useState(String(currentMax));
+  const [isSaving, setIsSaving] = useState(false);
+  const inputRef = useRef(null);
+  const containerRef = useRef(null);
+
+  useEffect(() => { setEditValue(String(currentMax)); }, [currentMax]);
+  useEffect(() => { if (isEditing && inputRef.current) { inputRef.current.focus(); inputRef.current.select(); } }, [isEditing]);
+
+  const handleSave = async () => {
+    const num = parseFloat(editValue);
+    if (isNaN(num) || num <= 0 || num === currentMax) {
+      setEditValue(String(currentMax));
+      setIsEditing(false);
+      return;
+    }
+    setIsSaving(true);
+    try {
+      await onSave(gaugeKey, num);
+      setIsEditing(false);
+    } catch (err) {
+      setEditValue(String(currentMax));
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleReset = async () => {
+    setIsSaving(true);
+    try {
+      await onReset(gaugeKey);
+      setEditValue(String(defaultMax));
+      setIsEditing(false);
+    } catch (err) {
+      console.error('Failed to reset max:', err);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') handleSave();
+    else if (e.key === 'Escape') { setEditValue(String(currentMax)); setIsEditing(false); }
+  };
+
+  if (isEditing) {
+    return (
+      <span className="editable-max editing" ref={containerRef}>
+        <input
+          ref={inputRef}
+          type="number"
+          value={editValue}
+          onChange={(e) => setEditValue(e.target.value)}
+          onKeyDown={handleKeyDown}
+          onBlur={() => {
+            setTimeout(() => {
+              if (containerRef.current && containerRef.current.contains(document.activeElement)) return;
+              handleSave();
+            }, 200);
+          }}
+          className="max-edit-input"
+          disabled={isSaving}
+          min="1"
+          step="any"
+        />
+        <button className="label-btn label-save-btn" onClick={handleSave} disabled={isSaving} title="Save">
+          <FontAwesomeIcon icon={faCheck} />
+        </button>
+        <button className="label-btn label-cancel-btn" onClick={() => { setEditValue(String(currentMax)); setIsEditing(false); }} disabled={isSaving} title="Cancel">
+          <FontAwesomeIcon icon={faTimes} />
+        </button>
+        {isCustomized && (
+          <button className="label-btn label-reset-btn" onClick={handleReset} disabled={isSaving} title={`Reset to default: ${defaultMax}`}>
+            <FontAwesomeIcon icon={faRotateLeft} />
+          </button>
+        )}
+      </span>
+    );
+  }
+
+  return (
+    <span className="editable-max">
+      <span
+        className={`max-value-text ${isCustomized ? 'customized' : ''}`}
+        onClick={() => setIsEditing(true)}
+        title={isCustomized ? `Custom max (default: ${defaultMax}). Click to edit.` : 'Click to set custom max'}
+      >
+        {currentMax}{isCustomized && <span className="custom-indicator">✎</span>}
+      </span>
+      <button className="label-btn label-edit-trigger" onClick={() => setIsEditing(true)} title="Edit max value">
+        <FontAwesomeIcon icon={faPencil} />
+      </button>
+    </span>
+  );
+};
+
 // ==================== PREMIUM GAUGE COMPONENT ====================
-const GaugeChart = React.memo(({ value, min, max, unit, label, colorStops, icon }) => {
+const GaugeChart = React.memo(({ value, min, max, unit, label, colorStops, icon, gaugeKey, defaultMax, isMaxCustomized, onSaveMax, onResetMax }) => {
   const canvasRef = useRef(null);
   const animatedValue = useRef(0);
   const animationRef = useRef(null);
 
-  // ✅ Original value for display (not clamped)
   const originalValue = (() => {
     const v = Number(value);
     if (!isFinite(v) || isNaN(v)) return 0;
     return v;
   })();
 
-  // ✅ Clamped value for gauge animation
   const safeValue = Math.min(Math.max(originalValue, min), max);
 
   const getColor = (val) => {
@@ -1932,9 +2141,7 @@ const GaugeChart = React.memo(({ value, min, max, unit, label, colorStops, icon 
     if (range === 0) return colorStops[0].color;
     const percentage = ((val - min) / range) * 100;
     for (let i = colorStops.length - 1; i >= 0; i--) {
-      if (percentage >= colorStops[i].stop) {
-        return colorStops[i].color;
-      }
+      if (percentage >= colorStops[i].stop) return colorStops[i].color;
     }
     return colorStops[0].color;
   };
@@ -1942,27 +2149,15 @@ const GaugeChart = React.memo(({ value, min, max, unit, label, colorStops, icon 
   const getGradientColors = (val) => {
     const range = max - min;
     if (range === 0) {
-      return {
-        primary: colorStops[0].color,
-        glow: colorStops[0].glow || colorStops[0].color,
-        bg: colorStops[0].bg || colorStops[0].color + '15'
-      };
+      return { primary: colorStops[0].color, glow: colorStops[0].glow || colorStops[0].color, bg: colorStops[0].bg || colorStops[0].color + '15' };
     }
     const percentage = ((val - min) / range) * 100;
     for (let i = colorStops.length - 1; i >= 0; i--) {
       if (percentage >= colorStops[i].stop) {
-        return {
-          primary: colorStops[i].color,
-          glow: colorStops[i].glow || colorStops[i].color,
-          bg: colorStops[i].bg || colorStops[i].color + '15'
-        };
+        return { primary: colorStops[i].color, glow: colorStops[i].glow || colorStops[i].color, bg: colorStops[i].bg || colorStops[i].color + '15' };
       }
     }
-    return {
-      primary: colorStops[0].color,
-      glow: colorStops[0].glow || colorStops[0].color,
-      bg: colorStops[0].bg || colorStops[0].color + '15'
-    };
+    return { primary: colorStops[0].color, glow: colorStops[0].glow || colorStops[0].color, bg: colorStops[0].bg || colorStops[0].color + '15' };
   };
 
   useEffect(() => {
@@ -1995,20 +2190,12 @@ const GaugeChart = React.memo(({ value, min, max, unit, label, colorStops, icon 
 
     const animate = () => {
       if (!isActive) return;
-
       const diff = safeValue - animatedValue.current;
       animatedValue.current += diff * 0.06;
-
-      if (Math.abs(diff) < 0.01) {
-        animatedValue.current = safeValue;
-      }
+      if (Math.abs(diff) < 0.01) animatedValue.current = safeValue;
 
       try {
-        drawGauge(
-          ctx, centerX, centerY, radius,
-          startAngle, endAngle, totalAngle,
-          animatedValue.current, size
-        );
+        drawGauge(ctx, centerX, centerY, radius, startAngle, endAngle, totalAngle, animatedValue.current, size);
       } catch (err) {
         console.error('Gauge draw error:', err);
         isActive = false;
@@ -2039,22 +2226,14 @@ const GaugeChart = React.memo(({ value, min, max, unit, label, colorStops, icon 
 
     const sanitizedVal = isFinite(currentVal) ? currentVal : min;
     const percentage = Math.max(0, Math.min((sanitizedVal - min) / range, 1));
-
-    if (!isFinite(percentage)) {
-      console.warn('Non-finite percentage detected, skipping draw');
-      return;
-    }
+    if (!isFinite(percentage)) return;
 
     const valueAngle = startAngle + totalAngle * percentage;
-
-    if (!isFinite(valueAngle)) {
-      console.warn('Non-finite valueAngle detected, skipping draw');
-      return;
-    }
+    if (!isFinite(valueAngle)) return;
 
     const colors = getGradientColors(sanitizedVal);
 
-    // === OUTER AMBIENT GLOW ===
+    // OUTER AMBIENT GLOW
     const ambientGlow = ctx.createRadialGradient(cx, cy, r - 20, cx, cy, r + 30);
     ambientGlow.addColorStop(0, colors.primary + '08');
     ambientGlow.addColorStop(0.5, colors.primary + '04');
@@ -2064,7 +2243,7 @@ const GaugeChart = React.memo(({ value, min, max, unit, label, colorStops, icon 
     ctx.fillStyle = ambientGlow;
     ctx.fill();
 
-    // === BACKGROUND TRACK ===
+    // BACKGROUND TRACK
     ctx.beginPath();
     ctx.arc(cx, cy, r, startAngle, endAngle);
     ctx.strokeStyle = '#e8ecf1';
@@ -2072,7 +2251,7 @@ const GaugeChart = React.memo(({ value, min, max, unit, label, colorStops, icon 
     ctx.lineCap = 'round';
     ctx.stroke();
 
-    // === INNER SHADOW TRACK ===
+    // INNER SHADOW TRACK
     ctx.beginPath();
     ctx.arc(cx, cy, r, startAngle, endAngle);
     ctx.strokeStyle = '#f1f3f6';
@@ -2087,7 +2266,7 @@ const GaugeChart = React.memo(({ value, min, max, unit, label, colorStops, icon 
     ctx.lineCap = 'round';
     ctx.stroke();
 
-    // === COLORED PROGRESS ARC ===
+    // COLORED PROGRESS ARC
     if (percentage > 0.005) {
       ctx.beginPath();
       ctx.arc(cx, cy, r, startAngle, valueAngle);
@@ -2104,9 +2283,7 @@ const GaugeChart = React.memo(({ value, min, max, unit, label, colorStops, icon 
       const gradX2 = cx + Math.cos(valueAngle) * r;
       const gradY2 = cy + Math.sin(valueAngle) * r;
 
-      if (isFinite(gradX1) && isFinite(gradY1) && 
-          isFinite(gradX2) && isFinite(gradY2) &&
-          (gradX1 !== gradX2 || gradY1 !== gradY2)) {
+      if (isFinite(gradX1) && isFinite(gradY1) && isFinite(gradX2) && isFinite(gradY2) && (gradX1 !== gradX2 || gradY1 !== gradY2)) {
         const arcGrad = ctx.createLinearGradient(gradX1, gradY1, gradX2, gradY2);
         arcGrad.addColorStop(0, colors.primary + 'CC');
         arcGrad.addColorStop(0.5, colors.primary);
@@ -2142,7 +2319,7 @@ const GaugeChart = React.memo(({ value, min, max, unit, label, colorStops, icon 
       }
     }
 
-    // === TICK MARKS ===
+    // TICK MARKS
     const majorTicks = 5;
     const minorTicks = 25;
 
@@ -2189,19 +2366,15 @@ const GaugeChart = React.memo(({ value, min, max, unit, label, colorStops, icon 
       ctx.textBaseline = 'middle';
 
       let labelText;
-      if (tickValue >= 1000) {
-        labelText = `${(tickValue / 1000).toFixed(0)}k`;
-      } else if (tickValue === Math.floor(tickValue)) {
-        labelText = tickValue.toFixed(0);
-      } else {
-        labelText = tickValue.toFixed(1);
-      }
+      if (tickValue >= 1000) labelText = `${(tickValue / 1000).toFixed(0)}k`;
+      else if (tickValue === Math.floor(tickValue)) labelText = tickValue.toFixed(0);
+      else labelText = tickValue.toFixed(1);
 
       ctx.fillText(labelText, labelX, labelY);
       ctx.restore();
     }
 
-    // === NEEDLE ===
+    // NEEDLE
     const needleAngle = startAngle + totalAngle * percentage;
     const needleLength = r - 10;
 
@@ -2224,8 +2397,7 @@ const GaugeChart = React.memo(({ value, min, max, unit, label, colorStops, icon 
       const nX2 = cx + Math.cos(needleAngle) * needleLength;
       const nY2 = cy + Math.sin(needleAngle) * needleLength;
 
-      if (isFinite(nX1) && isFinite(nY1) && isFinite(nX2) && isFinite(nY2) &&
-          (nX1 !== nX2 || nY1 !== nY2)) {
+      if (isFinite(nX1) && isFinite(nY1) && isFinite(nX2) && isFinite(nY2) && (nX1 !== nX2 || nY1 !== nY2)) {
         const needleGrad = ctx.createLinearGradient(nX1, nY1, nX2, nY2);
         needleGrad.addColorStop(0, '#6b7280');
         needleGrad.addColorStop(0.4, '#374151');
@@ -2240,7 +2412,7 @@ const GaugeChart = React.memo(({ value, min, max, unit, label, colorStops, icon 
       ctx.restore();
     }
 
-    // === CENTER HUB ===
+    // CENTER HUB
     ctx.save();
     ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
     ctx.shadowBlur = 6;
@@ -2277,20 +2449,8 @@ const GaugeChart = React.memo(({ value, min, max, unit, label, colorStops, icon 
     ctx.fill();
   };
 
-  // ✅ Use originalValue for color (shows warning color if exceeds max)
   const currentColor = getColor(Math.min(originalValue, max));
   const colors = getGradientColors(Math.min(originalValue, max));
-  const range = max - min;
-  const percentage = range === 0 ? 0 : Math.min(((safeValue - min) / range) * 100, 100);
-
-  const getStatusLabel = (pct) => {
-    if (pct <= 25) return { text: 'Low', icon: '▼' };
-    if (pct <= 50) return { text: 'Normal', icon: '●' };
-    if (pct <= 75) return { text: 'High', icon: '▲' };
-    return { text: 'Critical', icon: '⚠' };
-  };
-
-  const status = getStatusLabel(percentage);
 
   return (
     <div className="gauge-card" style={{ '--gauge-color': currentColor, '--gauge-glow': colors.glow }}>
@@ -2306,7 +2466,6 @@ const GaugeChart = React.memo(({ value, min, max, unit, label, colorStops, icon 
       <div className="gauge-canvas-wrapper">
         <canvas ref={canvasRef} className="gauge-canvas" />
         <div className="gauge-center-value">
-          {/* ✅ Show ORIGINAL value, not clamped */}
           <span className="gauge-value" style={{ color: currentColor }}>
             {originalValue.toFixed(1)}
           </span>
@@ -2317,33 +2476,17 @@ const GaugeChart = React.memo(({ value, min, max, unit, label, colorStops, icon 
       <div className="gauge-footer">
         <div className="gauge-range">
           <span className="gauge-min">{min}</span>
-          <div className="gauge-progress-track">
-            <div
-              className="gauge-progress-fill"
-              style={{
-                width: `${percentage}%`,
-                background: `linear-gradient(90deg, ${currentColor}90, ${currentColor})`
-              }}
-            />
-            <div
-              className="gauge-progress-glow"
-              style={{
-                width: `${percentage}%`,
-                background: `linear-gradient(90deg, transparent, ${currentColor}40)`
-              }}
+          <div className="gauge-max-editable">
+            <span className="gauge-max-label">Max:</span>
+            <EditableMaxValue
+              gaugeKey={gaugeKey}
+              currentMax={max}
+              defaultMax={defaultMax}
+              isCustomized={isMaxCustomized}
+              onSave={onSaveMax}
+              onReset={onResetMax}
             />
           </div>
-          <span className="gauge-max">{max}</span>
-        </div>
-
-        <div className="gauge-status-badge" style={{
-          color: currentColor,
-          backgroundColor: colors.bg,
-          borderColor: currentColor + '25'
-        }}>
-          <span className="gauge-status-icon">{status.icon}</span>
-          <span className="gauge-status-text">{status.text}</span>
-          <span className="gauge-status-pct">{percentage.toFixed(0)}%</span>
         </div>
       </div>
     </div>
@@ -2353,7 +2496,8 @@ const GaugeChart = React.memo(({ value, min, max, unit, label, colorStops, icon 
     prevProps.value === nextProps.value &&
     prevProps.min === nextProps.min &&
     prevProps.max === nextProps.max &&
-    prevProps.label === nextProps.label
+    prevProps.label === nextProps.label &&
+    prevProps.isMaxCustomized === nextProps.isMaxCustomized
   );
 });
 
@@ -2363,6 +2507,7 @@ const GAUGE_CONFIGS = [
     key: 'flowRate',
     dataField: 'flowRate',
     labelKey: 'gauge_flow_rate',
+    maxKey: 'gauge_flow_rate_max',
     label: 'Water Flow Rate',
     unit: 'L/min',
     min: 0,
@@ -2379,6 +2524,7 @@ const GAUGE_CONFIGS = [
     key: 'pressure',
     dataField: 'pressure',
     labelKey: 'gauge_pressure',
+    maxKey: 'gauge_pressure_max',
     label: 'Water Pressure',
     unit: 'bar',
     min: 0,
@@ -2395,6 +2541,7 @@ const GAUGE_CONFIGS = [
     key: 'pumpMotorFrequency',
     dataField: 'pump_motor_frequency',
     labelKey: 'gauge_motor_frequency',
+    maxKey: 'gauge_motor_frequency_max',
     label: 'Motor Frequency',
     unit: 'Hz',
     min: 0,
@@ -2411,6 +2558,7 @@ const GAUGE_CONFIGS = [
     key: 'pumpMotorCurrent',
     dataField: 'pump_motor_current',
     labelKey: 'gauge_motor_current',
+    maxKey: 'gauge_motor_current_max',
     label: 'Motor Current',
     unit: 'A',
     min: 0,
@@ -2438,35 +2586,29 @@ const ALERT_BIT_KEYS = [
 const DeviceDetails = () => {
   const { id } = useParams();
 
-    // ===== GET USER EMAIL FOR LABELS =====
+  // ===== GET USER EMAIL FOR LABELS =====
   const getUserEmail = () => {
-    // Try parsing stored user object
-    try { 
-      const user = JSON.parse(localStorage.getItem('user') || '{}'); 
-      if (user.email) return user.email; 
+    try {
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      if (user.email) return user.email;
     } catch (e) {}
-    
-    // Try direct email key
-    try { 
-      const email = localStorage.getItem('email') || localStorage.getItem('userEmail') || localStorage.getItem('user_email'); 
-      if (email) return email; 
+    try {
+      const email = localStorage.getItem('email') || localStorage.getItem('userEmail') || localStorage.getItem('user_email');
+      if (email) return email;
     } catch (e) {}
-    
-    // Try JWT token
-    try { 
+    try {
       const token = localStorage.getItem('token') || localStorage.getItem('authToken');
-      if (token) { 
-        const payload = JSON.parse(atob(token.split('.')[1])); 
+      if (token) {
+        const payload = JSON.parse(atob(token.split('.')[1]));
         if (payload.email) return payload.email;
       }
     } catch (e) {}
-    
     return null;
   };
   const currentUserEmail = getUserEmail();
-  
+
   console.log('🔑 Current User Email:', currentUserEmail);
-  
+
   const isWaitingRef = useRef(false);
   const isAutoWaitingRef = useRef(false);
   const autoModeToggleTimeRef = useRef(0);
@@ -2475,31 +2617,13 @@ const DeviceDetails = () => {
   const checkPowerStatusFromBit = (statusValue) => {
     if (statusValue === null || statusValue === undefined) return false;
     const fourthBit = (statusValue >> 3) & 1;
-    const isOn = fourthBit === 1;
-    
-    console.log(`🔌 Power Status Bit Check:`, {
-      statusValue,
-      binary: statusValue.toString(2).padStart(16, '0'),
-      fourthBitFromRight: fourthBit,
-      powerStatus: isOn ? 'ON' : 'OFF'
-    });
-    
-    return isOn;
+    return fourthBit === 1;
   };
 
   const checkAutoModeFromBit = (statusValue) => {
     if (statusValue === null || statusValue === undefined) return false;
     const ninthBit = (statusValue >> 8) & 1;
-    const isAutoOn = ninthBit === 1;
-    
-    console.log(`🔄 Auto Mode Bit Check:`, {
-      statusValue,
-      binary: statusValue.toString(2).padStart(16, '0'),
-      ninthBitFromRight: ninthBit,
-      autoMode: isAutoOn ? 'ON' : 'OFF'
-    });
-    
-    return isAutoOn;
+    return ninthBit === 1;
   };
 
   // ===== LABEL STATE =====
@@ -2507,6 +2631,10 @@ const DeviceDetails = () => {
   const [customizedKeys, setCustomizedKeys] = useState({});
   const [defaultLabels, setDefaultLabels] = useState({});
   const [labelsLoaded, setLabelsLoaded] = useState(false);
+
+  // ===== GAUGE MAX VALUES STATE =====
+  const [gaugeMaxValues, setGaugeMaxValues] = useState({});
+  const [customizedMaxKeys, setCustomizedMaxKeys] = useState({});
 
   const [powerStatusHistory, setPowerStatusHistory] = useState([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
@@ -2603,37 +2731,75 @@ const DeviceDetails = () => {
     return attributeLabels[key] || defaultLabels[key] || key;
   }, [attributeLabels, defaultLabels]);
 
+  // ===== GAUGE MAX HELPER =====
+  const getGaugeMax = useCallback((config) => {
+    const customMax = gaugeMaxValues[config.maxKey];
+    if (customMax !== undefined && customMax !== null) {
+      const num = parseFloat(customMax);
+      if (isFinite(num) && num > 0) return num;
+    }
+    return config.max;
+  }, [gaugeMaxValues]);
+
+  const isGaugeMaxCustomized = useCallback((maxKey) => {
+    return !!customizedMaxKeys[maxKey];
+  }, [customizedMaxKeys]);
+
   const fetchLabels = useCallback(async () => {
-    if (!currentUserEmail) { 
+    if (!currentUserEmail) {
       console.warn('No user email available, using default labels');
-      setLabelsLoaded(true); 
-      return; 
+      setLabelsLoaded(true);
+      return;
     }
     try {
       const url = `${process.env.REACT_APP_EP}/data/users/${encodeURIComponent(currentUserEmail)}/devices/${id}/labels`;
-      console.log('📋 Fetching labels from:', url);
-      
       const response = await fetch(url);
-      console.log('📋 Labels response status:', response.status);
-      
-      if (!response.ok) { 
+
+      if (!response.ok) {
         console.warn('Labels endpoint returned', response.status);
-        setLabelsLoaded(true); 
-        return; 
+        setLabelsLoaded(true);
+        return;
       }
-      
+
       const data = await response.json();
-      console.log('📋 Labels data received:', data);
-      
+
       if (data.status === 'success' && data.data) {
-        setAttributeLabels(data.data.labels || {});
-        setCustomizedKeys(data.data.customized || {});
+        const allLabels = data.data.labels || {};
+        const allCustomized = data.data.customized || {};
+
+        // Separate gauge max values from regular labels
+        const regularLabels = {};
+        const maxValues = {};
+        const regularCustomized = {};
+        const maxCustomized = {};
+
+        Object.keys(allLabels).forEach(key => {
+          if (key.endsWith('_max')) {
+            maxValues[key] = allLabels[key];
+          } else {
+            regularLabels[key] = allLabels[key];
+          }
+        });
+
+        Object.keys(allCustomized).forEach(key => {
+          if (key.endsWith('_max')) {
+            maxCustomized[key] = allCustomized[key];
+          } else {
+            regularCustomized[key] = allCustomized[key];
+          }
+        });
+
+        setAttributeLabels(regularLabels);
+        setCustomizedKeys(regularCustomized);
         setDefaultLabels(data.data.defaults || {});
+        setGaugeMaxValues(maxValues);
+        setCustomizedMaxKeys(maxCustomized);
       }
-    } catch (error) { 
-      console.error('❌ Error fetching labels:', error); 
+    } catch (error) {
+      console.error('❌ Error fetching labels:', error);
+    } finally {
+      setLabelsLoaded(true);
     }
-    finally { setLabelsLoaded(true); }
   }, [currentUserEmail, id]);
 
   const saveLabel = useCallback(async (attributeKey, customLabel) => {
@@ -2641,73 +2807,111 @@ const DeviceDetails = () => {
       console.warn('No user email, cannot save label');
       return;
     }
-    
+
     const url = `${process.env.REACT_APP_EP}/data/users/${encodeURIComponent(currentUserEmail)}/devices/${id}/labels`;
-    console.log('💾 Saving label:', { url, attributeKey, customLabel });
-    
+
     const response = await fetch(url, {
-      method: 'PUT', 
+      method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ labels: { [attributeKey]: customLabel } })
     });
-    
-    console.log('💾 Save response status:', response.status);
-    
+
     if (!response.ok) {
       const text = await response.text();
-      console.error('❌ Save failed:', response.status, text);
       throw new Error(`HTTP ${response.status}: ${text}`);
     }
-    
+
     const data = await response.json();
-    
+
     if (data.status === 'success' && data.data) {
-      setAttributeLabels(data.data.labels || {});
-      setCustomizedKeys(data.data.customized || {});
-      console.log('✅ Label saved successfully');
+      // Re-parse to separate max values
+      await fetchLabels();
     } else {
       throw new Error(data.message || 'Server returned error');
     }
-  }, [currentUserEmail, id]);
+  }, [currentUserEmail, id, fetchLabels]);
 
   const resetLabel = useCallback(async (attributeKey) => {
     if (!currentUserEmail) return;
-    
+
     const url = `${process.env.REACT_APP_EP}/data/users/${encodeURIComponent(currentUserEmail)}/devices/${id}/labels/${attributeKey}`;
     const response = await fetch(url, { method: 'DELETE' });
-    
+
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    await fetchLabels();
+  }, [currentUserEmail, id, fetchLabels]);
+
+  // ===== GAUGE MAX SAVE/RESET =====
+  const saveGaugeMax = useCallback(async (maxKey, maxValue) => {
+    if (!currentUserEmail) {
+      console.warn('No user email, cannot save gauge max');
+      return;
+    }
+
+    const url = `${process.env.REACT_APP_EP}/data/users/${encodeURIComponent(currentUserEmail)}/devices/${id}/labels`;
+    console.log('💾 Saving gauge max:', { maxKey, maxValue });
+
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ labels: { [maxKey]: String(maxValue) } })
+    });
+
+    if (!response.ok) {
+      const text = await response.text();
+      throw new Error(`HTTP ${response.status}: ${text}`);
+    }
+
+    const data = await response.json();
+
+    if (data.status === 'success') {
+      console.log('✅ Gauge max saved successfully');
+      await fetchLabels();
+    } else {
+      throw new Error(data.message || 'Server returned error');
+    }
+  }, [currentUserEmail, id, fetchLabels]);
+
+  const resetGaugeMax = useCallback(async (maxKey) => {
+    if (!currentUserEmail) return;
+
+    const url = `${process.env.REACT_APP_EP}/data/users/${encodeURIComponent(currentUserEmail)}/devices/${id}/labels/${maxKey}`;
+    const response = await fetch(url, { method: 'DELETE' });
+
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     await fetchLabels();
   }, [currentUserEmail, id, fetchLabels]);
 
   const resetAllLabels = useCallback(async () => {
-    if (!currentUserEmail || !window.confirm('Reset all custom names to defaults?')) return;
-    
+    if (!currentUserEmail || !window.confirm('Reset all custom names and gauge settings to defaults?')) return;
+
     const url = `${process.env.REACT_APP_EP}/data/users/${encodeURIComponent(currentUserEmail)}/devices/${id}/labels`;
     const response = await fetch(url, { method: 'DELETE' });
-    
+
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    
+
     const data = await response.json();
     if (data.status === 'success' && data.data) {
       setAttributeLabels(data.data.labels || {});
       setCustomizedKeys({});
+      setGaugeMaxValues({});
+      setCustomizedMaxKeys({});
     }
   }, [currentUserEmail, id]);
 
   const fetchPowerStatusHistory = async () => {
     if (!conn) return;
-    
+
     setLoadingHistory(true);
     try {
       const response = await fetch(
         `${process.env.REACT_APP_EP}/data/devices/${id}/power-status-history?limit=20`
       );
-      
+
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      
+
       const data = await response.json();
-      
+
       if (data.status === 'success') {
         setPowerStatusHistory(data.data);
       }
@@ -2720,22 +2924,17 @@ const DeviceDetails = () => {
 
   const fetchDeviceData = async () => {
     try {
-      console.log('📊 [fetchDeviceData] Fetching telemetry from database...');
       const telemetryRes = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}`);
-      
+
       if (!telemetryRes.ok) {
         console.error(`❌ [fetchDeviceData] HTTP ${telemetryRes.status}`);
         return;
       }
-      
+
       const data = await telemetryRes.json();
-      console.log('📊 [fetchDeviceData] Received:', {
-        alert_status: data.nbGenerator?.alert_status,
-        timestamp: data.nbGenerator?.timestamp
-      });
 
       setDeviceData({
-        nbGenerator: { 
+        nbGenerator: {
           ...data.nbGenerator,
           pump_motor_frequency: data.nbGenerator?.pump_motor_frequency ?? 0,
           pump_motor_current: data.nbGenerator?.pump_motor_current ?? 0,
@@ -2743,8 +2942,8 @@ const DeviceDetails = () => {
           auto_sequence_on_time: data.nbGenerator?.auto_sequence_on_time ?? 0,
           auto_sequence_off_time: data.nbGenerator?.auto_sequence_off_time ?? 0,
           auto_sequence_counter: data.nbGenerator?.auto_sequence_counter ?? 0,
-          auto_sequence_on_write: data.nbGenerator?.auto_sequence_on_write ?? 0,      
-          auto_sequence_off_write: data.nbGenerator?.auto_sequence_off_write ?? 0,    
+          auto_sequence_on_write: data.nbGenerator?.auto_sequence_on_write ?? 0,
+          auto_sequence_off_write: data.nbGenerator?.auto_sequence_off_write ?? 0,
           auto_sequence_counter_write: data.nbGenerator?.auto_sequence_counter_write ?? 0,
           oxygen_flow: data.nbGenerator?.oxygen_flow ?? 0,
           spare_1: data.nbGenerator?.spare_1 ?? 0,
@@ -2758,48 +2957,30 @@ const DeviceDetails = () => {
 
       if (!isWaitingRef.current) {
         const timeSincePowerToggle = Date.now() - powerToggleTimeRef.current;
-        
+
         if (timeSincePowerToggle > POWER_COOLDOWN_MS) {
           const newPowerStatus = checkPowerStatusFromBit(alertStatus);
-          
           setIsPowerOn(prevStatus => {
-            if (prevStatus !== newPowerStatus) {
-              console.log(`🔌 [fetchDeviceData] Power status changed: ${prevStatus ? 'ON' : 'OFF'} → ${newPowerStatus ? 'ON' : 'OFF'}`);
-              return newPowerStatus;
-            }
+            if (prevStatus !== newPowerStatus) return newPowerStatus;
             return prevStatus;
           });
-        } else {
-          console.log(`⏳ [fetchDeviceData] Skipping power update - cooldown active (${Math.round((POWER_COOLDOWN_MS - timeSincePowerToggle) / 1000)}s remaining)`);
         }
-      } else {
-        console.log('⏳ [fetchDeviceData] Skipping power update - waiting for toggle response');
       }
 
       if (!isAutoWaitingRef.current) {
         const timeSinceAutoToggle = Date.now() - autoModeToggleTimeRef.current;
-        
+
         if (timeSinceAutoToggle > AUTO_MODE_COOLDOWN_MS) {
           const newAutoMode = checkAutoModeFromBit(alertStatus);
-          
           setAutoMode(prevMode => {
-            if (prevMode !== newAutoMode) {
-              console.log(`🔄 [fetchDeviceData] Auto mode changed: ${prevMode ? 'ON' : 'OFF'} → ${newAutoMode ? 'ON' : 'OFF'}`);
-              return newAutoMode;
-            }
+            if (prevMode !== newAutoMode) return newAutoMode;
             return prevMode;
           });
-        } else {
-          console.log(`⏳ [fetchDeviceData] Skipping auto mode update - cooldown active (${Math.round((AUTO_MODE_COOLDOWN_MS - timeSinceAutoToggle) / 1000)}s remaining)`);
         }
-      } else {
-        console.log('⏳ [fetchDeviceData] Skipping auto mode update - waiting for toggle response');
       }
 
-      if (nbWaiting) {
-        setNbWaiting(false);
-      }
-      
+      if (nbWaiting) setNbWaiting(false);
+
     } catch (err) {
       console.error("❌ [fetchDeviceData] Error:", err);
       setNbWaiting(false);
@@ -2807,50 +2988,38 @@ const DeviceDetails = () => {
   };
 
   const writeToRegister = async (registerType, value) => {
-    if (!value || value === '') {
-      return false;
-    }
+    if (!value || value === '') return false;
 
     const fieldMap = {
       'auto_sequence_counter': 'counter',
       'auto_sequence_on': 'onTime',
       'auto_sequence_off': 'offTime'
     };
-    
+
     const fieldName = fieldMap[registerType];
     setIsWriting(prev => ({ ...prev, [fieldName]: true }));
 
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_EP}/api/devices/${id}/write-register`,
-        {
-          registerType: registerType,
-          value: parseInt(value)
-        }
+        { registerType: registerType, value: parseInt(value) }
       );
 
       if (response.data.success) {
         setWriteSuccess(prev => ({ ...prev, [fieldName]: true }));
         setLastWritten(prev => ({ ...prev, [fieldName]: value }));
-        
-        switch(registerType) {
-          case 'auto_sequence_counter':
-            setCounter('');
-            break;
-          case 'auto_sequence_on':
-            setOnTime('');
-            break;
-          case 'auto_sequence_off':
-            setOffTime('');
-            break;
-          default:
-            break;
+
+        switch (registerType) {
+          case 'auto_sequence_counter': setCounter(''); break;
+          case 'auto_sequence_on': setOnTime(''); break;
+          case 'auto_sequence_off': setOffTime(''); break;
+          default: break;
         }
-        
+
         setTimeout(() => {
           setWriteSuccess(prev => ({ ...prev, [fieldName]: false }));
         }, 5000);
-        
+
         await fetchDeviceData();
         return true;
       }
@@ -2862,23 +3031,9 @@ const DeviceDetails = () => {
     }
   };
 
-  const handleCounterClick = async () => {
-    if (counter) {
-      await writeToRegister('auto_sequence_counter', counter);
-    } 
-  };
-
-  const handleOnTimeClick = async () => {
-    if (onTime) {
-      await writeToRegister('auto_sequence_on', onTime);
-    } 
-  };
-
-  const handleOffTimeClick = async () => {
-    if (offTime) {
-      await writeToRegister('auto_sequence_off', offTime);
-    } 
-  };
+  const handleCounterClick = async () => { if (counter) await writeToRegister('auto_sequence_counter', counter); };
+  const handleOnTimeClick = async () => { if (onTime) await writeToRegister('auto_sequence_on', onTime); };
+  const handleOffTimeClick = async () => { if (offTime) await writeToRegister('auto_sequence_off', offTime); };
 
   const handleEditToggle = async () => {
     if (isEditMode) {
@@ -2901,9 +3056,7 @@ const DeviceDetails = () => {
       try {
         const response = await fetch(`${process.env.REACT_APP_EP}/data/updatedevice`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             azure_device_id: id,
             owner_name: editableInfo.owner_name,
@@ -2934,10 +3087,7 @@ const DeviceDetails = () => {
   };
 
   const handleInputChange = (field, value) => {
-    setEditableInfo(prev => ({
-      ...prev,
-      [field]: value
-    }));
+    setEditableInfo(prev => ({ ...prev, [field]: value }));
   };
 
   // ===== FETCH LABELS ON MOUNT =====
@@ -2946,18 +3096,10 @@ const DeviceDetails = () => {
   useEffect(() => {
     const fetchDeviceInfo = async () => {
       try {
-        const response = await fetch(
-          `${process.env.REACT_APP_EP}/data/devices/${id}/info`
-        );
+        const response = await fetch(`${process.env.REACT_APP_EP}/data/devices/${id}/info`);
 
         if (!response.ok) {
-          console.warn(`⚠️ Device info endpoint returned ${response.status}`);
-          const fallbackInfo = {
-            owner_name: "N/A",
-            phone_number: "N/A",
-            email_id: "N/A",
-            location: "N/A",
-          };
+          const fallbackInfo = { owner_name: "N/A", phone_number: "N/A", email_id: "N/A", location: "N/A" };
           setDeviceInfo(fallbackInfo);
           setEditableInfo(fallbackInfo);
           return;
@@ -2978,12 +3120,7 @@ const DeviceDetails = () => {
         }
       } catch (error) {
         console.error("Error fetching device info:", error);
-        const fallbackInfo = {
-          owner_name: "N/A",
-          phone_number: "N/A",
-          email_id: "N/A",
-          location: "N/A",
-        };
+        const fallbackInfo = { owner_name: "N/A", phone_number: "N/A", email_id: "N/A", location: "N/A" };
         setDeviceInfo(fallbackInfo);
         setEditableInfo(fallbackInfo);
       }
@@ -3004,23 +3141,16 @@ const DeviceDetails = () => {
         const dev = (list || []).find((d) => String(d.id) === String(id));
         if (!cancelled) setDeviceName(dev ? dev.displayName || dev.name || "N/A" : "N/A");
       })
-      .catch(() => {
-        if (!cancelled) setDeviceName("Error");
-      });
-    return () => {
-      cancelled = true;
-    };
+      .catch(() => { if (!cancelled) setDeviceName("Error"); });
+    return () => { cancelled = true; };
   }, [id]);
 
   useEffect(() => {
     const fetchInitialStatus = async () => {
       try {
-        const statusRes = await fetch(
-          `${process.env.REACT_APP_EP}/api/devices/${id}/status`
-        );
+        const statusRes = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/status`);
 
         if (!statusRes.ok) {
-          console.warn(`⚠️ Status endpoint returned ${statusRes.status}`);
           setConn(false);
           setLoading(false);
           return;
@@ -3032,9 +3162,7 @@ const DeviceDetails = () => {
 
         if (isConnected) {
           try {
-            const telemetryRes = await fetch(
-              `${process.env.REACT_APP_EP}/api/devices/${id}`
-            );
+            const telemetryRes = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}`);
             if (telemetryRes.ok) {
               const data = await telemetryRes.json();
 
@@ -3078,10 +3206,7 @@ const DeviceDetails = () => {
 
     const safetyTimer = setTimeout(() => {
       setLoading((prev) => {
-        if (prev) {
-          console.warn("⚠️ Safety timeout: forcing loading to false");
-          return false;
-        }
+        if (prev) { console.warn("⚠️ Safety timeout: forcing loading to false"); return false; }
         return prev;
       });
     }, 8000);
@@ -3091,22 +3216,13 @@ const DeviceDetails = () => {
 
   useEffect(() => {
     if (!conn) return;
-    
-    console.log('📊 [DeviceDetails] Starting automatic data polling...');
-    
+
     fetchPowerStatusHistory();
-    
-    const dataInterval = setInterval(() => {
-      console.log('🔄 [DeviceDetails] Polling device data...');
-      fetchDeviceData();
-    }, 5000);
-    
-    const historyInterval = setInterval(() => {
-      fetchPowerStatusHistory();
-    }, 30000);
-    
+
+    const dataInterval = setInterval(() => { fetchDeviceData(); }, 5000);
+    const historyInterval = setInterval(() => { fetchPowerStatusHistory(); }, 30000);
+
     return () => {
-      console.log('🛑 [DeviceDetails] Clearing polling intervals');
       clearInterval(dataInterval);
       clearInterval(historyInterval);
     };
@@ -3114,14 +3230,12 @@ const DeviceDetails = () => {
 
   const handlePowerToggle = async () => {
     const desired = !isPowerOn;
-    console.log('🔌 [handlePowerToggle] Toggling to:', desired ? 'ON' : 'OFF');
 
     setNbWaiting(true);
     isWaitingRef.current = true;
     powerToggleTimeRef.current = Date.now();
 
     if (!conn) {
-      console.warn('⚠️ [handlePowerToggle] Device not connected');
       setNbWaiting(false);
       isWaitingRef.current = false;
       powerToggleTimeRef.current = 0;
@@ -3133,27 +3247,22 @@ const DeviceDetails = () => {
     try {
       const url = `${process.env.REACT_APP_EP}/api/devices/${id}/toggle/nb`;
       const body = { action: desired ? "on" : "off" };
-      
+
       const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),   
+        body: JSON.stringify(body),
       });
 
       const data = await response.json();
+      if (!response.ok) throw new Error(data.error || `HTTP ${response.status}`);
 
-      if (!response.ok) {
-        throw new Error(data.error || `HTTP ${response.status}`);
-      }
-      
-      console.log('✅ [handlePowerToggle] Toggle command sent successfully');
-      
       setTimeout(async () => {
         isWaitingRef.current = false;
         setNbWaiting(false);
         await fetchPowerStatusHistory();
       }, 5000);
-      
+
     } catch (err) {
       console.error("❌ [handlePowerToggle] Error:", err);
       setIsPowerOn(!desired);
@@ -3166,14 +3275,12 @@ const DeviceDetails = () => {
 
   const handleAutoModeToggle = async () => {
     const desired = !autoMode;
-    console.log('🔄 [handleAutoModeToggle] Toggling to:', desired ? 'ON' : 'OFF');
-    
+
     setAutoWaiting(true);
     isAutoWaitingRef.current = true;
     autoModeToggleTimeRef.current = Date.now();
 
     if (!conn) {
-      console.warn('⚠️ [handleAutoModeToggle] Device not connected');
       setAutoWaiting(false);
       isAutoWaitingRef.current = false;
       autoModeToggleTimeRef.current = 0;
@@ -3186,23 +3293,18 @@ const DeviceDetails = () => {
       const response = await fetch(`${process.env.REACT_APP_EP}/api/devices/${id}/toggle/auto`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          action: desired ? "on" : "off"
-        }),
+        body: JSON.stringify({ action: desired ? "on" : "off" }),
       });
 
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      
-      const data = await response.json();
-      console.log(`✅ [handleAutoModeToggle] Auto mode toggle: ${desired ? 'ON' : 'OFF'}`, data);
-      
+
       setTimeout(() => {
         isAutoWaitingRef.current = false;
         setAutoWaiting(false);
       }, 5000);
-      
+
     } catch (err) {
-      console.error("❌ [handleAutoModeToggle] Error toggling auto mode:", err);
+      console.error("❌ [handleAutoModeToggle] Error:", err);
       setAutoMode(!desired);
       setAutoWaiting(false);
       isAutoWaitingRef.current = false;
@@ -3220,36 +3322,19 @@ const DeviceDetails = () => {
 
   const getGaugeValue = (dataField) => {
     const val = deviceData.nbGenerator[dataField];
-    
-    console.log(`📊 Gauge [${dataField}]:`, { raw: val, type: typeof val });
-    
-    if (val === null || val === undefined || val === '') {
-      return 0;
-    }
-    
-    if (typeof val === 'number') {
-      return isFinite(val) ? val : 0;
-    }
-    
+    if (val === null || val === undefined || val === '') return 0;
+    if (typeof val === 'number') return isFinite(val) ? val : 0;
     if (typeof val === 'object' && val !== null) {
       const innerVal = val.value ?? val.Value ?? val.v ?? 0;
       const num = Number(innerVal);
       return isFinite(num) ? num : 0;
     }
-    
     if (typeof val === 'string') {
       let num = Number(val);
-      if (isFinite(num)) {
-        return num;
-      }
-      
+      if (isFinite(num)) return num;
       const match = val.match(/[-+]?[0-9]*\.?[0-9]+/);
-      if (match) {
-        num = parseFloat(match[0]);
-        return isFinite(num) ? num : 0;
-      }
+      if (match) { num = parseFloat(match[0]); return isFinite(num) ? num : 0; }
     }
-    
     return 0;
   };
 
@@ -3299,63 +3384,31 @@ const DeviceDetails = () => {
               </button>
             </div>
             <div className="device-info-grid">
-              <p>
-                <strong>Device Name:</strong> {deviceName}
+              <p><strong>Device Name:</strong> {deviceName}</p>
+              <p className={isEditMode ? "editable-field-container" : ""}>
+                <strong>Owner Name:</strong>
+                {isEditMode ? (
+                  <input type="text" value={editableInfo.owner_name} onChange={(e) => handleInputChange("owner_name", e.target.value)} className="inline-edit-input" />
+                ) : (<span>{deviceInfo.owner_name}</span>)}
               </p>
               <p className={isEditMode ? "editable-field-container" : ""}>
-                <strong>Owner Name:</strong> 
+                <strong>Owner Phone:</strong>
                 {isEditMode ? (
-                  <input
-                    type="text"
-                    value={editableInfo.owner_name}
-                    onChange={(e) => handleInputChange("owner_name", e.target.value)}
-                    className="inline-edit-input"
-                  />
-                ) : (
-                  <span>{deviceInfo.owner_name}</span>
-                )}
+                  <input type="tel" value={editableInfo.phone_number} onChange={(e) => handleInputChange("phone_number", e.target.value)} className="inline-edit-input" />
+                ) : (<span>{deviceInfo.phone_number}</span>)}
+              </p>
+              <p><strong>Device ID:</strong> {id}</p>
+              <p className={isEditMode ? "editable-field-container" : ""}>
+                <strong>Owner Email ID:</strong>
+                {isEditMode ? (
+                  <input type="email" value={editableInfo.email_id} onChange={(e) => handleInputChange("email_id", e.target.value)} className="inline-edit-input" />
+                ) : (<span>{deviceInfo.email_id}</span>)}
               </p>
               <p className={isEditMode ? "editable-field-container" : ""}>
-                <strong>Owner Phone:</strong> 
+                <strong>Device Sector:</strong>
                 {isEditMode ? (
-                  <input
-                    type="tel"
-                    value={editableInfo.phone_number}
-                    onChange={(e) => handleInputChange("phone_number", e.target.value)}
-                    className="inline-edit-input"
-                  />
-                ) : (
-                  <span>{deviceInfo.phone_number}</span>
-                )}
-              </p>
-              <p>
-                <strong>Device ID:</strong> {id}
-              </p>
-              <p className={isEditMode ? "editable-field-container" : ""}>
-                <strong>Owner Email ID:</strong> 
-                {isEditMode ? (
-                  <input
-                    type="email"
-                    value={editableInfo.email_id}
-                    onChange={(e) => handleInputChange("email_id", e.target.value)}
-                    className="inline-edit-input"
-                  />
-                ) : (
-                  <span>{deviceInfo.email_id}</span>
-                )}
-              </p>
-              <p className={isEditMode ? "editable-field-container" : ""}>
-                <strong>Device Sector:</strong> 
-                {isEditMode ? (
-                  <input
-                    type="text"
-                    value={editableInfo.location}
-                    onChange={(e) => handleInputChange("location", e.target.value)}
-                    className="inline-edit-input"
-                  />
-                ) : (
-                  <span>{deviceInfo.location}</span>
-                )}
+                  <input type="text" value={editableInfo.location} onChange={(e) => handleInputChange("location", e.target.value)} className="inline-edit-input" />
+                ) : (<span>{deviceInfo.location}</span>)}
               </p>
             </div>
           </div>
@@ -3370,14 +3423,8 @@ const DeviceDetails = () => {
               <div className="power-status-layout">
                 <div className="power-status-left">
                   <div className="device-connection-grid">
-                    <p>
-                      <strong>Connection Status:</strong> {conn ? "Connected" : "Disconnected"}
-                    </p>
-                    <p>
-                      <strong>Last Updated:</strong> {deviceData.nbGenerator.timestamp 
-                        ? new Date(deviceData.nbGenerator.timestamp).toLocaleString() 
-                        : 'N/A'}
-                    </p>
+                    <p><strong>Connection Status:</strong> {conn ? "Connected" : "Disconnected"}</p>
+                    <p><strong>Last Updated:</strong> {deviceData.nbGenerator.timestamp ? new Date(deviceData.nbGenerator.timestamp).toLocaleString() : 'N/A'}</p>
 
                     <div className="power-item">
                       <span>System Power </span>
@@ -3386,12 +3433,7 @@ const DeviceDetails = () => {
                           {getStatusText(isPowerOn, deviceData.nbGenerator.timestamp, nbWaiting)}
                         </span>
                         <label className={`toggle-switch ${nbWaiting ? "toggle-waiting" : ""}`}>
-                          <input
-                            type="checkbox"
-                            checked={isPowerOn}
-                            onChange={() => !nbWaiting && handlePowerToggle()}
-                            disabled={nbWaiting || !conn}
-                          />
+                          <input type="checkbox" checked={isPowerOn} onChange={() => !nbWaiting && handlePowerToggle()} disabled={nbWaiting || !conn} />
                           <span className="toggle-slider"></span>
                         </label>
                       </div>
@@ -3420,18 +3462,10 @@ const DeviceDetails = () => {
                             <tr key={record.id} className={index === 0 ? 'current-status' : ''}>
                               <td>
                                 {new Date(record.timestamp).toLocaleDateString('en-GB', {
-                                  day: '2-digit',
-                                  month: 'short',
-                                  year: 'numeric',
-                                  hour: '2-digit',
-                                  minute: '2-digit'
+                                  day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
                                 })}
                               </td>
-                              <td>
-                                <span className={`status-badge ${record.status.toLowerCase()}`}>
-                                  {record.status}
-                                </span>
-                              </td>
+                              <td><span className={`status-badge ${record.status.toLowerCase()}`}>{record.status}</span></td>
                               <td>{record.duration_formatted}</td>
                             </tr>
                           ))}
@@ -3449,8 +3483,8 @@ const DeviceDetails = () => {
             <div>
               <div className="config-section-header">
                 <h3 className="section-title">Device Configuration & Alerts:</h3>
-                {Object.keys(customizedKeys).length > 0 && (
-                  <button className="reset-all-labels-btn" onClick={resetAllLabels} title="Reset all custom names to defaults">
+                {(Object.keys(customizedKeys).length > 0 || Object.keys(customizedMaxKeys).length > 0) && (
+                  <button className="reset-all-labels-btn" onClick={resetAllLabels} title="Reset all custom names and gauge settings to defaults">
                     <FontAwesomeIcon icon={faRotateLeft} /> Reset All Names
                   </button>
                 )}
@@ -3458,7 +3492,7 @@ const DeviceDetails = () => {
 
               <div className="device-config-container">
                 {/* Headings Row */}
-                <div className="config-row headings-row"> 
+                <div className="config-row headings-row">
                   <div className="config-item config-item-left"></div>
                   <div className="config-item config-item-right">
                     <div className="config-headings">
@@ -3476,52 +3510,18 @@ const DeviceDetails = () => {
                     <label>
                       <EditableLabel attributeKey="pump_motor_frequency" currentLabel={getLabel('pump_motor_frequency')} defaultLabel={defaultLabels.pump_motor_frequency || 'Pump Motor Frequency'} isCustomized={!!customizedKeys.pump_motor_frequency} onSave={saveLabel} onReset={resetLabel} />:
                     </label>
-                    <span className="config-value">
-                      {deviceData.nbGenerator.pump_motor_frequency || 0} Hz
-                    </span>
+                    <span className="config-value">{deviceData.nbGenerator.pump_motor_frequency || 0} Hz</span>
                   </div>
                   <div className="config-item">
                     <label>
                       <EditableLabel attributeKey="auto_sequence_counter" currentLabel={getLabel('auto_sequence_counter')} defaultLabel={defaultLabels.auto_sequence_counter || 'Auto Sequence Counter'} isCustomized={!!customizedKeys.auto_sequence_counter} onSave={saveLabel} onReset={resetLabel} />:
                     </label>
                     <div className="editable-field">
-                      <input
-                        type="number"
-                        value={deviceData.nbGenerator.auto_sequence_counter ?? 0}
-                        disabled={true}
-                        readOnly={true}
-                        className="config-input"
-                        title="Actual Counter Value"
-                      />
-                      <input
-                        type="number"
-                        value={deviceData.nbGenerator.auto_sequence_counter_write ?? 0}
-                        disabled={true}
-                        readOnly={true}
-                        className="config-input"
-                        title="Previously Written Counter Value"
-                      />
-                      <input
-                        type="number"
-                        value={counter}
-                        onChange={(e) => setCounter(e.target.value)}
-                        placeholder="Enter value"
-                        className="config-input editing"
-                        disabled={isWriting.counter}
-                        min="0"
-                        max="65535"
-                      />
-                      <button 
-                        className={`editt-btn ${writeSuccess.counter ? 'success-btn' : ''}`}
-                        onClick={handleCounterClick}
-                        disabled={!conn || isWriting.counter || !counter}
-                        title={counter ? "Click to write value" : "Enter a value first"}
-                      >
-                        {isWriting.counter ? (
-                          <span className="spinner">⟳</span>
-                        ) : (
-                          <FontAwesomeIcon icon={writeSuccess.counter ? faCheck : faCircleCheck} />
-                        )}
+                      <input type="number" value={deviceData.nbGenerator.auto_sequence_counter ?? 0} disabled={true} readOnly={true} className="config-input" title="Actual Counter Value" />
+                      <input type="number" value={deviceData.nbGenerator.auto_sequence_counter_write ?? 0} disabled={true} readOnly={true} className="config-input" title="Previously Written Counter Value" />
+                      <input type="number" value={counter} onChange={(e) => setCounter(e.target.value)} placeholder="Enter value" className="config-input editing" disabled={isWriting.counter} min="0" max="65535" />
+                      <button className={`editt-btn ${writeSuccess.counter ? 'success-btn' : ''}`} onClick={handleCounterClick} disabled={!conn || isWriting.counter || !counter} title={counter ? "Click to write value" : "Enter a value first"}>
+                        {isWriting.counter ? (<span className="spinner">⟳</span>) : (<FontAwesomeIcon icon={writeSuccess.counter ? faCheck : faCircleCheck} />)}
                       </button>
                     </div>
                   </div>
@@ -3533,52 +3533,18 @@ const DeviceDetails = () => {
                     <label>
                       <EditableLabel attributeKey="pump_motor_current" currentLabel={getLabel('pump_motor_current')} defaultLabel={defaultLabels.pump_motor_current || 'Pump Motor Current'} isCustomized={!!customizedKeys.pump_motor_current} onSave={saveLabel} onReset={resetLabel} />:
                     </label>
-                    <span className="config-value">
-                      {Number(deviceData.nbGenerator.pump_motor_current || 0).toFixed(2)} A
-                    </span>
+                    <span className="config-value">{Number(deviceData.nbGenerator.pump_motor_current || 0).toFixed(2)} A</span>
                   </div>
                   <div className="config-item">
                     <label>
                       <EditableLabel attributeKey="auto_sequence_off_time" currentLabel={getLabel('auto_sequence_off_time')} defaultLabel={defaultLabels.auto_sequence_off_time || 'Auto Sequence OFF Time'} isCustomized={!!customizedKeys.auto_sequence_off_time} onSave={saveLabel} onReset={resetLabel} />:
                     </label>
                     <div className="editable-field">
-                      <input
-                        type="number"
-                        value={deviceData.nbGenerator.auto_sequence_off_time ?? 0}
-                        disabled={true}
-                        readOnly={true}
-                        className="config-input"
-                        title="Actual OFF Time"
-                      />
-                      <input
-                        type="number"
-                        value={deviceData.nbGenerator.auto_sequence_off_write ?? 0}
-                        disabled={true}
-                        readOnly={true}
-                        className="config-input"
-                        title="Previously Written OFF Time"
-                      />
-                      <input
-                        type="number"
-                        value={offTime}
-                        onChange={(e) => setOffTime(e.target.value)}
-                        placeholder="Enter value"
-                        className="config-input editing"
-                        disabled={isWriting.offTime}
-                        min="0"
-                        max="65535"
-                      />
-                      <button 
-                        className={`editt-btn ${writeSuccess.offTime ? 'success-btn' : ''}`}
-                        onClick={handleOffTimeClick}
-                        disabled={!conn || isWriting.offTime || !offTime}
-                        title={offTime ? "Click to write value" : "Enter a value first"}
-                      >
-                        {isWriting.offTime ? (
-                          <span className="spinner">⟳</span>
-                        ) : (
-                          <FontAwesomeIcon icon={writeSuccess.offTime ? faCheck : faCircleCheck} />
-                        )}
+                      <input type="number" value={deviceData.nbGenerator.auto_sequence_off_time ?? 0} disabled={true} readOnly={true} className="config-input" title="Actual OFF Time" />
+                      <input type="number" value={deviceData.nbGenerator.auto_sequence_off_write ?? 0} disabled={true} readOnly={true} className="config-input" title="Previously Written OFF Time" />
+                      <input type="number" value={offTime} onChange={(e) => setOffTime(e.target.value)} placeholder="Enter value" className="config-input editing" disabled={isWriting.offTime} min="0" max="65535" />
+                      <button className={`editt-btn ${writeSuccess.offTime ? 'success-btn' : ''}`} onClick={handleOffTimeClick} disabled={!conn || isWriting.offTime || !offTime} title={offTime ? "Click to write value" : "Enter a value first"}>
+                        {isWriting.offTime ? (<span className="spinner">⟳</span>) : (<FontAwesomeIcon icon={writeSuccess.offTime ? faCheck : faCircleCheck} />)}
                       </button>
                     </div>
                   </div>
@@ -3590,52 +3556,18 @@ const DeviceDetails = () => {
                     <label>
                       <EditableLabel attributeKey="total_running_hours" currentLabel={getLabel('total_running_hours')} defaultLabel={defaultLabels.total_running_hours || 'Total Running Hours'} isCustomized={!!customizedKeys.total_running_hours} onSave={saveLabel} onReset={resetLabel} />:
                     </label>
-                    <span className="config-value">
-                      {deviceData.nbGenerator.total_running_hours || 0} H
-                    </span>
+                    <span className="config-value">{deviceData.nbGenerator.total_running_hours || 0} H</span>
                   </div>
                   <div className="config-item">
                     <label>
                       <EditableLabel attributeKey="auto_sequence_on_time" currentLabel={getLabel('auto_sequence_on_time')} defaultLabel={defaultLabels.auto_sequence_on_time || 'Auto Sequence ON Time'} isCustomized={!!customizedKeys.auto_sequence_on_time} onSave={saveLabel} onReset={resetLabel} />:
                     </label>
                     <div className="editable-field">
-                      <input
-                        type="number"
-                        value={deviceData.nbGenerator.auto_sequence_on_time ?? 0}
-                        disabled={true}
-                        readOnly={true}
-                        className="config-input"
-                        title="Actual ON Time"
-                      />
-                      <input
-                        type="number"
-                        value={deviceData.nbGenerator.auto_sequence_on_write ?? 0}
-                        disabled={true}
-                        readOnly={true}
-                        className="config-input"
-                        title="Previously Written ON Time"
-                      />
-                      <input
-                        type="number"
-                        value={onTime}
-                        onChange={(e) => setOnTime(e.target.value)}
-                        placeholder="Enter value"
-                        className="config-input editing"
-                        disabled={isWriting.onTime}
-                        min="0"
-                        max="65535"
-                      />
-                      <button 
-                        className={`editt-btn ${writeSuccess.onTime ? 'success-btn' : ''}`}
-                        onClick={handleOnTimeClick}
-                        disabled={!conn || isWriting.onTime || !onTime}
-                        title={onTime ? "Click to write value" : "Enter a value first"}
-                      >
-                        {isWriting.onTime ? (
-                          <span className="spinner">⟳</span>
-                        ) : (
-                          <FontAwesomeIcon icon={writeSuccess.onTime ? faCheck : faCircleCheck} />
-                        )}
+                      <input type="number" value={deviceData.nbGenerator.auto_sequence_on_time ?? 0} disabled={true} readOnly={true} className="config-input" title="Actual ON Time" />
+                      <input type="number" value={deviceData.nbGenerator.auto_sequence_on_write ?? 0} disabled={true} readOnly={true} className="config-input" title="Previously Written ON Time" />
+                      <input type="number" value={onTime} onChange={(e) => setOnTime(e.target.value)} placeholder="Enter value" className="config-input editing" disabled={isWriting.onTime} min="0" max="65535" />
+                      <button className={`editt-btn ${writeSuccess.onTime ? 'success-btn' : ''}`} onClick={handleOnTimeClick} disabled={!conn || isWriting.onTime || !onTime} title={onTime ? "Click to write value" : "Enter a value first"}>
+                        {isWriting.onTime ? (<span className="spinner">⟳</span>) : (<FontAwesomeIcon icon={writeSuccess.onTime ? faCheck : faCircleCheck} />)}
                       </button>
                     </div>
                   </div>
@@ -3647,9 +3579,7 @@ const DeviceDetails = () => {
                     <label>
                       <EditableLabel attributeKey="total_water_outlet" currentLabel={getLabel('total_water_outlet')} defaultLabel={defaultLabels.total_water_outlet || 'Total Water Outlet Qty'} isCustomized={!!customizedKeys.total_water_outlet} onSave={saveLabel} onReset={resetLabel} />:
                     </label>
-                    <span className="config-value">
-                      {deviceData.nbGenerator.totalWaterOutlet || 0} L
-                    </span>
+                    <span className="config-value">{deviceData.nbGenerator.totalWaterOutlet || 0} L</span>
                   </div>
                   <div className="config-item">
                     <label>
@@ -3660,12 +3590,7 @@ const DeviceDetails = () => {
                         {autoWaiting ? 'Switching...' : (autoMode ? 'ON' : 'OFF')}
                       </span>
                       <label className={`auto-mode-switch ${autoWaiting ? "auto-mode-waiting" : ""}`}>
-                        <input
-                          type="checkbox"
-                          checked={autoMode}
-                          onChange={() => !autoWaiting && handleAutoModeToggle()}
-                          disabled={autoWaiting || !conn}
-                        />
+                        <input type="checkbox" checked={autoMode} onChange={() => !autoWaiting && handleAutoModeToggle()} disabled={autoWaiting || !conn} />
                         <span className="auto-mode-slider"></span>
                       </label>
                     </div>
@@ -3678,17 +3603,13 @@ const DeviceDetails = () => {
                     <label>
                       <EditableLabel attributeKey="water_flow_rate" currentLabel={getLabel('water_flow_rate')} defaultLabel={defaultLabels.water_flow_rate || 'Water Flow Rate'} isCustomized={!!customizedKeys.water_flow_rate} onSave={saveLabel} onReset={resetLabel} />:
                     </label>
-                    <span className="config-value">
-                      {deviceData.nbGenerator.flowRate || 0}
-                    </span>
+                    <span className="config-value">{deviceData.nbGenerator.flowRate || 0}</span>
                   </div>
                   <div className="config-item">
                     <label>
                       <EditableLabel attributeKey="oxygen_flow" currentLabel={getLabel('oxygen_flow')} defaultLabel={defaultLabels.oxygen_flow || 'Oxygen Flow'} isCustomized={!!customizedKeys.oxygen_flow} onSave={saveLabel} onReset={resetLabel} />:
                     </label>
-                    <span className="config-value">
-                      {deviceData.nbGenerator.oxygen_flow || 0} L/min
-                    </span>
+                    <span className="config-value">{deviceData.nbGenerator.oxygen_flow || 0} L/min</span>
                   </div>
                 </div>
 
@@ -3698,17 +3619,13 @@ const DeviceDetails = () => {
                     <label>
                       <EditableLabel attributeKey="water_pressure" currentLabel={getLabel('water_pressure')} defaultLabel={defaultLabels.water_pressure || 'Water Pressure'} isCustomized={!!customizedKeys.water_pressure} onSave={saveLabel} onReset={resetLabel} />:
                     </label>
-                    <span className="config-value">
-                      {deviceData.nbGenerator.pressure || 0} 
-                    </span>
+                    <span className="config-value">{deviceData.nbGenerator.pressure || 0}</span>
                   </div>
                   <div className="config-item">
                     <label>
                       <EditableLabel attributeKey="spare_1" currentLabel={getLabel('spare_1')} defaultLabel={defaultLabels.spare_1 || 'Spare 1'} isCustomized={!!customizedKeys.spare_1} onSave={saveLabel} onReset={resetLabel} />:
                     </label>
-                    <span className="config-value">
-                      {deviceData.nbGenerator.spare_1 || 0} L/min
-                    </span>
+                    <span className="config-value">{deviceData.nbGenerator.spare_1 || 0} L/min</span>
                   </div>
                 </div>
 
@@ -3728,13 +3645,18 @@ const DeviceDetails = () => {
                     {GAUGE_CONFIGS.map((config) => (
                       <GaugeChart
                         key={config.key}
+                        gaugeKey={config.maxKey}
                         value={getGaugeValue(config.dataField)}
                         min={config.min}
-                        max={config.max}
+                        max={getGaugeMax(config)}
+                        defaultMax={config.max}
                         unit={config.unit}
                         label={getLabel(config.labelKey)}
                         icon={config.icon}
                         colorStops={config.colorStops}
+                        isMaxCustomized={isGaugeMaxCustomized(config.maxKey)}
+                        onSaveMax={saveGaugeMax}
+                        onResetMax={resetGaugeMax}
                       />
                     ))}
                   </div>
@@ -3780,9 +3702,7 @@ const DeviceDetails = () => {
                         for (let i = 0; i < 16; i++) {
                           const bitValue = (alertStatus >> i) & 1;
                           bits.push(
-                            <td key={i} className={`bit-value ${bitValue === 1 ? 'bit-on' : 'bit-off'}`}>
-                              {bitValue}
-                            </td>
+                            <td key={i} className={`bit-value ${bitValue === 1 ? 'bit-on' : 'bit-off'}`}>{bitValue}</td>
                           );
                         }
                         return bits;

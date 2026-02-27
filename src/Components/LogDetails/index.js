@@ -1710,7 +1710,8 @@ const isSingleDayView = (filters = appliedFilters) => {
         'Pump Motor Frequency (Hz)',
         'Pump Motor Current (A)',
         'Total Running Hours (H)',
-        'Total Water Outlet (L)',
+        // 'Total Water Outlet (L)',
+        'Oxygen Flow (L/min)',
       ];
 
       const csvData = allLogs.map(log => [
@@ -1721,7 +1722,8 @@ const isSingleDayView = (filters = appliedFilters) => {
         (log.pump_motor_frequency || 0).toFixed(2),
         (log.pump_motor_current || 0).toFixed(2),
         (log.total_running_hours || 0).toFixed(2),
-        log.total_water_outlet || 0,
+        // log.total_water_outlet || 0,
+        (log.oxygen_flow || 0).toFixed(2),
       ]);
 
       const csvContent = [
@@ -1776,7 +1778,8 @@ const isSingleDayView = (filters = appliedFilters) => {
         (log.pump_motor_frequency || 0).toFixed(2),
         (log.pump_motor_current || 0).toFixed(2),
         (log.total_running_hours || 0).toFixed(2),
-        log.total_water_outlet || 0,
+        // log.total_water_outlet || 0,
+        (log.oxygen_flow || 0).toFixed(2),
       ]);
 
       doc.autoTable({
@@ -1789,7 +1792,8 @@ const isSingleDayView = (filters = appliedFilters) => {
           'Pump Motor Frequency (Hz)',
           'Pump Motor Current (A)',
           'Total Running Hours (H)',
-          'Total Water Outlet (L)',
+          // 'Total Water Outlet (L)',
+          'Oxygen Flow (L/min)',
         ]],
         body: tableData,
         styles: { fontSize: 8, cellPadding: 2 },
@@ -2333,7 +2337,9 @@ const isSingleDayView = (filters = appliedFilters) => {
                 <th>Pump Motor Frequency</th>
                 <th>Pump Motor Current</th>
                 <th>Total Running Hours<br/>(H)</th>
-                <th>Total Water Outlet<br/>(L)</th>
+                {/* <th>Total Water Outlet<br/>(L)</th> */}
+                <th>Oxygen Flow<br/>(L/min)</th>
+
               </tr>
             </thead>
             <tbody>
@@ -2346,7 +2352,7 @@ const isSingleDayView = (filters = appliedFilters) => {
                   <td>{log.pump_motor_frequency || 0}</td>
                   <td>{log.pump_motor_current || 0}</td>
                   <td>{(log.total_running_hours || 0).toFixed(2)}</td>
-                  <td>{0}</td>
+                  <td>{(log.oxygen_flow || 0).toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>

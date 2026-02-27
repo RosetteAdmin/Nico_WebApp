@@ -3404,3 +3404,89 @@ h2 {
   height: 18px;
   font-size: 8px;
 }
+
+
+
+/* ==================== EDITABLE MAX VALUE ==================== */
+.editable-max {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.editable-max.editing {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.max-value-text {
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.max-value-text:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.max-value-text.customized {
+  color: #3b82f6;
+  font-style: italic;
+}
+
+.max-edit-input {
+  width: 70px;
+  padding: 3px 6px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1.5px solid #3b82f6;
+  border-radius: 4px;
+  outline: none;
+  background: #fff;
+  color: #374151;
+  text-align: center;
+}
+
+.max-edit-input:focus {
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Gauge footer with editable max */
+.gauge-footer {
+  padding: 8px 12px 4px;
+}
+
+.gauge-range {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+.gauge-min {
+  font-size: 11px;
+  font-weight: 600;
+  color: #9ca3af;
+  min-width: 20px;
+}
+
+.gauge-max-editable {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gauge-max-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
