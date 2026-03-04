@@ -1042,8 +1042,8 @@ const LogDetails = () => {
   const [selectedMetrics, setSelectedMetrics] = useState({
     waterFlow: true,
     waterPressure: true,
-    runningHours: true,
-    waterOutlet: true,
+    // runningHours: true,
+    // waterOutlet: true,
     pumpMotorFrequency: false,
     pumpMotorCurrent: false
   });
@@ -1079,20 +1079,20 @@ const LogDetails = () => {
       unit: 'bar',
       yAxisId: 'waterPressure'
     },
-    runningHours: {
-      key: 'total_running_hours',
-      name: 'Total Running Hours',
-      color: '#f59e0b',
-      unit: 'H',
-      yAxisId: 'runningHours'
-    },
-    waterOutlet: {
-      key: 'total_water_outlet',
-      name: 'Total Water Outlet',
-      color: '#ef4444',
-      unit: 'L',
-      yAxisId: 'waterOutlet'
-    },
+    // runningHours: {
+    //   key: 'total_running_hours',
+    //   name: 'Total Running Hours',
+    //   color: '#f59e0b',
+    //   unit: 'H',
+    //   yAxisId: 'runningHours'
+    // },
+    // waterOutlet: {
+    //   key: 'total_water_outlet',
+    //   name: 'Total Water Outlet',
+    //   color: '#ef4444',
+    //   unit: 'L',
+    //   yAxisId: 'waterOutlet'
+    // },
     pumpMotorFrequency: {
       key: 'pump_motor_frequency',
       name: 'Pump Motor Frequency',
@@ -1955,8 +1955,8 @@ const isSingleDayView = (filters = appliedFilters) => {
             <div className="metric-dropdown-menu">
               <MetricCheckbox metricKey="waterFlow" metric={metrics.waterFlow} />
               <MetricCheckbox metricKey="waterPressure" metric={metrics.waterPressure} />
-              <MetricCheckbox metricKey="runningHours" metric={metrics.runningHours} />
-              <MetricCheckbox metricKey="waterOutlet" metric={metrics.waterOutlet} />
+              {/* <MetricCheckbox metricKey="runningHours" metric={metrics.runningHours} />
+              <MetricCheckbox metricKey="waterOutlet" metric={metrics.waterOutlet} /> */}
               <MetricCheckbox metricKey="pumpMotorFrequency" metric={metrics.pumpMotorFrequency} />
               <MetricCheckbox metricKey="pumpMotorCurrent" metric={metrics.pumpMotorCurrent} />
             </div>

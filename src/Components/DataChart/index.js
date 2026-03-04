@@ -434,7 +434,7 @@ console.log(`Record ${index} - Pump Motor Data:`, {
   return (
     <div className="device-info-card charts-container">
       <div>
-        <div className="sensor-header">
+        {/* <div className="sensor-header">
           <h2>Sensor Data:</h2>
           <button 
             className="view-logs-btn"
@@ -442,7 +442,10 @@ console.log(`Record ${index} - Pump Motor Data:`, {
           >
             View All Sensor Logs
           </button>
-        </div>
+        </div> */}
+        {/* <div className="sensor-header">
+  <h2>Sensor Data:</h2>
+</div> */}
         <hr className="sensor-divider" />
 
         {error && (
