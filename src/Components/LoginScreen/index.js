@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import "./LoginScreen.css";
-import NICOCompany from "./../../Images/LoginScreen/NICOCompany.svg";
+import NICOCompany  from "./../../Images/LoginScreen/NICOCompany.svg";
 import BottomDesign from "./../../Images/LoginScreen/bottomdesign.svg";
-import CloseEye from "./../../Images/LoginScreen/CloseEye.svg";
-import OpenEye from "./../../Images/LoginScreen/OpenEye.svg";
-import nico from "./../../Images/LoginScreen/nico.svg";
-import leftside from "./../../Images/LoginScreen/leftside.svg";
+import CloseEye     from "./../../Images/LoginScreen/CloseEye.svg";
+import OpenEye      from "./../../Images/LoginScreen/OpenEye.svg";
+import nico         from "./../../Images/LoginScreen/nico.svg";
+import leftside     from "./../../Images/LoginScreen/leftside.svg";
 import { useNavigate } from "react-router-dom";
 
+// Updated to match document terminology
 const ROLE_LABELS = {
-  0: "Admin",
-  1: "Associate",
-  2: "Local Admin",
+  0: "Master Admin",
+  1: "Company Admin",
+  2: "Customer Admin",
   3: "Operator",
 };
 
-// Safe helper that turns any role-ish value into a label
 const roleToLabel = (roleValue) => {
   const num = Number(roleValue);
   return ROLE_LABELS.hasOwnProperty(num) ? ROLE_LABELS[num] : String(roleValue ?? "");

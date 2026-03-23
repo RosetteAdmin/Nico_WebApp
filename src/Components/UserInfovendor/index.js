@@ -45,7 +45,7 @@ const UserinfoVendor = () => {
             sector: result.data.sector || ""
           });
         } else {
-          alert(`Failed to load local admin data: ${result.message}`);
+          alert(`Failed to load Customer Admin data: ${result.message}`);
         }
       } catch (error) {
         alert(`Error: ${error.message}`);
@@ -84,7 +84,7 @@ const UserinfoVendor = () => {
       const result = await response.json();
 
       if (result.status === "success") {
-        alert("Local Admin updated successfully!");
+        alert("Customer Admin updated successfully!");
         setLocalAdminInfo(prev => ({
           ...prev,
           name: editableInfo.name,
@@ -94,10 +94,10 @@ const UserinfoVendor = () => {
         setIsEditMode(false);
         setTimeout(() => navigate("/vaccess"), 500);
       } else {
-        alert(`Failed to update local admin: ${result.message}`);
+        alert(`Failed to update Customer Admin: ${result.message}`);
       }
     } catch (error) {
-      alert(`Failed to update local admin: ${error.message}`);
+      alert(`Failed to update Customer Admin: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -112,7 +112,7 @@ const UserinfoVendor = () => {
     return (
       <div className="edit-local-admin-loading-backdrop">
         <div className="edit-local-admin-loading-spinner"></div>
-        <div className="edit-local-admin-loading-text">Loading local admin data...</div>
+        <div className="edit-local-admin-loading-text">Loading Customer Admin data...</div>
       </div>
     );
   }
@@ -121,7 +121,7 @@ const UserinfoVendor = () => {
     <>
       {/* Header section */}
       <div className="edit-local-admin-header">
-        <h1 className="edit-local-admin-title">Edit Local Admin Details</h1>
+        <h1 className="edit-local-admin-title">Edit Customer Admin Details</h1>
         <button
           className="edit-local-admin-action-btn"
           onClick={handleEditToggle}
@@ -139,7 +139,7 @@ const UserinfoVendor = () => {
 
             <div className="edit-local-admin-form-row edit-local-admin-two-col">
               <div className="edit-local-admin-form-group">
-                <label>Local Admin Name</label>
+                <label>Customer Admin Name</label>
                 <input
                   type="text"
                   placeholder="Enter name"

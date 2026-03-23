@@ -15,6 +15,28 @@ const VendorsCompany = () => {
 
   const rowsPerPage = 7;
 
+
+  // At top of component, add:
+const storedUser = (() => {
+  try { return JSON.parse(localStorage.getItem("user")); } catch { return null; }
+})();
+const userRole  = storedUser?.role !== undefined ? Number(storedUser.role) : null;
+const userEmail = storedUser?.email || "";
+
+// Replace the existing fetch useEffect:
+useEffect(() => {
+  const url = `${process.env.REACT_APP_EP}/data/vendors?caller_email=${encodeURIComponent(userEmail)}&caller_role=${userRole}`;
+  fetch(url)
+    .then((r) => r.json())
+    .then((data) => {
+      const updatedData = (data.value || []).map((v) => ({ ...v, access: true }));
+      setVendors(updatedData);
+      setLoading(false);
+    })
+    .catch(() => setLoading(false));
+}, [userEmail, userRole]);
+
+
   // Close dropdown when clicking anywhere outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -71,15 +93,15 @@ const VendorsCompany = () => {
       if (result.status === "success") {
         setVendors((prevVendors) => prevVendors.filter((vendor) => vendor.email !== email));
         setActiveMenu(null);
-        console.log("Vendor deleted successfully");
-        alert("Vendor deleted successfully");
+        console.log("Customer Admin deleted successfully");
+        alert("Customer Admin deleted successfully");
       } else {
-        console.error("Failed to delete Vendor:", result.message);
-        alert("Failed to delete Vendor: " + result.message);
+        console.error("Failed to delete Customer Admin:", result.message);
+        alert("Failed to delete Customer Admin: " + result.message);
       }
     } catch (error) {
-      console.error("Failed to delete Vendor:", error);
-      alert("Error occurred while deleting Vendor");
+      console.error("Failed to delete Customer Admin:", error);
+      alert("Error occurred while deleting Customer Admin");
     }
   };
 
@@ -124,7 +146,7 @@ const VendorsCompany = () => {
       )}
       
       <div className="local-admin-header-card">
-        <h2 className="local-admin-title">Local Admin Details</h2>
+        <h2 className="local-admin-title">Customer Admin Details</h2>
         
         <div className="local-admin-search-filter-bar">
           <input
@@ -150,7 +172,7 @@ const VendorsCompany = () => {
           className="local-admin-add-btn"
           onClick={() => navigate("/addvendorsinfo")}
         >
-          <FontAwesomeIcon icon={faPlus} /> Add Local Admin
+          <FontAwesomeIcon icon={faPlus} /> Add Customer Admin
         </button>
         
         <div className="local-admin-table-footer">
@@ -176,9 +198,9 @@ const VendorsCompany = () => {
         <table>
           <thead>
             <tr>
-              {/* <th className="local-admin-th">Local Admin ID</th> */}
-              <th className="local-admin-th">Local Admin Name</th>
-              <th className="local-admin-th">Local Admin Email</th>
+              {/* <th className="local-admin-th">Customer Admin ID</th> */}
+              <th className="local-admin-th">Customer Admin Name</th>
+              <th className="local-admin-th">Customer Admin Email</th>
               <th className="local-admin-th">Sector</th>
               {/* <th className="local-admin-th">Access</th> */}
               <th className="local-admin-th">Action</th>
@@ -238,7 +260,7 @@ const VendorsCompany = () => {
                               handleDelete(vendor.email);
                             }}
                           >
-                            Delete User
+                            Delete Customer Admin
                           </div>
                         </div>
                       )}
@@ -249,7 +271,7 @@ const VendorsCompany = () => {
             ) : (
               <tr>
                 <td className="local-admin-td" colSpan="5" style={{ textAlign: "center" }}>
-                  No vendors found
+                  No customer admins found
                 </td>
               </tr>
             )}

@@ -18,6 +18,22 @@ const Userinfo = () => {
     sector: ""
   });
 
+  // Add at top of component:
+const storedUser = (() => {
+  try { return JSON.parse(localStorage.getItem("user")); } catch { return null; }
+})();
+
+// In handleGrantAccess, update requestData:
+const requestData = {
+  email: userInfo.email,
+  password: userInfo.password,
+  name: userInfo.name || null,
+  phone_number: userInfo.phone_number || null,
+  sector: userInfo.sector || null,
+  caller_email: storedUser?.email || null,
+  caller_role: storedUser?.role !== undefined ? Number(storedUser.role) : null,
+};
+
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -58,7 +74,7 @@ const Userinfo = () => {
     }
 
     const confirmCreate = window.confirm(
-      `Are you sure you want to create a new Company Associate with email: ${userInfo.email}?`
+      `Are you sure you want to create a new Company Admin with email: ${userInfo.email}?`
     );
     
     if (!confirmCreate) return;
@@ -83,15 +99,15 @@ const Userinfo = () => {
       const result = await response.json();
 
       if (result.status === "success") {
-        alert("Company Associate created successfully!");
+        alert("Company Admin created successfully!");
         setUserInfo({ name: "", email: "", password: "", phone_number: "", sector: "" });
          setTimeout(() => navigate(-1), 500);
       } else {
-        alert(`Failed to create Company Associate: ${result.message}`);
+        alert(`Failed to create Company Admin: ${result.message}`);
       }
     } catch (error) {
-      console.error("Error creating Company Associate:", error);
-      alert("Failed to create Company Associate. Please try again.");
+      console.error("Error creating Company Admin:", error);
+      alert("Failed to create Company Admin. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -102,12 +118,12 @@ const Userinfo = () => {
       {loading && (
         <div className="create-associate-loading-backdrop">
           <div className="create-associate-loading-spinner"></div>
-          <div className="create-associate-loading-text">Creating Company Associate...</div>
+          <div className="create-associate-loading-text">Creating Company Admin...</div>
         </div>
       )}
 
       <div className="create-associate-header">
-        <h1 className="create-associate-title">Grant Access Permission</h1>
+        <h1 className="create-associate-title">Add Company Admin</h1>
         <button 
           className="create-associate-action-btn" 
           onClick={handleGrantAccess}
@@ -120,10 +136,10 @@ const Userinfo = () => {
       <div className="create-associate-page-container">
         <div className="create-associate-content-card">
           <div className="create-associate-form-wrapper">
-            <h2>Add Company Associate:</h2>
+            <h2>Add Company Admin:</h2>
 
             <div className="create-associate-form-group">
-              <label>Associate Name</label>
+              <label>Company Admin Name</label>
               <input 
                 type="text" 
                 placeholder="Enter full name" 

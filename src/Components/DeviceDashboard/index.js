@@ -9,6 +9,93 @@ const DeviceDashboard = () => {
   const [loading, setLoading] = useState(true);
   const userrole = JSON.parse(localStorage.getItem("user")).role;
 
+
+  // Add at the top of the component, after existing state declarations:
+const storedUser = (() => {
+  try { return JSON.parse(localStorage.getItem("user")); } catch { return null; }
+})();
+const userRole  = storedUser ? Number(storedUser.role) : null;
+const userEmail = storedUser?.email || "";
+
+// Replace the existing useEffect with this:
+useEffect(() => {
+  const fetchDevicesWithInfo = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_EP}/api/devices`);
+      const data = await response.json();
+      const azureDevices = data.value || [];
+
+      // For Operators: fetch only assigned device IDs
+      let allowedIds = null;
+      if (userRole === 3) {
+        try {
+          const assignedRes = await fetch(
+            `${process.env.REACT_APP_EP}/data/user/${encodeURIComponent(userEmail)}/devices`
+          );
+          const assignedData = await assignedRes.json();
+          if (assignedData.status === "success") {
+            allowedIds = new Set(assignedData.data.map((d) => d.id));
+          }
+        } catch (err) {
+          console.error("Failed to fetch assigned devices for operator:", err);
+          allowedIds = new Set(); // fallback: show nothing
+        }
+      }
+
+      // Filter devices for Operators
+      const filteredAzureDevices = allowedIds !== null
+        ? azureDevices.filter((d) => allowedIds.has(d.id))
+        : azureDevices;
+
+      // Fetch additional info for each allowed device
+      const devicesWithInfo = await Promise.all(
+        filteredAzureDevices.map(async (device) => {
+          try {
+            const infoResponse = await fetch(
+              `${process.env.REACT_APP_EP}/data/devices/${device.id}/info`
+            );
+            const infoData = await infoResponse.json();
+
+            let connectionStatus = "Disconnected";
+            try {
+              const statusResponse = await fetch(
+                `${process.env.REACT_APP_EP}/api/devices/${device.id}/status`
+              );
+              const statusData = await statusResponse.json();
+              connectionStatus = statusData.status === "Connected" ? "Connected" : "Disconnected";
+            } catch (statusError) {
+              console.error(`Status fetch error for ${device.id}:`, statusError);
+            }
+
+            if (infoData.status === "success" && infoData.data) {
+              return {
+                ...device,
+                owner_name: infoData.data.owner_name || "N/A",
+                sector: infoData.data.location || "N/A",
+                phone_number: infoData.data.phone_number || "N/A",
+                email_id: infoData.data.email_id || "N/A",
+                status: connectionStatus
+              };
+            }
+            return { ...device, owner_name: "N/A", sector: "N/A", phone_number: "N/A", email_id: "N/A", status: connectionStatus };
+          } catch (error) {
+            console.error(`Info fetch error for ${device.id}:`, error);
+            return { ...device, owner_name: "N/A", sector: "N/A", status: "Disconnected" };
+          }
+        })
+      );
+
+      setDevices(devicesWithInfo);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching devices:", error);
+      setLoading(false);
+    }
+  };
+
+  fetchDevicesWithInfo();
+}, [userRole, userEmail]);
+
   useEffect(() => {
     const fetchDevicesWithInfo = async () => {
       try {

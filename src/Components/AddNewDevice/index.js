@@ -15,6 +15,22 @@ const AddNewDevice = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const [companyAdminEmail, setCompanyAdminEmail] = useState('');
+    const [companyAdmins, setCompanyAdmins] = useState([]);
+
+    // Add useEffect to fetch company admins (for the dropdown):
+    useEffect(() => {
+    fetch(`${process.env.REACT_APP_EP}/data/companyassociates`)
+        .then((r) => r.json())
+        .then((data) => setCompanyAdmins(data.value || []))
+        .catch(() => {});
+    }, []);
+
+    // In handleSubmit, add to newDevice object:
+    const newDevice = {
+    // ...existing fields...
+    company_admin_email: companyAdminEmail || null,
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -181,6 +197,24 @@ const AddNewDevice = () => {
                             <option value="Third Party Vendors">Third Party Vendors</option>
                             <option value="Source Company">Source Company</option>
                         </select>
+                    </div>
+                    <div className="create-device-form-group">
+                    <label className="create-device-label" htmlFor="companyAdmin">
+                        Assign to Company Admin:
+                    </label>
+                    <select
+                        id="companyAdmin"
+                        value={companyAdminEmail}
+                        className="create-device-select"
+                        onChange={(e) => setCompanyAdminEmail(e.target.value)}
+                    >
+                        <option value="">-- Select Company Admin (optional) --</option>
+                        {companyAdmins.map((ca) => (
+                        <option key={ca.email} value={ca.email}>
+                            {ca.name || ca.email} ({ca.email})
+                        </option>
+                        ))}
+                    </select>
                     </div>
                 </form>
             </div>

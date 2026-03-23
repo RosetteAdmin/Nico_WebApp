@@ -44,27 +44,21 @@ const RegisteredCompany = () => {
     };
   }, [activeMenu]);
 
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_EP}/data/companyassociates`)
-      .then((response) => response.json())
-      .then((data) => {
-        const updatedData = (data.value || []).map(associate => ({
-          ...associate,
-          access: true,
-          
-        }));
-        setAssociates(updatedData);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching company associates:", error);
-        setLoading(false);
-      });
-  }, []);
+  // Replace the existing fetch in useEffect:
+useEffect(() => {
+  fetch(`${process.env.REACT_APP_EP}/data/companyassociates`)
+    .then((r) => r.json())
+    .then((data) => {
+      const updatedData = (data.value || []).map((a) => ({ ...a, access: true }));
+      setAssociates(updatedData);
+      setLoading(false);
+    })
+    .catch(() => setLoading(false));
+}, []);
 
   
   const handleDelete = async (email) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this Company Associate?");
+    const confirmDelete = window.confirm("Are you sure you want to delete this Company Company Admin?");
     if (!confirmDelete) return;
 
     try {
@@ -81,15 +75,15 @@ const RegisteredCompany = () => {
       if (result.status === "success") {
         setAssociates((prevAssociates) => prevAssociates.filter((associate) => associate.email !== email));
         setActiveMenu(null);
-        console.log("Company Associate deleted successfully");
-        alert("Company Associate deleted successfully");
+        console.log("Company Admin deleted successfully");
+        alert("Company Admin deleted successfully");
       } else {
-        console.error("Failed to delete Company Associate:", result.message);
-        alert("Failed to delete Company Associate: " + result.message);
+        console.error("Failed to delete Company Admin:", result.message);
+        alert("Failed to delete Company Admin: " + result.message);
       }
     } catch (error) {
-      console.error("Failed to delete Company Associate:", error);
-      alert("Error occurred while deleting Company Associate");
+      console.error("Failed to delete Company Admin:", error);
+      alert("Error occurred while deleting Company Admin");
     }
   };
 
@@ -134,7 +128,7 @@ const RegisteredCompany = () => {
       )}
       
       <div className="associate-header-card">
-        <h2 className="associate-title">Associate Details</h2>
+        <h2 className="associate-title">Company Admin Details</h2>
         
         <div className="associate-search-filter-bar">
           <input
@@ -160,7 +154,7 @@ const RegisteredCompany = () => {
           className="associate-add-btn"
           onClick={() => navigate("/addusersinfo")}
         >
-          <FontAwesomeIcon icon={faPlus} /> Add Associate
+          <FontAwesomeIcon icon={faPlus} /> Add Company Admin
         </button>
         
         <div className="associate-table-footer">
@@ -186,9 +180,9 @@ const RegisteredCompany = () => {
         <table>
           <thead>
             <tr>
-              {/* <th className="associate-th">Associate ID</th> */}
-              <th className="associate-th">Associate Name</th>
-              <th className="associate-th">Associate Email</th>
+              {/* <th className="associate-th">Company Admin ID</th> */}
+              <th className="associate-th">Company Admin Name</th>
+              <th className="associate-th">Company Admin Email</th>
               <th className="associate-th">Sector</th>
               {/* <th className="associate-th">Access</th> */}
               <th className="associate-th">Action</th>
@@ -251,7 +245,7 @@ const RegisteredCompany = () => {
                               handleDelete(associate.email);
                             }}
                           >
-                            Delete User
+                            Delete Company Admin
                           </div>
                         </div>
                       )}
@@ -262,7 +256,7 @@ const RegisteredCompany = () => {
             ) : (
               <tr>
                 <td className="associate-td" colSpan="5" style={{ textAlign: "center" }}>
-                  No associates found
+                  No company admins found
                 </td>
               </tr>
             )}

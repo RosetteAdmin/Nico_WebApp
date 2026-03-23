@@ -1,6 +1,200 @@
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
+// // The CSS import has been updated to the new file name
+// import "./AddOperator.css"; 
+
+
+// // Add at top of component:
+// const storedUser = (() => {
+//   try { return JSON.parse(localStorage.getItem("user")); } catch { return null; }
+// })();
+
+// // In handleCreateOperator, update requestData:
+// const requestData = {
+//   email: operatorInfo.email,
+//   password: operatorInfo.password,
+//   name: operatorInfo.name || null,
+//   phone_number: operatorInfo.phone_number || null,
+//   sector: operatorInfo.sector || null,
+//   caller_email: storedUser?.email || null,
+//   caller_role: storedUser?.role !== undefined ? Number(storedUser.role) : null,
+// };
+
+// const AddOperator = () => {
+//   const navigate = useNavigate();
+//   const [loading, setLoading] = useState(false);
+
+//   const [operatorInfo, setOperatorInfo] = useState({
+//     name: "",
+//     email: "",
+//     password: "",
+//     phone_number: "",
+//     sector: ""
+//   });
+
+//   const handleInputChange = (field, value) => {
+//     setOperatorInfo(prev => ({
+//       ...prev,
+//       [field]: value
+//     }));
+//   };
+
+//   const handleCreateOperator = async () => {
+//     // Validate required fields
+//     if (!operatorInfo.email || !operatorInfo.password) {
+//       alert("Please fill in both email and password fields");
+//       return;
+//     }
+
+
+//     // Validate email format
+//     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//     if (!emailRegex.test(operatorInfo.email)) {
+//       alert("Please enter a valid email address");
+//       return;
+//     }
+
+//     // Validate password length
+//     if (operatorInfo.password.length < 6) {
+//       alert("Password must be at least 6 characters long");
+//       return;
+//     }
+
+//     const confirmCreate = window.confirm(
+//       `Are you sure you want to create a new Operator with email: ${operatorInfo.email}?`
+//     );
+    
+//     if (!confirmCreate) return;
+
+//     setLoading(true);
+
+//     try {
+//       // Prepare data to send
+//       const requestData = {
+//         email: operatorInfo.email,
+//         password: operatorInfo.password,
+//         name: operatorInfo.name || null,
+//         phone_number: operatorInfo.phone_number || null,
+//         sector: operatorInfo.sector || null
+//       };
+
+//       const response = await fetch(`${process.env.REACT_APP_EP}/data/addcustomer`, {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify(requestData),
+//       });
+
+//       const result = await response.json();
+
+//       if (result.status === "success") {
+//         alert("Operator created successfully!");
+//         setOperatorInfo({ name: "", email: "", password: "", phone_number: "", sector: "" });
+//         setTimeout(() => navigate("/customers"), 500);
+//       } else {
+//         alert(`Failed to create Operator: ${result.message}`);
+//       }
+//     } catch (error) {
+//       console.error("Error creating Operator:", error);
+//       alert("Failed to create Operator. Please try again.");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   return (
+//     <>
+//       {loading && (
+//         <div className="create-operator-loading-backdrop">
+//           <div className="create-operator-loading-spinner"></div>
+//           <div className="create-operator-loading-text">Creating Operator...</div>
+//         </div>
+//       )}
+
+//       <div className="create-operator-header">
+//         <h1 className="create-operator-title">Add New Operator</h1>
+//         <button 
+//           className="create-operator-action-btn" 
+//           onClick={handleCreateOperator}
+//           disabled={loading}
+//         >
+//           {loading ? "Creating..." : "Create Operator"}
+//         </button>
+//       </div>
+
+//       <div className="create-operator-page-container">
+//         <div className="create-operator-content-card">
+//           <div className="create-operator-form-wrapper">
+//             <h2>Add Operator Details:</h2>
+
+//             <div className="create-operator-form-group">
+//               <label>Operator Name</label>
+//               <input 
+//                 type="text" 
+//                 placeholder="Enter full name" 
+//                 value={operatorInfo.name}
+//                 onChange={(e) => handleInputChange("name", e.target.value)}
+//               />
+//             </div>
+
+//             <div className="create-operator-form-row create-operator-two-col">
+//               <div className="create-operator-form-group">
+//                 <label>Email ID *</label>
+//                 <input 
+//                   type="email" 
+//                   placeholder="email@email.com" 
+//                   value={operatorInfo.email}
+//                   onChange={(e) => handleInputChange("email", e.target.value)}
+//                   required
+//                 />
+//               </div>
+//               <div className="create-operator-form-group">
+//                 <label>Password *</label>
+//                 <input 
+//                   type="text" 
+//                   placeholder="Enter password (min 6 chars)" 
+//                   value={operatorInfo.password}
+//                   onChange={(e) => handleInputChange("password", e.target.value)}
+//                   required
+//                 />
+//               </div>
+//             </div>
+
+//             <div className="create-operator-form-row create-operator-two-col">
+//               <div className="create-operator-form-group">
+//                 <label>Phone Number</label>
+//                 <input 
+//                   type="tel" 
+//                   placeholder="1234567890" 
+//                   value={operatorInfo.phone_number}
+//                   onChange={(e) => handleInputChange("phone_number", e.target.value)}
+//                 />
+//               </div>
+//               <div className="create-operator-form-group">
+//                 <label>Sector</label>
+//                 <input 
+//                   type="text" 
+//                   placeholder="Enter sector" 
+//                   value={operatorInfo.sector}
+//                   onChange={(e) => handleInputChange("sector", e.target.value)}
+//                 />
+//               </div>
+//             </div>
+
+//             <div style={{ marginTop: '10px', color: '#666', fontSize: '14px' }}>
+//               <small>* Required fields</small>
+//             </div>
+            
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default AddOperator;
+
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// The CSS import has been updated to the new file name
 import "./AddOperator.css"; 
 
 const AddOperator = () => {
@@ -15,6 +209,11 @@ const AddOperator = () => {
     sector: ""
   });
 
+  // ← storedUser goes AFTER state declarations
+  const storedUser = (() => {
+    try { return JSON.parse(localStorage.getItem("user")); } catch { return null; }
+  })();
+
   const handleInputChange = (field, value) => {
     setOperatorInfo(prev => ({
       ...prev,
@@ -23,20 +222,17 @@ const AddOperator = () => {
   };
 
   const handleCreateOperator = async () => {
-    // Validate required fields
     if (!operatorInfo.email || !operatorInfo.password) {
       alert("Please fill in both email and password fields");
       return;
     }
 
-    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(operatorInfo.email)) {
       alert("Please enter a valid email address");
       return;
     }
 
-    // Validate password length
     if (operatorInfo.password.length < 6) {
       alert("Password must be at least 6 characters long");
       return;
@@ -51,13 +247,14 @@ const AddOperator = () => {
     setLoading(true);
 
     try {
-      // Prepare data to send
       const requestData = {
         email: operatorInfo.email,
         password: operatorInfo.password,
         name: operatorInfo.name || null,
         phone_number: operatorInfo.phone_number || null,
-        sector: operatorInfo.sector || null
+        sector: operatorInfo.sector || null,
+        caller_email: storedUser?.email || null,
+        caller_role: storedUser?.role !== undefined ? Number(storedUser.role) : null,
       };
 
       const response = await fetch(`${process.env.REACT_APP_EP}/data/addcustomer`, {

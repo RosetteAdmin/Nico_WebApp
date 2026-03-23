@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import blueband from "./../../Images/Dashboard/blueband.svg";
 import "./ChangeProfile.css";
 
-// Import Role constants and helper
+// Import Role constants and helper — SINGLE import, not duplicated
 import { roleToString } from "../../constants/roles";
 
 const ChangeProfile = ({ onLogout }) => {

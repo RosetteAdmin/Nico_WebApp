@@ -18,6 +18,23 @@ const Userinfo = () => {
     sector: ""
   });
 
+  // Add at top of component:
+const storedUser = (() => {
+  try { return JSON.parse(localStorage.getItem("user")); } catch { return null; }
+})();
+
+// In handleGrantAccess, update requestData:
+const requestData = {
+  email: userInfo.email,
+  password: userInfo.password,
+  name: userInfo.name || null,
+  phone_number: userInfo.phone_number || null,
+  sector: userInfo.sector || null,
+  caller_email: storedUser?.email || null,
+  caller_role: storedUser?.role !== undefined ? Number(storedUser.role) : null,
+};
+
+
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -63,7 +80,7 @@ const Userinfo = () => {
     }
 
     const confirmCreate = window.confirm(
-      `Are you sure you want to create a new Local Admin (Vendor) with email: ${userInfo.email}?`
+      `Are you sure you want to create a new Customer Admin with email: ${userInfo.email}?`
     );
     
     if (!confirmCreate) return;
@@ -89,15 +106,15 @@ const Userinfo = () => {
       const result = await response.json();
 
       if (result.status === "success") {
-        alert("Local Admin created successfully!");
+        alert("Customer Admin created successfully!");
         setUserInfo({ name: "", email: "", password: "", phone_number: "", sector: "" });
         setTimeout(() => navigate(-1), 500);
       } else {
-        alert(`Failed to create Local Admin: ${result.message}`);
+        alert(`Failed to create Customer Admin: ${result.message}`);
       }
     } catch (error) {
-      console.error("Error creating Local Admin:", error);
-      alert("Failed to create Local Admin. Please try again.");
+      console.error("Error creating Customer Admin:", error);
+      alert("Failed to create Customer Admin. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -108,7 +125,7 @@ const Userinfo = () => {
       {loading && (
         <div className="create-local-admin-loading-backdrop">
           <div className="create-local-admin-loading-spinner"></div>
-          <div className="create-local-admin-loading-text">Creating Local Admin...</div>
+          <div className="create-local-admin-loading-text">Creating Customer Admin...</div>
         </div>
       )}
 
@@ -126,10 +143,10 @@ const Userinfo = () => {
       <div className="create-local-admin-page-container">
         <div className="create-local-admin-content-card">
           <div className="create-local-admin-form-wrapper">
-            <h2>Add Local Admin:</h2>
+            <h2>Add Customer Admin:</h2>
 
             <div className="create-local-admin-form-group">
-              <label>Local Admin Name</label>
+              <label>Customer Admin Name</label>
               <input 
                 type="text" 
                 placeholder="Enter full name" 

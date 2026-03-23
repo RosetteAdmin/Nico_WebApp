@@ -1385,6 +1385,14 @@ import {
 import { faCircleCheck } from '@fortawesome/free-regular-svg-icons';
 import axios from "axios";
 import { useLabels } from '../../context/LabelContext';
+import {
+  canEditDeviceInfo,
+  canEditLabels,
+  canEditGaugeMax,
+  canTogglePower,
+  canToggleAutoMode,
+  canWriteRegisters,
+} from '../../constants/roles';
 
 // ==================== EDITABLE LABEL COMPONENT ====================
 const EditableLabel = ({ deviceId, attributeKey, onSave, onReset }) => {
@@ -1869,6 +1877,11 @@ const ALERT_BIT_KEYS = [
 const DeviceDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const storedUser = (() => {
+  try { return JSON.parse(localStorage.getItem('user')); } catch { return null; }
+})();
+const userRole = storedUser?.role !== undefined ? Number(storedUser.role) : null;
 
   const {
     fetchLabels, getLabel: getLabelFromContext, saveLabel: saveLabelToContext,
@@ -2566,29 +2579,41 @@ const DeviceDetails = () => {
           <div className="unified-section">
             <div className="device-info-header">
               <h3 className="section-title">Device Basic Information:</h3>
-              <button className="editt-btn" onClick={handleEditToggle}>
-                <FontAwesomeIcon icon={isEditMode ? faSave : faPencil} />
-                {isEditMode ? "Save" : "Edit"}
-              </button>
+              {/* Only Master Admin and Company Admin can edit device info */}
+              {canEditDeviceInfo(userRole) && (
+                <button className="editt-btn" onClick={handleEditToggle}>
+                  <FontAwesomeIcon icon={isEditMode ? faSave : faPencil} />
+                  {isEditMode ? "Save" : "Edit"}
+                </button>
+              )}
             </div>
+            {/* rest of device info grid unchanged */}
             <div className="device-info-grid">
               <p><strong>Device Name:</strong> {deviceName}</p>
-              <p className={isEditMode ? "editable-field-container" : ""}>
+              <p className={isEditMode && canEditDeviceInfo(userRole) ? "editable-field-container" : ""}>
                 <strong>Owner Name:</strong>
-                {isEditMode ? <input type="text" value={editableInfo.owner_name} onChange={(e) => handleInputChange("owner_name", e.target.value)} className="inline-edit-input" /> : <span>{deviceInfo.owner_name}</span>}
+                {isEditMode && canEditDeviceInfo(userRole)
+                  ? <input type="text" value={editableInfo.owner_name} onChange={(e) => handleInputChange("owner_name", e.target.value)} className="inline-edit-input" />
+                  : <span>{deviceInfo.owner_name}</span>}
               </p>
-              <p className={isEditMode ? "editable-field-container" : ""}>
+              <p className={isEditMode && canEditDeviceInfo(userRole) ? "editable-field-container" : ""}>
                 <strong>Owner Phone:</strong>
-                {isEditMode ? <input type="tel" value={editableInfo.phone_number} onChange={(e) => handleInputChange("phone_number", e.target.value)} className="inline-edit-input" /> : <span>{deviceInfo.phone_number}</span>}
+                {isEditMode && canEditDeviceInfo(userRole)
+                  ? <input type="tel" value={editableInfo.phone_number} onChange={(e) => handleInputChange("phone_number", e.target.value)} className="inline-edit-input" />
+                  : <span>{deviceInfo.phone_number}</span>}
               </p>
               <p><strong>Device ID:</strong> {id}</p>
-              <p className={isEditMode ? "editable-field-container" : ""}>
+              <p className={isEditMode && canEditDeviceInfo(userRole) ? "editable-field-container" : ""}>
                 <strong>Owner Email ID:</strong>
-                {isEditMode ? <input type="email" value={editableInfo.email_id} onChange={(e) => handleInputChange("email_id", e.target.value)} className="inline-edit-input" /> : <span>{deviceInfo.email_id}</span>}
+                {isEditMode && canEditDeviceInfo(userRole)
+                  ? <input type="email" value={editableInfo.email_id} onChange={(e) => handleInputChange("email_id", e.target.value)} className="inline-edit-input" />
+                  : <span>{deviceInfo.email_id}</span>}
               </p>
-              <p className={isEditMode ? "editable-field-container" : ""}>
+              <p className={isEditMode && canEditDeviceInfo(userRole) ? "editable-field-container" : ""}>
                 <strong>Device Sector:</strong>
-                {isEditMode ? <input type="text" value={editableInfo.location} onChange={(e) => handleInputChange("location", e.target.value)} className="inline-edit-input" /> : <span>{deviceInfo.location}</span>}
+                {isEditMode && canEditDeviceInfo(userRole)
+                  ? <input type="text" value={editableInfo.location} onChange={(e) => handleInputChange("location", e.target.value)} className="inline-edit-input" />
+                  : <span>{deviceInfo.location}</span>}
               </p>
             </div>
           </div>
@@ -2688,13 +2713,13 @@ const DeviceDetails = () => {
               <div className="config-gauge-row">
                 <div className="config-gauge-header">
                   <div className="config-gauge-title-wrapper">
-                    <h4 className="config-gauge-title">Process Parameters</h4>
-                    {hasCustomizations() && (
-                      <button className="reset-all-labels-btn" onClick={handleResetAll} title="Reset all custom names and gauge settings to defaults">
-                        <FontAwesomeIcon icon={faRotateLeft} /> Reset All Names
-                      </button>
-                    )}
-                  </div>
+                  <h4 className="config-gauge-title">Process Parameters</h4>
+                  {canEditLabels(userRole) && hasCustomizations() && (
+                    <button className="reset-all-labels-btn" onClick={handleResetAll} title="Reset all custom names and gauge settings to defaults">
+                      <FontAwesomeIcon icon={faRotateLeft} /> Reset All Names
+                    </button>
+                  )}
+                </div>
                   <div className="config-gauge-header-right">
                     <div className="config-gauge-live-badge">
                       <span className="config-gauge-live-dot"></span>LIVE
@@ -2703,93 +2728,101 @@ const DeviceDetails = () => {
                   </div>
                 </div>
 
-                {/* Gauge Row 1 - 4 gauges */}
-                <div className="config-gauges-grid">
-                  {GAUGE_CONFIGS.map((config) => (
-                    <GaugeChart
-                      key={config.key}
-                      gaugeKey={config.maxKey}
-                      value={getGaugeValue(config.dataField)}
-                      min={config.min}
-                      max={getGaugeMax(config)}
-                      defaultMax={config.max}
-                      unit={config.unit}
-                      label={getLabel(config.labelKey)}
-                      icon={config.icon}
-                      colorStops={config.colorStops}
-                      isMaxCustomized={isGaugeMaxCustomized(config.maxKey)}
-                      onSaveMax={handleSaveGaugeMax}
-                      onResetMax={handleResetGaugeMax}
-                      deviceId={id}
-                      labelKey={config.labelKey}
-                      onSaveLabel={handleSaveLabel}
-                      onResetLabel={handleResetLabel}
-                    />
-                  ))}
-                </div>
+                {/* Gauge Row 1 */}
+              <div className="config-gauges-grid">
+                {GAUGE_CONFIGS.map((config) => (
+                  <GaugeChart
+                    key={config.key}
+                    gaugeKey={config.maxKey}
+                    value={getGaugeValue(config.dataField)}
+                    min={config.min}
+                    max={getGaugeMax(config)}
+                    defaultMax={config.max}
+                    unit={config.unit}
+                    label={getLabel(config.labelKey)}
+                    icon={config.icon}
+                    colorStops={config.colorStops}
+                    isMaxCustomized={isGaugeMaxCustomized(config.maxKey)}
+                    onSaveMax={canEditGaugeMax(userRole) ? handleSaveGaugeMax : null}
+                    onResetMax={canEditGaugeMax(userRole) ? handleResetGaugeMax : null}
+                    deviceId={canEditLabels(userRole) ? id : null}
+                    labelKey={config.labelKey}
+                    onSaveLabel={canEditLabels(userRole) ? handleSaveLabel : null}
+                    onResetLabel={canEditLabels(userRole) ? handleResetLabel : null}
+                  />
+                ))}
+              </div>
 
-                {/* Row 2 - Oxygen Flow, Spare 1, Total Running Hours, Total Water Outlet */}
-                <div className="config-gauges-grid">
-                  {GAUGE_CONFIGS_ROW2.map((config) => (
-                    <GaugeChart
-                      key={config.key}
-                      gaugeKey={config.maxKey}
-                      value={getGaugeValue(config.dataField)}
-                      min={config.min}
-                      max={getGaugeMax(config)}
-                      defaultMax={config.max}
-                      unit={config.unit}
-                      label={getLabel(config.labelKey)}
-                      icon={config.icon}
-                      colorStops={config.colorStops}
-                      isMaxCustomized={isGaugeMaxCustomized(config.maxKey)}
-                      onSaveMax={handleSaveGaugeMax}
-                      onResetMax={handleResetGaugeMax}
-                      deviceId={id}
-                      labelKey={config.labelKey}
-                      onSaveLabel={handleSaveLabel}
-                      onResetLabel={handleResetLabel}
-                    />
-                  ))}
+              {/* Gauge Row 2 */}
+              <div className="config-gauges-grid">
+                {GAUGE_CONFIGS_ROW2.map((config) => (
+                  <GaugeChart
+                    key={config.key}
+                    gaugeKey={config.maxKey}
+                    value={getGaugeValue(config.dataField)}
+                    min={config.min}
+                    max={getGaugeMax(config)}
+                    defaultMax={config.max}
+                    unit={config.unit}
+                    label={getLabel(config.labelKey)}
+                    icon={config.icon}
+                    colorStops={config.colorStops}
+                    isMaxCustomized={isGaugeMaxCustomized(config.maxKey)}
+                    onSaveMax={canEditGaugeMax(userRole) ? handleSaveGaugeMax : null}
+                    onResetMax={canEditGaugeMax(userRole) ? handleResetGaugeMax : null}
+                    deviceId={canEditLabels(userRole) ? id : null}
+                    labelKey={config.labelKey}
+                    onSaveLabel={canEditLabels(userRole) ? handleSaveLabel : null}
+                    onResetLabel={canEditLabels(userRole) ? handleResetLabel : null}
+                  />
+                ))}
 
-                  {/* Total Running Hours */}
-                  <div className="gauge-card value-only-card" style={{ '--gauge-color': '#f59e0b', '--gauge-glow': '#fbbf24' }}>
-                    <div className="gauge-card-accent" style={{ background: 'linear-gradient(90deg, #f59e0b00, #f59e0b, #f59e0b00)' }} />
-                    <div className="gauge-card-header">
-                      <div className="gauge-icon-wrapper" style={{ background: 'rgba(245,158,11,0.08)', borderColor: '#f59e0b30' }}>
-                        <span className="gauge-icon">⏱️</span>
-                      </div>
-                      <span className="gauge-label">
+                {/* Total Running Hours — label editable only for role 0,1 */}
+                <div className="gauge-card value-only-card" style={{ '--gauge-color': '#f59e0b', '--gauge-glow': '#fbbf24' }}>
+                  <div className="gauge-card-accent" style={{ background: 'linear-gradient(90deg, #f59e0b00, #f59e0b, #f59e0b00)' }} />
+                  <div className="gauge-card-header">
+                    <div className="gauge-icon-wrapper" style={{ background: 'rgba(245,158,11,0.08)', borderColor: '#f59e0b30' }}>
+                      <span className="gauge-icon">⏱️</span>
+                    </div>
+                    <span className="gauge-label">
+                      {canEditLabels(userRole) ? (
                         <EditableLabel deviceId={id} attributeKey="total_running_hours" onSave={handleSaveLabel} onReset={handleResetLabel} />
-                      </span>
-                    </div>
-                    <div className="value-only-display">
-                      <span className="value-only-number" style={{ color: '#f59e0b' }}>
-                        {parseVal(deviceData.nbGenerator.total_running_hours)}
-                      </span>
-                      <span className="value-only-unit">Hours</span>
-                    </div>
+                      ) : (
+                        getLabel('total_running_hours')
+                      )}
+                    </span>
                   </div>
-
-                  {/* Total Water Outlet */}
-                  <div className="gauge-card value-only-card" style={{ '--gauge-color': '#3b82f6', '--gauge-glow': '#60a5fa' }}>
-                    <div className="gauge-card-accent" style={{ background: 'linear-gradient(90deg, #3b82f600, #3b82f6, #3b82f600)' }} />
-                    <div className="gauge-card-header">
-                      <div className="gauge-icon-wrapper" style={{ background: 'rgba(59,130,246,0.08)', borderColor: '#3b82f630' }}>
-                        <span className="gauge-icon">🚿</span>
-                      </div>
-                      <span className="gauge-label">
-                        <EditableLabel deviceId={id} attributeKey="total_water_outlet" onSave={handleSaveLabel} onReset={handleResetLabel} />
-                      </span>
-                    </div>
-                    <div className="value-only-display">
-                      <span className="value-only-number" style={{ color: '#3b82f6' }}>
-                        {deviceData.nbGenerator.totalWaterOutlet || 0}
-                      </span>
-                      <span className="value-only-unit">Litres</span>
-                    </div>
+                  <div className="value-only-display">
+                    <span className="value-only-number" style={{ color: '#f59e0b' }}>
+                      {parseVal(deviceData.nbGenerator.total_running_hours)}
+                    </span>
+                    <span className="value-only-unit">Hours</span>
                   </div>
                 </div>
+
+                {/* Total Water Outlet — label editable only for role 0,1 */}
+                <div className="gauge-card value-only-card" style={{ '--gauge-color': '#3b82f6', '--gauge-glow': '#60a5fa' }}>
+                  <div className="gauge-card-accent" style={{ background: 'linear-gradient(90deg, #3b82f600, #3b82f6, #3b82f600)' }} />
+                  <div className="gauge-card-header">
+                    <div className="gauge-icon-wrapper" style={{ background: 'rgba(59,130,246,0.08)', borderColor: '#3b82f630' }}>
+                      <span className="gauge-icon">🚿</span>
+                    </div>
+                    <span className="gauge-label">
+                      {canEditLabels(userRole) ? (
+                        <EditableLabel deviceId={id} attributeKey="total_water_outlet" onSave={handleSaveLabel} onReset={handleResetLabel} />
+                      ) : (
+                        getLabel('total_water_outlet')
+                      )}
+                    </span>
+                  </div>
+                  <div className="value-only-display">
+                    <span className="value-only-number" style={{ color: '#3b82f6' }}>
+                      {deviceData.nbGenerator.totalWaterOutlet || 0}
+                    </span>
+                    <span className="value-only-unit">Litres</span>
+                  </div>
+                </div>
+              </div>
 
               </div>
 
@@ -2802,75 +2835,178 @@ const DeviceDetails = () => {
                 </div>
 
                 <div className="settings-content">
-                  {/* Auto Mode */}
-                  <div className="settings-single-row">
-                    <div className="config-item">
-                      <label><EditableLabel deviceId={id} attributeKey="auto_mode" onSave={handleSaveLabel} onReset={handleResetLabel} />:</label>
-                      <div className="auto-mode-toggle-container">
-                        <span className={`auto-mode-status ${autoMode ? 'on' : 'off'}`}>{autoWaiting ? 'Switching...' : (autoMode ? 'ON' : 'OFF')}</span>
-                        <label className={`auto-mode-switch ${autoWaiting ? "auto-mode-waiting" : ""}`}>
-                          <input type="checkbox" checked={autoMode} onChange={() => !autoWaiting && handleAutoModeToggle()} disabled={autoWaiting || !conn} />
-                          <span className="auto-mode-slider"></span>
+                  {/* Auto Mode — hidden for Operator (role 3) */}
+                  {canToggleAutoMode(userRole) && (
+                    <div className="settings-single-row">
+                      <div className="config-item">
+                        <label>
+                          {canEditLabels(userRole) ? (
+                            <EditableLabel deviceId={id} attributeKey="auto_mode" onSave={handleSaveLabel} onReset={handleResetLabel} />
+                          ) : (
+                            getLabel('auto_mode')
+                          )}:
                         </label>
+                        <div className="auto-mode-toggle-container">
+                          <span className={`auto-mode-status ${autoMode ? 'on' : 'off'}`}>
+                            {autoWaiting ? 'Switching...' : (autoMode ? 'ON' : 'OFF')}
+                          </span>
+                          <label className={`auto-mode-switch ${autoWaiting ? "auto-mode-waiting" : ""}`}>
+                            <input
+                              type="checkbox"
+                              checked={autoMode}
+                              onChange={() => !autoWaiting && handleAutoModeToggle()}
+                              disabled={autoWaiting || !conn}
+                            />
+                            <span className="auto-mode-slider"></span>
+                          </label>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}  
 
                   {/* Settings Column Headings */}
                   <div className="settings-headings-row">
-                    <div className="settings-heading-label"></div>
-                    <div className="settings-heading-values">
-                      <span className="config-heading">Actual</span>
-                      <span className="config-heading">Set Value</span>
+                  <div className="settings-heading-label"></div>
+                  <div className="settings-heading-values">
+                    <span className="config-heading">Actual</span>
+                    <span className="config-heading">Set Value</span>
+                    {canWriteRegisters(userRole) && (
                       <span className="config-heading">Set New Value</span>
+                    )}
+                    {canWriteRegisters(userRole) && (
                       <span className="config-heading-spacer"></span>
-                    </div>
+                    )}
                   </div>
+                </div>
                   
                   {/* Auto Sequence Counter */}
-                  <div className="settings-single-row">
-                    <div className="config-item settings-full-item">  
-                      <label><EditableLabel deviceId={id} attributeKey="auto_sequence_counter" onSave={handleSaveLabel} onReset={handleResetLabel} />:</label>
-                      <div className="editable-field">
-                        <input type="number" value={deviceData.nbGenerator.auto_sequence_counter ?? 0} disabled className="config-input" />
-                        <input type="number" value={deviceData.nbGenerator.auto_sequence_counter_write ?? 0} disabled className="config-input" />
-                        <input type="number" value={counter} onChange={(e) => setCounter(e.target.value)} placeholder="Enter value" className="config-input editing" disabled={isWriting.counter} min="0" max="65535" />
-                        <button className={`editt-btn ${writeSuccess.counter ? 'success-btn' : ''}`} onClick={handleCounterClick} disabled={!conn || isWriting.counter || !counter}>
-                          {isWriting.counter ? <span className="spinner">⟳</span> : <FontAwesomeIcon icon={writeSuccess.counter ? faCheck : faCircleCheck} />}
-                        </button>
+                    {canToggleAutoMode(userRole) && (
+                      <div className="settings-single-row">
+                        <div className="config-item settings-full-item">
+                          <label>
+                            {canEditLabels(userRole) ? (
+                              <EditableLabel deviceId={id} attributeKey="auto_sequence_counter" onSave={handleSaveLabel} onReset={handleResetLabel} />
+                            ) : (
+                              getLabel('auto_sequence_counter')
+                            )}:
+                          </label>
+                          <div className="editable-field">
+                            <input type="number" value={deviceData.nbGenerator.auto_sequence_counter ?? 0} disabled className="config-input" />
+                            <input type="number" value={deviceData.nbGenerator.auto_sequence_counter_write ?? 0} disabled className="config-input" />
+                            {canWriteRegisters(userRole) && (
+                              <>
+                                <input
+                                  type="number"
+                                  value={counter}
+                                  onChange={(e) => setCounter(e.target.value)}
+                                  placeholder="Enter value"
+                                  className="config-input editing"
+                                  disabled={isWriting.counter}
+                                  min="0"
+                                  max="65535"
+                                />
+                                <button
+                                  className={`editt-btn ${writeSuccess.counter ? 'success-btn' : ''}`}
+                                  onClick={handleCounterClick}
+                                  disabled={!conn || isWriting.counter || !counter}
+                                >
+                                  {isWriting.counter
+                                    ? <span className="spinner">⟳</span>
+                                    : <FontAwesomeIcon icon={writeSuccess.counter ? faCheck : faCircleCheck} />
+                                  }
+                                </button>
+                              </>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                    )}
 
-                  {/* Auto Sequence Off Time */}
-                  <div className="settings-single-row">
-                    <div className="config-item settings-full-item">
-                      <label><EditableLabel deviceId={id} attributeKey="auto_sequence_off_time" onSave={handleSaveLabel} onReset={handleResetLabel} />:</label>
-                      <div className="editable-field">
-                        <input type="number" value={deviceData.nbGenerator.auto_sequence_off_time ?? 0} disabled className="config-input" />
-                        <input type="number" value={deviceData.nbGenerator.auto_sequence_off_write ?? 0} disabled className="config-input" />
-                        <input type="number" value={offTime} onChange={(e) => setOffTime(e.target.value)} placeholder="Enter value" className="config-input editing" disabled={isWriting.offTime} min="0" max="65535" />
-                        <button className={`editt-btn ${writeSuccess.offTime ? 'success-btn' : ''}`} onClick={handleOffTimeClick} disabled={!conn || isWriting.offTime || !offTime}>
-                          {isWriting.offTime ? <span className="spinner">⟳</span> : <FontAwesomeIcon icon={writeSuccess.offTime ? faCheck : faCircleCheck} />}
-                        </button>
+                    {/* Auto Sequence Off Time */}
+                    {canToggleAutoMode(userRole) && (
+                      <div className="settings-single-row">
+                        <div className="config-item settings-full-item">
+                          <label>
+                            {canEditLabels(userRole) ? (
+                              <EditableLabel deviceId={id} attributeKey="auto_sequence_off_time" onSave={handleSaveLabel} onReset={handleResetLabel} />
+                            ) : (
+                              getLabel('auto_sequence_off_time')
+                            )}:
+                          </label>
+                          <div className="editable-field">
+                            <input type="number" value={deviceData.nbGenerator.auto_sequence_off_time ?? 0} disabled className="config-input" />
+                            <input type="number" value={deviceData.nbGenerator.auto_sequence_off_write ?? 0} disabled className="config-input" />
+                            {canWriteRegisters(userRole) && (
+                              <>
+                                <input
+                                  type="number"
+                                  value={offTime}
+                                  onChange={(e) => setOffTime(e.target.value)}
+                                  placeholder="Enter value"
+                                  className="config-input editing"
+                                  disabled={isWriting.offTime}
+                                  min="0"
+                                  max="65535"
+                                />
+                                <button
+                                  className={`editt-btn ${writeSuccess.offTime ? 'success-btn' : ''}`}
+                                  onClick={handleOffTimeClick}
+                                  disabled={!conn || isWriting.offTime || !offTime}
+                                >
+                                  {isWriting.offTime
+                                    ? <span className="spinner">⟳</span>
+                                    : <FontAwesomeIcon icon={writeSuccess.offTime ? faCheck : faCircleCheck} />
+                                  }
+                                </button>
+                              </>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                    )}
 
-                  {/* Auto Sequence On Time */}
-                  <div className="settings-single-row">
-                    <div className="config-item settings-full-item">
-                      <label><EditableLabel deviceId={id} attributeKey="auto_sequence_on_time" onSave={handleSaveLabel} onReset={handleResetLabel} />:</label>
-                      <div className="editable-field">
-                        <input type="number" value={deviceData.nbGenerator.auto_sequence_on_time ?? 0} disabled className="config-input" />
-                        <input type="number" value={deviceData.nbGenerator.auto_sequence_on_write ?? 0} disabled className="config-input" />
-                        <input type="number" value={onTime} onChange={(e) => setOnTime(e.target.value)} placeholder="Enter value" className="config-input editing" disabled={isWriting.onTime} min="0" max="65535" />
-                        <button className={`editt-btn ${writeSuccess.onTime ? 'success-btn' : ''}`} onClick={handleOnTimeClick} disabled={!conn || isWriting.onTime || !onTime}>
-                          {isWriting.onTime ? <span className="spinner">⟳</span> : <FontAwesomeIcon icon={writeSuccess.onTime ? faCheck : faCircleCheck} />}
-                        </button>
+                    {/* Auto Sequence On Time */}
+                    {canToggleAutoMode(userRole) && (
+                      <div className="settings-single-row">
+                        <div className="config-item settings-full-item">
+                          <label>
+                            {canEditLabels(userRole) ? (
+                              <EditableLabel deviceId={id} attributeKey="auto_sequence_on_time" onSave={handleSaveLabel} onReset={handleResetLabel} />
+                            ) : (
+                              getLabel('auto_sequence_on_time')
+                            )}:
+                          </label>
+                          <div className="editable-field">
+                            <input type="number" value={deviceData.nbGenerator.auto_sequence_on_time ?? 0} disabled className="config-input" />
+                            <input type="number" value={deviceData.nbGenerator.auto_sequence_on_write ?? 0} disabled className="config-input" />
+                            {canWriteRegisters(userRole) && (
+                              <>
+                                <input
+                                  type="number"
+                                  value={onTime}
+                                  onChange={(e) => setOnTime(e.target.value)}
+                                  placeholder="Enter value"
+                                  className="config-input editing"
+                                  disabled={isWriting.onTime}
+                                  min="0"
+                                  max="65535"
+                                />
+                                <button
+                                  className={`editt-btn ${writeSuccess.onTime ? 'success-btn' : ''}`}
+                                  onClick={handleOnTimeClick}
+                                  disabled={!conn || isWriting.onTime || !onTime}
+                                >
+                                  {isWriting.onTime
+                                    ? <span className="spinner">⟳</span>
+                                    : <FontAwesomeIcon icon={writeSuccess.onTime ? faCheck : faCircleCheck} />
+                                  }
+                                </button>
+                              </>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                    )}
 
                 </div>
               </div>

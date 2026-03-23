@@ -45,7 +45,7 @@ const Userinfo = () => {
             sector: result.data.sector || ""
           });
         } else {
-          alert(`Failed to load associate data: ${result.message}`);
+          alert(`Failed to load company admin data: ${result.message}`);
         }
       } catch (error) {
         alert(`Error: ${error.message}`);
@@ -84,7 +84,7 @@ const Userinfo = () => {
       const result = await response.json();
 
       if (result.status === "success") {
-        alert("Associate updated successfully!");
+        alert("Company Admin updated successfully!");
         setAssociateInfo(prev => ({
           ...prev,
           name: editableInfo.name,
@@ -94,10 +94,10 @@ const Userinfo = () => {
         setIsEditMode(false);
         setTimeout(() => navigate("/caccess"), 500);
       } else {
-        alert(`Failed to update associate: ${result.message}`);
+        alert(`Failed to update company admin: ${result.message}`);
       }
     } catch (error) {
-      alert(`Failed to update associate: ${error.message}`);
+      alert(`Failed to update company admin: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -112,7 +112,7 @@ const Userinfo = () => {
     return (
       <div className="associate-details-loading-backdrop">
         <div className="associate-details-loading-spinner"></div>
-        <div className="associate-details-loading-text">Loading associate data...</div>
+        <div className="associate-details-loading-text">Loading company admin data...</div>
       </div>
     );
   }
@@ -121,7 +121,7 @@ const Userinfo = () => {
     <>
       {/* Header section */}
       <div className="associate-details-header">
-        <h1 className="associate-details-title">Edit Associate Details</h1>
+        <h1 className="associate-details-title">Edit Company Admin Details</h1>
         <button
           className="associate-details-action-btn"
           onClick={handleEditToggle}
@@ -139,7 +139,7 @@ const Userinfo = () => {
 
             <div className="associate-details-form-row associate-details-two-col">
               <div className="associate-details-form-group">
-                <label>Associate Name</label>
+                <label>Company Admin Name</label>
                 <input
                   type="text"
                   placeholder="Enter name"

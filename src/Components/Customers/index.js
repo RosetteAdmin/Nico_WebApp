@@ -24,6 +24,27 @@ const Customers = () => {
     }
   };
 
+
+  // At top of component, add:
+const storedUser = (() => {
+  try { return JSON.parse(localStorage.getItem("user")); } catch { return null; }
+})();
+const userRole  = storedUser?.role !== undefined ? Number(storedUser.role) : null;
+const userEmail = storedUser?.email || "";
+
+// Replace existing fetch useEffect (remove the getRandomStatus part):
+useEffect(() => {
+  const url = `${process.env.REACT_APP_EP}/data/customers?caller_email=${encodeURIComponent(userEmail)}&caller_role=${userRole}`;
+  fetch(url)
+    .then((r) => r.json())
+    .then((data) => {
+      setCustomers(data.value || []);
+      setLoading(false);
+    })
+    .catch(() => setLoading(false));
+}, [userEmail, userRole]);
+
+
   useEffect(() => {
     const updateRowsPerPage = () => {
       setRowsPerPage(getRowsPerPage());
